@@ -1,0 +1,328 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "caseStudies": "Case Studies",
+    "contact": "Contact",
+    "bookCall": "Book a Call"
+  },
+  "home": {
+    "hero": {
+      "headline": "WE BUILD THE AI SYSTEMS THAT",
+      "headlineAccent": "OUTPERFORM YOUR COMPETITION",
+      "subline": "Custom AI agents. Automated workflows. Growth systems that work while you sleep — not just promises on a slide deck.",
+      "ctaPrimary": "Book Your Free AI Strategy Call",
+      "ctaSecondary": "See Our Work"
+    },
+    "trusted": {
+      "label": "Trusted by growth-focused teams"
+    },
+    "services": {
+      "heading": "WHAT WE BUILD",
+      "subheading": "Six disciplines. One obsession — measurable growth.",
+      "cta": "See All Services"
+    },
+    "shift": {
+      "heading": "THE AI SHIFT IS HERE",
+      "subheading": "Two versions of your business exist. Which one are you building?",
+      "beforeLabel": "BEFORE AI",
+      "afterLabel": "AFTER AI",
+      "pairs": [
+        { "before": "3–5 person marketing team at $15K/month", "after": "AI agent stack doing more at $3K/month" },
+        { "before": "Leads sit in your CRM for days", "after": "Leads qualified and followed up in 90 seconds" },
+        { "before": "Reporting takes half your Friday", "after": "Real-time dashboards — no manual touch" },
+        { "before": "Content calendar behind by 3 weeks", "after": "30 pieces of brand-perfect content per week, automated" },
+        { "before": "Guessing what your customers want", "after": "Predictive AI telling you what they'll buy next" }
+      ]
+    },
+    "caseStudy": {
+      "heading": "RESULTS THAT SPEAK",
+      "stat": "+312%",
+      "statLabel": "Qualified Leads in 90 Days",
+      "description": "A B2B SaaS company came to us bleeding budget on a bloated sales team. We built a custom AI lead qualification agent — it now screens, scores, and routes leads in under two minutes. The result: three times the pipeline at a third of the cost.",
+      "cta": "Read the Full Case Study"
+    },
+    "process": {
+      "heading": "HOW WE WORK",
+      "subheading": "Four steps. No fluff. Measurable output at every stage.",
+      "steps": [
+        { "number": "01", "title": "AUDIT", "description": "We dissect your current stack, workflows, and growth leaks. No assumptions — just data." },
+        { "number": "02", "title": "DESIGN", "description": "We map the exact AI systems and automations that will move your specific needle." },
+        { "number": "03", "title": "BUILD", "description": "We build fast. Agents, automations, and campaigns go live in weeks — not quarters." },
+        { "number": "04", "title": "SCALE", "description": "We optimize, iterate, and scale what's working. You grow. We keep building." }
+      ]
+    },
+    "cta": {
+      "heading": "READY TO OUTPERFORM?",
+      "subheading": "Pick a time. We'll show you exactly where AI can move the needle in your business — no pitch, no pressure.",
+      "label": "BOOK YOUR FREE AI STRATEGY CALL"
+    }
+  },
+  "footer": {
+    "tagline": "The #1 Growth & AI Marketing Partner",
+    "services": "Services",
+    "company": "Company",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "instagram": "@number1marketing",
+    "builtWith": "Built with AI by Number 1 Digital Marketing",
+    "copyright": "© {year} Number 1 Digital Marketing. All rights reserved."
+  },
+  "services": {
+    "heading": "OUR SERVICES",
+    "subheading": "We don't offer packages. We build systems. Here's what that looks like.",
+    "items": [
+      {
+        "slug": "ai-agents",
+        "name": "Custom AI Agents & Automation Systems",
+        "icon": "Bot",
+        "tagline": "Your 24/7 workforce — never sick, never slow.",
+        "problem": "Your team is burning time on tasks that a properly configured AI agent can handle in seconds — lead follow-up, customer support, reporting, data processing. Every hour spent on these is an hour not spent on growth.",
+        "includes": [
+          "Custom GPT-4 / Claude agent architecture",
+          "CRM integration and lead routing automation",
+          "Multi-channel outreach sequences (email, SMS, DM)",
+          "Intelligent document processing pipelines",
+          "Automated reporting and analytics dashboards",
+          "Human-in-the-loop escalation workflows"
+        ],
+        "outcomes": "Our clients typically see a 60–80% reduction in time spent on routine tasks within the first 30 days of deployment."
+      },
+      {
+        "slug": "ai-consulting",
+        "name": "AI Consulting for Modern Businesses",
+        "icon": "Brain",
+        "tagline": "Strategy before software — always.",
+        "problem": "Most businesses buy AI tools without a strategy. They end up with a pile of subscriptions and no ROI. You need someone to tell you exactly what to build, what to buy, and what to ignore.",
+        "includes": [
+          "Full AI readiness audit",
+          "Custom AI roadmap (90-day and 12-month)",
+          "Vendor and tool evaluation",
+          "Team training and change management",
+          "ROI modeling for AI initiatives",
+          "Ongoing advisory retainer options"
+        ],
+        "outcomes": "Clients who complete our consulting engagement save an average of $8K/month in misallocated AI tool spend."
+      },
+      {
+        "slug": "seo",
+        "name": "SEO",
+        "icon": "Search",
+        "tagline": "Rank #1. Stay there.",
+        "problem": "SEO in 2025 requires AI-assisted content at scale, technical precision, and a deep understanding of how search engines process AI-generated content. Old-school SEO is dead.",
+        "includes": [
+          "AI-powered keyword research and content strategy",
+          "Technical SEO audits and implementation",
+          "Programmatic SEO for large-scale content",
+          "Entity-based content architecture",
+          "Link acquisition campaigns",
+          "Monthly performance reporting"
+        ],
+        "outcomes": "Average 140% increase in organic traffic within 6 months across our active SEO clients."
+      },
+      {
+        "slug": "web-design",
+        "name": "Web Design",
+        "icon": "Monitor",
+        "tagline": "Conversion-first. Always.",
+        "problem": "Your website is either converting visitors into leads or it's not. Most websites don't — because they were built for aesthetics, not performance. We build for both.",
+        "includes": [
+          "CRO-first design strategy",
+          "Next.js / React development",
+          "Performance optimization (Core Web Vitals)",
+          "A/B testing framework setup",
+          "CMS integration (Sanity, Contentful, Notion)",
+          "Ongoing maintenance and iteration"
+        ],
+        "outcomes": "Our redesigns average a 2.4x improvement in lead-to-visitor conversion rate within 60 days."
+      },
+      {
+        "slug": "workflow-automation",
+        "name": "Workflow Automation",
+        "icon": "Workflow",
+        "tagline": "If you're doing it manually, we can automate it.",
+        "problem": "Your team spends hours on copy-paste work — moving data between tools, generating reports, sending follow-ups. Every manual touch is a liability. We eliminate them.",
+        "includes": [
+          "Process mapping and bottleneck identification",
+          "Zapier, Make, and custom API automations",
+          "Data sync across your entire tool stack",
+          "Automated client onboarding workflows",
+          "Internal operations automation",
+          "Error handling and monitoring systems"
+        ],
+        "outcomes": "One client went from 15 hours of manual weekly tasks to 12 minutes — in 6 weeks."
+      },
+      {
+        "slug": "growth-marketing",
+        "name": "Growth & AI Marketing",
+        "icon": "TrendingUp",
+        "tagline": "Growth systems. Not guesswork.",
+        "problem": "Marketing without AI in 2025 is like driving without GPS. You might get there — eventually. We build growth loops powered by AI that compound over time.",
+        "includes": [
+          "AI-powered content production at scale",
+          "Automated email and SMS nurture sequences",
+          "Paid media strategy and AI bid optimization",
+          "Social media automation and scheduling",
+          "Analytics and attribution modeling",
+          "Monthly growth experiments and reporting"
+        ],
+        "outcomes": "Our growth clients see an average of 3.1x return on marketing spend within the first 90 days."
+      }
+    ]
+  },
+  "about": {
+    "hero": {
+      "headline": "WE ARE THE TEAM THAT USES AI TO BUILD YOUR COMPETITIVE MOAT",
+      "subheading": "Number 1 Digital Marketing exists because too many businesses are losing ground to competitors who figured out AI first. We're here to close that gap — fast."
+    },
+    "beliefs": {
+      "heading": "WHAT WE BELIEVE",
+      "items": [
+        {
+          "title": "AI is the Great Equalizer",
+          "description": "A startup with the right AI stack can outperform a Fortune 500 marketing team. We've seen it. We've built it."
+        },
+        {
+          "title": "Speed Over Perfection",
+          "description": "A working system live in 30 days beats a perfect system live in 6 months. We ship fast, iterate faster."
+        },
+        {
+          "title": "Data Before Opinion",
+          "description": "Every recommendation we make is backed by data. If we can't measure it, we don't build it."
+        },
+        {
+          "title": "Partnership, Not Vendor",
+          "description": "We don't sell you a deliverable and disappear. We're obsessed with your outcomes — and we stay until the numbers move."
+        }
+      ]
+    },
+    "different": {
+      "heading": "WHY WE'RE DIFFERENT",
+      "subheading": "Traditional agencies are built for the agency — not for you.",
+      "columns": [
+        {
+          "title": "Traditional Agency",
+          "points": [
+            "6–12 month retainer lock-ins",
+            "Junior staff doing senior work",
+            "Vanity metrics in monthly reports",
+            "AI as an add-on afterthought",
+            "One-size-fits-all packages"
+          ]
+        },
+        {
+          "title": "Number 1 Digital Marketing",
+          "points": [
+            "Outcome-based engagements",
+            "Senior AI specialists on every account",
+            "Revenue metrics only — or we don't report it",
+            "AI is the foundation, not a feature",
+            "Custom-built systems for your specific bottleneck"
+          ]
+        },
+        {
+          "title": "DIY AI Tools",
+          "points": [
+            "Tool sprawl with no strategy",
+            "No integration between systems",
+            "Time-consuming to maintain",
+            "No support when things break",
+            "You're on your own to figure it out"
+          ]
+        }
+      ]
+    },
+    "team": {
+      "heading": "THE TEAM",
+      "subheading": "We're a distributed team of AI engineers, growth marketers, and conversion specialists — united by one goal.",
+      "placeholder": "Team profiles coming soon. We're selective about who we bring on — because you deserve the best."
+    },
+    "cta": {
+      "heading": "READY TO WORK WITH THE BEST?",
+      "subheading": "Book a free strategy call. In 30 minutes, we'll identify your top AI opportunity and show you exactly what it would look like to fix it.",
+      "button": "Book Your Free AI Strategy Call"
+    }
+  },
+  "caseStudies": {
+    "heading": "CASE STUDIES",
+    "subheading": "Real numbers. Real clients. No manufactured success stories.",
+    "items": [
+      {
+        "slug": "lead-qualifier",
+        "stat": "+312%",
+        "statLabel": "Qualified Leads",
+        "title": "+312% Qualified Leads in 90 Days",
+        "client": "B2B SaaS — Series A",
+        "industry": "Software / Sales Automation",
+        "timeframe": "90 Days"
+      },
+      {
+        "slug": "workflow-automation",
+        "stat": "15hrs → 12min",
+        "statLabel": "Weekly Manual Work",
+        "title": "From 15 hrs/week to 12 min/week",
+        "client": "Marketing Agency — 30 Employees",
+        "industry": "Marketing Services",
+        "timeframe": "6 Weeks"
+      },
+      {
+        "slug": "ai-agent-team",
+        "stat": "$10K → $5K",
+        "statLabel": "Monthly Marketing Spend",
+        "title": "$10K/mo Marketing Team Replaced by $5K AI Agent Stack",
+        "client": "DTC Brand — $2M ARR",
+        "industry": "E-commerce / Consumer Goods",
+        "timeframe": "45 Days"
+      }
+    ]
+  },
+  "contact": {
+    "heading": "LET'S TALK",
+    "subheading": "Pick a time or send a message. Either way, we respond within one business day.",
+    "bookHeading": "BOOK A STRATEGY CALL",
+    "bookSubheading": "30 minutes. Free. Walk away with a clear AI growth roadmap — whether we work together or not.",
+    "hours": "Monday – Friday, 9am – 6pm EST",
+    "instagram": "@number1marketing",
+    "email": "hello@number1digitalmarketing.com"
+  },
+  "contactForm": {
+    "heading": "SCHEDULE YOUR FIRST MEETING",
+    "firstName": "First Name",
+    "firstNamePlaceholder": "Alex",
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Johnson",
+    "phone": "Phone",
+    "phonePlaceholder": "+1 (555) 000-0000",
+    "email": "Email",
+    "emailPlaceholder": "alex@company.com",
+    "services": "Services You're Interested In",
+    "servicesOptions": {
+      "simpleAI": "Simple AI",
+      "professionalAI": "Professional AI",
+      "webDesign": "Website Design & Support",
+      "consulting": "Strategy Consulting"
+    },
+    "consent": "I Consent to Receive SMS and Email Notifications, Alerts & Occasional Marketing Communication",
+    "submit": "Send Message",
+    "submitting": "Sending...",
+    "success": "Message sent — we'll be in touch within one business day.",
+    "error": "Something went wrong. Please try again or email us directly.",
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "phoneRequired": "Phone number is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "servicesRequired": "Please select at least one service",
+      "consentRequired": "Please confirm your consent to continue"
+    }
+  },
+  "localeSwitcher": {
+    "label": "Language",
+    "en": "English",
+    "es": "Español",
+    "pt": "Português"
+  }
+}
