@@ -53,6 +53,12 @@
         { "number": "04", "title": "SCALE", "description": "We optimize, iterate, and scale what's working. You grow. We keep building." }
       ]
     },
+    "portfolio": {
+      "heading": "WEB DESIGNS WE'VE BUILT",
+      "subheading": "Every niche. Every business size. We build conversion-first websites that rank and actually bring in leads.",
+      "nicheLabel": "CLIENT WORK",
+      "viewSite": "View Live Site"
+    },
     "cta": {
       "heading": "READY TO OUTPERFORM?",
       "subheading": "Pick a time. We'll show you exactly where AI can move the needle in your business — no pitch, no pressure.",

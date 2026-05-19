@@ -54,6 +54,12 @@
         { "number": "04", "title": "ESCALA", "description": "Optimizamos, iteramos y escalamos lo que funciona. Tú creces. Nosotros seguimos construyendo." }
       ]
     },
+    "portfolio": {
+      "heading": "DISEÑOS WEB QUE HEMOS CREADO",
+      "subheading": "Cada nicho. Cada tamaño de negocio. Construimos sitios web orientados a la conversión que posicionan y generan leads reales.",
+      "nicheLabel": "TRABAJO DE CLIENTES",
+      "viewSite": "Ver Sitio en Vivo"
+    },
     "cta": {
       "heading": "¿LISTO PARA SUPERAR A TU COMPETENCIA?",
       "subheading": "Elige un horario. Te mostraremos exactamente dónde la IA puede marcar la diferencia en tu negocio — sin pitch, sin presión.",

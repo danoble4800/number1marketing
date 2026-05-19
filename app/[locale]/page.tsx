@@ -8,6 +8,7 @@ import Button from '@/components/Button';
 import ServiceCard from '@/components/ServiceCard';
 import HeroSection from '@/components/HeroSection';
 import ProcessSteps from '@/components/ProcessSteps';
+import PortfolioSection from '@/components/PortfolioSection';
 
 export async function generateMetadata({
   params,
@@ -186,6 +187,14 @@ export default async function HomePage({
           </div>
         </Container>
       </Section>
+
+      {/* PORTFOLIO */}
+      <PortfolioSection
+        heading={t('portfolio.heading')}
+        subheading={t('portfolio.subheading')}
+        nicheLabel={t('portfolio.nicheLabel')}
+        viewSite={t('portfolio.viewSite')}
+      />
 
       {/* PROCESS */}
       <Section className="bg-brand-near-black">
