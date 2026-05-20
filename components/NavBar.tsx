@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Lock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from './Button';
 import LocaleSwitcher from './LocaleSwitcher';
@@ -67,9 +67,17 @@ export default function NavBar({ locale }: NavBarProps) {
             ))}
           </nav>
 
-          {/* Right: locale switcher + CTA */}
+          {/* Right: locale switcher + admin + CTA */}
           <div className="hidden lg:flex items-center gap-4">
             <LocaleSwitcher locale={locale} />
+            <Link
+              href={`/${locale}/admin`}
+              className="flex items-center gap-1.5 text-brand-mid hover:text-brand-light2 transition-colors"
+              title="Admin"
+            >
+              <Lock size={13} />
+              <span className="text-xs uppercase tracking-widest">Admin</span>
+            </Link>
             <Button href={`/${locale}/contact`} variant="primary" className="text-xs">
               {t('bookCall')}
             </Button>
@@ -113,10 +121,17 @@ export default function NavBar({ locale }: NavBarProps) {
                   {link.label}
                 </Link>
               ))}
-              <div className="pt-4">
+              <div className="pt-4 flex flex-col gap-3">
                 <Button href={`/${locale}/contact`} variant="primary" className="w-full text-xs">
                   {t('bookCall')}
                 </Button>
+                <Link
+                  href={`/${locale}/admin`}
+                  className="flex items-center justify-center gap-1.5 py-2 text-brand-mid hover:text-brand-light2 transition-colors"
+                >
+                  <Lock size={12} />
+                  <span className="text-xs uppercase tracking-widest">Admin Login</span>
+                </Link>
               </div>
             </nav>
           </motion.div>
