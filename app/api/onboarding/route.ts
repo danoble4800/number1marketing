@@ -332,18 +332,28 @@ async function createSignedAgreementDoc(data: Record<string, string>) {
 
 // ─── Route handler ────────────────────────────────────────────────────────────
 
+function joinField(val: string | string[] | undefined): string {
+  if (!val) return '';
+  return Array.isArray(val) ? val.join(', ') : val;
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const body: Record<string, string> = await req.json();
+    const raw: Record<string, string | string[]> = await req.json();
 
-    if (!body.clientCompany || !body.signatureName || !body.agreedToTerms) {
+    if (!raw.clientCompany || !raw.signatureName || !raw.agreedToTerms) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
+
+    // Flatten arrays to comma-joined strings so Sheets gets plain string values
+    const body: Record<string, string> = Object.fromEntries(
+      Object.entries(raw).map(([k, v]) => [k, joinField(v)])
+    );
 
     // Sheets — required
     await appendToOnboardingSheet(body);
 
-    // Google Docs — best-effort (won't break submission if Drive API isn't enabled yet)
+    // Google Doc — best-effort
     try {
       await createSignedAgreementDoc(body);
     } catch (docErr) {
