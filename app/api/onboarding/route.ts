@@ -1,6 +1,13 @@
 import { google } from 'googleapis';
 import { NextRequest, NextResponse } from 'next/server';
 
+// Prefix values that start with + or = so Google Sheets won't treat them as formulas
+function safeCell(val: string): string {
+  return val && (val.startsWith('+') || val.startsWith('=') || val.startsWith('-'))
+    ? `'${val}`
+    : val;
+}
+
 function makeAuth() {
   return new google.auth.GoogleAuth({
     credentials: {
@@ -77,7 +84,7 @@ async function appendToOnboardingSheet(data: Record<string, string>) {
         submittedAt,
         data.clientCompany ?? '', data.clientAddress ?? '', data.clientContact ?? '', data.clientEmail ?? '',
         data.signatureName ?? '', data.agreedToTerms ?? '', data.effectiveDate ?? '',
-        data.contactName ?? '', data.contactTitle ?? '', data.contactEmail ?? '', data.contactPhone ?? '',
+        data.contactName ?? '', data.contactTitle ?? '', data.contactEmail ?? '', safeCell(data.contactPhone ?? ''),
         data.contactBestTimes ?? '', data.contactDecisionMaking ?? '', data.contactPreferredChannel ?? '', data.backupContact ?? '',
         data.companyLegalName ?? '', data.companyIndustry ?? '', data.companyYearFounded ?? '', data.companyDBA ?? '',
         data.companyBusinessModel ?? '', data.companyRevenue ?? '', data.companyTeamSize ?? '', data.companyHQ ?? '', data.companyOneSentence ?? '',
@@ -111,7 +118,7 @@ async function appendToOnboardingSheet(data: Record<string, string>) {
         data.companyLegalName || data.clientCompany || '',
         data.contactName || data.clientContact || '',
         data.contactEmail || data.clientEmail || '',
-        data.contactPhone || '',
+        safeCell(data.contactPhone || ''),
         data.websiteURL || '',
         data.companyIndustry || '',
         data.companyHQ || '',
