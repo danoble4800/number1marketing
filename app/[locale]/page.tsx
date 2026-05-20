@@ -9,6 +9,7 @@ import ServiceCard from '@/components/ServiceCard';
 import HeroSection from '@/components/HeroSection';
 import ProcessSteps from '@/components/ProcessSteps';
 import PortfolioSection from '@/components/PortfolioSection';
+import TrustedMarquee from '@/components/TrustedMarquee';
 
 export async function generateMetadata({
   params,
@@ -40,9 +41,6 @@ export async function generateMetadata({
   };
 }
 
-const trustedBrands = [
-  'TechFlow', 'NovaCRM', 'ScaleAI', 'GrowthOS', 'PulseHQ', 'LoopBase', 'VaultAI', 'DriftCo',
-];
 
 export default async function HomePage({
   params,
@@ -76,19 +74,11 @@ export default async function HomePage({
       />
 
       {/* TRUSTED BY */}
-      <div className="bg-brand-dark1 border-y border-brand-dark2 py-6 overflow-hidden">
-        <Container>
-          <p className="text-center text-xs uppercase tracking-widest text-brand-mid mb-5">
-            {t('trusted.label')}
-          </p>
-          <div className="flex flex-wrap justify-center gap-8">
-            {trustedBrands.map((brand) => (
-              <span key={brand} className="font-display text-brand-dark2 text-xl tracking-widest uppercase">
-                {brand}
-              </span>
-            ))}
-          </div>
-        </Container>
+      <div className="bg-brand-dark1 border-y border-brand-dark2 py-8">
+        <p className="text-center text-xs uppercase tracking-widest text-brand-mid mb-6">
+          {t('trusted.label')}
+        </p>
+        <TrustedMarquee />
       </div>
 
       {/* SERVICES */}
