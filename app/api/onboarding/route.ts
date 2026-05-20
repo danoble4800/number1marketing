@@ -102,6 +102,98 @@ async function appendToOnboardingSheet(data: Record<string, string>) {
     },
   });
 
+  // ── Signed Agreements tab (formatted agreement record per client) ────────
+  await ensureTab(sheets, spreadsheetId, 'Signed Agreements', ['Agreement', 'Detail']);
+
+  // Find the sheetId for Signed Agreements so we can apply formatting
+  const spreadsheetMeta = await sheets.spreadsheets.get({ spreadsheetId });
+  const agreementSheetId = spreadsheetMeta.data.sheets
+    ?.find((s) => s.properties?.title === 'Signed Agreements')
+    ?.properties?.sheetId;
+
+  // Build the agreement rows
+  const agreementRows = [
+    ['NUMBER 1 DIGITAL MARKETING — SERVICE AGREEMENT (SIGNED)', ''],
+    ['', ''],
+    ['DATE SIGNED', data.effectiveDate || submittedAt],
+    ['SUBMITTED AT', submittedAt],
+    ['AGREEMENT #', `N1-${Date.now().toString().slice(-6)}`],
+    ['', ''],
+    ['CLIENT INFORMATION', ''],
+    ['Company', data.companyLegalName || data.clientCompany],
+    ['Address', data.clientAddress || '—'],
+    ['Contact', data.clientContact],
+    ['Email', data.clientEmail],
+    ['Phone', data.contactPhone || '—'],
+    ['Industry', data.companyIndustry || '—'],
+    ['Website', data.websiteURL || '—'],
+    ['', ''],
+    ['DIGITAL SIGNATURE', ''],
+    ['Signed By', data.signatureName],
+    ['Agreement Accepted', data.agreedToTerms === 'true' ? 'YES — Terms accepted in full' : 'NO'],
+    ['Timestamp (UTC)', new Date().toISOString()],
+    ['Method', 'Electronic signature via Number 1 Digital Marketing onboarding portal'],
+    ['', ''],
+    ['ENGAGEMENT SUMMARY', ''],
+    ['90-Day Goal', data.goal90Day || '—'],
+    ['', ''],
+    ['LEGAL STATEMENT', ''],
+    ['', 'This Service Agreement was entered into between Number 1 Digital Marketing (Service Provider) and the Client above.'],
+    ['', 'By typing their full legal name and checking the acceptance checkbox on the onboarding portal, the Client electronically'],
+    ['', 'agreed to all terms of the Service Agreement — with the same legal effect as a handwritten signature.'],
+    ['', ''],
+    ['SERVICE PROVIDER', 'Number 1 Digital Marketing'],
+    ['Website', 'number1digitalmarketing.com'],
+    ['Email', 'hello@number1digitalmarketing.com'],
+  ];
+
+  // Append a blank separator row then the agreement block
+  await sheets.spreadsheets.values.append({
+    spreadsheetId,
+    range: 'Signed Agreements!A:B',
+    valueInputOption: 'USER_ENTERED',
+    requestBody: { values: agreementRows },
+  });
+
+  // Bold label column
+  if (agreementSheetId !== undefined) {
+    await sheets.spreadsheets.batchUpdate({
+      spreadsheetId,
+      requestBody: {
+        requests: [
+          {
+            repeatCell: {
+              range: { sheetId: agreementSheetId, startRowIndex: 0, endRowIndex: 200, startColumnIndex: 0, endColumnIndex: 1 },
+              cell: { userEnteredFormat: { textFormat: { bold: true } } },
+              fields: 'userEnteredFormat.textFormat.bold',
+            },
+          },
+          {
+            updateDimensionProperties: {
+              range: { sheetId: agreementSheetId, dimension: 'COLUMNS', startIndex: 0, endIndex: 1 },
+              properties: { pixelSize: 220 },
+              fields: 'pixelSize',
+            },
+          },
+          {
+            updateDimensionProperties: {
+              range: { sheetId: agreementSheetId, dimension: 'COLUMNS', startIndex: 1, endIndex: 2 },
+              properties: { pixelSize: 520 },
+              fields: 'pixelSize',
+            },
+          },
+          {
+            repeatCell: {
+              range: { sheetId: agreementSheetId, startRowIndex: 0, endRowIndex: 200, startColumnIndex: 1, endColumnIndex: 2 },
+              cell: { userEnteredFormat: { wrapStrategy: 'WRAP' } },
+              fields: 'userEnteredFormat.wrapStrategy',
+            },
+          },
+        ],
+      },
+    });
+  }
+
   // ── Client Contacts tab (quick-reference for follow-ups) ─────────────────
   await ensureTab(sheets, spreadsheetId, 'Client Contacts', [
     'Date Added', 'Company Name', 'Contact Name', 'Email', 'Phone',
@@ -127,121 +219,115 @@ async function appendToOnboardingSheet(data: Record<string, string>) {
   });
 }
 
-// ─── Google Docs ──────────────────────────────────────────────────────────────
+// ─── Google Doc creation via Google Apps Script ──────────────────────────────
+// The service account has 0 GB Drive quota, so it can't own new files.
+// A Google Apps Script web app (running as danoble4800@gmail.com) creates the
+// doc instead — files are owned by the real user and live in their Drive.
+
+function buildAgreementHtml(data: Record<string, string>, submittedAt: string): string {
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; color: #111;">
+
+  <h1 style="font-size:22px; letter-spacing:2px; text-transform:uppercase; border-bottom:3px solid #111; padding-bottom:12px;">
+    Number 1 Digital Marketing
+  </h1>
+  <h2 style="font-size:16px; letter-spacing:1px; text-transform:uppercase; color:#444;">
+    Service Agreement — Signed Copy
+  </h2>
+
+  <table style="width:100%; margin:24px 0; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#666; width:160px;">Date Signed</td><td><strong>${data.effectiveDate}</strong></td></tr>
+    <tr><td style="padding:4px 0; color:#666;">Submitted At</td><td>${submittedAt}</td></tr>
+  </table>
+
+  <hr style="border:none; border-top:1px solid #ddd; margin:24px 0;">
+
+  <h3 style="font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#666;">Client Information</h3>
+  <table style="width:100%; margin:12px 0; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#666; width:160px;">Company</td><td><strong>${data.clientCompany}</strong></td></tr>
+    <tr><td style="padding:4px 0; color:#666;">Legal Name</td><td>${data.companyLegalName || data.clientCompany}</td></tr>
+    <tr><td style="padding:4px 0; color:#666;">Address</td><td>${data.clientAddress || '—'}</td></tr>
+    <tr><td style="padding:4px 0; color:#666;">Contact</td><td>${data.clientContact}</td></tr>
+    <tr><td style="padding:4px 0; color:#666;">Email</td><td>${data.clientEmail}</td></tr>
+    <tr><td style="padding:4px 0; color:#666;">Industry</td><td>${data.companyIndustry || '—'}</td></tr>
+    <tr><td style="padding:4px 0; color:#666;">Website</td><td>${data.websiteURL || '—'}</td></tr>
+  </table>
+
+  <hr style="border:none; border-top:1px solid #ddd; margin:24px 0;">
+
+  <h3 style="font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#666;">Digital Signature</h3>
+  <table style="width:100%; margin:12px 0; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#666; width:160px;">Signed By</td><td><strong style="font-size:18px; font-style:italic;">${data.signatureName}</strong></td></tr>
+    <tr><td style="padding:4px 0; color:#666;">Agreement Accepted</td><td><strong style="color:#1a7f3c;">${data.agreedToTerms === 'true' ? '✓ YES — Terms accepted in full' : 'NO'}</strong></td></tr>
+    <tr><td style="padding:4px 0; color:#666;">Timestamp (UTC)</td><td style="font-family:monospace; font-size:12px;">${new Date().toISOString()}</td></tr>
+  </table>
+
+  <hr style="border:none; border-top:1px solid #ddd; margin:24px 0;">
+
+  <h3 style="font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#666;">Engagement Summary</h3>
+  <table style="width:100%; margin:12px 0; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#666; width:160px;">90-Day Goal</td><td>${data.goal90Day || '—'}</td></tr>
+  </table>
+
+  <hr style="border:none; border-top:1px solid #ddd; margin:24px 0;">
+
+  <h3 style="font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#666;">Agreement</h3>
+  <p style="color:#444; line-height:1.7; font-size:13px;">
+    This Service Agreement was entered into between <strong>Number 1 Digital Marketing</strong>
+    (Service Provider) and the Client identified above. By typing their full legal name and
+    checking the acceptance checkbox on the Number 1 Digital Marketing onboarding portal,
+    the Client electronically agreed to all terms of the Service Agreement — including
+    Services &amp; Scope, Fees &amp; Payment, Intellectual Property, Confidentiality,
+    Limitation of Liability, and Termination — with the same legal effect as a handwritten signature.
+  </p>
+  <p style="color:#444; line-height:1.7; font-size:13px;">
+    <strong>This constitutes a legally binding electronic signature under applicable law.</strong>
+  </p>
+
+  <hr style="border:none; border-top:1px solid #ddd; margin:24px 0;">
+
+  <p style="color:#888; font-size:11px;">
+    Number 1 Digital Marketing &nbsp;·&nbsp; number1digitalmarketing.com &nbsp;·&nbsp;
+    hello@number1digitalmarketing.com &nbsp;·&nbsp; @number1marketing
+  </p>
+
+</body>
+</html>`;
+}
 
 async function createSignedAgreementDoc(data: Record<string, string>) {
-  const auth = makeAuth();
-  const drive = google.drive({ version: 'v3', auth });
-  const docs  = google.docs({ version: 'v1', auth });
+  const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_URL;
+  const scriptSecret = process.env.GOOGLE_APPS_SCRIPT_SECRET;
 
-  const OWNER_EMAIL = 'danoble4800@gmail.com';
-  const FOLDER_NAME = 'N1 Marketing — Signed Agreements';
-
-  // Find or create the shared folder
-  const folderSearch = await drive.files.list({
-    q: `name='${FOLDER_NAME}' and mimeType='application/vnd.google-apps.folder' and trashed=false`,
-    fields: 'files(id)',
-  });
-
-  let folderId: string;
-  if (folderSearch.data.files && folderSearch.data.files.length > 0) {
-    folderId = folderSearch.data.files[0].id!;
-  } else {
-    const folder = await drive.files.create({
-      requestBody: {
-        name: FOLDER_NAME,
-        mimeType: 'application/vnd.google-apps.folder',
-      },
-      fields: 'id',
-    });
-    folderId = folder.data.id!;
-    // Share folder with the owner's Gmail account
-    await drive.permissions.create({
-      fileId: folderId,
-      requestBody: { role: 'writer', type: 'user', emailAddress: OWNER_EMAIL },
-      sendNotificationEmail: false,
-    });
+  if (!scriptUrl) {
+    throw new Error('GOOGLE_APPS_SCRIPT_URL not configured — see setup instructions');
   }
 
-  // Build the document text
-  const lines = [
-    'NUMBER 1 DIGITAL MARKETING',
-    'SERVICE AGREEMENT — SIGNED COPY',
-    '',
-    `Date Signed:      ${data.effectiveDate}`,
-    `Submitted At:     ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}`,
-    '',
-    '─────────────────────────────────────────',
-    'CLIENT INFORMATION',
-    '─────────────────────────────────────────',
-    `Company:          ${data.clientCompany}`,
-    `Address:          ${data.clientAddress || '—'}`,
-    `Contact:          ${data.clientContact}`,
-    `Email:            ${data.clientEmail}`,
-    '',
-    '─────────────────────────────────────────',
-    'DIGITAL SIGNATURE',
-    '─────────────────────────────────────────',
-    `Signed by:        ${data.signatureName}`,
-    `Agreed to terms:  ${data.agreedToTerms === 'true' ? 'YES — agreement accepted' : 'NO'}`,
-    `IP / Timestamp:   ${new Date().toISOString()}`,
-    '',
-    '─────────────────────────────────────────',
-    'ENGAGEMENT SUMMARY',
-    '─────────────────────────────────────────',
-    `Company Legal:    ${data.companyLegalName || data.clientCompany}`,
-    `Industry:         ${data.companyIndustry || '—'}`,
-    `Website:          ${data.websiteURL || '—'}`,
-    `90-Day Goal:      ${data.goal90Day || '—'}`,
-    '',
-    '─────────────────────────────────────────',
-    'AGREEMENT',
-    '─────────────────────────────────────────',
-    'This Service Agreement was entered into between Number 1 Digital Marketing',
-    '(Service Provider) and the Client identified above. By typing their name and',
-    'checking the acceptance box on the onboarding portal, the Client agreed to all',
-    'terms of the Number 1 Digital Marketing Service Agreement, including sections on',
-    'Services & Scope, Fees & Payment, Intellectual Property, Confidentiality,',
-    'Limitation of Liability, and Termination.',
-    '',
-    'This constitutes a legally binding electronic signature under applicable law.',
-    '',
-    'Service Provider: Number 1 Digital Marketing',
-    'number1digitalmarketing.com · hello@number1digitalmarketing.com',
-  ].join('\n');
+  const submittedAt = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+  const docName = `Service Agreement — ${data.clientCompany} — ${data.effectiveDate || submittedAt}`;
+  const html = buildAgreementHtml(data, submittedAt);
 
-  // Create the Google Doc
-  const doc = await docs.documents.create({
-    requestBody: {
-      title: `Service Agreement — ${data.clientCompany} — ${data.effectiveDate}`,
-    },
-  });
-  const docId = doc.data.documentId!;
-
-  // Insert text content
-  await docs.documents.batchUpdate({
-    documentId: docId,
-    requestBody: {
-      requests: [{ insertText: { location: { index: 1 }, text: lines } }],
-    },
+  const res = await fetch(scriptUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret: scriptSecret, name: docName, html }),
+    redirect: 'follow',
   });
 
-  // Move doc into the folder
-  const file = await drive.files.get({ fileId: docId, fields: 'parents' });
-  const previousParents = (file.data.parents ?? []).join(',');
-  await drive.files.update({
-    fileId: docId,
-    addParents: folderId,
-    removeParents: previousParents,
-    fields: 'id, parents',
-  });
+  if (!res.ok) {
+    throw new Error(`Apps Script responded with HTTP ${res.status}`);
+  }
 
-  // Share the doc with the owner
-  await drive.permissions.create({
-    fileId: docId,
-    requestBody: { role: 'writer', type: 'user', emailAddress: OWNER_EMAIL },
-    sendNotificationEmail: false,
-  });
+  const result = await res.json() as { success?: boolean; url?: string; error?: string };
+
+  if (!result.success) {
+    throw new Error(`Apps Script error: ${result.error}`);
+  }
+
+  console.log(`Signed agreement created: ${docName} — ${result.url}`);
+  return result.url;
 }
 
 // ─── Route handler ────────────────────────────────────────────────────────────
