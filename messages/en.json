@@ -5,7 +5,8 @@
     "about": "About",
     "caseStudies": "Case Studies",
     "contact": "Contact",
-    "bookCall": "Book a Call"
+    "bookCall": "Book a Call",
+    "academy": "Get AI Certified"
   },
   "home": {
     "hero": {
@@ -29,11 +30,26 @@
       "beforeLabel": "BEFORE AI",
       "afterLabel": "AFTER AI",
       "pairs": [
-        { "before": "3–5 person marketing team at $15K/month", "after": "AI agent stack doing more at $3K/month" },
-        { "before": "Leads sit in your CRM for days", "after": "Leads qualified and followed up in 90 seconds" },
-        { "before": "Reporting takes half your Friday", "after": "Real-time dashboards — no manual touch" },
-        { "before": "Content calendar behind by 3 weeks", "after": "30 pieces of brand-perfect content per week, automated" },
-        { "before": "Guessing what your customers want", "after": "Predictive AI telling you what they'll buy next" }
+        {
+          "before": "3–5 person marketing team at $15K/month",
+          "after": "AI agent stack doing more at $3K/month"
+        },
+        {
+          "before": "Leads sit in your CRM for days",
+          "after": "Leads qualified and followed up in 90 seconds"
+        },
+        {
+          "before": "Reporting takes half your Friday",
+          "after": "Real-time dashboards — no manual touch"
+        },
+        {
+          "before": "Content calendar behind by 3 weeks",
+          "after": "30 pieces of brand-perfect content per week, automated"
+        },
+        {
+          "before": "Guessing what your customers want",
+          "after": "Predictive AI telling you what they'll buy next"
+        }
       ]
     },
     "caseStudy": {
@@ -47,10 +63,26 @@
       "heading": "HOW WE WORK",
       "subheading": "Four steps. No fluff. Measurable output at every stage.",
       "steps": [
-        { "number": "01", "title": "AUDIT", "description": "We dissect your current stack, workflows, and growth leaks. No assumptions — just data." },
-        { "number": "02", "title": "DESIGN", "description": "We map the exact AI systems and automations that will move your specific needle." },
-        { "number": "03", "title": "BUILD", "description": "We build fast. Agents, automations, and campaigns go live in weeks — not quarters." },
-        { "number": "04", "title": "SCALE", "description": "We optimize, iterate, and scale what's working. You grow. We keep building." }
+        {
+          "number": "01",
+          "title": "AUDIT",
+          "description": "We dissect your current stack, workflows, and growth leaks. No assumptions — just data."
+        },
+        {
+          "number": "02",
+          "title": "DESIGN",
+          "description": "We map the exact AI systems and automations that will move your specific needle."
+        },
+        {
+          "number": "03",
+          "title": "BUILD",
+          "description": "We build fast. Agents, automations, and campaigns go live in weeks — not quarters."
+        },
+        {
+          "number": "04",
+          "title": "SCALE",
+          "description": "We optimize, iterate, and scale what's working. You grow. We keep building."
+        }
       ]
     },
     "portfolio": {
@@ -330,5 +362,146 @@
     "en": "English",
     "es": "Español",
     "pt": "Português"
+  },
+  "academy": {
+    "hero": {
+      "headline": "GET AI CERTIFIED",
+      "subheadline": "Master AI marketing and automation. Earn a certificate that sets you apart in a world where AI is the new competitive edge.",
+      "enrollCta": "Enroll as Student",
+      "adminCta": "Admin Login"
+    },
+    "overview": {
+      "heading": "WHAT YOU'LL LEARN",
+      "subheading": "A structured 6-module curriculum built by AI marketing practitioners — not theorists.",
+      "certificate": {
+        "heading": "EARN YOUR CERTIFICATE",
+        "description": "Complete all 6 modules and pass the final assessment to earn your AI Marketing Certificate — recognized by AI-forward companies and hiring managers worldwide."
+      },
+      "items": [
+        {
+          "title": "AI Foundations",
+          "desc": "Understand how modern AI systems work and why they're reshaping every industry."
+        },
+        {
+          "title": "Hands-On AI Tools",
+          "desc": "Get practical with the tools that top marketers actually use to drive results."
+        },
+        {
+          "title": "Prompt Engineering",
+          "desc": "Learn to communicate with AI precisely so you get consistent, high-quality output every time."
+        },
+        {
+          "title": "AI Content at Scale",
+          "desc": "Build content systems that produce at scale without sacrificing brand voice or quality."
+        },
+        {
+          "title": "Analytics & AI Insights",
+          "desc": "Measure what matters, interpret AI-driven data, and optimize with confidence."
+        },
+        {
+          "title": "Certification Project",
+          "desc": "Apply everything you've learned in a real-world capstone and earn your certificate."
+        }
+      ]
+    },
+    "modules": {
+      "heading": "COURSE MODULES",
+      "subheading": "Six modules. Real skills. Fully self-paced.",
+      "comingSoon": "Coming Soon",
+      "locked": "Locked",
+      "estTime": "Est. time",
+      "items": [
+        {
+          "number": "01",
+          "title": "Foundations of AI Marketing",
+          "time": "~2 hrs"
+        },
+        {
+          "number": "02",
+          "title": "AI Tools & Automation",
+          "time": "~3 hrs"
+        },
+        {
+          "number": "03",
+          "title": "Prompt Engineering",
+          "time": "~2.5 hrs"
+        },
+        {
+          "number": "04",
+          "title": "AI Content Strategy",
+          "time": "~3 hrs"
+        },
+        {
+          "number": "05",
+          "title": "AI Analytics & Reporting",
+          "time": "~2 hrs"
+        },
+        {
+          "number": "06",
+          "title": "Capstone & Certification",
+          "time": "~4 hrs"
+        }
+      ]
+    },
+    "login": {
+      "heading": "ACADEMY LOGIN",
+      "studentTab": "Student",
+      "adminTab": "Admin",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "nameLabel": "Your Name",
+      "namePlaceholder": "Alex Johnson",
+      "loginButton": "Log In",
+      "registerButton": "Create Account",
+      "loggingIn": "Logging in...",
+      "registering": "Creating account...",
+      "noAccount": "New student?",
+      "hasAccount": "Already have an account?",
+      "switchToRegister": "Create an account",
+      "switchToLogin": "Log in instead",
+      "adminError": "Invalid admin credentials. Please try again.",
+      "studentLoginError": "No account found with those credentials.",
+      "registerSuccess": "Account created! Logging you in..."
+    },
+    "dashboard": {
+      "heading": "WELCOME BACK",
+      "progressLabel": "Overall Progress",
+      "progressValue": "0% Complete",
+      "modulesHeading": "YOUR MODULES",
+      "certificateHeading": "YOUR CERTIFICATE",
+      "certificateLocked": "Complete all 6 modules and pass the final assessment to unlock your AI Marketing Certificate.",
+      "certificateLockedBadge": "Locked",
+      "comingSoon": "Coming Soon",
+      "locked": "Locked",
+      "logout": "Log Out",
+      "estTime": "Est. time"
+    },
+    "admin": {
+      "heading": "ACADEMY ADMIN",
+      "subheading": "Manage students, modules, and certifications.",
+      "stats": {
+        "totalStudents": "Total Students",
+        "activeThisWeek": "Active This Week",
+        "certificatesIssued": "Certificates Issued"
+      },
+      "roster": {
+        "heading": "STUDENT ROSTER",
+        "empty": "No students enrolled yet.",
+        "colName": "Name",
+        "colEmail": "Email",
+        "colJoined": "Joined",
+        "colProgress": "Progress"
+      },
+      "modules": {
+        "heading": "MODULE MANAGEMENT",
+        "status": "Status",
+        "comingSoon": "Coming Soon",
+        "edit": "Edit",
+        "publish": "Publish"
+      },
+      "logout": "Log Out"
+    }
   }
 }

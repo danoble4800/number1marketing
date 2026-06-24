@@ -41,6 +41,9 @@ export async function generateMetadata({
       template: '%s | Number 1 Digital Marketing',
       default: 'Number 1 Digital Marketing',
     },
+    icons: {
+      apple: '/apple-touch-icon.png',
+    },
     description:
       'The #1 Growth & AI Marketing Partner. Custom AI agents, automation systems, SEO, and web design for modern businesses.',
     openGraph: {

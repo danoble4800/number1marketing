@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Menu, X, Lock } from 'lucide-react';
+import { Menu, X, Lock, GraduationCap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from './Button';
 import LocaleSwitcher from './LocaleSwitcher';
@@ -35,6 +35,7 @@ export default function NavBar({ locale }: NavBarProps) {
     { href: `/${locale}/about`, label: t('about') },
     { href: `/${locale}/case-studies`, label: t('caseStudies') },
     { href: `/${locale}/contact`, label: t('contact') },
+    { href: `/${locale}/academy`, label: t('academy'), highlight: true },
   ];
 
   return (
@@ -57,11 +58,16 @@ export default function NavBar({ locale }: NavBarProps) {
                 key={link.href}
                 href={link.href}
                 className={`text-sm tracking-wider uppercase transition-colors duration-200 ${
-                  pathname === link.href
+                  link.highlight
+                    ? pathname.startsWith(`/${locale}/academy`)
+                      ? 'text-brand-white flex items-center gap-1.5'
+                      : 'text-brand-light2 hover:text-brand-white flex items-center gap-1.5'
+                    : pathname === link.href
                     ? 'text-brand-white'
                     : 'text-brand-light1 hover:text-brand-white'
                 }`}
               >
+                {link.highlight && <GraduationCap size={13} />}
                 {link.label}
               </Link>
             ))}
@@ -112,12 +118,17 @@ export default function NavBar({ locale }: NavBarProps) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`py-3 px-2 text-sm tracking-wider uppercase border-b border-brand-dark2 last:border-0 transition-colors ${
-                    pathname === link.href
+                  className={`py-3 px-2 text-sm tracking-wider uppercase border-b border-brand-dark2 last:border-0 transition-colors flex items-center gap-2 ${
+                    link.highlight
+                      ? pathname.startsWith(`/${locale}/academy`)
+                        ? 'text-brand-white'
+                        : 'text-brand-light2 hover:text-brand-white'
+                      : pathname === link.href
                       ? 'text-brand-white'
                       : 'text-brand-light1 hover:text-brand-white'
                   }`}
                 >
+                  {link.highlight && <GraduationCap size={13} />}
                   {link.label}
                 </Link>
               ))}

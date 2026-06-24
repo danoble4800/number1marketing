@@ -6,7 +6,8 @@
     "about": "Nosotros",
     "caseStudies": "Casos de Éxito",
     "contact": "Contacto",
-    "bookCall": "Agendar Llamada"
+    "bookCall": "Agendar Llamada",
+    "academy": "Certifícate en IA"
   },
   "home": {
     "hero": {
@@ -30,11 +31,26 @@
       "beforeLabel": "ANTES DE IA",
       "afterLabel": "DESPUÉS DE IA",
       "pairs": [
-        { "before": "Equipo de marketing de 3–5 personas a $15K/mes", "after": "Stack de agentes IA haciendo más por $3K/mes" },
-        { "before": "Los prospectos esperan días en tu CRM", "after": "Prospectos calificados y contactados en 90 segundos" },
-        { "before": "Los reportes te toman media tarde del viernes", "after": "Dashboards en tiempo real — sin intervención manual" },
-        { "before": "El calendario de contenido lleva 3 semanas de retraso", "after": "30 piezas de contenido por semana, automatizadas" },
-        { "before": "Adivinar qué quieren tus clientes", "after": "IA predictiva diciéndote qué comprarán después" }
+        {
+          "before": "Equipo de marketing de 3–5 personas a $15K/mes",
+          "after": "Stack de agentes IA haciendo más por $3K/mes"
+        },
+        {
+          "before": "Los prospectos esperan días en tu CRM",
+          "after": "Prospectos calificados y contactados en 90 segundos"
+        },
+        {
+          "before": "Los reportes te toman media tarde del viernes",
+          "after": "Dashboards en tiempo real — sin intervención manual"
+        },
+        {
+          "before": "El calendario de contenido lleva 3 semanas de retraso",
+          "after": "30 piezas de contenido por semana, automatizadas"
+        },
+        {
+          "before": "Adivinar qué quieren tus clientes",
+          "after": "IA predictiva diciéndote qué comprarán después"
+        }
       ]
     },
     "caseStudy": {
@@ -48,10 +64,26 @@
       "heading": "CÓMO TRABAJAMOS",
       "subheading": "Cuatro pasos. Sin relleno. Resultados medibles en cada etapa.",
       "steps": [
-        { "number": "01", "title": "AUDITORÍA", "description": "Analizamos tu stack actual, flujos de trabajo y fugas de crecimiento. Sin suposiciones — solo datos." },
-        { "number": "02", "title": "DISEÑO", "description": "Mapeamos los sistemas de IA y automatizaciones exactos que moverán tu indicador específico." },
-        { "number": "03", "title": "CONSTRUCCIÓN", "description": "Construimos rápido. Agentes, automatizaciones y campañas en vivo en semanas — no trimestres." },
-        { "number": "04", "title": "ESCALA", "description": "Optimizamos, iteramos y escalamos lo que funciona. Tú creces. Nosotros seguimos construyendo." }
+        {
+          "number": "01",
+          "title": "AUDITORÍA",
+          "description": "Analizamos tu stack actual, flujos de trabajo y fugas de crecimiento. Sin suposiciones — solo datos."
+        },
+        {
+          "number": "02",
+          "title": "DISEÑO",
+          "description": "Mapeamos los sistemas de IA y automatizaciones exactos que moverán tu indicador específico."
+        },
+        {
+          "number": "03",
+          "title": "CONSTRUCCIÓN",
+          "description": "Construimos rápido. Agentes, automatizaciones y campañas en vivo en semanas — no trimestres."
+        },
+        {
+          "number": "04",
+          "title": "ESCALA",
+          "description": "Optimizamos, iteramos y escalamos lo que funciona. Tú creces. Nosotros seguimos construyendo."
+        }
       ]
     },
     "portfolio": {
@@ -331,5 +363,146 @@
     "en": "English",
     "es": "Español",
     "pt": "Português"
+  },
+  "academy": {
+    "hero": {
+      "headline": "CERTIFÍCATE EN IA",
+      "subheadline": "Domina el marketing y la automatización con IA. Obtén un certificado que te diferencia en un mundo donde la IA es la nueva ventaja competitiva.",
+      "enrollCta": "Inscribirme como Estudiante",
+      "adminCta": "Acceso Admin"
+    },
+    "overview": {
+      "heading": "QUÉ APRENDERÁS",
+      "subheading": "Un plan de estudios de 6 módulos creado por practicantes de marketing con IA, no teóricos.",
+      "certificate": {
+        "heading": "OBTÉN TU CERTIFICADO",
+        "description": "Completa los 6 módulos y pasa la evaluación final para obtener tu Certificado de Marketing con IA — reconocido por empresas y reclutadores líderes en IA."
+      },
+      "items": [
+        {
+          "title": "Fundamentos de IA",
+          "desc": "Entiende cómo funcionan los sistemas de IA modernos y por qué están transformando cada industria."
+        },
+        {
+          "title": "Herramientas de IA Prácticas",
+          "desc": "Practica con las herramientas que los mejores marketers usan para generar resultados reales."
+        },
+        {
+          "title": "Ingeniería de Prompts",
+          "desc": "Aprende a comunicarte con la IA con precisión para obtener resultados consistentes y de alta calidad."
+        },
+        {
+          "title": "Contenido con IA a Escala",
+          "desc": "Construye sistemas de contenido que produzcan a escala sin sacrificar la voz de tu marca."
+        },
+        {
+          "title": "Analítica e Insights con IA",
+          "desc": "Mide lo que importa, interpreta datos impulsados por IA y optimiza con confianza."
+        },
+        {
+          "title": "Proyecto de Certificación",
+          "desc": "Aplica todo lo aprendido en un proyecto final del mundo real y obtén tu certificado."
+        }
+      ]
+    },
+    "modules": {
+      "heading": "MÓDULOS DEL CURSO",
+      "subheading": "Seis módulos. Habilidades reales. Completamente a tu ritmo.",
+      "comingSoon": "Próximamente",
+      "locked": "Bloqueado",
+      "estTime": "Tiempo est.",
+      "items": [
+        {
+          "number": "01",
+          "title": "Fundamentos del Marketing con IA",
+          "time": "~2 hrs"
+        },
+        {
+          "number": "02",
+          "title": "Herramientas de IA y Automatización",
+          "time": "~3 hrs"
+        },
+        {
+          "number": "03",
+          "title": "Ingeniería de Prompts",
+          "time": "~2.5 hrs"
+        },
+        {
+          "number": "04",
+          "title": "Estrategia de Contenido con IA",
+          "time": "~3 hrs"
+        },
+        {
+          "number": "05",
+          "title": "Analítica e Informes con IA",
+          "time": "~2 hrs"
+        },
+        {
+          "number": "06",
+          "title": "Proyecto Final y Certificación",
+          "time": "~4 hrs"
+        }
+      ]
+    },
+    "login": {
+      "heading": "ACCESO A LA ACADEMIA",
+      "studentTab": "Estudiante",
+      "adminTab": "Admin",
+      "emailLabel": "Correo Electrónico",
+      "emailPlaceholder": "tú@ejemplo.com",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "nameLabel": "Tu Nombre",
+      "namePlaceholder": "Alex Johnson",
+      "loginButton": "Iniciar Sesión",
+      "registerButton": "Crear Cuenta",
+      "loggingIn": "Iniciando sesión...",
+      "registering": "Creando cuenta...",
+      "noAccount": "¿Eres nuevo estudiante?",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "switchToRegister": "Crear una cuenta",
+      "switchToLogin": "Iniciar sesión",
+      "adminError": "Credenciales de administrador incorrectas. Inténtalo de nuevo.",
+      "studentLoginError": "No se encontró ninguna cuenta con esas credenciales.",
+      "registerSuccess": "¡Cuenta creada! Iniciando sesión..."
+    },
+    "dashboard": {
+      "heading": "BIENVENIDO DE NUEVO",
+      "progressLabel": "Progreso General",
+      "progressValue": "0% Completado",
+      "modulesHeading": "TUS MÓDULOS",
+      "certificateHeading": "TU CERTIFICADO",
+      "certificateLocked": "Completa los 6 módulos y pasa la evaluación final para desbloquear tu Certificado de Marketing con IA.",
+      "certificateLockedBadge": "Bloqueado",
+      "comingSoon": "Próximamente",
+      "locked": "Bloqueado",
+      "logout": "Cerrar Sesión",
+      "estTime": "Tiempo est."
+    },
+    "admin": {
+      "heading": "ADMIN DE LA ACADEMIA",
+      "subheading": "Gestiona estudiantes, módulos y certificaciones.",
+      "stats": {
+        "totalStudents": "Total Estudiantes",
+        "activeThisWeek": "Activos Esta Semana",
+        "certificatesIssued": "Certificados Emitidos"
+      },
+      "roster": {
+        "heading": "LISTA DE ESTUDIANTES",
+        "empty": "Aún no hay estudiantes inscritos.",
+        "colName": "Nombre",
+        "colEmail": "Correo",
+        "colJoined": "Inscrito",
+        "colProgress": "Progreso"
+      },
+      "modules": {
+        "heading": "GESTIÓN DE MÓDULOS",
+        "status": "Estado",
+        "comingSoon": "Próximamente",
+        "edit": "Editar",
+        "publish": "Publicar"
+      },
+      "logout": "Cerrar Sesión"
+    }
   }
 }
