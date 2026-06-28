@@ -7,6 +7,7 @@ interface PortfolioItem {
   name: string;
   url: string;
   displayUrl: string;
+  screenshot: string;
   niche: string;
   description: string;
   tags: string[];
@@ -17,6 +18,7 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
     name: 'Noble Home Service',
     url: 'https://www.noblehomeservicema.com/',
     displayUrl: 'noblehomeservicema.com',
+    screenshot: '/noble-home-service-screenshot.jpg',
     niche: 'Home Services',
     description:
       'High-converting local service website built for a Massachusetts home service company. Designed to dominate local search and turn every visitor into a booked job.',
@@ -92,7 +94,7 @@ export default function PortfolioSection({
                 <div className="relative overflow-hidden" style={{ paddingBottom: '62.5%' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`https://image.thum.io/get/width/1200/crop/750/${item.url}`}
+                    src={item.screenshot}
                     alt={`${item.name} website screenshot`}
                     className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.015] transition-transform duration-700 ease-out"
                     loading="lazy"
