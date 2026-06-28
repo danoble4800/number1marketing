@@ -24,6 +24,16 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
       'High-converting local service website built for a Massachusetts home service company. Designed to dominate local search and turn every visitor into a booked job.',
     tags: ['Local SEO', 'Lead Generation', 'Mobile-First', 'Web Design'],
   },
+  {
+    name: 'Echelon Rental Group',
+    url: 'https://echelon-rental-group.vercel.app',
+    displayUrl: 'echelon-rental-group.vercel.app',
+    screenshot: '/echelon-rental-group-screenshot.jpg',
+    niche: 'Equipment Rentals',
+    description:
+      'Professional rental company website built to showcase inventory and drive inbound leads. Clean, modern design built for trust and fast conversions.',
+    tags: ['Web Design', 'Lead Generation', 'Mobile-First', 'Conversion Optimized'],
+  },
 ];
 
 interface PortfolioSectionProps {
