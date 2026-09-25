@@ -10,6 +10,7 @@ import HeroSection from '@/components/HeroSection';
 import ProcessSteps from '@/components/ProcessSteps';
 import PortfolioSection from '@/components/PortfolioSection';
 import TrustedMarquee from '@/components/TrustedMarquee';
+import AuditPopup from '@/components/AuditPopup';
 
 export async function generateMetadata({
   params,
@@ -63,6 +64,9 @@ export default async function HomePage({
 
   return (
     <>
+      {/* Homepage only — promotes the free audit; never rendered on /audit or other pages */}
+      <AuditPopup locale={locale} />
+
       {/* HERO — client component handles all Framer Motion */}
       <HeroSection
         headline={t('hero.headline')}

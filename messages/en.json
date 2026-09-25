@@ -539,5 +539,18 @@
     "proofLabel": "Qualified leads in 90 days",
     "proofText": "What happened when a B2B SaaS client replaced a manual sales process with a lead qualification system we built.",
     "proofCta": "Read the Case Study"
+  },
+  "auditPopup": {
+    "eyebrow": "Free · 30 minutes",
+    "headline": "Get your free digital growth audit",
+    "body": "Find out exactly where your business is losing leads — and the growth system that would fix it.",
+    "points": [
+      "Your biggest growth leaks",
+      "A clear system blueprint",
+      "A 90-day roadmap — yours to keep"
+    ],
+    "cta": "Claim My Free Audit",
+    "dismiss": "No thanks",
+    "close": "Close"
   }
 }

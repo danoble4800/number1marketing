@@ -540,5 +540,18 @@
     "proofLabel": "Leads calificados en 90 días",
     "proofText": "Lo que pasó cuando un cliente B2B SaaS reemplazó un proceso de ventas manual con un sistema de calificación de leads que construimos.",
     "proofCta": "Ver el Caso de Estudio"
+  },
+  "auditPopup": {
+    "eyebrow": "Gratis · 30 minutos",
+    "headline": "Obtén tu auditoría gratuita de crecimiento digital",
+    "body": "Descubre exactamente dónde tu negocio está perdiendo clientes — y el sistema de crecimiento que lo solucionaría.",
+    "points": [
+      "Tus mayores fugas de crecimiento",
+      "Un plano claro del sistema",
+      "Una hoja de ruta de 90 días — es tuya"
+    ],
+    "cta": "Quiero Mi Auditoría Gratis",
+    "dismiss": "No, gracias",
+    "close": "Cerrar"
   }
 }
