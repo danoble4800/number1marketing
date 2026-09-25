@@ -21,7 +21,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: 'home.hero' });
 
   return {
-    title: 'Number 1 Digital Marketing | The #1 Growth & AI Marketing Partner',
+    title: 'Number 1 Digital Marketing | The #1 Digital Growth Systems Partner',
     description: t('subline'),
     alternates: {
       canonical: `${siteUrl}/${locale}`,

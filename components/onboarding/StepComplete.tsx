@@ -25,7 +25,7 @@ const NEXT_STEPS = [
   {
     num: '04',
     title: 'We Build',
-    desc: "Your AI-powered marketing engine goes live. Let's grow.",
+    desc: "Your digital growth system goes live. Let's grow.",
   },
 ];
 

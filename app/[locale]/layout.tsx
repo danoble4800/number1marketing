@@ -45,7 +45,7 @@ export async function generateMetadata({
       apple: '/apple-touch-icon.png',
     },
     description:
-      'The #1 Growth & AI Marketing Partner. Custom AI agents, automation systems, SEO, and web design for modern businesses.',
+      'The #1 Digital Growth Systems Partner. Custom growth systems, automation, SEO, and web design for modern businesses.',
     openGraph: {
       siteName: 'Number 1 Digital Marketing',
       locale,

@@ -50,11 +50,11 @@ const caseStudyData: Record<string, CaseStudyData> = {
     challenge:
       'Their CRM was full of leads, but no system existed to score, prioritize, or route them automatically. Sales reps were spending hours on unqualified calls. Marketing was generating volume — sales couldn\'t process it fast enough.',
     approach: [
-      'Built a custom AI lead qualification agent integrated directly with HubSpot',
+      'Built a custom lead qualification system integrated directly with HubSpot',
       'Trained the model on 18 months of historical closed/won data to learn what a real buyer looks like',
       'Implemented automated 2-minute lead scoring with multi-signal enrichment (LinkedIn, company data, intent signals)',
       'Built routing logic to instantly assign hot leads to senior AEs, warm leads to SDRs, and cold leads to nurture sequences',
-      'Deployed 24/7 AI-powered first-touch outreach for new inbound leads',
+      'Deployed 24/7 instant first-touch outreach for new inbound leads',
     ],
     results: [
       { value: 312, suffix: '%', prefix: '+', label: 'Qualified Leads' },
@@ -62,7 +62,7 @@ const caseStudyData: Record<string, CaseStudyData> = {
       { value: 3, suffix: 'x', prefix: '', label: 'Pipeline Value in 90 Days' },
     ],
     quote:
-      'We went from drowning in leads to actually closing them. The AI agent does in 90 seconds what used to take my team half a day. This wasn\'t a nice-to-have — it became mission critical.',
+      'We went from drowning in leads to actually closing them. The system does in 90 seconds what used to take my team half a day. This wasn\'t a nice-to-have — it became mission critical.',
     quoteAuthor: 'VP of Sales, B2B SaaS Client',
   },
   'workflow-automation': {
@@ -103,7 +103,7 @@ const caseStudyData: Record<string, CaseStudyData> = {
     statSuffix: 'K/mo',
     statPrefix: '$',
     statLabel: 'Monthly Marketing Spend',
-    title: '$10K/mo Marketing Team Replaced by $5K AI Agent Stack',
+    title: '$10K/mo Marketing Team Replaced by a $5K Growth System',
     client: 'Confidential — DTC Brand, $2M ARR',
     industry: 'E-commerce / Consumer Goods',
     timeframe: '45 Days',
@@ -112,7 +112,7 @@ const caseStudyData: Record<string, CaseStudyData> = {
     challenge:
       'Their content output was 4–6 pieces per month, taking weeks to produce. Email sequences were generic. Ad creative was recycled. The team couldn\'t keep up with the pace required to compete against well-funded competitors.',
     approach: [
-      'Replaced fractional copywriter and social media manager with a custom AI content system',
+      'Replaced fractional copywriter and social media manager with a custom content system (AI-assisted)',
       'Built a brand-voice model trained on the founder\'s top-performing posts and product copy',
       'Automated 30-piece monthly content calendar across Instagram, email, and product pages',
       'Deployed AI-generated A/B test variations for every ad creative — tested 12 variants per week',
@@ -326,7 +326,7 @@ export default async function CaseStudyDetailPage({
         <Container className="text-center">
           <Heading as="h2" size="lg">WANT RESULTS LIKE THIS?</Heading>
           <p className="mt-4 text-brand-light1 max-w-xl mx-auto">
-            Book a free strategy call. We&apos;ll identify your top AI opportunity in 30 minutes.
+            Book a free strategy call. We&apos;ll identify your biggest growth opportunity in 30 minutes.
           </p>
           <div className="mt-8">
             <Button href={`/${locale}/contact`} variant="primary">

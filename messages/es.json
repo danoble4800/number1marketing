@@ -11,9 +11,9 @@
   },
   "home": {
     "hero": {
-      "headline": "CONSTRUIMOS LOS SISTEMAS DE IA QUE",
+      "headline": "CONSTRUIMOS LOS SISTEMAS DE CRECIMIENTO DIGITAL QUE",
       "headlineAccent": "SUPERAN A TU COMPETENCIA",
-      "subline": "Agentes de IA personalizados. Flujos de trabajo automatizados. Sistemas de crecimiento que trabajan mientras duermes — no solo promesas en diapositivas.",
+      "subline": "Captación de prospectos, seguimiento inmediato, contenido y conversión — conectados en un solo sistema que hace crecer tu negocio mientras duermes. No solo promesas en diapositivas.",
       "ctaPrimary": "Agenda Tu Llamada Estratégica Gratis",
       "ctaSecondary": "Ver Nuestro Trabajo"
     },
@@ -26,14 +26,14 @@
       "cta": "Ver Todos los Servicios"
     },
     "shift": {
-      "heading": "EL CAMBIO DE IA YA LLEGÓ",
+      "heading": "LA BRECHA DE CRECIMIENTO ES REAL",
       "subheading": "Existen dos versiones de tu negocio. ¿Cuál estás construyendo?",
-      "beforeLabel": "ANTES DE IA",
-      "afterLabel": "DESPUÉS DE IA",
+      "beforeLabel": "SIN UN SISTEMA",
+      "afterLabel": "CON UN SISTEMA DE CRECIMIENTO",
       "pairs": [
         {
           "before": "Equipo de marketing de 3–5 personas a $15K/mes",
-          "after": "Stack de agentes IA haciendo más por $3K/mes"
+          "after": "Un sistema de crecimiento conectado haciendo más por $3K/mes"
         },
         {
           "before": "Los prospectos esperan días en tu CRM",
@@ -49,7 +49,7 @@
         },
         {
           "before": "Adivinar qué quieren tus clientes",
-          "after": "IA predictiva diciéndote qué comprarán después"
+          "after": "Datos que te dicen qué comprarán después"
         }
       ]
     },
@@ -57,7 +57,7 @@
       "heading": "RESULTADOS QUE HABLAN",
       "stat": "+312%",
       "statLabel": "Prospectos Calificados en 90 Días",
-      "description": "Una empresa B2B SaaS llegó a nosotros desperdiciando presupuesto en un equipo de ventas inflado. Construimos un agente de IA personalizado para calificación de leads — ahora filtra, puntúa y enruta prospectos en menos de dos minutos. Resultado: tres veces más pipeline a un tercio del costo.",
+      "description": "Una empresa B2B SaaS llegó a nosotros desperdiciando presupuesto en un equipo de ventas inflado. Construimos un sistema de calificación de leads — ahora filtra, puntúa y enruta prospectos en menos de dos minutos. Resultado: tres veces más pipeline a un tercio del costo.",
       "cta": "Leer el Caso Completo"
     },
     "process": {
@@ -72,12 +72,12 @@
         {
           "number": "02",
           "title": "DISEÑO",
-          "description": "Mapeamos los sistemas de IA y automatizaciones exactos que moverán tu indicador específico."
+          "description": "Mapeamos el sistema de crecimiento exacto — embudos, seguimiento y automatizaciones — que moverá tu indicador específico."
         },
         {
           "number": "03",
           "title": "CONSTRUCCIÓN",
-          "description": "Construimos rápido. Agentes, automatizaciones y campañas en vivo en semanas — no trimestres."
+          "description": "Construimos rápido. Sistemas, automatizaciones y campañas en vivo en semanas — no trimestres."
         },
         {
           "number": "04",
@@ -94,12 +94,12 @@
     },
     "cta": {
       "heading": "¿LISTO PARA SUPERAR A TU COMPETENCIA?",
-      "subheading": "Elige un horario. Te mostraremos exactamente dónde la IA puede marcar la diferencia en tu negocio — sin pitch, sin presión.",
+      "subheading": "Elige un horario. Te mostraremos exactamente dónde un sistema de crecimiento puede marcar la diferencia en tu negocio — sin pitch, sin presión.",
       "label": "AGENDA TU LLAMADA ESTRATÉGICA GRATIS"
     }
   },
   "footer": {
-    "tagline": "El Socio #1 de Crecimiento y Marketing con IA",
+    "tagline": "El Socio #1 en Sistemas de Crecimiento Digital",
     "services": "Servicios",
     "company": "Empresa",
     "legal": "Legal",
@@ -115,12 +115,12 @@
     "items": [
       {
         "slug": "ai-agents",
-        "name": "Agentes de IA y Sistemas de Automatización",
-        "icon": "Bot",
+        "name": "Sistemas de Crecimiento y Automatización a Medida",
+        "icon": "Rocket",
         "tagline": "Tu fuerza laboral 24/7 — nunca enferma, nunca lenta.",
-        "problem": "Tu equipo quema tiempo en tareas que un agente de IA bien configurado puede manejar en segundos — seguimiento de leads, soporte al cliente, reportes, procesamiento de datos. Cada hora en estas tareas es una hora sin crecimiento.",
+        "problem": "Tu equipo quema tiempo en tareas que un sistema bien construido puede manejar en segundos — seguimiento de leads, soporte al cliente, reportes, procesamiento de datos. Cada hora en estas tareas es una hora sin crecimiento.",
         "includes": [
-          "Arquitectura de agentes GPT-4 / Claude personalizada",
+          "Respuesta a prospectos y soporte al cliente asistidos por IA",
           "Integración CRM y automatización de enrutamiento de leads",
           "Secuencias de contacto multicanal (email, SMS, DM)",
           "Pipelines inteligentes de procesamiento de documentos",
@@ -131,26 +131,26 @@
       },
       {
         "slug": "ai-consulting",
-        "name": "Consultoría de IA para Negocios Modernos",
-        "icon": "Brain",
+        "name": "Consultoría de Estrategia de Crecimiento",
+        "icon": "Compass",
         "tagline": "Estrategia antes que software — siempre.",
-        "problem": "La mayoría de los negocios compran herramientas de IA sin estrategia. Terminan con un montón de suscripciones sin ROI. Necesitas alguien que te diga exactamente qué construir, qué comprar y qué ignorar.",
+        "problem": "La mayoría de los negocios compran software y herramientas sin estrategia. Terminan con un montón de suscripciones sin ROI. Necesitas alguien que te diga exactamente qué construir, qué comprar y qué ignorar.",
         "includes": [
-          "Auditoría completa de preparación para IA",
-          "Hoja de ruta de IA personalizada (90 días y 12 meses)",
+          "Auditoría completa de sistemas de crecimiento",
+          "Hoja de ruta de crecimiento personalizada (90 días y 12 meses)",
           "Evaluación de proveedores y herramientas",
           "Capacitación de equipos y gestión del cambio",
-          "Modelado de ROI para iniciativas de IA",
+          "Modelado de ROI para cada iniciativa de crecimiento",
           "Opciones de retainer de asesoría continua"
         ],
-        "outcomes": "Los clientes que completan nuestro engagement de consultoría ahorran un promedio de $8K/mes en gasto mal asignado en herramientas de IA."
+        "outcomes": "Los clientes que completan nuestro engagement de consultoría ahorran un promedio de $8K/mes en gasto mal asignado en software y herramientas."
       },
       {
         "slug": "seo",
         "name": "SEO",
         "icon": "Search",
         "tagline": "Posiciona #1. Mantente ahí.",
-        "problem": "El SEO en 2025 requiere contenido asistido por IA a escala, precisión técnica y comprensión profunda. El SEO de la vieja escuela está muerto.",
+        "problem": "El SEO hoy requiere contenido a escala, precisión técnica y comprensión profunda de cómo los buscadores posicionan el contenido. El SEO de la vieja escuela está muerto.",
         "includes": [
           "Investigación de palabras clave y estrategia de contenido asistida por IA",
           "Auditorías e implementación de SEO técnico",
@@ -195,14 +195,14 @@
       },
       {
         "slug": "growth-marketing",
-        "name": "Crecimiento y Marketing con IA",
+        "name": "Marketing de Crecimiento",
         "icon": "TrendingUp",
         "tagline": "Sistemas de crecimiento. No suposiciones.",
-        "problem": "Hacer marketing sin IA en 2025 es como manejar sin GPS. Podrías llegar — eventualmente. Construimos bucles de crecimiento impulsados por IA que se componen con el tiempo.",
+        "problem": "Hacer marketing sin un sistema es como manejar sin GPS. Podrías llegar — eventualmente. Construimos bucles de crecimiento que se componen con el tiempo.",
         "includes": [
-          "Producción de contenido a escala asistida por IA",
+          "Producción de contenido a escala (asistida por IA)",
           "Secuencias automatizadas de nutrición por email y SMS",
-          "Estrategia de medios pagados y optimización de pujas con IA",
+          "Estrategia de medios pagados y optimización de pujas",
           "Automatización y programación de redes sociales",
           "Modelado de analítica y atribución",
           "Experimentos de crecimiento mensuales y reportes"
@@ -213,15 +213,15 @@
   },
   "about": {
     "hero": {
-      "headline": "SOMOS EL EQUIPO QUE USA IA PARA CONSTRUIR TU VENTAJA COMPETITIVA",
-      "subheading": "Number 1 Digital Marketing existe porque demasiados negocios están perdiendo terreno frente a competidores que descubrieron la IA primero. Estamos aquí para cerrar esa brecha — rápido."
+      "headline": "SOMOS EL EQUIPO QUE CONSTRUYE TU SISTEMA DE CRECIMIENTO DIGITAL",
+      "subheading": "Number 1 Digital Marketing existe porque demasiados negocios están perdiendo terreno frente a competidores con mejores sistemas — seguimiento más rápido, marketing más inteligente, operaciones más ágiles. Estamos aquí para cerrar esa brecha — rápido."
     },
     "beliefs": {
       "heading": "LO QUE CREEMOS",
       "items": [
         {
-          "title": "La IA es el Gran Ecualizador",
-          "description": "Una startup con el stack de IA correcto puede superar a un equipo de marketing de Fortune 500. Lo hemos visto. Lo hemos construido."
+          "title": "Los Sistemas Son el Gran Ecualizador",
+          "description": "Un pequeño negocio con el sistema de crecimiento correcto puede superar a un equipo de marketing de Fortune 500. Lo hemos visto. Lo hemos construido."
         },
         {
           "title": "Velocidad Sobre Perfección",
@@ -247,7 +247,7 @@
             "Contratos de 6–12 meses",
             "Personal junior haciendo trabajo senior",
             "Métricas de vanidad en reportes mensuales",
-            "IA como complemento secundario",
+            "Tácticas desconectadas, sin un sistema real",
             "Paquetes de talla única"
           ]
         },
@@ -255,14 +255,14 @@
           "title": "Number 1 Digital Marketing",
           "points": [
             "Compromisos basados en resultados",
-            "Especialistas senior de IA en cada cuenta",
+            "Especialistas senior en crecimiento en cada cuenta",
             "Solo métricas de ingresos — o no lo reportamos",
-            "La IA es la base, no una característica",
+            "Primero los sistemas — la IA y la automatización son herramientas, no el discurso",
             "Sistemas personalizados para tu cuello de botella específico"
           ]
         },
         {
-          "title": "Herramientas de IA DIY",
+          "title": "Herramientas y Apps DIY",
           "points": [
             "Proliferación de herramientas sin estrategia",
             "Sin integración entre sistemas",
@@ -275,12 +275,12 @@
     },
     "team": {
       "heading": "EL EQUIPO",
-      "subheading": "Somos un equipo distribuido de ingenieros de IA, especialistas en crecimiento y expertos en conversión — unidos por un objetivo.",
+      "subheading": "Somos un equipo distribuido de constructores de sistemas, especialistas en crecimiento y expertos en conversión — unidos por un objetivo.",
       "placeholder": "Perfiles del equipo próximamente. Somos selectivos sobre a quién incorporamos — porque mereces lo mejor."
     },
     "cta": {
       "heading": "¿LISTO PARA TRABAJAR CON LOS MEJORES?",
-      "subheading": "Agenda una llamada estratégica gratuita. En 30 minutos, identificaremos tu mayor oportunidad de IA y te mostraremos exactamente cómo solucionarla.",
+      "subheading": "Agenda una llamada estratégica gratuita. En 30 minutos, identificaremos tu mayor oportunidad de crecimiento y te mostraremos exactamente cómo aprovecharla.",
       "button": "Agenda Tu Llamada Estratégica Gratis"
     }
   },
@@ -310,7 +310,7 @@
         "slug": "ai-agent-team",
         "stat": "$10K → $5K",
         "statLabel": "Gasto Mensual en Marketing",
-        "title": "Equipo de $10K/mes Reemplazado por Stack de IA a $5K",
+        "title": "Equipo de $10K/mes Reemplazado por un Sistema de Crecimiento de $5K",
         "client": "Marca DTC — $2M ARR",
         "industry": "E-commerce / Bienes de Consumo",
         "timeframe": "45 Días"
@@ -321,7 +321,7 @@
     "heading": "HABLEMOS",
     "subheading": "Elige un horario o envía un mensaje. De cualquier manera, respondemos dentro de un día hábil.",
     "bookHeading": "AGENDA UNA LLAMADA ESTRATÉGICA",
-    "bookSubheading": "30 minutos. Gratis. Sal con un mapa de crecimiento de IA claro — trabajemos juntos o no.",
+    "bookSubheading": "30 minutos. Gratis. Sal con un mapa de crecimiento claro — trabajemos juntos o no.",
     "hours": "Lunes – Viernes, 9am – 6pm EST",
     "instagram": "@number1marketing",
     "email": "hello@number1digitalmarketing.com"
@@ -338,8 +338,8 @@
     "emailPlaceholder": "alex@empresa.com",
     "services": "Servicios de tu interés",
     "servicesOptions": {
-      "simpleAI": "IA Simple",
-      "professionalAI": "IA Profesional",
+      "simpleAI": "Sistema de Crecimiento Inicial",
+      "professionalAI": "Sistema de Crecimiento Avanzado",
       "webDesign": "Diseño Web y Soporte",
       "consulting": "Consultoría Estratégica"
     },

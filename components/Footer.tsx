@@ -12,8 +12,8 @@ export default function Footer({ locale }: FooterProps) {
   const year = new Date().getFullYear();
 
   const serviceLinks = [
-    { href: `/${locale}/services#ai-agents`, label: 'AI Agents' },
-    { href: `/${locale}/services#ai-consulting`, label: 'AI Consulting' },
+    { href: `/${locale}/services#ai-agents`, label: 'Growth Systems' },
+    { href: `/${locale}/services#ai-consulting`, label: 'Growth Strategy' },
     { href: `/${locale}/services#seo`, label: 'SEO' },
     { href: `/${locale}/services#web-design`, label: 'Web Design' },
     { href: `/${locale}/services#workflow-automation`, label: 'Workflow Automation' },

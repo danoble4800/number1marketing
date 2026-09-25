@@ -53,8 +53,8 @@ export default async function ServicesPage({
   const services = t.raw('items') as ServiceItem[];
 
   const sideNavLabels: Record<string, string> = {
-    'ai-agents': 'AI Agents',
-    'ai-consulting': 'AI Consulting',
+    'ai-agents': 'Growth Systems',
+    'ai-consulting': 'Strategy',
     'seo': 'SEO',
     'web-design': 'Web Design',
     'workflow-automation': 'Workflow',
