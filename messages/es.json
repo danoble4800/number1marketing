@@ -504,5 +504,41 @@
       },
       "logout": "Cerrar Sesión"
     }
+  },
+  "audit": {
+    "metaTitle": "Auditoría Gratuita de Crecimiento Digital",
+    "eyebrow": "Auditoría Gratuita de Crecimiento Digital",
+    "headline": "DESCUBRE DÓNDE TU NEGOCIO ESTÁ",
+    "headlineAccent": "PERDIENDO CLIENTES",
+    "subheading": "Agenda una auditoría gratuita de 30 minutos. Revisaremos cómo consigues prospectos, les das seguimiento y los conviertes — y te mostraremos el sistema de crecimiento exacto que cerraría esas brechas.",
+    "chips": [
+      "30 minutos",
+      "100% gratis",
+      "Sin pitch, sin presión"
+    ],
+    "getHeading": "Lo que te llevarás",
+    "get": [
+      {
+        "title": "Tus mayores fugas de crecimiento",
+        "desc": "Dónde se te escapan los prospectos — seguimiento lento, una oferta débil, un sitio web que no convierte."
+      },
+      {
+        "title": "Un plano claro del sistema",
+        "desc": "Los embudos, el seguimiento y las automatizaciones que taparían esas fugas, adaptados a tu negocio."
+      },
+      {
+        "title": "Una hoja de ruta de 90 días",
+        "desc": "Qué arreglar primero, qué construir después y qué ignorar."
+      },
+      {
+        "title": "Es tuyo",
+        "desc": "El plan es tuyo, trabajemos juntos o no."
+      }
+    ],
+    "formHeading": "Agenda tu auditoría gratis",
+    "formSubheading": "Completa este formulario y te contactaremos en un día hábil para confirmar tu horario.",
+    "proofLabel": "Leads calificados en 90 días",
+    "proofText": "Lo que pasó cuando un cliente B2B SaaS reemplazó un proceso de ventas manual con un sistema de calificación de leads que construimos.",
+    "proofCta": "Ver el Caso de Estudio"
   }
 }

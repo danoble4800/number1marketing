@@ -503,5 +503,41 @@
       },
       "logout": "Log Out"
     }
+  },
+  "audit": {
+    "metaTitle": "Free Digital Growth Audit",
+    "eyebrow": "Free Digital Growth Audit",
+    "headline": "FIND OUT WHERE YOUR BUSINESS IS",
+    "headlineAccent": "LOSING LEADS",
+    "subheading": "Book a free 30-minute audit. We'll review how you get leads, follow up, and convert — then show you the exact growth system that would close the gaps.",
+    "chips": [
+      "30 minutes",
+      "100% free",
+      "No pitch, no pressure"
+    ],
+    "getHeading": "What you'll walk away with",
+    "get": [
+      {
+        "title": "Your biggest growth leaks",
+        "desc": "Where leads are slipping through the cracks — slow follow-up, a weak offer, a website that doesn't convert."
+      },
+      {
+        "title": "A clear system blueprint",
+        "desc": "The funnels, follow-up, and automations that would plug those leaks, mapped to your business."
+      },
+      {
+        "title": "A 90-day roadmap",
+        "desc": "What to fix first, what to build next, and what to ignore."
+      },
+      {
+        "title": "Yours to keep",
+        "desc": "The plan is yours whether we work together or not."
+      }
+    ],
+    "formHeading": "Book your free audit",
+    "formSubheading": "Fill this out and we'll reach out within one business day to lock in your time.",
+    "proofLabel": "Qualified leads in 90 days",
+    "proofText": "What happened when a B2B SaaS client replaced a manual sales process with a lead qualification system we built.",
+    "proofCta": "Read the Case Study"
   }
 }

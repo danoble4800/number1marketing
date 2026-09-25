@@ -504,5 +504,41 @@
       },
       "logout": "Sair"
     }
+  },
+  "audit": {
+    "metaTitle": "Auditoria Gratuita de Crescimento Digital",
+    "eyebrow": "Auditoria Gratuita de Crescimento Digital",
+    "headline": "DESCUBRA ONDE SEU NEGÓCIO ESTÁ",
+    "headlineAccent": "PERDENDO CLIENTES",
+    "subheading": "Agende uma auditoria gratuita de 30 minutos. Vamos analisar como você capta leads, faz follow-up e converte — e mostrar o sistema de crescimento exato que fecharia essas lacunas.",
+    "chips": [
+      "30 minutos",
+      "100% grátis",
+      "Sem pitch, sem pressão"
+    ],
+    "getHeading": "O que você vai levar",
+    "get": [
+      {
+        "title": "Seus maiores vazamentos de crescimento",
+        "desc": "Onde os leads estão escapando — follow-up lento, uma oferta fraca, um site que não converte."
+      },
+      {
+        "title": "Um plano claro do sistema",
+        "desc": "Os funis, o follow-up e as automações que fechariam esses vazamentos, adaptados ao seu negócio."
+      },
+      {
+        "title": "Um roadmap de 90 dias",
+        "desc": "O que corrigir primeiro, o que construir depois e o que ignorar."
+      },
+      {
+        "title": "É seu",
+        "desc": "O plano é seu, trabalhando conosco ou não."
+      }
+    ],
+    "formHeading": "Agende sua auditoria grátis",
+    "formSubheading": "Preencha o formulário e entraremos em contato em até um dia útil para confirmar seu horário.",
+    "proofLabel": "Leads qualificados em 90 dias",
+    "proofText": "O que aconteceu quando um cliente B2B SaaS substituiu um processo de vendas manual por um sistema de qualificação de leads que construímos.",
+    "proofCta": "Ver o Estudo de Caso"
   }
 }

@@ -35,7 +35,7 @@ const initialState: FormState = {
 
 const SERVICE_KEYS = ['simpleAI', 'professionalAI', 'webDesign', 'consulting'] as const;
 
-export default function ContactForm() {
+export default function ContactForm({ showHeading = true }: { showHeading?: boolean }) {
   const t = useTranslations('contactForm');
   const [form, setForm] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -122,9 +122,11 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-      <h2 className="font-display text-2xl text-brand-white uppercase tracking-tight">
-        {t('heading')}
-      </h2>
+      {showHeading && (
+        <h2 className="font-display text-2xl text-brand-white uppercase tracking-tight">
+          {t('heading')}
+        </h2>
+      )}
 
       {/* First + Last name row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
