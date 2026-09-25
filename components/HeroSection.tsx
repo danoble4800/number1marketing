@@ -50,7 +50,7 @@ export default function HeroSection({
           transition={{ duration: 0.5, delay: 0.8 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <Button href={`/${locale}/contact`} variant="primary" className="text-sm px-8 py-4">
+          <Button href={`/${locale}/audit`} variant="primary" className="text-sm px-8 py-4">
             {ctaPrimary}
           </Button>
           <Button href={`/${locale}/case-studies`} variant="ghost" className="text-sm px-8 py-4">

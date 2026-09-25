@@ -207,7 +207,7 @@ export default async function HomePage({
           <Heading as="h2" size="lg">{t('cta.heading')}</Heading>
           <p className="mt-4 text-brand-light1 max-w-xl mx-auto">{t('cta.subheading')}</p>
           <div className="mt-10">
-            <Button href={`/${locale}/contact`} variant="primary" className="text-sm px-10 py-4">
+            <Button href={`/${locale}/audit`} variant="primary" className="text-sm px-10 py-4">
               {t('cta.label')}
             </Button>
           </div>
