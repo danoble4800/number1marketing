@@ -44,7 +44,13 @@ const initialState: FormState = {
 
 const SERVICE_KEYS = ['simpleAI', 'professionalAI', 'webDesign', 'consulting'] as const;
 
-export default function ContactForm({ showHeading = true }: { showHeading?: boolean }) {
+interface ContactFormProps {
+  showHeading?: boolean;
+  /** Recorded in the leads sheet's "Lead Source" column */
+  source?: 'Audit Page' | 'Contact Page';
+}
+
+export default function ContactForm({ showHeading = true, source = 'Contact Page' }: ContactFormProps) {
   const t = useTranslations('contactForm');
   const [form, setForm] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -102,7 +108,7 @@ export default function ContactForm({ showHeading = true }: { showHeading?: bool
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, source }),
       });
       if (!res.ok) throw new Error('Server error');
       setStatus('success');
