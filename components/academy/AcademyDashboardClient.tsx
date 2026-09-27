@@ -4,10 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Lock, Award, Clock, LogOut } from 'lucide-react';
-
-const AUTH_KEY = 'academy_authed';
-const ROLE_KEY = 'academy_role';
-const NAME_KEY = 'academy_name';
+import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 
 type ModuleItem = { number: string; title: string; time: string };
 
@@ -18,24 +15,35 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
 
   const [authed, setAuthed] = useState<boolean | null>(null);
   const [studentName, setStudentName] = useState('');
+  const [completed, setCompleted] = useState<string[]>([]);
 
   useEffect(() => {
-    const isAuthed = sessionStorage.getItem(AUTH_KEY) === 'true';
-    const role = sessionStorage.getItem(ROLE_KEY);
-    if (!isAuthed || role !== 'student') {
-      router.replace(`/${locale}/academy/login?role=student`);
-    } else {
-      setStudentName(sessionStorage.getItem(NAME_KEY) || 'Student');
+    let cancelled = false;
+    (async () => {
+      const profile = await getCurrentProfile();
+      if (cancelled) return;
+      if (!profile) {
+        router.replace(`/${locale}/academy/login?role=student`);
+        return;
+      }
+      const { data } = await getSupabase()
+        .from('module_progress')
+        .select('module_number')
+        .eq('user_id', profile.id);
+      if (cancelled) return;
+      setCompleted((data ?? []).map((row) => row.module_number as string));
+      setStudentName(profile.full_name || profile.email);
       setAuthed(true);
-    }
+    })();
+    return () => { cancelled = true; };
   }, [locale, router]);
 
-  function handleLogout() {
-    sessionStorage.removeItem(AUTH_KEY);
-    sessionStorage.removeItem(ROLE_KEY);
-    sessionStorage.removeItem(NAME_KEY);
+  async function handleLogout() {
+    await getSupabase().auth.signOut();
     router.push(`/${locale}/academy`);
   }
+
+  const percent = modules.length ? Math.round((completed.length / modules.length) * 100) : 0;
 
   if (authed === null) {
     return <div className="min-h-screen bg-brand-near-black" />;
@@ -74,10 +82,10 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
             <span className="text-xs uppercase tracking-widest text-brand-mid">
               {t('dashboard.progressLabel')}
             </span>
-            <span className="text-xs text-brand-light2">{t('dashboard.progressValue')}</span>
+            <span className="text-xs text-brand-light2">{t('dashboard.progressValue', { percent })}</span>
           </div>
           <div className="h-2 bg-brand-dark2 w-full">
-            <div className="h-2 bg-brand-light2 w-0" />
+            <div className="h-2 bg-brand-light2" style={{ width: `${percent}%` }} />
           </div>
         </section>
 

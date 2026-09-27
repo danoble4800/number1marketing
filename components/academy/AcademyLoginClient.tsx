@@ -4,35 +4,10 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { GraduationCap, Shield, Eye, EyeOff } from 'lucide-react';
-
-const STUDENT_STORE_KEY = 'academy_students';
-const AUTH_KEY = 'academy_authed';
-const ROLE_KEY = 'academy_role';
-const NAME_KEY = 'academy_name';
+import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 
 type Tab = 'student' | 'admin';
-type StudentMode = 'login' | 'register';
-
-interface Student {
-  name: string;
-  email: string;
-  password: string;
-  joinedAt: string;
-}
-
-function getStudents(): Student[] {
-  try {
-    return JSON.parse(sessionStorage.getItem(STUDENT_STORE_KEY) || '[]');
-  } catch {
-    return [];
-  }
-}
-
-function saveStudent(s: Student) {
-  const students = getStudents();
-  students.push(s);
-  sessionStorage.setItem(STUDENT_STORE_KEY, JSON.stringify(students));
-}
+type Mode = 'login' | 'register' | 'forgot';
 
 function LoginInner({ locale }: { locale: string }) {
   const searchParams = useSearchParams();
@@ -41,7 +16,7 @@ function LoginInner({ locale }: { locale: string }) {
 
   const initialRole = (searchParams.get('role') as Tab) === 'admin' ? 'admin' : 'student';
   const [tab, setTab] = useState<Tab>(initialRole);
-  const [mode, setMode] = useState<StudentMode>('login');
+  const [mode, setMode] = useState<Mode>('login');
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -61,65 +36,73 @@ function LoginInner({ locale }: { locale: string }) {
     setSuccessMsg('');
   }
 
+  function fail(message: string) {
+    setError(message);
+    setLoading(false);
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
+    setSuccessMsg('');
     setLoading(true);
 
-    await new Promise((r) => setTimeout(r, 600)); // UX delay
+    const supabase = getSupabase();
+    const origin = window.location.origin;
 
-    if (tab === 'admin') {
-      const adminPass = process.env.NEXT_PUBLIC_ACADEMY_ADMIN_PASSWORD || '';
-      if (!adminPass || password !== adminPass) {
-        setError(t('adminError'));
-        setLoading(false);
-        return;
-      }
-      sessionStorage.setItem(AUTH_KEY, 'true');
-      sessionStorage.setItem(ROLE_KEY, 'admin');
-      sessionStorage.setItem(NAME_KEY, 'Admin');
-      router.push(`/${locale}/academy/admin`);
+    if (mode === 'forgot') {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: `${origin}/${locale}/academy/reset-password`,
+      });
+      if (resetError) return fail(t('genericError'));
+      setSuccessMsg(t('resetSent'));
+      setLoading(false);
       return;
     }
 
-    // Student
-    if (mode === 'login') {
-      const students = getStudents();
-      const found = students.find(
-        (s) => s.email.toLowerCase() === email.toLowerCase() && s.password === password
-      );
-      if (!found) {
-        setError(t('studentLoginError'));
-        setLoading(false);
-        return;
-      }
-      sessionStorage.setItem(AUTH_KEY, 'true');
-      sessionStorage.setItem(ROLE_KEY, 'student');
-      sessionStorage.setItem(NAME_KEY, found.name);
-      router.push(`/${locale}/academy/dashboard`);
-    } else {
-      // Register
-      const students = getStudents();
-      const exists = students.find((s) => s.email.toLowerCase() === email.toLowerCase());
-      if (exists) {
-        setError('An account with this email already exists. Please log in.');
-        setLoading(false);
-        return;
-      }
-      const newStudent: Student = {
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
+    if (mode === 'register') {
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email: email.trim(),
         password,
-        joinedAt: new Date().toISOString(),
-      };
-      saveStudent(newStudent);
+        options: {
+          data: { full_name: name.trim() },
+          emailRedirectTo: `${origin}/${locale}/academy/dashboard`,
+        },
+      });
+      if (signUpError) return fail(signUpError.message);
+      // Supabase hides whether an email is taken: an existing address comes back with no identities.
+      if (data.user && data.user.identities?.length === 0) return fail(t('emailExists'));
+      if (!data.session) {
+        setSuccessMsg(t('checkEmail'));
+        setLoading(false);
+        return;
+      }
       setSuccessMsg(t('registerSuccess'));
-      await new Promise((r) => setTimeout(r, 800));
-      sessionStorage.setItem(AUTH_KEY, 'true');
-      sessionStorage.setItem(ROLE_KEY, 'student');
-      sessionStorage.setItem(NAME_KEY, newStudent.name);
       router.push(`/${locale}/academy/dashboard`);
+      return;
     }
+
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+    if (signInError) {
+      if (signInError.message.toLowerCase().includes('not confirmed')) {
+        return fail(t('emailNotConfirmed'));
+      }
+      return fail(tab === 'admin' ? t('adminError') : t('studentLoginError'));
+    }
+
+    const profile = await getCurrentProfile();
+    if (tab === 'admin') {
+      if (profile?.role !== 'admin') {
+        await supabase.auth.signOut();
+        return fail(t('notAdmin'));
+      }
+      router.push(`/${locale}/academy/admin`);
+      return;
+    }
+    router.push(`/${locale}/academy/dashboard`);
   }
 
   return (
@@ -192,6 +175,7 @@ function LoginInner({ locale }: { locale: string }) {
           </div>
 
           {/* Password */}
+          {mode !== 'forgot' && (
           <div>
             <label className="block text-xs uppercase tracking-widest text-brand-mid mb-2">
               {t('passwordLabel')}
@@ -203,6 +187,7 @@ function LoginInner({ locale }: { locale: string }) {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t('passwordPlaceholder')}
                 required
+                minLength={mode === 'register' ? 6 : undefined}
                 className="w-full bg-brand-black border border-brand-dark2 text-brand-offwhite px-4 py-3 pr-11 text-sm placeholder:text-brand-mid focus:outline-none focus:border-brand-light1 transition-colors"
               />
               <button
@@ -213,7 +198,17 @@ function LoginInner({ locale }: { locale: string }) {
                 {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
+            {mode === 'login' && (
+              <button
+                type="button"
+                onClick={() => { setMode('forgot'); setSuccessMsg(''); }}
+                className="mt-2 text-xs text-brand-mid hover:text-brand-light2 underline transition-colors"
+              >
+                {t('forgotPassword')}
+              </button>
+            )}
           </div>
+          )}
 
           {/* Error */}
           {error && (
@@ -235,22 +230,30 @@ function LoginInner({ locale }: { locale: string }) {
             disabled={loading}
             className="w-full bg-brand-white text-brand-black text-xs font-semibold uppercase tracking-widest px-6 py-3 hover:bg-brand-offwhite transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading
-              ? tab === 'student' && mode === 'register'
-                ? t('registering')
-                : t('loggingIn')
-              : tab === 'student' && mode === 'register'
-              ? t('registerButton')
-              : t('loginButton')}
+            {mode === 'forgot'
+              ? loading ? t('sending') : t('sendReset')
+              : mode === 'register'
+              ? loading ? t('registering') : t('registerButton')
+              : loading ? t('loggingIn') : t('loginButton')}
           </button>
 
-          {/* Toggle login/register (students only) */}
-          {tab === 'student' && (
+          {mode === 'forgot' ? (
+            <p className="text-center text-xs text-brand-mid">
+              <button
+                type="button"
+                onClick={() => { setMode('login'); setSuccessMsg(''); }}
+                className="text-brand-light2 hover:text-brand-white underline transition-colors"
+              >
+                {t('backToLogin')}
+              </button>
+            </p>
+          ) : tab === 'student' && (
+            /* Toggle login/register (students only) */
             <p className="text-center text-xs text-brand-mid">
               {mode === 'login' ? t('noAccount') : t('hasAccount')}{' '}
               <button
                 type="button"
-                onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }}
+                onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setSuccessMsg(''); }}
                 className="text-brand-light2 hover:text-brand-white underline transition-colors"
               >
                 {mode === 'login' ? t('switchToRegister') : t('switchToLogin')}

@@ -470,14 +470,24 @@
       "hasAccount": "Already have an account?",
       "switchToRegister": "Create an account",
       "switchToLogin": "Log in instead",
-      "adminError": "Invalid admin credentials. Please try again.",
+      "adminError": "Invalid email or password. Please try again.",
       "studentLoginError": "No account found with those credentials.",
-      "registerSuccess": "Account created! Logging you in..."
+      "registerSuccess": "Account created! Logging you in...",
+      "forgotPassword": "Forgot password?",
+      "sendReset": "Send Reset Link",
+      "sending": "Sending...",
+      "resetSent": "If an account exists for that email, a reset link is on its way. Check your inbox.",
+      "backToLogin": "Back to log in",
+      "checkEmail": "Account created! Check your email and click the confirmation link to finish signing up.",
+      "emailExists": "An account with this email already exists. Please log in.",
+      "emailNotConfirmed": "Please confirm your email first — check your inbox for the confirmation link.",
+      "notAdmin": "This account does not have admin access.",
+      "genericError": "Something went wrong. Please try again."
     },
     "dashboard": {
       "heading": "WELCOME BACK",
       "progressLabel": "Overall Progress",
-      "progressValue": "0% Complete",
+      "progressValue": "{percent}% Complete",
       "modulesHeading": "YOUR MODULES",
       "certificateHeading": "YOUR CERTIFICATE",
       "certificateLocked": "Complete all 6 modules and pass the final assessment to unlock your AI Marketing Certificate.",
@@ -511,6 +521,16 @@
         "publish": "Publish"
       },
       "logout": "Log Out"
+    },
+    "reset": {
+      "heading": "RESET PASSWORD",
+      "checking": "Checking your reset link...",
+      "invalidLink": "This reset link is invalid or has expired. Request a new one from the login page.",
+      "backToLogin": "Back to log in",
+      "newPasswordLabel": "New Password",
+      "updateButton": "Update Password",
+      "updating": "Updating...",
+      "updated": "Password updated! Signing you in..."
     }
   },
   "audit": {

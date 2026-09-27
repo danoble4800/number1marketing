@@ -4,19 +4,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Users, Activity, Award, LogOut, Edit, Upload } from 'lucide-react';
-
-const AUTH_KEY = 'academy_authed';
-const ROLE_KEY = 'academy_role';
-const NAME_KEY = 'academy_name';
-const STUDENT_STORE_KEY = 'academy_students';
+import { getSupabase, getCurrentProfile, type Profile } from '@/lib/supabase';
 
 type ModuleItem = { number: string; title: string; time: string };
+type ProgressRow = { user_id: string; module_number: string; completed_at: string };
 
-interface Student {
-  name: string;
-  email: string;
-  joinedAt: string;
-}
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 export default function AcademyAdminClient({ locale }: { locale: string }) {
   const router = useRouter();
@@ -24,30 +17,51 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
   const modules = t.raw('modules.items') as ModuleItem[];
 
   const [authed, setAuthed] = useState<boolean | null>(null);
-  const [students, setStudents] = useState<Student[]>([]);
+  const [students, setStudents] = useState<Profile[]>([]);
+  const [progress, setProgress] = useState<ProgressRow[]>([]);
 
   useEffect(() => {
-    const isAuthed = sessionStorage.getItem(AUTH_KEY) === 'true';
-    const role = sessionStorage.getItem(ROLE_KEY);
-    if (!isAuthed || role !== 'admin') {
-      router.replace(`/${locale}/academy/login?role=admin`);
-    } else {
-      try {
-        const raw = JSON.parse(sessionStorage.getItem(STUDENT_STORE_KEY) || '[]') as Student[];
-        setStudents(raw);
-      } catch {
-        setStudents([]);
+    let cancelled = false;
+    (async () => {
+      const profile = await getCurrentProfile();
+      if (cancelled) return;
+      if (profile?.role !== 'admin') {
+        router.replace(`/${locale}/academy/login?role=admin`);
+        return;
       }
+      // Row level security only returns every profile to admins.
+      const supabase = getSupabase();
+      const [profilesRes, progressRes] = await Promise.all([
+        supabase
+          .from('profiles')
+          .select('id, email, full_name, role, created_at')
+          .eq('role', 'student')
+          .order('created_at', { ascending: false }),
+        supabase.from('module_progress').select('user_id, module_number, completed_at'),
+      ]);
+      if (cancelled) return;
+      setStudents((profilesRes.data as Profile[]) ?? []);
+      setProgress((progressRes.data as ProgressRow[]) ?? []);
       setAuthed(true);
-    }
+    })();
+    return () => { cancelled = true; };
   }, [locale, router]);
 
-  function handleLogout() {
-    sessionStorage.removeItem(AUTH_KEY);
-    sessionStorage.removeItem(ROLE_KEY);
-    sessionStorage.removeItem(NAME_KEY);
+  async function handleLogout() {
+    await getSupabase().auth.signOut();
     router.push(`/${locale}/academy`);
   }
+
+  const completedCount = (userId: string) =>
+    progress.filter((row) => row.user_id === userId).length;
+  const percentFor = (userId: string) =>
+    modules.length ? Math.round((completedCount(userId) / modules.length) * 100) : 0;
+  const activeThisWeek = new Set(
+    progress
+      .filter((row) => Date.now() - new Date(row.completed_at).getTime() < WEEK_MS)
+      .map((row) => row.user_id)
+  ).size;
+  const finished = students.filter((s) => completedCount(s.id) >= modules.length).length;
 
   if (authed === null) {
     return <div className="min-h-screen bg-brand-near-black" />;
@@ -55,8 +69,8 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
 
   const stats = [
     { label: t('admin.stats.totalStudents'), value: students.length, icon: Users },
-    { label: t('admin.stats.activeThisWeek'), value: 0, icon: Activity },
-    { label: t('admin.stats.certificatesIssued'), value: 0, icon: Award },
+    { label: t('admin.stats.activeThisWeek'), value: activeThisWeek, icon: Activity },
+    { label: t('admin.stats.certificatesIssued'), value: finished, icon: Award },
   ];
 
   return (
@@ -146,16 +160,16 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {students.map((s, i) => (
-                      <tr key={i} className="border-b border-brand-dark2 last:border-0">
-                        <td className="px-6 py-4 text-brand-offwhite">{s.name}</td>
+                    {students.map((s) => (
+                      <tr key={s.id} className="border-b border-brand-dark2 last:border-0">
+                        <td className="px-6 py-4 text-brand-offwhite">{s.full_name || '—'}</td>
                         <td className="px-6 py-4 text-brand-light1">{s.email}</td>
                         <td className="px-6 py-4 text-brand-light1">
-                          {new Date(s.joinedAt).toLocaleDateString()}
+                          {new Date(s.created_at).toLocaleDateString()}
                         </td>
                         <td className="px-6 py-4">
                           <span className="text-xs uppercase tracking-widest text-brand-mid border border-brand-dark2 px-2 py-0.5">
-                            0%
+                            {percentFor(s.id)}%
                           </span>
                         </td>
                       </tr>

@@ -471,14 +471,24 @@
       "hasAccount": "Já tem uma conta?",
       "switchToRegister": "Criar uma conta",
       "switchToLogin": "Entrar com conta existente",
-      "adminError": "Credenciais de administrador inválidas. Tente novamente.",
+      "adminError": "E-mail ou senha inválidos. Tente novamente.",
       "studentLoginError": "Nenhuma conta encontrada com essas credenciais.",
-      "registerSuccess": "Conta criada! Entrando..."
+      "registerSuccess": "Conta criada! Entrando...",
+      "forgotPassword": "Esqueceu a senha?",
+      "sendReset": "Enviar link",
+      "sending": "Enviando...",
+      "resetSent": "Se existir uma conta com esse e-mail, enviamos um link para redefinir a senha. Verifique sua caixa de entrada.",
+      "backToLogin": "Voltar ao login",
+      "checkEmail": "Conta criada! Verifique seu e-mail e clique no link de confirmação para concluir o cadastro.",
+      "emailExists": "Já existe uma conta com este e-mail. Faça login.",
+      "emailNotConfirmed": "Confirme seu e-mail primeiro — verifique sua caixa de entrada.",
+      "notAdmin": "Esta conta não tem acesso de administrador.",
+      "genericError": "Algo deu errado. Tente novamente."
     },
     "dashboard": {
       "heading": "BEM-VINDO DE VOLTA",
       "progressLabel": "Progresso Geral",
-      "progressValue": "0% Concluído",
+      "progressValue": "{percent}% Concluído",
       "modulesHeading": "SEUS MÓDULOS",
       "certificateHeading": "SEU CERTIFICADO",
       "certificateLocked": "Conclua todos os 6 módulos e passe na avaliação final para desbloquear seu Certificado de Marketing com IA.",
@@ -512,6 +522,16 @@
         "publish": "Publicar"
       },
       "logout": "Sair"
+    },
+    "reset": {
+      "heading": "REDEFINIR SENHA",
+      "checking": "Verificando seu link...",
+      "invalidLink": "Este link é inválido ou expirou. Solicite um novo na página de login.",
+      "backToLogin": "Voltar ao login",
+      "newPasswordLabel": "Nova senha",
+      "updateButton": "Atualizar senha",
+      "updating": "Atualizando...",
+      "updated": "Senha atualizada! Entrando..."
     }
   },
   "audit": {
