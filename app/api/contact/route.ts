@@ -1,5 +1,6 @@
 import { google } from 'googleapis';
 import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 // Prefix values that start with + or = so Google Sheets won't treat them as formulas
 function safeCell(val: string): string {
@@ -21,6 +22,75 @@ const SERVICE_LABELS: Record<string, string> = {
 };
 
 const LEAD_SOURCES = ['Audit Page', 'Contact Page'];
+
+interface Lead {
+  firstName: string;
+  lastName: string;
+  businessName: string;
+  industry: string;
+  location: string;
+  phone: string;
+  email: string;
+  services: string;
+  source: string;
+}
+
+function escapeHtml(val: string): string {
+  return val.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+}
+
+// Emails the owner the moment a lead comes in. Skipped unless RESEND_API_KEY and
+// LEAD_ALERT_EMAIL are set; failures are logged but never fail the form submission.
+async function sendLeadAlert(lead: Lead) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const to = process.env.LEAD_ALERT_EMAIL;
+  if (!apiKey || !to) return;
+
+  const from = process.env.LEAD_ALERT_FROM || 'Number 1 Leads <onboarding@resend.dev>';
+  const sheetUrl = `https://docs.google.com/spreadsheets/d/${process.env.GOOGLE_SHEET_ID}/edit`;
+  const name = `${lead.firstName} ${lead.lastName}`.trim();
+  const tel = lead.phone.replace(/[^\d+]/g, '');
+  const e = escapeHtml;
+  const row = (label: string, value: string) =>
+    `<tr><td style="padding:6px 12px 6px 0;color:#6b6b6b;white-space:nowrap;vertical-align:top">${label}</td><td style="padding:6px 0;color:#111">${value}</td></tr>`;
+
+  const html = `
+<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:520px">
+  <h2 style="margin:0 0 4px">New lead: ${e(lead.businessName)}</h2>
+  <p style="margin:0 0 16px;color:#6b6b6b">${e(lead.industry)} · ${e(lead.location)} · via ${e(lead.source)}</p>
+  <table style="border-collapse:collapse;font-size:15px">
+    ${row('Name', e(name))}
+    ${row('Phone', `<a href="tel:${e(tel)}">${e(lead.phone)}</a>`)}
+    ${row('Email', `<a href="mailto:${e(lead.email)}">${e(lead.email)}</a>`)}
+    ${row('Business', e(lead.businessName))}
+    ${row('Industry', e(lead.industry))}
+    ${row('Location', e(lead.location))}
+    ${row('Services', e(lead.services) || '—')}
+    ${row('Source', e(lead.source))}
+  </table>
+  <p style="margin:20px 0 0"><a href="${sheetUrl}" style="background:#0e0e10;color:#fff;padding:10px 16px;text-decoration:none;font-weight:600">Open Leads Sheet</a></p>
+</div>`;
+
+  const text = [
+    `New lead: ${lead.businessName} (${lead.industry}, ${lead.location}) via ${lead.source}`,
+    `Name: ${name}`, `Phone: ${lead.phone}`, `Email: ${lead.email}`, `Services: ${lead.services || '—'}`,
+    `Leads sheet: ${sheetUrl}`,
+  ].join('\n');
+
+  try {
+    const { error } = await new Resend(apiKey).emails.send({
+      from,
+      to,
+      replyTo: lead.email,
+      subject: `🔥 New lead: ${lead.businessName} — ${lead.industry}, ${lead.location}`,
+      html,
+      text,
+    });
+    if (error) console.error('Lead alert email error:', error);
+  } catch (err) {
+    console.error('Lead alert email error:', err);
+  }
+}
 
 async function appendToSheet(values: string[]) {
   const auth = new google.auth.GoogleAuth({
@@ -73,6 +143,18 @@ export async function POST(req: NextRequest) {
       leadSource,
       consent ? 'Yes' : 'No',
     ]);
+
+    await sendLeadAlert({
+      firstName: String(firstName),
+      lastName: String(lastName),
+      businessName: String(businessName ?? ''),
+      industry: String(industry ?? ''),
+      location: String(location ?? ''),
+      phone: String(phone),
+      email: String(email),
+      services: servicesList,
+      source: leadSource,
+    });
 
     return NextResponse.json({ success: true });
   } catch (err) {
