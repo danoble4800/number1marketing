@@ -44,7 +44,10 @@ function escapeHtml(val: string): string {
 async function sendLeadAlert(lead: Lead) {
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.LEAD_ALERT_EMAIL;
-  if (!apiKey || !to) return;
+  if (!apiKey || !to) {
+    console.warn(`Lead alert email skipped: ${!apiKey ? 'RESEND_API_KEY' : 'LEAD_ALERT_EMAIL'} is not set`);
+    return;
+  }
 
   const from = process.env.LEAD_ALERT_FROM || 'Number 1 Leads <onboarding@resend.dev>';
   const sheetUrl = `https://docs.google.com/spreadsheets/d/${process.env.GOOGLE_SHEET_ID}/edit`;
@@ -78,7 +81,7 @@ async function sendLeadAlert(lead: Lead) {
   ].join('\n');
 
   try {
-    const { error } = await new Resend(apiKey).emails.send({
+    const { data, error } = await new Resend(apiKey).emails.send({
       from,
       to,
       replyTo: lead.email,
@@ -87,6 +90,7 @@ async function sendLeadAlert(lead: Lead) {
       text,
     });
     if (error) console.error('Lead alert email error:', error);
+    else console.log('Lead alert email sent:', data?.id);
   } catch (err) {
     console.error('Lead alert email error:', err);
   }
