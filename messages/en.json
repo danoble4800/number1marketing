@@ -335,6 +335,12 @@
     "phonePlaceholder": "+1 (555) 000-0000",
     "email": "Email",
     "emailPlaceholder": "alex@company.com",
+    "businessName": "Business Name",
+    "businessNamePlaceholder": "Acme Roofing Co.",
+    "industry": "Business Type / Industry",
+    "industryPlaceholder": "e.g. Roofing, Med Spa, Real Estate",
+    "location": "Location",
+    "locationPlaceholder": "City, State or full address",
     "services": "Services You're Interested In",
     "servicesOptions": {
       "simpleAI": "Starter Growth System",
@@ -354,7 +360,10 @@
       "emailRequired": "Email is required",
       "emailInvalid": "Please enter a valid email address",
       "servicesRequired": "Please select at least one service",
-      "consentRequired": "Please confirm your consent to continue"
+      "consentRequired": "Please confirm your consent to continue",
+      "businessNameRequired": "Business name is required",
+      "industryRequired": "Business type / industry is required",
+      "locationRequired": "Location is required"
     }
   },
   "localeSwitcher": {

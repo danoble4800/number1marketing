@@ -11,6 +11,9 @@ interface FormState {
   lastName: string;
   phone: string;
   email: string;
+  businessName: string;
+  industry: string;
+  location: string;
   services: string[];
   consent: boolean;
 }
@@ -20,6 +23,9 @@ interface FormErrors {
   lastName?: string;
   phone?: string;
   email?: string;
+  businessName?: string;
+  industry?: string;
+  location?: string;
   services?: string;
   consent?: string;
 }
@@ -29,6 +35,9 @@ const initialState: FormState = {
   lastName: '',
   phone: '',
   email: '',
+  businessName: '',
+  industry: '',
+  location: '',
   services: [],
   consent: false,
 };
@@ -51,6 +60,9 @@ export default function ContactForm({ showHeading = true }: { showHeading?: bool
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       e.email = t('validation.emailInvalid');
     }
+    if (!form.businessName.trim()) e.businessName = t('validation.businessNameRequired');
+    if (!form.industry.trim()) e.industry = t('validation.industryRequired');
+    if (!form.location.trim()) e.location = t('validation.locationRequired');
     if (form.services.length === 0) e.services = t('validation.servicesRequired');
     if (!form.consent) e.consent = t('validation.consentRequired');
     return e;
@@ -190,6 +202,55 @@ export default function ContactForm({ showHeading = true }: { showHeading?: bool
           className={inputClass(errors.email)}
         />
         {errors.email && <p className="mt-1 text-xs text-brand-light1">{errors.email}</p>}
+      </div>
+
+      {/* Business details */}
+      <div>
+        <label className={labelClass}>
+          {t('businessName')} <span className="text-brand-light1">*</span>
+        </label>
+        <input
+          type="text"
+          name="businessName"
+          autoComplete="organization"
+          value={form.businessName}
+          onChange={handleText}
+          placeholder={t('businessNamePlaceholder')}
+          className={inputClass(errors.businessName)}
+        />
+        {errors.businessName && <p className="mt-1 text-xs text-brand-light1">{errors.businessName}</p>}
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className={labelClass}>
+            {t('industry')} <span className="text-brand-light1">*</span>
+          </label>
+          <input
+            type="text"
+            name="industry"
+            autoComplete="off"
+            value={form.industry}
+            onChange={handleText}
+            placeholder={t('industryPlaceholder')}
+            className={inputClass(errors.industry)}
+          />
+          {errors.industry && <p className="mt-1 text-xs text-brand-light1">{errors.industry}</p>}
+        </div>
+        <div>
+          <label className={labelClass}>
+            {t('location')} <span className="text-brand-light1">*</span>
+          </label>
+          <input
+            type="text"
+            name="location"
+            autoComplete="address-level2"
+            value={form.location}
+            onChange={handleText}
+            placeholder={t('locationPlaceholder')}
+            className={inputClass(errors.location)}
+          />
+          {errors.location && <p className="mt-1 text-xs text-brand-light1">{errors.location}</p>}
+        </div>
       </div>
 
       {/* Services checkboxes */}

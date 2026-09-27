@@ -336,6 +336,12 @@
     "phonePlaceholder": "+1 (555) 000-0000",
     "email": "Correo Electrónico",
     "emailPlaceholder": "alex@empresa.com",
+    "businessName": "Nombre del Negocio",
+    "businessNamePlaceholder": "Techos Acme",
+    "industry": "Tipo de Negocio / Industria",
+    "industryPlaceholder": "ej. Techos, Med Spa, Bienes Raíces",
+    "location": "Ubicación",
+    "locationPlaceholder": "Ciudad, Estado o dirección completa",
     "services": "Servicios de tu interés",
     "servicesOptions": {
       "simpleAI": "Sistema de Crecimiento Inicial",
@@ -355,7 +361,10 @@
       "emailRequired": "El correo es requerido",
       "emailInvalid": "Por favor ingresa un correo válido",
       "servicesRequired": "Selecciona al menos un servicio",
-      "consentRequired": "Por favor confirma tu consentimiento para continuar"
+      "consentRequired": "Por favor confirma tu consentimiento para continuar",
+      "businessNameRequired": "El nombre del negocio es obligatorio",
+      "industryRequired": "El tipo de negocio / industria es obligatorio",
+      "locationRequired": "La ubicación es obligatoria"
     }
   },
   "localeSwitcher": {

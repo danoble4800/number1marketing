@@ -1,6 +1,13 @@
 import { google } from 'googleapis';
 import { NextRequest, NextResponse } from 'next/server';
 
+// Prefix values that start with + or = so Google Sheets won't treat them as formulas
+function safeCell(val: string): string {
+  return val && (val.startsWith('+') || val.startsWith('=') || val.startsWith('-'))
+    ? `'${val}`
+    : val;
+}
+
 async function appendToSheet(values: string[]) {
   const auth = new google.auth.GoogleAuth({
     credentials: {
@@ -14,7 +21,7 @@ async function appendToSheet(values: string[]) {
 
   await sheets.spreadsheets.values.append({
     spreadsheetId: process.env.GOOGLE_SHEET_ID,
-    range: 'Sheet1!A:G',
+    range: 'Sheet1!A:J',
     valueInputOption: 'USER_ENTERED',
     requestBody: {
       values: [values],
@@ -25,7 +32,7 @@ async function appendToSheet(values: string[]) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { firstName, lastName, phone, email, services, consent } = body;
+    const { firstName, lastName, phone, email, businessName, industry, location, services, consent } = body;
 
     if (!firstName || !lastName || !phone || !email) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -35,13 +42,16 @@ export async function POST(req: NextRequest) {
     const submittedAt = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
 
     await appendToSheet([
-      firstName,
-      lastName,
-      phone,
-      email,
+      safeCell(firstName),
+      safeCell(lastName),
+      safeCell(phone),
+      safeCell(email),
       servicesList,
       consent ? 'Yes' : 'No',
       submittedAt,
+      safeCell(businessName ?? ''),
+      safeCell(industry ?? ''),
+      safeCell(location ?? ''),
     ]);
 
     return NextResponse.json({ success: true });

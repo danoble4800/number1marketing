@@ -336,6 +336,12 @@
     "phonePlaceholder": "+55 (11) 90000-0000",
     "email": "E-mail",
     "emailPlaceholder": "alex@empresa.com.br",
+    "businessName": "Nome da Empresa",
+    "businessNamePlaceholder": "Telhados Acme",
+    "industry": "Tipo de Negócio / Setor",
+    "industryPlaceholder": "ex. Telhados, Med Spa, Imóveis",
+    "location": "Localização",
+    "locationPlaceholder": "Cidade, Estado ou endereço completo",
     "services": "Serviços de seu interesse",
     "servicesOptions": {
       "simpleAI": "Sistema de Crescimento Inicial",
@@ -355,7 +361,10 @@
       "emailRequired": "E-mail é obrigatório",
       "emailInvalid": "Por favor, insira um e-mail válido",
       "servicesRequired": "Selecione pelo menos um serviço",
-      "consentRequired": "Por favor, confirme seu consentimento para continuar"
+      "consentRequired": "Por favor, confirme seu consentimento para continuar",
+      "businessNameRequired": "O nome da empresa é obrigatório",
+      "industryRequired": "O tipo de negócio / setor é obrigatório",
+      "locationRequired": "A localização é obrigatória"
     }
   },
   "localeSwitcher": {
