@@ -11,6 +11,7 @@ const PHONE = '781-985-0916';
 type Bucket = 'new' | 'contacted' | 'audit' | 'client' | 'closed';
 type Filter = 'due' | 'new' | 'open' | 'client' | 'contacted' | 'audit' | 'closed' | 'all';
 type Changes = Partial<Pick<Lead, 'status' | 'lastContacted' | 'contactedVia' | 'nextFollowUp' | 'notes'>>;
+type Save = (lead: Lead, changes: Changes, logEntry?: string) => Promise<boolean>;
 type Api = (method: 'GET' | 'PATCH' | 'POST', body?: unknown) => Promise<Record<string, unknown>>;
 
 const BUCKETS: Record<string, Bucket> = {
@@ -101,24 +102,55 @@ function smsHref(phone: string, body: string) {
   return `sms:${phoneForLink(phone)}${apple ? '&' : '?'}body=${encodeURIComponent(body)}`;
 }
 
-function textTemplate(l: Lead) {
+type Template = { id: string; label: string; body: string };
+
+// Messages for each stage of a lead. Messages written for a specific lead (the Custom
+// Text / Nudge / Email columns of the in-person tracker) replace the standard ones.
+function templates(l: Lead): Template[] {
   const who = tidy(l.name.split(/\s+/)[0] || '') || 'there';
   const biz = l.business ? tidy(l.business) : '';
-  if (l.source === 'client') {
-    return `Hi ${who}, it's Dan from Number 1 Digital Marketing. Just checking in. How is everything going on your end?`;
+  const first = l.source === 'website'
+    ? `Hi ${who}, it's Dan from Number 1 Digital Marketing. Thanks for requesting a free audit${biz ? ` for ${biz}` : ''}. It takes about 30 minutes, and you keep the list of fixes either way. What day and time work for you this week?`
+    : `Hi ${who}, it's Dan from Number 1 Digital Marketing. ${l.source === 'inperson' && biz ? `We met at ${biz} recently. ` : ''}I'd love to set up your free 30-minute audit. We look at your Google profile, reviews and website, and you keep the list of fixes either way. What day and time work for you?`;
+  const list: Template[] = [
+    { id: 'first', label: 'First message', body: l.custom.text || first },
+    { id: 'nudge', label: 'Second nudge', body: l.custom.nudge || `Hi ${who}, Dan from Number 1 again. Just bumping this in case it got buried. Happy to do ${biz ? `${biz}'s` : 'your'} free audit whenever works, even next week.` },
+    { id: 'reminder', label: 'Audit reminder', body: `Hi ${who}, it's Dan from Number 1 Digital Marketing. Just confirming your free audit${biz ? ` for ${biz}` : ''}. Does the time we set still work? If not, send me a better day and time.` },
+    { id: 'thanks', label: 'Thanks after the audit', body: `Hi ${who}, thanks again for making time for the audit. I'll send over the list of fixes we talked about. Happy to walk you through any of it, or take it off your plate.` },
+    { id: 'checkin', label: 'Check-in', body: l.source === 'client'
+      ? `Hi ${who}, it's Dan from Number 1 Digital Marketing. Just checking in. How is everything going on your end?`
+      : `Hi ${who}, it's Dan from Number 1 Digital Marketing. Just checking in to see how things are going${biz ? ` at ${biz}` : ''}. If you ever want a fresh look at your Google profile or website, I'm happy to help.` },
+  ];
+  if (l.custom.email) list.splice(1, 0, { id: 'email', label: 'Email draft', body: l.custom.email });
+  return list;
+}
+
+// Which message fits where the lead is right now.
+function defaultTemplate(l: Lead): string {
+  if (l.source === 'client') return 'checkin';
+  switch (l.status) {
+    case 'New': return l.custom.email && !l.phone ? 'email' : 'first';
+    case 'Contacted':
+    case 'Replied': return 'nudge';
+    case 'Audit Booked': return 'reminder';
+    case 'Audit Done': return 'thanks';
+    default: return 'checkin';
   }
-  if (l.source === 'website') {
-    return `Hi ${who}, it's Dan from Number 1 Digital Marketing. Thanks for requesting a free audit${biz ? ` for ${biz}` : ''}. It takes about 30 minutes, and you keep the list of fixes either way. What day and time work for you this week?`;
-  }
-  return `Hi ${who}, it's Dan from Number 1 Digital Marketing. ${l.source === 'inperson' && biz ? `We met at ${biz} recently. ` : ''}I'd love to set up your free 30-minute audit. We look at your Google profile, reviews and website, and you keep the list of fixes either way. What day and time work for you?`;
 }
 
 function emailHref(l: Lead, body: string) {
   const subject = l.source === 'client'
     ? 'Checking in from Number 1'
     : `Your free 30-minute audit${l.business ? ` for ${tidy(l.business)}` : ''}`;
-  const signed = `${body}\n\nThanks,\nDan\nNumber 1 Digital Marketing\n${PHONE} · number1digitalmarketing.com`;
+  // Drafts written for a lead already end with a signature.
+  const signed = body.includes(PHONE) ? body : `${body}\n\nThanks,\nDan\nNumber 1 Digital Marketing\n${PHONE} · number1digitalmarketing.com`;
   return `mailto:${l.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(signed)}`;
+}
+
+// "2026-09-28 · Text (first message)" → ["Mon 9/28", "Text (first message)"]
+function historyLine(line: string): [string, string] {
+  const m = line.match(/^(\d{4}-\d{2}-\d{2})\s*·\s*(.*)$/);
+  return m ? [showDate(m[1]), m[2]] : ['', line];
 }
 
 // Short note on the right of a row. The group heading already says "Today", so today's rows skip it.
@@ -162,12 +194,20 @@ function LeadPanel({
 }: {
   lead: Lead;
   contactMethods: string[];
-  onSave: (lead: Lead, changes: Changes) => Promise<boolean>;
+  onSave: Save;
   desktop: boolean;
 }) {
   const editable = lead.source !== 'client';
   const id = (name: string) => `${name}-${lead.key}`;
-  const [message, setMessage] = useState(() => textTemplate(lead));
+  const options = templates(lead);
+  const [templateId, setTemplateId] = useState(() => defaultTemplate(lead));
+  const [message, setMessage] = useState(() => options.find((t) => t.id === templateId)?.body ?? '');
+  const template = options.find((t) => t.id === templateId) ?? options[0];
+  const pickTemplate = (id: string) => {
+    setTemplateId(id);
+    setMessage(options.find((t) => t.id === id)?.body ?? '');
+  };
+  const [showAllHistory, setShowAllHistory] = useState(false);
   const [via, setVia] = useState(lead.phone ? 'Text' : 'Email');
   const [draft, setDraft] = useState({ status: lead.status, nextFollowUp: lead.nextFollowUp, notes: lead.notes });
   const [saving, setSaving] = useState(false);
@@ -178,9 +218,9 @@ function LeadPanel({
 
   const dirty = draft.status !== lead.status || draft.nextFollowUp !== lead.nextFollowUp || draft.notes !== lead.notes;
 
-  const save = async (changes: Changes) => {
+  const save = async (changes: Changes, logEntry?: string) => {
     setSaving(true);
-    await onSave(lead, changes);
+    await onSave(lead, changes, logEntry);
     setSaving(false);
   };
 
@@ -189,7 +229,7 @@ function LeadPanel({
     if (draft.status !== lead.status) changes.status = draft.status;
     if (draft.nextFollowUp !== lead.nextFollowUp) changes.nextFollowUp = draft.nextFollowUp;
     if (draft.notes !== lead.notes) changes.notes = draft.notes;
-    save(changes);
+    save(changes, changes.status ? `Status: ${lead.status} → ${changes.status}` : undefined);
   };
 
   const markContacted = () => {
@@ -197,7 +237,7 @@ function LeadPanel({
     if (lead.status === 'New') changes.status = 'Contacted';
     // Leave the follow-up date alone if one is already set for later; otherwise nudge in 3 days.
     if (!lead.nextFollowUp || lead.nextFollowUp <= today()) changes.nextFollowUp = addDays(today(), 3);
-    save(changes);
+    save(changes, `${via} (${template.label.toLowerCase()})`);
   };
 
   const hasContact = !!(lead.phone || lead.email);
@@ -247,8 +287,19 @@ function LeadPanel({
       {hasContact && (
         <div className="flex flex-col gap-3">
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label htmlFor={id('msg')} className={labelClass.replace(' mb-1.5', '')}>Message</label>
+            <div className="flex items-center justify-between gap-3 mb-1.5">
+              <div className="flex items-center gap-2 min-w-0">
+                <label htmlFor={id('msg')} className={labelClass.replace(' mb-1.5', '')}>Message</label>
+                <label htmlFor={id('tpl')} className="sr-only">Which message</label>
+                <select
+                  id={id('tpl')}
+                  value={templateId}
+                  onChange={(e) => pickTemplate(e.target.value)}
+                  className="bg-transparent text-xs text-brand-offwhite border-b border-brand-dark2 focus:outline-none focus:border-brand-light2 py-0.5 min-w-0"
+                >
+                  {options.map((t) => <option key={t.id} value={t.id} className="bg-brand-dark1">{t.label}</option>)}
+                </select>
+              </div>
               <button
                 type="button"
                 onClick={() => navigator.clipboard?.writeText(message)}
@@ -261,9 +312,14 @@ function LeadPanel({
               id={id('msg')}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              rows={5}
+              rows={templateId === 'email' ? 10 : 5}
               className={`${inputClass} leading-relaxed resize-y`}
             />
+            {templateId === 'email' && lead.custom.attach && (
+              <p className="mt-1.5 text-xs text-amber-300">
+                Attach {lead.custom.attach} (Desktop › Number1 Follow-ups › pdf).
+              </p>
+            )}
           </div>
           {desktop && <div className="flex flex-wrap gap-2">{contactButtons}</div>}
         </div>
@@ -287,6 +343,26 @@ function LeadPanel({
               </button>
             )}
           </div>
+          {lead.history.length > 0 && (
+            <ol className="flex flex-col gap-1 border-t border-brand-dark2 pt-3 text-sm" aria-label="Contact history">
+              {[...lead.history].reverse().slice(0, showAllHistory ? undefined : 4).map((line, i) => {
+                const [when, what] = historyLine(line);
+                return (
+                  <li key={i} className="flex gap-3">
+                    <span className="w-20 flex-shrink-0 text-brand-mid tabular-nums">{when}</span>
+                    <span className="text-brand-light2">{what}</span>
+                  </li>
+                );
+              })}
+              {lead.history.length > 4 && (
+                <li>
+                  <button type="button" onClick={() => setShowAllHistory(!showAllHistory)} className="text-xs text-brand-light1 hover:text-brand-white underline underline-offset-4">
+                    {showAllHistory ? 'Show less' : `Show all ${lead.history.length}`}
+                  </button>
+                </li>
+              )}
+            </ol>
+          )}
           <p className="text-xs text-brand-mid">
             Mark contacted sets today’s date{lead.status === 'New' ? ', moves the status to Contacted,' : ''} and schedules a follow-up in 3 days unless a later one is already set.
           </p>
@@ -559,12 +635,13 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
     if (!loading && filter === 'due' && dueCount === 0) setFilter('open');
   }, [loading, dueCount]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const save = async (lead: Lead, changes: Changes) => {
-    if (!Object.keys(changes).length) return true;
+  const save: Save = async (lead, changes, logEntry) => {
+    if (!Object.keys(changes).length && !logEntry) return true;
     try {
-      await api('PATCH', { source: lead.source, row: lead.row, check: lead.check, changes });
+      const json = await api('PATCH', { source: lead.source, row: lead.row, check: lead.check, changes, logEntry });
+      const history = (json.history as string[] | undefined) ?? lead.history;
       setLeads((all) => all.map((l) => (l.key === lead.key
-        ? { ...l, ...changes, followUpText: changes.nextFollowUp !== undefined ? '' : l.followUpText }
+        ? { ...l, ...changes, history, followUpText: changes.nextFollowUp !== undefined ? '' : l.followUpText }
         : l)));
       setNotice({ text: 'Saved to the sheet' });
       return true;

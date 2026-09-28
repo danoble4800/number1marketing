@@ -2,8 +2,8 @@ import type { sheets_v4 } from 'googleapis';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
 import {
-  COLS, CONTACT_METHODS, MANUAL_SOURCES, MANUAL_TAB, STATUSES, TABS,
-  getSheets, loadLeads, nowInNewYork, safeCell, spreadsheetId,
+  COLS, CONTACT_METHODS, HISTORY_COL, MANUAL_SOURCES, MANUAL_TAB, STATUSES, TABS,
+  getSheets, loadLeads, nowInNewYork, safeCell, spreadsheetId, todayInNewYork,
   type Field, type Source,
 } from '@/lib/crmSheets';
 
@@ -67,7 +67,7 @@ export async function PATCH(req: NextRequest) {
   if (denied) return denied;
 
   try {
-    const { source: rawSource, row, check, changes } = await req.json();
+    const { source: rawSource, row, check, changes, logEntry } = await req.json();
     if (!Object.hasOwn(TABS, String(rawSource))) {
       return NextResponse.json({ error: 'This record is read-only' }, { status: 400 });
     }
@@ -97,22 +97,35 @@ export async function PATCH(req: NextRequest) {
       }
       data.push({ range: `'${tab}'!${col}${row}`, values: [[field === 'notes' ? safeCell(value) : value]] });
     }
-    if (!data.length) return NextResponse.json({ ok: true });
+    const entry = typeof logEntry === 'string' ? logEntry.trim().slice(0, 200) : '';
+    if (!data.length && !entry) return NextResponse.json({ ok: true });
 
     // Someone may have sorted or edited the sheet since the page loaded. Only write
     // if the row still holds the same lead.
     const sheets = getSheets();
     const id = spreadsheetId(source);
-    const current = await sheets.spreadsheets.values.get({ spreadsheetId: id, range: `'${tab}'!A${row}` });
-    if (String(current.data.values?.[0]?.[0] ?? '').trim() !== check) {
+    const histCol = HISTORY_COL[source];
+    const current = await sheets.spreadsheets.values.batchGet({
+      spreadsheetId: id, ranges: [`'${tab}'!A${row}`, `'${tab}'!${histCol}${row}`],
+    });
+    const [checkRange, historyRange] = current.data.valueRanges ?? [];
+    if (String(checkRange?.values?.[0]?.[0] ?? '').trim() !== check) {
       return NextResponse.json({ error: 'The sheet changed since this page loaded. Refresh and try again.' }, { status: 409 });
+    }
+
+    // Contact history: one dated line per entry, appended to what's already in the cell.
+    let history: string[] | undefined;
+    if (entry) {
+      const existing = String(historyRange?.values?.[0]?.[0] ?? '').split('\n').map((l) => l.trim()).filter(Boolean);
+      history = [...existing, `${todayInNewYork()} · ${entry}`];
+      data.push({ range: `'${tab}'!${histCol}${row}`, values: [[safeCell(history.join('\n'))]] });
     }
 
     await sheets.spreadsheets.values.batchUpdate({
       spreadsheetId: id,
       requestBody: { valueInputOption: 'USER_ENTERED', data },
     });
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, history });
   } catch (err) {
     console.error('Admin CRM update error:', err);
     return NextResponse.json({ error: 'Couldn’t save to the sheet' }, { status: 500 });
