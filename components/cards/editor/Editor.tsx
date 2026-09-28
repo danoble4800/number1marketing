@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ExternalLink, LogOut, Plus, Smartphone, X } from 'lucide-react';
+import { ExternalLink, Home, LogOut, Plus, Smartphone, X } from 'lucide-react';
 import type { Session } from '@supabase/supabase-js';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import type { CardPage, Plan } from '@/lib/cards/types';
@@ -173,6 +173,9 @@ export default function Editor() {
       {/* Top bar */}
       <div className="sticky top-0 z-30 border-b border-brand-dark2 bg-brand-near-black/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3">
+          <a href="/" aria-label="Back to main site" title="Back to main site" className="flex items-center gap-1.5 border border-brand-dark2 px-2.5 py-1.5 text-xs uppercase tracking-widest text-brand-light1 hover:border-brand-light1 hover:text-brand-white">
+            <Home size={14} /> <span className="hidden sm:inline">Home</span>
+          </a>
           <Link href="/card" className="font-display text-base uppercase tracking-wider text-brand-white">N°1 Tap Cards</Link>
           {pages.length > 1 || canAddPage ? (
             <select

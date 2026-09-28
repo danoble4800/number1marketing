@@ -30,6 +30,8 @@ export default function CardHome() {
             <Link href="/card/edit?demo=pizza" className="text-brand-white underline">Try the editor</Link>
             {' · '}
             <Link href="/en/cards" className="text-brand-white underline">Plans</Link>
+            {' · '}
+            <a href="/" className="text-brand-white underline">Home</a>
           </p>
         </>
       )}
