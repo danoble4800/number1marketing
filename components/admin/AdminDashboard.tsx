@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-const ADMIN_PASSWORD = 'N1Admin2026!';
-const SESSION_KEY = 'n1_admin_unlocked';
+import { getSupabase, getCurrentProfile } from '@/lib/supabase';
+import Container from '@/components/Container';
+import LeadsCRM from './LeadsCRM';
 
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gr4UrY65r2g-dy0IUJFCFIQBUgoX0sQ9_GdmZHccpko/edit';
 const DRIVE_URL = 'https://drive.google.com/drive/folders/1cjptMcb6Tk8z48zg_3LoCdlkdq1fMl17';
@@ -82,20 +82,9 @@ function DataDestination({
   );
 }
 
-function Dashboard() {
+function Resources() {
   return (
-    <div className="max-w-3xl mx-auto flex flex-col gap-10 py-12">
-
-      {/* Header */}
-      <div>
-        <p className="text-xs uppercase tracking-widest text-brand-mid mb-3">Admin Portal</p>
-        <h1 className="font-display text-4xl sm:text-5xl text-brand-white uppercase tracking-tight leading-none">
-          N°1 Dashboard
-        </h1>
-        <p className="mt-3 text-brand-light1 text-sm">
-          Manage client onboarding, access submissions, and review signed agreements.
-        </p>
-      </div>
+    <div className="max-w-3xl mx-auto flex flex-col gap-10">
 
       {/* Onboarding Link */}
       <div className="border border-brand-dark2 p-6 flex flex-col gap-4">
@@ -244,73 +233,160 @@ function Dashboard() {
   );
 }
 
-export default function AdminDashboard() {
-  const [unlocked, setUnlocked] = useState(false);
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
-  const [checking, setChecking] = useState(true);
+type Gate = 'checking' | 'signedOut' | 'admin';
 
+export default function AdminDashboard({ locale }: { locale: string }) {
+  const [gate, setGate] = useState<Gate>('checking');
+  const [tab, setTab] = useState<'leads' | 'resources'>('leads');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  // Uses the same Supabase login as the Academy, so an Academy admin session carries over.
   useEffect(() => {
-    if (sessionStorage.getItem(SESSION_KEY) === 'true') {
-      setUnlocked(true);
-    }
-    setChecking(false);
+    let cancelled = false;
+    getCurrentProfile().then((profile) => {
+      if (!cancelled) setGate(profile?.role === 'admin' ? 'admin' : 'signedOut');
+    });
+    return () => { cancelled = true; };
   }, []);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
-      sessionStorage.setItem(SESSION_KEY, 'true');
-      setUnlocked(true);
-      setError(false);
-    } else {
-      setError(true);
-      setPassword('');
+    setBusy(true);
+    setError('');
+    const supabase = getSupabase();
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: email.trim().toLowerCase(),
+      password,
+    });
+    if (signInError) {
+      setError('Wrong email or password.');
+      setBusy(false);
+      return;
     }
+    const profile = await getCurrentProfile();
+    if (profile?.role !== 'admin') {
+      await supabase.auth.signOut();
+      setError('That account isn’t an admin.');
+      setBusy(false);
+      return;
+    }
+    setPassword('');
+    setBusy(false);
+    setGate('admin');
   };
 
-  if (checking) return null;
+  const signOut = async () => {
+    await getSupabase().auth.signOut();
+    setGate('signedOut');
+  };
 
-  if (!unlocked) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="w-full max-w-sm flex flex-col gap-6">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-brand-mid mb-2">Admin Access</p>
-            <h1 className="font-display text-3xl text-brand-white uppercase tracking-tight">
-              N°1 Portal
-            </h1>
+  const header = (
+    <header className="sticky top-0 z-30 border-b border-brand-dark2 bg-brand-black/95 backdrop-blur pt-[env(safe-area-inset-top)]">
+      <Container>
+        <div className="flex items-center justify-between gap-4 h-14">
+          <div className="flex items-center gap-3">
+            <span className="font-display text-xl text-brand-white">N°1</span>
+            <span className="w-px h-4 bg-brand-dark2" />
+            <span className="text-[11px] uppercase tracking-widest text-brand-light1">Admin</span>
           </div>
-          <form onSubmit={submit} className="flex flex-col gap-4">
-            <div>
-              <label className="block text-xs uppercase tracking-widest text-brand-light1 mb-1.5">
-                Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => { setPassword(e.target.value); setError(false); }}
-                autoFocus
-                className={`w-full bg-brand-dark2 border ${
-                  error ? 'border-red-500' : 'border-brand-dark2'
-                } text-brand-offwhite px-4 py-3 text-sm focus:outline-none focus:border-brand-light2 transition-colors`}
-                placeholder="Enter admin password"
-              />
-              {error && (
-                <p className="mt-1.5 text-xs text-red-400">Incorrect password.</p>
-              )}
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-brand-white text-brand-black px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-brand-offwhite transition-colors"
-            >
-              Unlock
+          {gate === 'admin' && (
+            <nav className="flex gap-1 sm:gap-2" aria-label="Admin sections">
+              {([['leads', 'Leads'], ['resources', 'Links']] as const).map(([id, label]) => (
+                <button
+                  key={id}
+                  onClick={() => setTab(id)}
+                  aria-current={tab === id ? 'page' : undefined}
+                  className={`px-3 py-1.5 text-xs uppercase tracking-widest transition-colors ${
+                    tab === id ? 'bg-brand-dark2 text-brand-white' : 'text-brand-light1 hover:text-brand-white'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </nav>
+          )}
+          {gate === 'admin' ? (
+            <button onClick={signOut} className="text-xs uppercase tracking-widest text-brand-mid hover:text-brand-light2 transition-colors">
+              Sign out
             </button>
-          </form>
+          ) : (
+            <a href={`/${locale}`} className="text-xs uppercase tracking-widest text-brand-mid hover:text-brand-light2 transition-colors">
+              Back to site
+            </a>
+          )}
         </div>
-      </div>
-    );
-  }
+      </Container>
+    </header>
+  );
 
-  return <Dashboard />;
+  return (
+    <div className="min-h-screen bg-brand-near-black">
+      {header}
+      <Container>
+        {gate === 'checking' && <div className="min-h-[60vh]" />}
+        {gate === 'signedOut' && (
+          <div className="min-h-[70vh] flex items-center justify-center py-12">
+            <div className="w-full max-w-sm flex flex-col gap-6">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-brand-mid mb-2">Admin Access</p>
+                <h1 className="font-display text-3xl text-brand-white uppercase tracking-tight">
+                  N°1 Portal
+                </h1>
+                <p className="mt-2 text-sm text-brand-light1">Sign in with your Academy admin account.</p>
+              </div>
+              <form onSubmit={submit} className="flex flex-col gap-4">
+                <div>
+                  <label htmlFor="admin-email" className="block text-xs uppercase tracking-widest text-brand-light1 mb-1.5">
+                    Email
+                  </label>
+                  <input
+                    id="admin-email"
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                    autoFocus
+                    required
+                    className="w-full bg-brand-dark2 border border-brand-dark2 text-brand-offwhite px-4 py-3 text-sm focus:outline-none focus:border-brand-light2 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="admin-password" className="block text-xs uppercase tracking-widest text-brand-light1 mb-1.5">
+                    Password
+                  </label>
+                  <input
+                    id="admin-password"
+                    type="password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                    required
+                    className={`w-full bg-brand-dark2 border ${
+                      error ? 'border-red-500' : 'border-brand-dark2'
+                    } text-brand-offwhite px-4 py-3 text-sm focus:outline-none focus:border-brand-light2 transition-colors`}
+                  />
+                  {error && <p className="mt-1.5 text-xs text-red-400">{error}</p>}
+                </div>
+                <button
+                  type="submit"
+                  disabled={busy}
+                  className="w-full bg-brand-white text-brand-black px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-brand-offwhite transition-colors disabled:opacity-50"
+                >
+                  {busy ? 'Signing in…' : 'Sign in'}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+        {gate === 'admin' && (
+          <div className="py-8">
+            {tab === 'leads' ? <LeadsCRM onSignedOut={() => setGate('signedOut')} /> : <div className="py-4"><Resources /></div>}
+          </div>
+        )}
+      </Container>
+    </div>
+  );
 }

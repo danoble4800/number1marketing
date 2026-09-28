@@ -1,0 +1,35 @@
+import { createClient } from '@supabase/supabase-js';
+import { NextRequest, NextResponse } from 'next/server';
+
+// Server-side check for /api/admin routes. The browser sends the Supabase access
+// token from the Academy login; we confirm it with Supabase and then read the
+// caller's own profile (row level security allows that) to check for the admin role.
+// Returns null when the caller is an admin, or the error response to send back.
+export async function requireAdmin(req: NextRequest): Promise<NextResponse | null> {
+  const token = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '');
+  if (!token) return NextResponse.json({ error: 'Not signed in' }, { status: 401 });
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !anonKey) {
+    console.error('Admin auth: missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY');
+    return NextResponse.json({ error: 'Server not configured' }, { status: 500 });
+  }
+
+  const supabase = createClient(url, anonKey, {
+    global: { headers: { Authorization: `Bearer ${token}` } },
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+
+  const { data: { user }, error } = await supabase.auth.getUser(token);
+  if (error || !user) return NextResponse.json({ error: 'Session expired' }, { status: 401 });
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+  if (profile?.role !== 'admin') return NextResponse.json({ error: 'Not an admin' }, { status: 403 });
+
+  return null;
+}
