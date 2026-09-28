@@ -120,7 +120,7 @@ async function appendToSheet(values: string[]) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { firstName, lastName, phone, email, businessName, industry, location, services, consent, source } = body;
+    const { firstName, lastName, phone, email, businessName, industry, location, services, consent, source, inPersonRef } = body;
 
     if (!firstName || !lastName || !phone || !email) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -129,7 +129,9 @@ export async function POST(req: NextRequest) {
     const servicesList = Array.isArray(services)
       ? services.map((s: string) => SERVICE_LABELS[s] ?? s).join(', ')
       : '';
-    const leadSource = LEAD_SOURCES.includes(source) ? source : 'Website';
+    // QR codes on the in-person follow-up PDFs tag the visit with the business they were made for
+    const ref = typeof inPersonRef === 'string' && /^[a-z0-9-]{1,40}$/.test(inPersonRef) ? inPersonRef : '';
+    const leadSource = ref ? `In-Person QR (${ref})` : LEAD_SOURCES.includes(source) ? source : 'Website';
     // "YYYY-MM-DD HH:MM:SS" in New York time so Sheets stores a real, sortable date
     const submittedAt = new Date().toLocaleString('sv-SE', { timeZone: 'America/New_York' });
 

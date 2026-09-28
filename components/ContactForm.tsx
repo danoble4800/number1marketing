@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { CheckCircle, AlertCircle } from 'lucide-react';
@@ -55,6 +55,13 @@ export default function ContactForm({ showHeading = true, source = 'Contact Page
   const [form, setForm] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  // Set when someone arrives from an in-person follow-up PDF's QR code (?utm_source=inperson&utm_campaign=<business>)
+  const [inPersonRef, setInPersonRef] = useState('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('utm_source') === 'inperson') setInPersonRef(params.get('utm_campaign') ?? 'general');
+  }, []);
 
   const validate = (): FormErrors => {
     const e: FormErrors = {};
@@ -108,7 +115,7 @@ export default function ContactForm({ showHeading = true, source = 'Contact Page
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source }),
+        body: JSON.stringify({ ...form, source, inPersonRef }),
       });
       if (!res.ok) throw new Error('Server error');
       setStatus('success');
