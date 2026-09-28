@@ -38,3 +38,7 @@ next-env.d.ts
 # sitemap output (generated at build)
 /public/sitemap*.xml
 /public/robots.txt
+
+# Academy quiz answers — never commit (repo is public). Stored in Supabase quiz_answer_key.
+*.private.json
+*.private.sql

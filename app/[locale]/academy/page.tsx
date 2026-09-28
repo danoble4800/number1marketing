@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Lock, Award, Clock } from 'lucide-react';
+import { BookOpen, Award, Clock } from 'lucide-react';
+import { getModule } from '@/content/academy/lessons';
+import { quizzes } from '@/content/academy/quizzes';
 import Container from '@/components/Container';
 import Section from '@/components/Section';
 import Heading from '@/components/Heading';
@@ -116,10 +118,9 @@ export default async function AcademyPage({
                 key={i}
                 className="relative bg-brand-dark1 border border-brand-dark2 p-6 group"
               >
-                {/* Lock overlay */}
-                <div className="absolute top-4 right-4 flex items-center gap-1.5">
-                  <span className="text-xs uppercase tracking-widest text-brand-mid border border-brand-dark2 px-2 py-0.5">
-                    {t('modules.comingSoon')}
+                <div className="absolute top-4 right-4">
+                  <span className="text-xs uppercase tracking-widest text-brand-light2 border border-brand-light2/40 px-2 py-0.5">
+                    {t('modules.available')}
                   </span>
                 </div>
 
@@ -128,11 +129,13 @@ export default async function AcademyPage({
                   {mod.number}
                 </div>
 
-                {/* Lock icon */}
                 <div className="flex items-center gap-2 mb-3">
-                  <Lock size={14} className="text-brand-mid flex-shrink-0" />
+                  <BookOpen size={14} className="text-brand-mid flex-shrink-0" />
                   <span className="text-xs uppercase tracking-widest text-brand-mid">
-                    {t('modules.locked')}
+                    {t('modules.contents', {
+                      lessons: getModule(mod.number)?.lessons.length ?? 0,
+                      questions: quizzes[mod.number]?.length ?? 0,
+                    })}
                   </span>
                 </div>
 

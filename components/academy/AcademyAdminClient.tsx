@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Users, Activity, Award, LogOut, Edit, Upload } from 'lucide-react';
+import { Users, Activity, Award, LogOut } from 'lucide-react';
 import { getSupabase, getCurrentProfile, type Profile } from '@/lib/supabase';
 
 type ModuleItem = { number: string; title: string; time: string };
@@ -197,27 +197,16 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
                     <h3 className="font-display text-sm text-brand-offwhite uppercase tracking-tight truncate">
                       {mod.title}
                     </h3>
-                    <span className="text-xs uppercase tracking-widest text-brand-mid border border-brand-dark2 px-2 py-0.5 mt-1 inline-block">
-                      {t('admin.modules.comingSoon')}
+                    <span className="text-xs uppercase tracking-widest text-brand-light2 border border-brand-light2/40 px-2 py-0.5 mt-1 inline-block">
+                      {t('admin.modules.live')}
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <button
-                    disabled
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-widest border border-brand-dark2 text-brand-mid opacity-40 cursor-not-allowed"
-                  >
-                    <Edit size={11} />
-                    {t('admin.modules.edit')}
-                  </button>
-                  <button
-                    disabled
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-widest border border-brand-dark2 text-brand-mid opacity-40 cursor-not-allowed"
-                  >
-                    <Upload size={11} />
-                    {t('admin.modules.publish')}
-                  </button>
-                </div>
+                <span className="text-xs uppercase tracking-widest text-brand-mid flex-shrink-0">
+                  {t('admin.modules.passed', {
+                    count: students.filter((s) => progress.some((row) => row.user_id === s.id && row.module_number === mod.number)).length,
+                  })}
+                </span>
               </div>
             ))}
           </div>

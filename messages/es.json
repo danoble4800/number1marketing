@@ -451,7 +451,9 @@
           "title": "Proyecto Final y Certificación",
           "time": "~4 hrs"
         }
-      ]
+      ],
+      "available": "Disponible",
+      "contents": "{lessons} lecciones · cuestionario de {questions} preguntas"
     },
     "login": {
       "heading": "ACCESO A LA ACADEMIA",
@@ -496,7 +498,11 @@
       "comingSoon": "Próximamente",
       "locked": "Bloqueado",
       "logout": "Cerrar Sesión",
-      "estTime": "Tiempo est."
+      "estTime": "Tiempo est.",
+      "start": "Comenzar",
+      "completed": "Completado",
+      "certificateEarnedBadge": "Obtenido",
+      "certificateEarned": "¡Felicidades! Completaste todos los módulos y aprobaste la evaluación final. La descarga del certificado estará disponible pronto."
     },
     "admin": {
       "heading": "ADMIN DE LA ACADEMIA",
@@ -519,7 +525,9 @@
         "status": "Estado",
         "comingSoon": "Próximamente",
         "edit": "Editar",
-        "publish": "Publicar"
+        "publish": "Publicar",
+        "live": "Publicado",
+        "passed": "{count} aprobados"
       },
       "logout": "Cerrar Sesión"
     },
@@ -532,6 +540,33 @@
       "updateButton": "Actualizar contraseña",
       "updating": "Actualizando...",
       "updated": "¡Contraseña actualizada! Iniciando sesión..."
+    },
+    "module": {
+      "backToDashboard": "Volver al panel",
+      "moduleLabel": "Módulo {number}",
+      "completed": "Completado",
+      "lockedMessage": "Completa el Módulo {prev} para desbloquear este módulo.",
+      "goToModule": "Ir al Módulo {number}",
+      "minutes": "{count} min",
+      "questions": "{count} preguntas",
+      "quizHeading": "Cuestionario del módulo",
+      "finalHeading": "Evaluación final",
+      "lessonLabel": "Lección {current} de {total}",
+      "previous": "Anterior",
+      "nextLesson": "Siguiente lección",
+      "toQuiz": "Ejercicio y cuestionario",
+      "toFinal": "Proyecto final y evaluación",
+      "quizIntro": "Responde las {total} preguntas. Necesitas {pass}% para aprobar y puedes repetirlo las veces que necesites.",
+      "answerAll": "Responde todas las preguntas antes de enviar.",
+      "submitError": "No pudimos calificar tu cuestionario. Inténtalo de nuevo.",
+      "resultPassed": "Aprobado — {score}/{total}",
+      "resultFailed": "{score}/{total} — necesitas {pass}% para aprobar",
+      "nextUnlocked": "El siguiente módulo ya está desbloqueado.",
+      "courseComplete": "¡Completaste el curso de N°1 Academy!",
+      "reviewHint": "Las preguntas marcadas en rojo fueron incorrectas. Repasa las lecciones e inténtalo de nuevo.",
+      "retry": "Intentar de nuevo",
+      "submit": "Enviar respuestas",
+      "submitting": "Calificando..."
     }
   },
   "audit": {

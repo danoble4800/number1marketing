@@ -451,7 +451,9 @@
           "title": "Projeto Final e Certificação",
           "time": "~4 hrs"
         }
-      ]
+      ],
+      "available": "Disponível",
+      "contents": "{lessons} aulas · quiz de {questions} perguntas"
     },
     "login": {
       "heading": "ACESSO À ACADEMIA",
@@ -496,7 +498,11 @@
       "comingSoon": "Em Breve",
       "locked": "Bloqueado",
       "logout": "Sair",
-      "estTime": "Tempo est."
+      "estTime": "Tempo est.",
+      "start": "Começar",
+      "completed": "Concluído",
+      "certificateEarnedBadge": "Conquistado",
+      "certificateEarned": "Parabéns! Você concluiu todos os módulos e passou na avaliação final. O download do certificado estará disponível em breve."
     },
     "admin": {
       "heading": "ADMIN DA ACADEMIA",
@@ -519,7 +525,9 @@
         "status": "Status",
         "comingSoon": "Em Breve",
         "edit": "Editar",
-        "publish": "Publicar"
+        "publish": "Publicar",
+        "live": "Publicado",
+        "passed": "{count} aprovados"
       },
       "logout": "Sair"
     },
@@ -532,6 +540,33 @@
       "updateButton": "Atualizar senha",
       "updating": "Atualizando...",
       "updated": "Senha atualizada! Entrando..."
+    },
+    "module": {
+      "backToDashboard": "Voltar ao painel",
+      "moduleLabel": "Módulo {number}",
+      "completed": "Concluído",
+      "lockedMessage": "Conclua o Módulo {prev} para desbloquear este módulo.",
+      "goToModule": "Ir para o Módulo {number}",
+      "minutes": "{count} min",
+      "questions": "{count} perguntas",
+      "quizHeading": "Quiz do módulo",
+      "finalHeading": "Avaliação final",
+      "lessonLabel": "Aula {current} de {total}",
+      "previous": "Anterior",
+      "nextLesson": "Próxima aula",
+      "toQuiz": "Exercício e quiz",
+      "toFinal": "Projeto final e avaliação",
+      "quizIntro": "Responda às {total} perguntas. Você precisa de {pass}% para passar e pode refazer quantas vezes precisar.",
+      "answerAll": "Responda a todas as perguntas antes de enviar.",
+      "submitError": "Não conseguimos corrigir seu quiz. Tente novamente.",
+      "resultPassed": "Aprovado — {score}/{total}",
+      "resultFailed": "{score}/{total} — você precisa de {pass}% para passar",
+      "nextUnlocked": "O próximo módulo foi desbloqueado.",
+      "courseComplete": "Você concluiu o curso da N°1 Academy!",
+      "reviewHint": "As perguntas marcadas em vermelho estavam incorretas. Revise as aulas e tente novamente.",
+      "retry": "Tentar novamente",
+      "submit": "Enviar respostas",
+      "submitting": "Corrigindo..."
     }
   },
   "audit": {

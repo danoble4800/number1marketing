@@ -450,7 +450,9 @@
           "title": "Capstone & Certification",
           "time": "~4 hrs"
         }
-      ]
+      ],
+      "available": "Available",
+      "contents": "{lessons} lessons · {questions}-question quiz"
     },
     "login": {
       "heading": "ACADEMY LOGIN",
@@ -495,7 +497,11 @@
       "comingSoon": "Coming Soon",
       "locked": "Locked",
       "logout": "Log Out",
-      "estTime": "Est. time"
+      "estTime": "Est. time",
+      "start": "Start",
+      "completed": "Completed",
+      "certificateEarnedBadge": "Earned",
+      "certificateEarned": "Congratulations — you’ve completed every module and passed the final assessment. Certificate downloads are coming soon."
     },
     "admin": {
       "heading": "ACADEMY ADMIN",
@@ -518,7 +524,9 @@
         "status": "Status",
         "comingSoon": "Coming Soon",
         "edit": "Edit",
-        "publish": "Publish"
+        "publish": "Publish",
+        "live": "Live",
+        "passed": "{count} passed"
       },
       "logout": "Log Out"
     },
@@ -531,6 +539,33 @@
       "updateButton": "Update Password",
       "updating": "Updating...",
       "updated": "Password updated! Signing you in..."
+    },
+    "module": {
+      "backToDashboard": "Back to Dashboard",
+      "moduleLabel": "Module {number}",
+      "completed": "Completed",
+      "lockedMessage": "Complete Module {prev} to unlock this module.",
+      "goToModule": "Go to Module {number}",
+      "minutes": "{count} min",
+      "questions": "{count} questions",
+      "quizHeading": "Module Quiz",
+      "finalHeading": "Final Assessment",
+      "lessonLabel": "Lesson {current} of {total}",
+      "previous": "Previous",
+      "nextLesson": "Next Lesson",
+      "toQuiz": "Exercise & Quiz",
+      "toFinal": "Capstone & Final Assessment",
+      "quizIntro": "Answer all {total} questions. You need {pass}% to pass, and you can retake it as many times as you need.",
+      "answerAll": "Please answer every question before submitting.",
+      "submitError": "We couldn’t grade your quiz. Please try again.",
+      "resultPassed": "Passed — {score}/{total}",
+      "resultFailed": "{score}/{total} — you need {pass}% to pass",
+      "nextUnlocked": "The next module is now unlocked.",
+      "courseComplete": "You’ve completed the N°1 Academy course!",
+      "reviewHint": "Questions marked in red were incorrect. Review the lessons and try again.",
+      "retry": "Try Again",
+      "submit": "Submit Answers",
+      "submitting": "Grading..."
     }
   },
   "audit": {
