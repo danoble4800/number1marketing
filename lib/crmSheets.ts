@@ -108,9 +108,10 @@ export const todayInNewYork = () => new Date().toLocaleDateString('en-CA', { tim
 const cell = (row: unknown[] | undefined, i: number) => String(row?.[i] ?? '').trim();
 
 // Test submissions ("TEST", "Test Client Co.") stay in the sheets but never show in the CRM.
-const isTest = (l: Lead) => /\btest\b/i.test(`${l.name} ${l.business}`);
+export const looksLikeTest = (text: string) => /\btest\b/i.test(text);
+const isTest = (l: Lead) => looksLikeTest(`${l.name} ${l.business}`);
 
-async function readTab(id: string, range: string) {
+export async function readTab(id: string, range: string) {
   const sheets = getSheets();
   const [shown, raw] = await Promise.all([
     sheets.spreadsheets.values.get({ spreadsheetId: id, range, valueRenderOption: 'FORMATTED_VALUE' }),
@@ -121,12 +122,12 @@ async function readTab(id: string, range: string) {
   return { shown: shown.data.values ?? [], raw: raw.data.values ?? [] };
 }
 
-async function tabIds(id: string) {
+export async function tabIds(id: string) {
   const meta = await getSheets().spreadsheets.get({ spreadsheetId: id, fields: 'sheets.properties(title,sheetId)' });
   return Object.fromEntries((meta.data.sheets ?? []).map((s) => [s.properties?.title, s.properties?.sheetId]));
 }
 
-const rowUrl = (id: string, gid: number | undefined, row: number) =>
+export const rowUrl = (id: string, gid: number | undefined, row: number) =>
   `https://docs.google.com/spreadsheets/d/${id}/edit#gid=${gid ?? 0}&range=A${row}`;
 
 // Website Leads and Other Leads share one layout.

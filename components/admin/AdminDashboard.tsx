@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import Container from '@/components/Container';
 import LeadsCRM from './LeadsCRM';
+import OnboardingClients from './OnboardingClients';
 import TapCardsAdmin from '@/components/cards/TapCardsAdmin';
 
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gr4UrY65r2g-dy0IUJFCFIQBUgoX0sQ9_GdmZHccpko/edit';
@@ -235,8 +236,8 @@ function Resources() {
 }
 
 type Gate = 'checking' | 'signedOut' | 'admin';
-type Tab = 'leads' | 'cards' | 'resources';
-const TABS: [Tab, string][] = [['leads', 'Leads'], ['cards', 'Tap Cards'], ['resources', 'Links']];
+type Tab = 'leads' | 'clients' | 'cards' | 'resources';
+const TABS: [Tab, string][] = [['leads', 'Leads'], ['clients', 'Clients'], ['cards', 'Tap Cards'], ['resources', 'Links']];
 
 export default function AdminDashboard({ locale }: { locale: string }) {
   const [gate, setGate] = useState<Gate>('checking');
@@ -304,8 +305,8 @@ export default function AdminDashboard({ locale }: { locale: string }) {
         <div className="flex items-center justify-between gap-4 h-14">
           <div className="flex items-center gap-3">
             <span className="font-display text-xl text-brand-white">N°1</span>
-            <span className="w-px h-4 bg-brand-dark2" />
-            <span className="text-[11px] uppercase tracking-widest text-brand-light1">Admin</span>
+            <span className="hidden sm:block w-px h-4 bg-brand-dark2" />
+            <span className="hidden sm:inline text-[11px] uppercase tracking-widest text-brand-light1">Admin</span>
           </div>
           {gate === 'admin' && (
             <nav className="flex gap-1 sm:gap-2" aria-label="Admin sections">
@@ -398,7 +399,27 @@ export default function AdminDashboard({ locale }: { locale: string }) {
         )}
         {gate === 'admin' && (
           <div className="py-8">
+            {/* Client onboarding shortcut — shown on every tab */}
+            <div className="mb-8 flex flex-wrap items-center justify-between gap-3 border border-brand-dark2 px-4 py-3">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-brand-mid">Client Onboarding</p>
+                <p className="text-sm text-brand-light1">Agreement, intake form and access checklist in one page.</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <CopyButton value={ONBOARDING_URL} />
+                <a
+                  href={`/${locale}/onboarding`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-brand-white text-brand-black px-4 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-brand-offwhite transition-colors"
+                >
+                  Open Onboarding
+                  <ExternalIcon />
+                </a>
+              </div>
+            </div>
             {tab === 'leads' && <LeadsCRM onSignedOut={() => setGate('signedOut')} />}
+            {tab === 'clients' && <OnboardingClients onSignedOut={() => setGate('signedOut')} />}
             {tab === 'cards' && <TapCardsAdmin />}
             {tab === 'resources' && <div className="py-4"><Resources /></div>}
           </div>

@@ -27,6 +27,7 @@ export default function Footer({ locale }: FooterProps) {
     { href: `/${locale}/shop`, label: nav('shop') },
     { href: `/${locale}/cards`, label: nav('tapCards') },
     { href: '/card', label: nav('cardSignIn') },
+    { href: `/${locale}/onboarding`, label: nav('clientOnboarding') },
   ];
 
   return (

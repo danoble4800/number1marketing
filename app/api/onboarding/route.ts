@@ -47,7 +47,7 @@ async function ensureTab(
   }
 }
 
-async function appendToOnboardingSheet(data: Record<string, string>) {
+async function appendToOnboardingSheet(data: Record<string, string>, agreementDocUrl: string) {
   const auth = makeAuth();
   const sheets = google.sheets({ version: 'v4', auth });
   const spreadsheetId = process.env.GOOGLE_SHEET_ID!;
@@ -70,8 +70,15 @@ async function appendToOnboardingSheet(data: Record<string, string>) {
     'Competitor 3 Name', 'Competitor 3 URL', 'Competitor 3 Threats', 'Competitor 3 Weakness',
     'Marketing Stack', 'Stack Other', 'Additional Info', 'Signoff Name',
     'Website Access', 'Analytics Access', 'Ads Access', 'MarTech Access',
-    'Social Access', 'Access Notes',
+    'Social Access', 'Access Notes', 'Agreement Doc',
   ]);
+  // Tabs made before the Agreement Doc column existed only have headers up to BI.
+  await sheets.spreadsheets.values.update({
+    spreadsheetId,
+    range: 'Onboarding!BJ1',
+    valueInputOption: 'RAW',
+    requestBody: { values: [['Agreement Doc']] },
+  });
 
   const submittedAt = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
 
@@ -97,7 +104,7 @@ async function appendToOnboardingSheet(data: Record<string, string>) {
         data.competitor3Name ?? '', data.competitor3URL ?? '', data.competitor3Threats ?? '', data.competitor3Weakness ?? '',
         data.marketingStack ?? '', data.marketingStackOther ?? '', data.additionalInfo ?? '', data.signoffName ?? '',
         data.websiteAccess ?? '', data.analyticsAccess ?? '', data.adsAccess ?? '', data.marTechAccess ?? '',
-        data.socialAccess ?? '', data.accessNotes ?? '',
+        data.socialAccess ?? '', data.accessNotes ?? '', agreementDocUrl,
       ]],
     },
   });
@@ -350,15 +357,16 @@ export async function POST(req: NextRequest) {
       Object.entries(raw).map(([k, v]) => [k, joinField(v)])
     );
 
-    // Sheets — required
-    await appendToOnboardingSheet(body);
-
-    // Google Doc — best-effort
+    // Google Doc — best-effort. Made first so its link can be saved with the submission.
+    let agreementDocUrl = '';
     try {
-      await createSignedAgreementDoc(body);
+      agreementDocUrl = (await createSignedAgreementDoc(body)) ?? '';
     } catch (docErr) {
       console.error('Google Docs creation failed (non-fatal):', docErr);
     }
+
+    // Sheets — required
+    await appendToOnboardingSheet(body, agreementDocUrl);
 
     return NextResponse.json({ success: true });
   } catch (err) {
