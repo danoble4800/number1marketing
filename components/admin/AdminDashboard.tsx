@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
+import Container from '@/components/Container';
 import LeadsCRM from './LeadsCRM';
 
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gr4UrY65r2g-dy0IUJFCFIQBUgoX0sQ9_GdmZHccpko/edit';
@@ -234,7 +235,7 @@ function Resources() {
 
 type Gate = 'checking' | 'signedOut' | 'admin';
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ locale }: { locale: string }) {
   const [gate, setGate] = useState<Gate>('checking');
   const [tab, setTab] = useState<'leads' | 'resources'>('leads');
   const [email, setEmail] = useState('');
@@ -282,88 +283,110 @@ export default function AdminDashboard() {
     setGate('signedOut');
   };
 
-  if (gate === 'checking') return <div className="min-h-[60vh]" />;
-
-  if (gate === 'signedOut') {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center py-12">
-        <div className="w-full max-w-sm flex flex-col gap-6">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-brand-mid mb-2">Admin Access</p>
-            <h1 className="font-display text-3xl text-brand-white uppercase tracking-tight">
-              N°1 Portal
-            </h1>
-            <p className="mt-2 text-sm text-brand-light1">Sign in with your Academy admin account.</p>
+  const header = (
+    <header className="sticky top-0 z-30 border-b border-brand-dark2 bg-brand-black/95 backdrop-blur pt-[env(safe-area-inset-top)]">
+      <Container>
+        <div className="flex items-center justify-between gap-4 h-14">
+          <div className="flex items-center gap-3">
+            <span className="font-display text-xl text-brand-white">N°1</span>
+            <span className="w-px h-4 bg-brand-dark2" />
+            <span className="text-[11px] uppercase tracking-widest text-brand-light1">Admin</span>
           </div>
-          <form onSubmit={submit} className="flex flex-col gap-4">
-            <div>
-              <label htmlFor="admin-email" className="block text-xs uppercase tracking-widest text-brand-light1 mb-1.5">
-                Email
-              </label>
-              <input
-                id="admin-email"
-                type="email"
-                autoComplete="email"
-                value={email}
-                onChange={(e) => { setEmail(e.target.value); setError(''); }}
-                autoFocus
-                required
-                className="w-full bg-brand-dark2 border border-brand-dark2 text-brand-offwhite px-4 py-3 text-sm focus:outline-none focus:border-brand-light2 transition-colors"
-              />
-            </div>
-            <div>
-              <label htmlFor="admin-password" className="block text-xs uppercase tracking-widest text-brand-light1 mb-1.5">
-                Password
-              </label>
-              <input
-                id="admin-password"
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => { setPassword(e.target.value); setError(''); }}
-                required
-                className={`w-full bg-brand-dark2 border ${
-                  error ? 'border-red-500' : 'border-brand-dark2'
-                } text-brand-offwhite px-4 py-3 text-sm focus:outline-none focus:border-brand-light2 transition-colors`}
-              />
-              {error && <p className="mt-1.5 text-xs text-red-400">{error}</p>}
-            </div>
-            <button
-              type="submit"
-              disabled={busy}
-              className="w-full bg-brand-white text-brand-black px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-brand-offwhite transition-colors disabled:opacity-50"
-            >
-              {busy ? 'Signing in…' : 'Sign in'}
+          {gate === 'admin' && (
+            <nav className="flex gap-1 sm:gap-2" aria-label="Admin sections">
+              {([['leads', 'Leads'], ['resources', 'Links']] as const).map(([id, label]) => (
+                <button
+                  key={id}
+                  onClick={() => setTab(id)}
+                  aria-current={tab === id ? 'page' : undefined}
+                  className={`px-3 py-1.5 text-xs uppercase tracking-widest transition-colors ${
+                    tab === id ? 'bg-brand-dark2 text-brand-white' : 'text-brand-light1 hover:text-brand-white'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </nav>
+          )}
+          {gate === 'admin' ? (
+            <button onClick={signOut} className="text-xs uppercase tracking-widest text-brand-mid hover:text-brand-light2 transition-colors">
+              Sign out
             </button>
-          </form>
+          ) : (
+            <a href={`/${locale}`} className="text-xs uppercase tracking-widest text-brand-mid hover:text-brand-light2 transition-colors">
+              Back to site
+            </a>
+          )}
         </div>
-      </div>
-    );
-  }
+      </Container>
+    </header>
+  );
 
   return (
-    <div className="flex flex-col gap-8 py-10">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-brand-dark2">
-        <div className="flex gap-6" role="tablist">
-          {([['leads', 'Leads & clients'], ['resources', 'Onboarding & links']] as const).map(([id, label]) => (
-            <button
-              key={id}
-              role="tab"
-              aria-selected={tab === id}
-              onClick={() => setTab(id)}
-              className={`pb-3 -mb-px text-xs uppercase tracking-widest border-b-2 transition-colors ${
-                tab === id ? 'border-brand-white text-brand-white' : 'border-transparent text-brand-light1 hover:text-brand-light2'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        <button onClick={signOut} className="pb-3 text-xs uppercase tracking-widest text-brand-mid hover:text-brand-light2 transition-colors">
-          Sign out
-        </button>
-      </div>
-      {tab === 'leads' ? <LeadsCRM onSignedOut={() => setGate('signedOut')} /> : <Resources />}
+    <div className="min-h-screen bg-brand-near-black">
+      {header}
+      <Container>
+        {gate === 'checking' && <div className="min-h-[60vh]" />}
+        {gate === 'signedOut' && (
+          <div className="min-h-[70vh] flex items-center justify-center py-12">
+            <div className="w-full max-w-sm flex flex-col gap-6">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-brand-mid mb-2">Admin Access</p>
+                <h1 className="font-display text-3xl text-brand-white uppercase tracking-tight">
+                  N°1 Portal
+                </h1>
+                <p className="mt-2 text-sm text-brand-light1">Sign in with your Academy admin account.</p>
+              </div>
+              <form onSubmit={submit} className="flex flex-col gap-4">
+                <div>
+                  <label htmlFor="admin-email" className="block text-xs uppercase tracking-widest text-brand-light1 mb-1.5">
+                    Email
+                  </label>
+                  <input
+                    id="admin-email"
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                    autoFocus
+                    required
+                    className="w-full bg-brand-dark2 border border-brand-dark2 text-brand-offwhite px-4 py-3 text-sm focus:outline-none focus:border-brand-light2 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="admin-password" className="block text-xs uppercase tracking-widest text-brand-light1 mb-1.5">
+                    Password
+                  </label>
+                  <input
+                    id="admin-password"
+                    type="password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                    required
+                    className={`w-full bg-brand-dark2 border ${
+                      error ? 'border-red-500' : 'border-brand-dark2'
+                    } text-brand-offwhite px-4 py-3 text-sm focus:outline-none focus:border-brand-light2 transition-colors`}
+                  />
+                  {error && <p className="mt-1.5 text-xs text-red-400">{error}</p>}
+                </div>
+                <button
+                  type="submit"
+                  disabled={busy}
+                  className="w-full bg-brand-white text-brand-black px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-brand-offwhite transition-colors disabled:opacity-50"
+                >
+                  {busy ? 'Signing in…' : 'Sign in'}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+        {gate === 'admin' && (
+          <div className="py-8">
+            {tab === 'leads' ? <LeadsCRM onSignedOut={() => setGate('signedOut')} /> : <div className="py-4"><Resources /></div>}
+          </div>
+        )}
+      </Container>
     </div>
   );
 }

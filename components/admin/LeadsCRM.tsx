@@ -1,14 +1,17 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Mail, Phone, Plus, RefreshCw, X } from 'lucide-react';
 import { getSupabase } from '@/lib/supabase';
-import type { Lead } from '@/app/api/admin/leads/route';
+import { showDate, showPhone, tidy } from '@/lib/crmFormat';
+import type { Lead } from '@/lib/crmSheets';
 
 const PHONE = '781-985-0916';
 
 type Bucket = 'new' | 'contacted' | 'audit' | 'client' | 'closed';
-type Filter = 'due' | 'open' | Bucket | 'all';
+type Filter = 'due' | 'new' | 'open' | 'client' | 'contacted' | 'audit' | 'closed' | 'all';
 type Changes = Partial<Pick<Lead, 'status' | 'lastContacted' | 'contactedVia' | 'nextFollowUp' | 'notes'>>;
+type Api = (method: 'GET' | 'PATCH' | 'POST', body?: unknown) => Promise<Record<string, unknown>>;
 
 const BUCKETS: Record<string, Bucket> = {
   New: 'new',
@@ -23,17 +26,26 @@ const BUCKETS: Record<string, Bucket> = {
 const bucket = (status: string): Bucket => BUCKETS[status] ?? 'new';
 const isOpen = (l: Lead) => ['new', 'contacted', 'audit'].includes(bucket(l.status));
 
-const SOURCE_LABEL: Record<Lead['source'], string> = { website: 'Website', inperson: 'In person', client: 'Client' };
-
-const FILTERS: [Filter, string][] = [
+// The four big counters double as the main filters; the rest live in the "More" menu.
+const TILES: [Filter, string][] = [
   ['due', 'Due now'],
-  ['open', 'All open'],
   ['new', 'New'],
+  ['open', 'All open'],
+  ['client', 'Clients'],
+];
+const MORE: [Filter, string][] = [
   ['contacted', 'Contacted'],
   ['audit', 'Audit booked'],
-  ['client', 'Clients'],
   ['closed', 'Closed'],
   ['all', 'Everything'],
+];
+
+const SOURCES: [string, string][] = [
+  ['all', 'All sources'],
+  ['website', 'Website'],
+  ['inperson', 'In person'],
+  ['manual', 'Added by hand'],
+  ['client', 'Clients'],
 ];
 
 const STATUS_STYLE: Record<Bucket, string> = {
@@ -50,17 +62,32 @@ const addDays = (iso: string, days: number) => {
   const [y, m, d] = iso.split('-').map(Number);
   return new Date(y, m - 1, d + days).toLocaleDateString('en-CA');
 };
-const showDate = (iso: string) => {
-  const [y, m, d] = iso.split('-').map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' });
-};
 // Sheets date serials count days from 1899-12-30.
 const added = (l: Lead) => {
   if (!l.submittedSort) return l.submitted.split(/\s+/)[0];
   const d = new Date(Math.round((l.submittedSort - 25569) * 86400000));
-  return `Added ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}`;
+  return `added ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}`;
 };
 const isDue = (l: Lead) => isOpen(l) && !!l.nextFollowUp && l.nextFollowUp <= today();
+const title = (l: Lead) => tidy(l.business || l.name) || 'No name';
+
+type Group = 'overdue' | 'today' | 'week' | 'later' | 'none' | 'closed';
+const GROUPS: [Group, string, string][] = [
+  ['overdue', 'Overdue', 'text-red-400'],
+  ['today', 'Today', 'text-amber-300'],
+  ['week', 'This week', 'text-brand-light2'],
+  ['later', 'Later', 'text-brand-light2'],
+  ['none', 'No follow-up date', 'text-brand-light1'],
+  ['closed', 'Clients & closed', 'text-brand-light1'],
+];
+function groupOf(l: Lead): Group {
+  if (!isOpen(l)) return 'closed';
+  if (!l.nextFollowUp) return 'none';
+  const t = today();
+  if (l.nextFollowUp < t) return 'overdue';
+  if (l.nextFollowUp === t) return 'today';
+  return l.nextFollowUp <= addDays(t, 7) ? 'week' : 'later';
+}
 
 function phoneForLink(phone: string) {
   const digits = phone.replace(/\D/g, '');
@@ -69,47 +96,49 @@ function phoneForLink(phone: string) {
   return digits ? `+${digits}` : '';
 }
 
-function showPhone(phone: string) {
-  const d = phoneForLink(phone).replace(/^\+1(?=\d{10}$)/, '');
-  return /^\d{10}$/.test(d) ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : phone;
-}
-
 function smsHref(phone: string, body: string) {
   const apple = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
   return `sms:${phoneForLink(phone)}${apple ? '&' : '?'}body=${encodeURIComponent(body)}`;
 }
 
-function firstName(l: Lead) {
-  return l.name.split(/\s+/)[0] || 'there';
-}
-
 function textTemplate(l: Lead) {
-  const who = firstName(l);
-  const at = l.business ? ` for ${l.business}` : '';
+  const who = tidy(l.name.split(/\s+/)[0] || '') || 'there';
+  const biz = l.business ? tidy(l.business) : '';
   if (l.source === 'client') {
     return `Hi ${who}, it's Dan from Number 1 Digital Marketing. Just checking in. How is everything going on your end?`;
   }
-  if (l.source === 'inperson') {
-    return `Hi ${who}, it's Dan from Number 1 Digital Marketing. We met${l.business ? ` at ${l.business}` : ''} recently. I'd love to set up your free 30-minute audit. We look at your Google profile, reviews and website, and you keep the list of fixes either way. What day and time work for you?`;
+  if (l.source === 'website') {
+    return `Hi ${who}, it's Dan from Number 1 Digital Marketing. Thanks for requesting a free audit${biz ? ` for ${biz}` : ''}. It takes about 30 minutes, and you keep the list of fixes either way. What day and time work for you this week?`;
   }
-  return `Hi ${who}, it's Dan from Number 1 Digital Marketing. Thanks for requesting a free audit${at}. It takes about 30 minutes, and you keep the list of fixes either way. What day and time work for you this week?`;
+  return `Hi ${who}, it's Dan from Number 1 Digital Marketing. ${l.source === 'inperson' && biz ? `We met at ${biz} recently. ` : ''}I'd love to set up your free 30-minute audit. We look at your Google profile, reviews and website, and you keep the list of fixes either way. What day and time work for you?`;
 }
 
 function emailHref(l: Lead, body: string) {
   const subject = l.source === 'client'
     ? 'Checking in from Number 1'
-    : `Your free 30-minute audit${l.business ? ` for ${l.business}` : ''}`;
+    : `Your free 30-minute audit${l.business ? ` for ${tidy(l.business)}` : ''}`;
   const signed = `${body}\n\nThanks,\nDan\nNumber 1 Digital Marketing\n${PHONE} · number1digitalmarketing.com`;
   return `mailto:${l.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(signed)}`;
 }
 
-function followUpLabel(l: Lead) {
-  if (!l.nextFollowUp) return l.followUpText ? { text: l.followUpText, tone: 'text-brand-light1' } : null;
-  const t = today();
-  if (!isOpen(l)) return { text: `Follow up ${showDate(l.nextFollowUp)}`, tone: 'text-brand-mid' };
-  if (l.nextFollowUp < t) return { text: `Overdue · ${showDate(l.nextFollowUp)}`, tone: 'text-red-400' };
-  if (l.nextFollowUp === t) return { text: 'Follow up today', tone: 'text-amber-300' };
-  return { text: `Follow up ${showDate(l.nextFollowUp)}`, tone: 'text-brand-light1' };
+// Short note on the right of a row. The group heading already says "Today", so today's rows skip it.
+function followUpNote(l: Lead, group: Group) {
+  if (!l.nextFollowUp) return l.followUpText && isOpen(l) ? l.followUpText : '';
+  if (group === 'overdue') return `was due ${showDate(l.nextFollowUp)}`;
+  if (group === 'week' || group === 'later') return showDate(l.nextFollowUp);
+  return '';
+}
+
+function useIsDesktop() {
+  const [desktop, setDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const update = () => setDesktop(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+  return desktop;
 }
 
 const inputClass =
@@ -120,14 +149,24 @@ const btnClass =
 const primaryClass =
   'inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-widest bg-brand-white text-brand-black hover:bg-brand-offwhite transition-colors disabled:opacity-40 disabled:pointer-events-none';
 
+function StatusChip({ status }: { status: string }) {
+  return (
+    <span className={`text-[10px] uppercase tracking-widest px-2 py-1 whitespace-nowrap ${STATUS_STYLE[bucket(status)]}`}>
+      {status}
+    </span>
+  );
+}
+
 function LeadPanel({
-  lead, contactMethods, onSave,
+  lead, contactMethods, onSave, desktop,
 }: {
   lead: Lead;
   contactMethods: string[];
   onSave: (lead: Lead, changes: Changes) => Promise<boolean>;
+  desktop: boolean;
 }) {
   const editable = lead.source !== 'client';
+  const id = (name: string) => `${name}-${lead.key}`;
   const [message, setMessage] = useState(() => textTemplate(lead));
   const [via, setVia] = useState(lead.phone ? 'Text' : 'Email');
   const [draft, setDraft] = useState({ status: lead.status, nextFollowUp: lead.nextFollowUp, notes: lead.notes });
@@ -161,103 +200,106 @@ function LeadPanel({
     save(changes);
   };
 
+  const hasContact = !!(lead.phone || lead.email);
   const isUrl = /^https?:\/\//.test(lead.location);
+  const contactButtons = (
+    <>
+      {lead.phone && <a href={smsHref(lead.phone, message)} className={`${primaryClass} flex-1 lg:flex-none`}>Text</a>}
+      {lead.email && (
+        <a href={emailHref(lead, message)} className={`${lead.phone ? btnClass : primaryClass} flex-1 lg:flex-none`}>Email</a>
+      )}
+      {lead.phone && <a href={`tel:${phoneForLink(lead.phone)}`} className={`${btnClass} flex-1 lg:flex-none`}>Call</a>}
+    </>
+  );
 
   return (
-    <div className="border-t border-brand-dark2 px-4 sm:px-5 py-5 flex flex-col gap-6">
+    <div className={`flex flex-col gap-6 ${desktop ? 'p-6' : 'border-t border-brand-dark2 px-4 py-5'}`}>
+      {desktop && (
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <h2 className="font-display text-3xl text-brand-white uppercase tracking-tight leading-none break-words">{title(lead)}</h2>
+            <p className="mt-2 text-sm text-brand-light1">
+              {[lead.business ? tidy(lead.name) : '', lead.origin, added(lead)].filter(Boolean).join(' · ')}
+            </p>
+          </div>
+          <div className="flex-shrink-0">
+            <StatusChip status={lead.status} />
+          </div>
+        </div>
+      )}
+
       {/* Contact */}
-      <div className="flex flex-col gap-1.5 text-sm">
+      <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-sm">
         {lead.phone && (
-          <a href={`tel:${phoneForLink(lead.phone)}`} className="text-brand-offwhite hover:underline w-fit tabular-nums">
-            {showPhone(lead.phone)}
+          <a href={`tel:${phoneForLink(lead.phone)}`} className="inline-flex items-center gap-2 text-brand-offwhite hover:underline tabular-nums">
+            <Phone size={14} className="text-brand-mid" />{showPhone(lead.phone)}
           </a>
         )}
         {lead.email && (
-          <a href={`mailto:${lead.email}`} className="text-brand-offwhite hover:underline w-fit break-all">
-            {lead.email}
+          <a href={`mailto:${lead.email}`} className="inline-flex items-center gap-2 text-brand-offwhite hover:underline break-all">
+            <Mail size={14} className="text-brand-mid" />{lead.email}
           </a>
         )}
-        {!lead.phone && !lead.email && <p className="text-red-400">No phone or email on file.</p>}
-        {lead.location && (
-          isUrl
-            ? <a href={lead.location} target="_blank" rel="noopener noreferrer" className="text-brand-light1 hover:underline w-fit">Open in Maps</a>
-            : <p className="text-brand-light1">{lead.location}</p>
-        )}
+        {!hasContact && <p className="text-red-400">No phone or email on file. Add one in the sheet.</p>}
       </div>
 
-      {lead.details.length > 0 && (
-        <dl className="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-x-4 gap-y-1.5 text-sm">
-          {lead.details.map(([k, v]) => (
-            <div key={k} className="contents">
-              <dt className="text-brand-mid">{k}</dt>
-              <dd className="text-brand-light2 mb-1.5 sm:mb-0 break-words">{v}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
-
-      {/* Message */}
-      {(lead.phone || lead.email) && (
+      {/* Reach out */}
+      {hasContact && (
         <div className="flex flex-col gap-3">
           <div>
-            <label htmlFor={`msg-${lead.key}`} className={labelClass}>Message</label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label htmlFor={id('msg')} className={labelClass.replace(' mb-1.5', '')}>Message</label>
+              <button
+                type="button"
+                onClick={() => navigator.clipboard?.writeText(message)}
+                className="text-[11px] uppercase tracking-widest text-brand-light1 hover:text-brand-white"
+              >
+                Copy
+              </button>
+            </div>
             <textarea
-              id={`msg-${lead.key}`}
+              id={id('msg')}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={5}
               className={`${inputClass} leading-relaxed resize-y`}
             />
           </div>
-          <div className="flex flex-wrap gap-2">
-            {lead.phone && <a href={smsHref(lead.phone, message)} className={primaryClass}>Text</a>}
-            {lead.email && <a href={emailHref(lead, message)} className={lead.phone ? btnClass : primaryClass}>Email</a>}
-            {lead.phone && <a href={`tel:${phoneForLink(lead.phone)}`} className={btnClass}>Call</a>}
-            <button
-              type="button"
-              onClick={() => navigator.clipboard?.writeText(message)}
-              className={btnClass}
-            >
-              Copy
-            </button>
-          </div>
+          {desktop && <div className="flex flex-wrap gap-2">{contactButtons}</div>}
         </div>
       )}
 
       {editable && (
-        <>
-          {/* Mark contacted */}
-          <div className="flex flex-col gap-3 border border-brand-dark2 p-4">
-            <p className="text-sm text-brand-light1">
-              {lead.lastContacted
-                ? <>Last contacted <span className="text-brand-offwhite">{showDate(lead.lastContacted)}</span>{lead.contactedVia && <> by {lead.contactedVia.toLowerCase()}</>}.</>
-                : 'Not contacted yet.'}
-            </p>
-            <div className="flex flex-wrap gap-2 items-center">
-              <label htmlFor={`via-${lead.key}`} className="sr-only">Contacted by</label>
-              <select
-                id={`via-${lead.key}`}
-                value={via}
-                onChange={(e) => setVia(e.target.value)}
-                className={inputClass.replace('w-full', 'w-auto')}
-              >
-                {contactMethods.map((m) => <option key={m}>{m}</option>)}
-              </select>
+        <div className="flex flex-col gap-3 border border-brand-dark2 p-4">
+          <p className="text-sm text-brand-light1">
+            {lead.lastContacted
+              ? <>Last contacted <span className="text-brand-offwhite">{showDate(lead.lastContacted)}</span>{lead.contactedVia && <> by {lead.contactedVia.toLowerCase()}</>}.</>
+              : 'Not contacted yet.'}
+          </p>
+          <div className="flex flex-wrap gap-2 items-center">
+            <label htmlFor={id('via')} className="text-sm text-brand-light1">Reached out by</label>
+            <select id={id('via')} value={via} onChange={(e) => setVia(e.target.value)} className={inputClass.replace('w-full', 'w-auto')}>
+              {contactMethods.map((m) => <option key={m}>{m}</option>)}
+            </select>
+            {desktop && (
               <button type="button" onClick={markContacted} disabled={saving} className={primaryClass}>
                 Mark contacted today
               </button>
-            </div>
-            <p className="text-xs text-brand-mid">
-              Sets Last Contacted to today{lead.status === 'New' ? ', moves the status to Contacted' : ''}, and schedules a follow-up in 3 days unless a later one is already set.
-            </p>
+            )}
           </div>
+          <p className="text-xs text-brand-mid">
+            Mark contacted sets today’s date{lead.status === 'New' ? ', moves the status to Contacted,' : ''} and schedules a follow-up in 3 days unless a later one is already set.
+          </p>
+        </div>
+      )}
 
-          {/* Edit */}
+      {editable && (
+        <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor={`status-${lead.key}`} className={labelClass}>Status</label>
+              <label htmlFor={id('status')} className={labelClass}>Status</label>
               <select
-                id={`status-${lead.key}`}
+                id={id('status')}
                 value={draft.status}
                 onChange={(e) => setDraft({ ...draft, status: e.target.value })}
                 className={inputClass}
@@ -267,23 +309,23 @@ function LeadPanel({
               </select>
             </div>
             <div>
-              <label htmlFor={`next-${lead.key}`} className={labelClass}>Next follow-up</label>
+              <label htmlFor={id('next')} className={labelClass}>Next follow-up</label>
               <input
-                id={`next-${lead.key}`}
+                id={id('next')}
                 type="date"
                 value={draft.nextFollowUp}
                 onChange={(e) => setDraft({ ...draft, nextFollowUp: e.target.value })}
                 className={`${inputClass} [color-scheme:dark]`}
               />
               <div className="flex gap-3 mt-2 text-xs">
-                {([['Tomorrow', 1], ['+3 days', 3], ['+1 week', 7]] as const).map(([label, n]) => (
+                {([['Tomorrow', 1], ['+3 days', 3], ['+1 week', 7]] as const).map(([text, n]) => (
                   <button
-                    key={label}
+                    key={text}
                     type="button"
                     onClick={() => setDraft({ ...draft, nextFollowUp: addDays(today(), n) })}
                     className="text-brand-light1 hover:text-brand-white underline underline-offset-4"
                   >
-                    {label}
+                    {text}
                   </button>
                 ))}
                 {draft.nextFollowUp && (
@@ -300,19 +342,19 @@ function LeadPanel({
                 <p className="text-xs text-brand-mid mt-1.5">The sheet says “{lead.followUpText}”, which isn’t a date.</p>
               )}
             </div>
-            <div className="sm:col-span-2">
-              <label htmlFor={`notes-${lead.key}`} className={labelClass}>Follow-up notes</label>
-              <textarea
-                id={`notes-${lead.key}`}
-                value={draft.notes}
-                onChange={(e) => setDraft({ ...draft, notes: e.target.value })}
-                rows={3}
-                className={`${inputClass} resize-y`}
-              />
-            </div>
+          </div>
+          <div>
+            <label htmlFor={id('notes')} className={labelClass}>Follow-up notes</label>
+            <textarea
+              id={id('notes')}
+              value={draft.notes}
+              onChange={(e) => setDraft({ ...draft, notes: e.target.value })}
+              rows={3}
+              className={`${inputClass} resize-y`}
+            />
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <button type="button" onClick={saveDraft} disabled={!dirty || saving} className={primaryClass}>
+            <button type="button" onClick={saveDraft} disabled={!dirty || saving} className={dirty ? primaryClass : btnClass}>
               {saving ? 'Saving…' : 'Save changes'}
             </button>
             {dirty && !saving && (
@@ -325,28 +367,151 @@ function LeadPanel({
               </button>
             )}
           </div>
-        </>
+        </div>
       )}
 
-      <a href={lead.sheetUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-brand-mid hover:text-brand-light2 w-fit">
-        Open this row in Google Sheets ↗
-      </a>
+      <details className="group border-t border-brand-dark2 pt-4">
+        <summary className="cursor-pointer list-none text-xs uppercase tracking-widest text-brand-light1 hover:text-brand-white">
+          <span className="group-open:hidden">+ More details</span>
+          <span className="hidden group-open:inline">− Hide details</span>
+        </summary>
+        <dl className="mt-4 grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-x-4 gap-y-1.5 text-sm">
+          {[
+            ['Industry', tidy(lead.industry)],
+            ['Location', lead.location],
+            ...lead.details,
+          ].filter(([, v]) => v).map(([k, v]) => (
+            <div key={k} className="contents">
+              <dt className="text-brand-mid">{k}</dt>
+              <dd className="text-brand-light2 mb-1.5 sm:mb-0 break-words">
+                {k === 'Location' && isUrl
+                  ? <a href={v} target="_blank" rel="noopener noreferrer" className="hover:underline">Open in Maps ↗</a>
+                  : v}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <a href={lead.sheetUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block text-xs text-brand-mid hover:text-brand-light2">
+          Open this row in Google Sheets ↗
+        </a>
+      </details>
+
+      {/* Phone: the main actions stay pinned to the bottom of the screen */}
+      {!desktop && (hasContact || editable) && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-brand-dark2 bg-brand-black/95 backdrop-blur px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+          <div className="flex gap-2">
+            {contactButtons}
+            {editable && (
+              <button type="button" onClick={markContacted} disabled={saving} className={`${btnClass} flex-1`}>
+                {saving ? 'Saving…' : 'Mark contacted'}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
+function AddLeadForm({
+  sources, api, onDone, onCancel,
+}: {
+  sources: string[];
+  api: Api;
+  onDone: () => void;
+  onCancel: () => void;
+}) {
+  const [form, setForm] = useState({
+    firstName: '', lastName: '', business: '', phone: '', email: '', industry: '', location: '',
+    source: sources[0] ?? 'Referral', howMet: '', nextFollowUp: addDays(today(), 1), notes: '',
+  });
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    setForm({ ...form, [k]: e.target.value });
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.firstName.trim() && !form.business.trim()) {
+      setError('Add a name or a business.');
+      return;
+    }
+    setBusy(true);
+    setError('');
+    try {
+      await api('POST', form);
+      onDone();
+    } catch (err) {
+      if ((err as Error).message !== 'Signed out') setError((err as Error).message);
+      setBusy(false);
+    }
+  };
+
+  const field = (k: keyof typeof form, text: string, type = 'text', auto?: string) => (
+    <div>
+      <label htmlFor={`new-${k}`} className={labelClass}>{text}</label>
+      <input id={`new-${k}`} type={type} autoComplete={auto} value={form[k]} onChange={set(k)} className={inputClass} />
+    </div>
+  );
+
+  return (
+    <form onSubmit={submit} className="border border-brand-light1 p-4 sm:p-6 flex flex-col gap-5">
+      <div className="flex items-center justify-between">
+        <h2 className="font-display text-2xl text-brand-white uppercase tracking-tight">New lead</h2>
+        <button type="button" onClick={onCancel} aria-label="Cancel" className="text-brand-mid hover:text-brand-white"><X size={18} /></button>
+      </div>
+      <p className="text-sm text-brand-light1 -mt-3">For referrals, calls and walk-ins. Saved to the “Other Leads” tab of your leads sheet.</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {field('firstName', 'First name', 'text', 'off')}
+        {field('lastName', 'Last name', 'text', 'off')}
+        {field('business', 'Business')}
+        {field('industry', 'Industry')}
+        {field('phone', 'Phone', 'tel', 'off')}
+        {field('email', 'Email', 'email', 'off')}
+        {field('location', 'Location')}
+        <div>
+          <label htmlFor="new-source" className={labelClass}>Where they came from</label>
+          <select id="new-source" value={form.source} onChange={set('source')} className={inputClass}>
+            {sources.map((s) => <option key={s}>{s}</option>)}
+          </select>
+        </div>
+        <div className="sm:col-span-2">
+          <label htmlFor="new-howMet" className={labelClass}>How you met / who referred them</label>
+          <textarea id="new-howMet" value={form.howMet} onChange={set('howMet')} rows={2} className={`${inputClass} resize-y`} />
+        </div>
+        <div>
+          <label htmlFor="new-nextFollowUp" className={labelClass}>First follow-up</label>
+          <input id="new-nextFollowUp" type="date" value={form.nextFollowUp} onChange={set('nextFollowUp')} className={`${inputClass} [color-scheme:dark]`} />
+        </div>
+        <div>
+          <label htmlFor="new-notes" className={labelClass}>Notes</label>
+          <input id="new-notes" value={form.notes} onChange={set('notes')} className={inputClass} />
+        </div>
+      </div>
+      {error && <p className="text-sm text-red-400">{error}</p>}
+      <div className="flex gap-3">
+        <button type="submit" disabled={busy} className={primaryClass}>{busy ? 'Adding…' : 'Add lead'}</button>
+        <button type="button" onClick={onCancel} className={btnClass}>Cancel</button>
+      </div>
+    </form>
+  );
+}
+
 export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
+  const desktop = useIsDesktop();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [contactMethods, setContactMethods] = useState<string[]>([]);
+  const [manualSources, setManualSources] = useState<string[]>([]);
   const [loadErrors, setLoadErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [notice, setNotice] = useState<{ text: string; bad?: boolean } | null>(null);
   const [filter, setFilter] = useState<Filter>('due');
-  const [source, setSource] = useState<'all' | Lead['source']>('all');
+  const [source, setSource] = useState('all');
   const [query, setQuery] = useState('');
   const [openKey, setOpenKey] = useState<string | null>(null);
+  const [adding, setAdding] = useState(false);
 
-  const call = useCallback(async (method: 'GET' | 'PATCH', body?: unknown) => {
+  const api: Api = useCallback(async (method, body) => {
     const { data: { session } } = await getSupabase().auth.getSession();
     if (!session) {
       onSignedOut();
@@ -369,15 +534,16 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const json = await call('GET');
-      setLeads(json.leads);
-      setContactMethods(json.contactMethods);
-      setLoadErrors(json.errors ?? []);
+      const json = await api('GET');
+      setLeads(json.leads as Lead[]);
+      setContactMethods(json.contactMethods as string[]);
+      setManualSources(json.manualSources as string[]);
+      setLoadErrors((json.errors as string[]) ?? []);
     } catch (err) {
       if ((err as Error).message !== 'Signed out') setLoadErrors([(err as Error).message]);
     }
     setLoading(false);
-  }, [call]);
+  }, [api]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -396,8 +562,10 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
   const save = async (lead: Lead, changes: Changes) => {
     if (!Object.keys(changes).length) return true;
     try {
-      await call('PATCH', { source: lead.source, row: lead.row, check: lead.check, changes });
-      setLeads((all) => all.map((l) => (l.key === lead.key ? { ...l, ...changes, followUpText: changes.nextFollowUp !== undefined ? '' : l.followUpText } : l)));
+      await api('PATCH', { source: lead.source, row: lead.row, check: lead.check, changes });
+      setLeads((all) => all.map((l) => (l.key === lead.key
+        ? { ...l, ...changes, followUpText: changes.nextFollowUp !== undefined ? '' : l.followUpText }
+        : l)));
       setNotice({ text: 'Saved to the sheet' });
       return true;
     } catch (err) {
@@ -435,133 +603,176 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
       });
   }, [leads, filter, source, query]);
 
+  // Clients and closed leads have no follow-up dates, so they're shown as one plain list.
+  const grouped = filter !== 'client' && filter !== 'closed';
+  const sections = grouped
+    ? GROUPS.map(([g, text, tone]) => ({ g, text, tone, items: visible.filter((l) => groupOf(l) === g) })).filter((s) => s.items.length)
+    : [{ g: 'closed' as Group, text: '', tone: '', items: visible }];
+
+  const selected = visible.find((l) => l.key === openKey) ?? null;
+
+  // On a computer, keep a lead open in the right-hand pane.
+  useEffect(() => {
+    if (desktop && !loading && !selected && visible.length) setOpenKey(visible[0].key);
+  }, [desktop, loading, selected, visible]);
+
+  const moreValue = MORE.some(([f]) => f === filter) ? filter : '';
+
   return (
-    <div className="flex flex-col gap-6 pb-16">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="font-display text-4xl sm:text-5xl text-brand-white uppercase tracking-tight leading-none">
-            Leads
-          </h1>
-          <p className="mt-2 text-brand-light1 text-sm">
-            Website, in-person and client contacts in one place. Changes save straight to the Google Sheets.
-          </p>
+    <div className={`flex flex-col gap-6 ${!desktop && selected ? 'pb-28' : 'pb-16'}`}>
+      {/* Heading */}
+      <div className="flex items-center justify-between gap-4">
+        <h1 className="font-display text-4xl sm:text-5xl text-brand-white uppercase tracking-tight leading-none">Leads</h1>
+        <div className="flex gap-2">
+          <button type="button" onClick={load} disabled={loading} aria-label="Refresh" className={btnClass}>
+            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+            <span className="hidden sm:inline">Refresh</span>
+          </button>
+          <button type="button" onClick={() => setAdding(true)} className={primaryClass}>
+            <Plus size={14} /> New lead
+          </button>
         </div>
-        <button type="button" onClick={load} disabled={loading} className={btnClass}>
-          {loading ? 'Loading…' : 'Refresh'}
-        </button>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-brand-dark2 border border-brand-dark2">
-        {([
-          ['due', 'Follow-ups due', counts.due],
-          ['new', 'New', counts.new],
-          ['audit', 'Audits booked', counts.audit],
-          ['client', 'Clients', counts.client],
-        ] as const).map(([f, label, n]) => (
+      {adding && (
+        <AddLeadForm
+          sources={manualSources}
+          api={api}
+          onCancel={() => setAdding(false)}
+          onDone={async () => {
+            setAdding(false);
+            setNotice({ text: 'Lead added' });
+            setFilter('open');
+            setSource('all');
+            setQuery('');
+            await load();
+          }}
+        />
+      )}
+
+      {/* Counters = filters */}
+      <div className="grid grid-cols-4 gap-px bg-brand-dark2 border border-brand-dark2" role="group" aria-label="Show">
+        {TILES.map(([f, text]) => (
           <button
             key={f}
             type="button"
+            aria-pressed={filter === f}
             onClick={() => setFilter(f)}
-            className={`text-left bg-brand-near-black px-4 py-4 hover:bg-brand-dark1 transition-colors ${filter === f ? 'bg-brand-dark1' : ''}`}
+            className={`text-left px-3 sm:px-4 py-3 sm:py-4 transition-colors ${
+              filter === f ? 'bg-brand-offwhite text-brand-black' : 'bg-brand-near-black hover:bg-brand-dark1'
+            }`}
           >
-            <div className={`font-display text-3xl tabular-nums ${f === 'due' && n > 0 ? 'text-red-400' : 'text-brand-white'}`}>
-              {loading ? '–' : n}
+            <div className={`font-display text-2xl sm:text-3xl tabular-nums leading-none ${
+              filter === f ? '' : f === 'due' && counts.due > 0 ? 'text-red-400' : 'text-brand-white'
+            }`}>
+              {loading ? '–' : counts[f]}
             </div>
-            <div className="text-[11px] uppercase tracking-widest text-brand-light1 mt-1">{label}</div>
+            <div className={`text-[10px] sm:text-[11px] uppercase tracking-widest mt-1.5 ${filter === f ? 'text-brand-dark2' : 'text-brand-light1'}`}>
+              {text}
+            </div>
           </button>
         ))}
+      </div>
+
+      {/* Search + more filters */}
+      <div className="grid grid-cols-2 sm:grid-cols-[1fr_11rem_11rem] gap-2">
+        <label htmlFor="crm-search" className="sr-only">Search</label>
+        <input
+          id="crm-search"
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search name, business, phone…"
+          className={`${inputClass} col-span-2 sm:col-span-1`}
+        />
+        <label htmlFor="crm-more" className="sr-only">More filters</label>
+        <select
+          id="crm-more"
+          value={moreValue}
+          onChange={(e) => e.target.value && setFilter(e.target.value as Filter)}
+          className={`${inputClass} ${moreValue ? 'border-brand-light1' : ''}`}
+        >
+          <option value="">More filters…</option>
+          {MORE.map(([f, text]) => <option key={f} value={f}>{text} ({counts[f]})</option>)}
+        </select>
+        <label htmlFor="crm-source" className="sr-only">Source</label>
+        <select id="crm-source" value={source} onChange={(e) => setSource(e.target.value)} className={inputClass}>
+          {SOURCES.map(([v, text]) => <option key={v} value={v}>{text}</option>)}
+        </select>
       </div>
 
       {loadErrors.map((e) => (
         <p key={e} className="text-sm text-red-400 border border-red-500/40 px-4 py-3">{e}</p>
       ))}
 
-      {/* Filters */}
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-wrap gap-2" role="group" aria-label="Status">
-          {FILTERS.map(([f, label]) => (
-            <button
-              key={f}
-              type="button"
-              aria-pressed={filter === f}
-              onClick={() => setFilter(f)}
-              className={`px-3 py-1.5 text-xs uppercase tracking-widest border transition-colors ${
-                filter === f
-                  ? 'bg-brand-white text-brand-black border-brand-white'
-                  : 'border-brand-dark2 text-brand-light1 hover:border-brand-light1'
-              }`}
-            >
-              {label} <span className="tabular-nums opacity-60">{counts[f]}</span>
-            </button>
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-6 items-start">
+        {/* List */}
+        <div className="flex flex-col gap-6">
+          {!loading && visible.length === 0 && (
+            <p className="text-sm text-brand-mid border border-dashed border-brand-dark2 px-4 py-8 text-center">
+              Nothing here{query ? ' matches your search' : ''}.
+            </p>
+          )}
+          {sections.map(({ g, text, tone, items }) => (
+            <section key={g} className="flex flex-col gap-2">
+              {text && (
+                <h2 className={`text-[11px] font-semibold uppercase tracking-widest ${tone}`}>
+                  {text} <span className="text-brand-mid tabular-nums">{items.length}</span>
+                </h2>
+              )}
+              {items.map((l) => {
+                const open = openKey === l.key;
+                const note = followUpNote(l, g);
+                return (
+                  <div key={l.key} className={`border transition-colors ${open ? 'border-brand-light1 bg-brand-dark1/60' : 'border-brand-dark2'}`}>
+                    <button
+                      type="button"
+                      onClick={() => setOpenKey(open && !desktop ? null : l.key)}
+                      aria-expanded={open}
+                      className="w-full text-left px-4 py-3.5 flex items-center gap-3 hover:bg-brand-dark1/60 transition-colors"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <p className="text-brand-white font-semibold truncate">{title(l)}</p>
+                        <p className="text-xs text-brand-light1 truncate">
+                          {[l.business ? tidy(l.name) : '', l.origin, added(l)].filter(Boolean).join(' · ')}
+                        </p>
+                      </div>
+                      <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
+                        <div className="flex items-center gap-2">
+                          {l.phone && <Phone size={13} className="text-brand-mid" aria-label="Has phone" />}
+                          {l.email && <Mail size={13} className="text-brand-mid" aria-label="Has email" />}
+                          {!l.phone && !l.email && (
+                            <span className="text-[10px] uppercase tracking-widest text-red-400">No contact info</span>
+                          )}
+                          <StatusChip status={l.status} />
+                        </div>
+                        {note && <span className={`text-xs ${g === 'overdue' ? 'text-red-400' : 'text-brand-light1'}`}>{note}</span>}
+                      </div>
+                    </button>
+                    {open && !desktop && (
+                      <LeadPanel lead={l} contactMethods={contactMethods} onSave={save} desktop={false} />
+                    )}
+                  </div>
+                );
+              })}
+            </section>
           ))}
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <label htmlFor="crm-search" className="sr-only">Search</label>
-          <input
-            id="crm-search"
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search name, business, phone…"
-            className={`${inputClass} sm:flex-1`}
-          />
-          <label htmlFor="crm-source" className="sr-only">Source</label>
-          <select
-            id="crm-source"
-            value={source}
-            onChange={(e) => setSource(e.target.value as typeof source)}
-            className={`${inputClass} sm:w-48`}
-          >
-            <option value="all">All sources</option>
-            <option value="website">Website</option>
-            <option value="inperson">In person</option>
-            <option value="client">Clients</option>
-          </select>
-        </div>
-      </div>
 
-      {/* List */}
-      <div className="flex flex-col gap-2">
-        {!loading && visible.length === 0 && (
-          <p className="text-sm text-brand-mid border border-dashed border-brand-dark2 px-4 py-8 text-center">
-            Nothing here.
-          </p>
+        {/* Detail pane (computer) */}
+        {desktop && (
+          <div className="sticky top-20 border border-brand-dark2 bg-brand-dark1/40 max-h-[calc(100vh-6rem)] overflow-y-auto">
+            {selected
+              ? <LeadPanel key={selected.key} lead={selected} contactMethods={contactMethods} onSave={save} desktop />
+              : <p className="p-10 text-sm text-brand-mid text-center">Pick a lead to see it here.</p>}
+          </div>
         )}
-        {visible.map((l) => {
-          const open = openKey === l.key;
-          const fu = followUpLabel(l);
-          return (
-            <div key={l.key} className={`border transition-colors ${open ? 'border-brand-light1 bg-brand-dark1/40' : 'border-brand-dark2'}`}>
-              <button
-                type="button"
-                onClick={() => setOpenKey(open ? null : l.key)}
-                aria-expanded={open}
-                className="w-full text-left px-4 sm:px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 hover:bg-brand-dark1/60 transition-colors"
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="text-brand-white font-semibold truncate">{l.business || l.name || 'No name'}</p>
-                  <p className="text-xs text-brand-light1 truncate">
-                    {[l.business ? l.name : '', SOURCE_LABEL[l.source], added(l)].filter(Boolean).join(' · ')}
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 flex-wrap">
-                  {fu && <span className={`text-xs ${fu.tone}`}>{fu.text}</span>}
-                  <span className={`text-[10px] uppercase tracking-widest px-2 py-1 whitespace-nowrap ${STATUS_STYLE[bucket(l.status)]}`}>
-                    {l.status}
-                  </span>
-                </div>
-              </button>
-              {open && <LeadPanel lead={l} contactMethods={contactMethods} onSave={save} />}
-            </div>
-          );
-        })}
       </div>
 
       {notice && (
         <div
           role="status"
-          className={`fixed left-1/2 -translate-x-1/2 bottom-6 px-5 py-3 text-sm font-semibold shadow-lg z-50 ${
+          className={`fixed left-1/2 -translate-x-1/2 ${!desktop && selected ? 'bottom-24' : 'bottom-6'} px-5 py-3 text-sm font-semibold shadow-lg z-50 ${
             notice.bad ? 'bg-red-500 text-white' : 'bg-brand-white text-brand-black'
           }`}
         >

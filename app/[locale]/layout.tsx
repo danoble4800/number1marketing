@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import '../globals.css';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import SiteChrome from '@/components/SiteChrome';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -84,9 +85,9 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${inter.variable} ${anton.variable}`}>
       <body className="bg-brand-near-black text-brand-offwhite font-body antialiased">
         <NextIntlClientProvider messages={messages}>
-          <NavBar locale={locale} />
+          <SiteChrome><NavBar locale={locale} /></SiteChrome>
           <main>{children}</main>
-          <Footer locale={locale} />
+          <SiteChrome><Footer locale={locale} /></SiteChrome>
         </NextIntlClientProvider>
       </body>
     </html>
