@@ -51,7 +51,7 @@ function LoginInner({ locale }: { locale: string }) {
     const origin = window.location.origin;
 
     if (mode === 'forgot') {
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
         redirectTo: `${origin}/${locale}/academy/reset-password`,
       });
       if (resetError) return fail(t('genericError'));
@@ -62,7 +62,7 @@ function LoginInner({ locale }: { locale: string }) {
 
     if (mode === 'register') {
       const { data, error: signUpError } = await supabase.auth.signUp({
-        email: email.trim(),
+        email: email.trim().toLowerCase(),
         password,
         options: {
           data: { full_name: name.trim() },
@@ -83,7 +83,7 @@ function LoginInner({ locale }: { locale: string }) {
     }
 
     const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
+      email: email.trim().toLowerCase(),
       password,
     });
     if (signInError) {
