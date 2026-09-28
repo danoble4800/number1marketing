@@ -650,40 +650,51 @@
     "close": "Close"
   },
   "shop": {
-    "metaTitle": "NFC Review Cards & Stands",
+    "metaTitle": "NFC Tap Cards, Stands & Bracelets",
     "eyebrow": "N°1 Tap Products",
     "headline": "More reviews.",
     "headlineAccent": "One tap.",
-    "subheading": "NFC review cards, counter stands and stickers, custom printed with your logo and programmed for you. Customers tap their phone and land right on your Google review page. No app, no searching.",
+    "subheading": "Pre-printed NFC cards, counter stands, bracelets and stickers, programmed for you. Customers tap their phone and land right on your Google reviews, Instagram, menu or Wi-Fi. No app, no searching.",
     "chips": [
       "Works with iPhone & Android",
       "No app needed",
-      "QR backup on every product",
-      "Designed & programmed for you"
+      "QR backup on cards & stands",
+      "Programmed & tested for you"
     ],
     "add": "Add to order",
+    "addDesign": "Add · {design}",
     "less": "Remove one",
     "more": "Add one",
     "save": "Save {amount}",
     "products": {
       "reviewCard": {
-        "name": "Review Card",
+        "name": "Tap Card",
         "desc": "A card for the register, the table or your pocket. Hand it to customers and let them tap.",
         "features": [
-          "Custom printed with your logo and colors",
-          "Programmed to your review page or link",
+          "Pre-printed design: Google Review, Instagram, Menu or Wi-Fi",
+          "Programmed to your link",
           "QR code on the back as a backup",
           "Durable matte PVC, credit-card size"
         ]
       },
       "counterStand": {
         "name": "Counter Stand",
-        "desc": "Sits by the register or front desk and asks for the review for you.",
+        "desc": "Sits by the register, front desk or table and does the asking for you.",
         "features": [
-          "Acrylic stand with your logo and a clear call to action",
+          "Pre-printed design: Google Review, Instagram, Menu or Wi-Fi",
           "NFC tap plus QR code",
           "Great for restaurants, salons and shops",
           "No batteries, nothing to set up"
+        ]
+      },
+      "bracelet": {
+        "name": "Tap Bracelet",
+        "desc": "Wear it and let people tap your wrist. Made for staff, events and anyone who meets people all day.",
+        "features": [
+          "NFC chip built into the band",
+          "Programmed to any link: reviews, Instagram, booking, contact",
+          "Great for servers, stylists, valets and events",
+          "Nothing to charge"
         ]
       },
       "stickerPack": {
@@ -701,7 +712,7 @@
         "desc": "Everything a busy location needs: a stand for the counter, cards for the team and stickers for the tables.",
         "features": [
           "1 Counter Stand",
-          "5 Review Cards",
+          "5 Tap Cards",
           "5 Tap Stickers",
           "Free shipping"
         ]
@@ -709,35 +720,39 @@
     },
     "form": {
       "heading": "Your details",
-      "subheading": "We use this to design your products and text you a proof before anything is printed.",
+      "subheading": "We use this to program your products and text you if we have questions.",
+      "linksHeading": "Where should a tap go?",
+      "linksEmpty": "Add a product above and we’ll ask for the links it needs.",
+      "links": {
+        "googleReview": {
+          "label": "Google review link (optional)",
+          "placeholder": "https://g.page/r/...",
+          "help": "Don't have it handy? Leave it blank and we'll find your Google listing for you."
+        },
+        "instagram": {
+          "label": "Instagram handle",
+          "placeholder": "@yourbusiness"
+        },
+        "menu": {
+          "label": "Menu link",
+          "placeholder": "https://yourbusiness.com/menu",
+          "help": "Only have a PDF? Put it in the notes and we’ll host it for you."
+        },
+        "other": {
+          "label": "Link for bracelets & stickers (optional)",
+          "placeholder": "https://...",
+          "help": "Your review page, Instagram, booking page, anything. Blank = same as your Google review link."
+        }
+      },
+      "wifiNote": "Wi-Fi: we’ll text you for your guest network name and password after you order.",
       "business": "Business name",
       "businessPlaceholder": "e.g. Bean Country Coffee",
       "contactName": "Your name",
       "phone": "Mobile phone",
       "email": "Email",
-      "tapTarget": "What should a tap open?",
-      "targets": {
-        "googleReview": "My Google review page",
-        "website": "My website",
-        "instagram": "My Instagram",
-        "other": "Something else (tell us in the notes)"
-      },
-      "linkLabels": {
-        "googleReview": "Google review link (optional)",
-        "website": "Website URL",
-        "instagram": "Instagram handle or link",
-        "other": "Link (optional)"
-      },
-      "linkPlaceholders": {
-        "googleReview": "https://g.page/r/...",
-        "website": "https://yourbusiness.com",
-        "instagram": "@yourbusiness",
-        "other": "https://..."
-      },
-      "googleHelp": "Don't have it handy? Leave it blank and we'll find your Google listing for you.",
-      "notes": "Notes for the design",
-      "notesPlaceholder": "Colors, wording, where to find your logo, anything else we should know",
-      "smsConsent": "Text me my design proof and order updates. Msg & data rates may apply; reply STOP to opt out."
+      "notes": "Notes",
+      "notesPlaceholder": "Anything we should know",
+      "smsConsent": "Text me about my order. Msg & data rates may apply; reply STOP to opt out."
     },
     "summary": {
       "heading": "Your order",
@@ -760,15 +775,15 @@
     "steps": [
       {
         "title": "Order online",
-        "desc": "Pick your products and tell us where the tap should go. Takes two minutes."
+        "desc": "Pick your products and designs and tell us where the tap should go. Takes two minutes."
       },
       {
-        "title": "Approve your proof",
-        "desc": "Within 1 business day we text you a design proof, and we tweak it until you love it."
+        "title": "We program and test",
+        "desc": "Within 1 business day we confirm your links by text, then program and test every piece on iPhone and Android."
       },
       {
         "title": "Tap and collect",
-        "desc": "We program and test every piece, then ship in 5–10 business days. Put it out and watch the reviews come in."
+        "desc": "Your order ships in 5–10 business days. Put it out and watch the reviews and follows come in."
       }
     ],
     "faqHeading": "Questions",
@@ -776,6 +791,10 @@
       {
         "q": "Does it work with every phone?",
         "a": "Every iPhone since the XR and nearly all Android phones read NFC with no app. For anything else, the QR code does the same job."
+      },
+      {
+        "q": "Can I get my own logo on it?",
+        "a": "Yes. Custom-printed cards and stands start at 125 pieces. Request a quote or text (781) 985-0916 and we’ll send pricing and a design proof."
       },
       {
         "q": "Is this allowed by Google?",
@@ -787,7 +806,7 @@
       },
       {
         "q": "How long does shipping take?",
-        "a": "5–10 business days after you approve your proof. Local to the Boston area? Ask about hand delivery in your order notes."
+        "a": "5–10 business days after we confirm your links. Local to the Boston area? Ask about hand delivery in your order notes."
       },
       {
         "q": "Can I order for multiple locations?",
@@ -810,13 +829,27 @@
       "orderLine": "Order {orderId} for {business} is in. Thanks!",
       "nextHeading": "What happens next",
       "steps": [
-        "Within 1 business day we text you a design proof.",
-        "You approve it, or we tweak it until you love it.",
-        "We program, test and ship your order in 5–10 business days."
+        "Within 1 business day we text you to confirm your links (and Wi-Fi details, if you ordered Wi-Fi).",
+        "We program and test every piece.",
+        "Your order ships in 5–10 business days."
       ],
       "auditHeading": "While you wait: a free growth audit",
       "auditText": "Reviews get people to trust you. In a free 30-minute audit we'll show you what else is keeping customers from finding you.",
       "auditCta": "Book my free audit"
+    },
+    "custom": {
+      "eyebrow": "Custom printing",
+      "heading": "Want your own logo?",
+      "text": "We print cards and stands with your logo, colors and wording. Custom orders start at {min} pieces, with volume pricing.",
+      "quote": "Request a quote",
+      "text2": "Text (781) 985-0916"
+    },
+    "designLabel": "Design",
+    "designs": {
+      "googleReview": "Google Review",
+      "instagram": "Instagram",
+      "menu": "Menu",
+      "wifi": "Wi-Fi"
     }
   }
 }

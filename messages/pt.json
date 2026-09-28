@@ -651,40 +651,51 @@
     "close": "Fechar"
   },
   "shop": {
-    "metaTitle": "Cartões e Displays NFC para Avaliações",
+    "metaTitle": "Cartões, Displays e Pulseiras NFC",
     "eyebrow": "Produtos Tap N°1",
     "headline": "Mais avaliações.",
     "headlineAccent": "Um toque.",
-    "subheading": "Cartões, displays de balcão e adesivos NFC, impressos com a sua logo e programados por nós. O cliente encosta o celular e cai direto na sua página de avaliações do Google. Sem app, sem procurar.",
+    "subheading": "Cartões, displays de balcão, pulseiras e adesivos NFC pré-impressos e programados por nós. O cliente encosta o celular e cai direto nas suas avaliações do Google, Instagram, cardápio ou Wi-Fi. Sem app, sem procurar.",
     "chips": [
       "Funciona com iPhone e Android",
       "Sem app",
-      "QR code de reserva",
-      "Criado e programado por nós"
+      "QR code em cartões e displays",
+      "Programado e testado por nós"
     ],
     "add": "Adicionar ao pedido",
+    "addDesign": "Adicionar · {design}",
     "less": "Remover um",
     "more": "Adicionar um",
     "save": "Economize {amount}",
     "products": {
       "reviewCard": {
-        "name": "Cartão de Avaliação",
+        "name": "Cartão Tap",
         "desc": "Um cartão para o caixa, a mesa ou o bolso. Entregue aos clientes e deixe que eles encostem o celular.",
         "features": [
-          "Impresso com a sua logo e cores",
-          "Programado para sua página de avaliações ou link",
+          "Design pré-impresso: Avaliação Google, Instagram, Cardápio ou Wi-Fi",
+          "Programado para o seu link",
           "QR code no verso como reserva",
           "PVC fosco resistente, tamanho de cartão de crédito"
         ]
       },
       "counterStand": {
         "name": "Display de Balcão",
-        "desc": "Fica ao lado do caixa ou da recepção e pede a avaliação por você.",
+        "desc": "Fica ao lado do caixa, da recepção ou na mesa e faz o pedido por você.",
         "features": [
-          "Display de acrílico com sua logo e uma chamada clara",
+          "Design pré-impresso: Avaliação Google, Instagram, Cardápio ou Wi-Fi",
           "Toque NFC mais QR code",
           "Ótimo para restaurantes, salões e lojas",
           "Sem bateria, nada para configurar"
+        ]
+      },
+      "bracelet": {
+        "name": "Pulseira Tap",
+        "desc": "Use no pulso e deixe as pessoas encostarem o celular. Para equipes, eventos e quem conhece gente o dia todo.",
+        "features": [
+          "Chip NFC embutido na pulseira",
+          "Programada para qualquer link: avaliações, Instagram, agendamento, contato",
+          "Ótima para garçons, cabeleireiros, manobristas e eventos",
+          "Não precisa carregar"
         ]
       },
       "stickerPack": {
@@ -702,7 +713,7 @@
         "desc": "Tudo o que um ponto movimentado precisa: um display para o balcão, cartões para a equipe e adesivos para as mesas.",
         "features": [
           "1 Display de Balcão",
-          "5 Cartões de Avaliação",
+          "5 Cartões Tap",
           "5 Adesivos Tap",
           "Frete grátis"
         ]
@@ -710,35 +721,39 @@
     },
     "form": {
       "heading": "Seus dados",
-      "subheading": "Usamos isso para criar seus produtos e mandar uma prova por mensagem antes de imprimir.",
+      "subheading": "Usamos isso para programar seus produtos e mandar mensagem se tivermos dúvidas.",
+      "linksHeading": "Para onde o toque deve levar?",
+      "linksEmpty": "Adicione um produto acima e pediremos os links necessários.",
+      "links": {
+        "googleReview": {
+          "label": "Link de avaliações do Google (opcional)",
+          "placeholder": "https://g.page/r/...",
+          "help": "Não tem o link à mão? Deixe em branco e nós encontramos seu perfil no Google."
+        },
+        "instagram": {
+          "label": "Usuário do Instagram",
+          "placeholder": "@seunegocio"
+        },
+        "menu": {
+          "label": "Link do cardápio",
+          "placeholder": "https://seunegocio.com/cardapio",
+          "help": "Só tem um PDF? Avise nas observações e hospedamos para você."
+        },
+        "other": {
+          "label": "Link para pulseiras e adesivos (opcional)",
+          "placeholder": "https://...",
+          "help": "Sua página de avaliações, Instagram, agendamento, o que for. Em branco = igual ao link de avaliações do Google."
+        }
+      },
+      "wifiNote": "Wi-Fi: depois do pedido pediremos por mensagem o nome e a senha da sua rede de visitantes.",
       "business": "Nome do negócio",
       "businessPlaceholder": "ex. Bean Country Coffee",
       "contactName": "Seu nome",
       "phone": "Celular",
       "email": "E-mail",
-      "tapTarget": "O que o toque deve abrir?",
-      "targets": {
-        "googleReview": "Minha página de avaliações do Google",
-        "website": "Meu site",
-        "instagram": "Meu Instagram",
-        "other": "Outra coisa (explique nas observações)"
-      },
-      "linkLabels": {
-        "googleReview": "Link de avaliações do Google (opcional)",
-        "website": "URL do site",
-        "instagram": "Usuário ou link do Instagram",
-        "other": "Link (opcional)"
-      },
-      "linkPlaceholders": {
-        "googleReview": "https://g.page/r/...",
-        "website": "https://seunegocio.com",
-        "instagram": "@seunegocio",
-        "other": "https://..."
-      },
-      "googleHelp": "Não tem o link à mão? Deixe em branco e nós encontramos seu perfil no Google.",
-      "notes": "Observações para o design",
-      "notesPlaceholder": "Cores, texto, onde achar sua logo, qualquer outra coisa que devemos saber",
-      "smsConsent": "Quero receber a prova do design e atualizações do pedido por mensagem. Podem ser cobradas tarifas; responda STOP para cancelar."
+      "notes": "Observações",
+      "notesPlaceholder": "Qualquer coisa que devemos saber",
+      "smsConsent": "Quero receber mensagens sobre o meu pedido. Podem ser cobradas tarifas; responda STOP para cancelar."
     },
     "summary": {
       "heading": "Seu pedido",
@@ -761,15 +776,15 @@
     "steps": [
       {
         "title": "Peça online",
-        "desc": "Escolha os produtos e diga para onde o toque deve levar. Leva dois minutos."
+        "desc": "Escolha os produtos e designs e diga para onde o toque deve levar. Leva dois minutos."
       },
       {
-        "title": "Aprove a prova",
-        "desc": "Em 1 dia útil mandamos uma prova do design por mensagem e ajustamos até você amar."
+        "title": "Programamos e testamos",
+        "desc": "Em 1 dia útil confirmamos seus links por mensagem, e programamos e testamos cada peça no iPhone e no Android."
       },
       {
         "title": "Encoste e receba avaliações",
-        "desc": "Programamos e testamos cada peça e enviamos em 5–10 dias úteis. Coloque no lugar e veja as avaliações chegarem."
+        "desc": "Seu pedido é enviado em 5–10 dias úteis. Coloque no lugar e veja as avaliações e seguidores chegarem."
       }
     ],
     "faqHeading": "Perguntas",
@@ -777,6 +792,10 @@
       {
         "q": "Funciona com qualquer celular?",
         "a": "Todo iPhone a partir do XR e quase todos os Android leem NFC sem app. Para os outros, o QR code faz a mesma coisa."
+      },
+      {
+        "q": "Posso colocar a minha logo?",
+        "a": "Sim. Cartões e displays personalizados a partir de 125 peças. Peça um orçamento ou mande mensagem para (781) 985-0916 e enviamos preços e uma prova do design."
       },
       {
         "q": "O Google permite isso?",
@@ -788,7 +807,7 @@
       },
       {
         "q": "Quanto tempo leva a entrega?",
-        "a": "5–10 dias úteis depois que você aprovar a prova. Está na região de Boston? Pergunte sobre entrega em mãos nas observações do pedido."
+        "a": "5–10 dias úteis depois que confirmarmos seus links. Está na região de Boston? Pergunte sobre entrega em mãos nas observações do pedido."
       },
       {
         "q": "Posso pedir para várias unidades?",
@@ -811,13 +830,27 @@
       "orderLine": "O pedido {orderId} para {business} está confirmado. Obrigado!",
       "nextHeading": "Próximos passos",
       "steps": [
-        "Em 1 dia útil mandamos uma prova do design por mensagem.",
-        "Você aprova, ou ajustamos até você amar.",
-        "Programamos, testamos e enviamos seu pedido em 5–10 dias úteis."
+        "Em 1 dia útil mandamos mensagem para confirmar seus links (e os dados do Wi-Fi, se for o caso).",
+        "Programamos e testamos cada peça.",
+        "Seu pedido é enviado em 5–10 dias úteis."
       ],
       "auditHeading": "Enquanto espera: uma auditoria de crescimento grátis",
       "auditText": "Avaliações geram confiança. Em uma auditoria grátis de 30 minutos mostramos o que mais impede os clientes de encontrarem você.",
       "auditCta": "Agendar minha auditoria grátis"
+    },
+    "custom": {
+      "eyebrow": "Impressão personalizada",
+      "heading": "Quer a sua logo?",
+      "text": "Imprimimos cartões e displays com a sua logo, cores e texto. Pedidos personalizados a partir de {min} peças, com preço por volume.",
+      "quote": "Pedir orçamento",
+      "text2": "Mensagem: (781) 985-0916"
+    },
+    "designLabel": "Design",
+    "designs": {
+      "googleReview": "Avaliação Google",
+      "instagram": "Instagram",
+      "menu": "Cardápio",
+      "wifi": "Wi-Fi"
     }
   }
 }

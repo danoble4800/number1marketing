@@ -651,40 +651,51 @@
     "close": "Cerrar"
   },
   "shop": {
-    "metaTitle": "Tarjetas y Soportes NFC para Reseñas",
+    "metaTitle": "Tarjetas, Soportes y Pulseras NFC",
     "eyebrow": "Productos Tap N°1",
     "headline": "Más reseñas.",
     "headlineAccent": "Un solo toque.",
-    "subheading": "Tarjetas, soportes de mostrador y stickers NFC, impresos con tu logo y programados por nosotros. Tus clientes acercan el teléfono y llegan directo a tu página de reseñas de Google. Sin app, sin buscar.",
+    "subheading": "Tarjetas, soportes de mostrador, pulseras y stickers NFC prediseñados y programados por nosotros. Tus clientes acercan el teléfono y llegan directo a tus reseñas de Google, Instagram, menú o Wi-Fi. Sin app, sin buscar.",
     "chips": [
       "Funciona con iPhone y Android",
       "Sin app",
-      "Código QR de respaldo",
-      "Diseñado y programado por nosotros"
+      "Código QR en tarjetas y soportes",
+      "Programado y probado por nosotros"
     ],
     "add": "Agregar al pedido",
+    "addDesign": "Agregar · {design}",
     "less": "Quitar uno",
     "more": "Agregar uno",
     "save": "Ahorra {amount}",
     "products": {
       "reviewCard": {
-        "name": "Tarjeta de Reseñas",
+        "name": "Tarjeta Tap",
         "desc": "Una tarjeta para la caja, la mesa o tu bolsillo. Dásela a tus clientes y que la toquen.",
         "features": [
-          "Impresa con tu logo y colores",
-          "Programada a tu página de reseñas o enlace",
+          "Diseño impreso: Reseña Google, Instagram, Menú o Wi-Fi",
+          "Programada a tu enlace",
           "Código QR atrás como respaldo",
           "PVC mate resistente, tamaño tarjeta de crédito"
         ]
       },
       "counterStand": {
         "name": "Soporte de Mostrador",
-        "desc": "Se queda junto a la caja o la recepción y pide la reseña por ti.",
+        "desc": "Se queda junto a la caja, la recepción o la mesa y pide por ti.",
         "features": [
-          "Soporte acrílico con tu logo y un llamado claro",
+          "Diseño impreso: Reseña Google, Instagram, Menú o Wi-Fi",
           "Toque NFC más código QR",
           "Ideal para restaurantes, salones y tiendas",
           "Sin baterías, nada que configurar"
+        ]
+      },
+      "bracelet": {
+        "name": "Pulsera Tap",
+        "desc": "Póntela y deja que la gente toque tu muñeca. Para personal, eventos y quien conoce gente todo el día.",
+        "features": [
+          "Chip NFC integrado en la pulsera",
+          "Programada a cualquier enlace: reseñas, Instagram, reservas, contacto",
+          "Ideal para meseros, estilistas, valets y eventos",
+          "No necesita carga"
         ]
       },
       "stickerPack": {
@@ -702,7 +713,7 @@
         "desc": "Todo lo que necesita un local con movimiento: un soporte para el mostrador, tarjetas para el equipo y stickers para las mesas.",
         "features": [
           "1 Soporte de Mostrador",
-          "5 Tarjetas de Reseñas",
+          "5 Tarjetas Tap",
           "5 Stickers Tap",
           "Envío gratis"
         ]
@@ -710,35 +721,39 @@
     },
     "form": {
       "heading": "Tus datos",
-      "subheading": "Los usamos para diseñar tus productos y enviarte una prueba por texto antes de imprimir.",
+      "subheading": "Los usamos para programar tus productos y escribirte si tenemos preguntas.",
+      "linksHeading": "¿A dónde debe llevar el toque?",
+      "linksEmpty": "Agrega un producto arriba y te pediremos los enlaces que necesita.",
+      "links": {
+        "googleReview": {
+          "label": "Enlace de reseñas de Google (opcional)",
+          "placeholder": "https://g.page/r/...",
+          "help": "¿No lo tienes a mano? Déjalo en blanco y nosotros buscamos tu perfil de Google."
+        },
+        "instagram": {
+          "label": "Usuario de Instagram",
+          "placeholder": "@tunegocio"
+        },
+        "menu": {
+          "label": "Enlace del menú",
+          "placeholder": "https://tunegocio.com/menu",
+          "help": "¿Solo tienes un PDF? Menciónalo en las notas y lo publicamos por ti."
+        },
+        "other": {
+          "label": "Enlace para pulseras y stickers (opcional)",
+          "placeholder": "https://...",
+          "help": "Tu página de reseñas, Instagram, reservas, lo que sea. En blanco = igual que tu enlace de reseñas de Google."
+        }
+      },
+      "wifiNote": "Wi-Fi: después de tu pedido te pediremos por texto el nombre y la contraseña de tu red de invitados.",
       "business": "Nombre del negocio",
       "businessPlaceholder": "ej. Bean Country Coffee",
       "contactName": "Tu nombre",
       "phone": "Celular",
       "email": "Correo electrónico",
-      "tapTarget": "¿Qué debe abrir el toque?",
-      "targets": {
-        "googleReview": "Mi página de reseñas de Google",
-        "website": "Mi sitio web",
-        "instagram": "Mi Instagram",
-        "other": "Otra cosa (explícalo en las notas)"
-      },
-      "linkLabels": {
-        "googleReview": "Enlace de reseñas de Google (opcional)",
-        "website": "URL del sitio web",
-        "instagram": "Usuario o enlace de Instagram",
-        "other": "Enlace (opcional)"
-      },
-      "linkPlaceholders": {
-        "googleReview": "https://g.page/r/...",
-        "website": "https://tunegocio.com",
-        "instagram": "@tunegocio",
-        "other": "https://..."
-      },
-      "googleHelp": "¿No lo tienes a mano? Déjalo en blanco y nosotros buscamos tu perfil de Google.",
-      "notes": "Notas para el diseño",
-      "notesPlaceholder": "Colores, texto, dónde encontrar tu logo, cualquier otra cosa que debamos saber",
-      "smsConsent": "Envíenme la prueba del diseño y novedades del pedido por texto. Pueden aplicarse tarifas; responde STOP para cancelar."
+      "notes": "Notas",
+      "notesPlaceholder": "Cualquier cosa que debamos saber",
+      "smsConsent": "Escríbanme sobre mi pedido. Pueden aplicarse tarifas; responde STOP para cancelar."
     },
     "summary": {
       "heading": "Tu pedido",
@@ -761,15 +776,15 @@
     "steps": [
       {
         "title": "Pide en línea",
-        "desc": "Elige tus productos y dinos a dónde debe llevar el toque. Toma dos minutos."
+        "desc": "Elige tus productos y diseños y dinos a dónde debe llevar el toque. Toma dos minutos."
       },
       {
-        "title": "Aprueba tu prueba",
-        "desc": "En 1 día hábil te enviamos una prueba del diseño por texto y la ajustamos hasta que te encante."
+        "title": "Programamos y probamos",
+        "desc": "En 1 día hábil confirmamos tus enlaces por texto, y programamos y probamos cada pieza en iPhone y Android."
       },
       {
         "title": "Toca y recibe reseñas",
-        "desc": "Programamos y probamos cada pieza y la enviamos en 5–10 días hábiles. Colócala y mira cómo llegan las reseñas."
+        "desc": "Tu pedido se envía en 5–10 días hábiles. Colócalo y mira cómo llegan las reseñas y los seguidores."
       }
     ],
     "faqHeading": "Preguntas",
@@ -777,6 +792,10 @@
       {
         "q": "¿Funciona con todos los teléfonos?",
         "a": "Todos los iPhone desde el XR y casi todos los Android leen NFC sin app. Para los demás, el código QR hace lo mismo."
+      },
+      {
+        "q": "¿Pueden llevar mi propio logo?",
+        "a": "Sí. Las tarjetas y soportes personalizados empiezan en 125 piezas. Pide una cotización o escribe al (781) 985-0916 y te enviamos precios y una prueba del diseño."
       },
       {
         "q": "¿Google lo permite?",
@@ -788,7 +807,7 @@
       },
       {
         "q": "¿Cuánto tarda el envío?",
-        "a": "5–10 días hábiles después de aprobar tu prueba. ¿Estás en el área de Boston? Pregunta por entrega en persona en las notas del pedido."
+        "a": "5–10 días hábiles después de confirmar tus enlaces. ¿Estás en el área de Boston? Pregunta por entrega en persona en las notas del pedido."
       },
       {
         "q": "¿Puedo pedir para varias sucursales?",
@@ -811,13 +830,27 @@
       "orderLine": "El pedido {orderId} para {business} está confirmado. ¡Gracias!",
       "nextHeading": "Qué sigue",
       "steps": [
-        "En 1 día hábil te enviamos una prueba del diseño por texto.",
-        "La apruebas, o la ajustamos hasta que te encante.",
-        "Programamos, probamos y enviamos tu pedido en 5–10 días hábiles."
+        "En 1 día hábil te escribimos para confirmar tus enlaces (y los datos del Wi-Fi, si aplica).",
+        "Programamos y probamos cada pieza.",
+        "Tu pedido se envía en 5–10 días hábiles."
       ],
       "auditHeading": "Mientras esperas: una auditoría de crecimiento gratis",
       "auditText": "Las reseñas generan confianza. En una auditoría gratis de 30 minutos te mostramos qué más impide que los clientes te encuentren.",
       "auditCta": "Agendar mi auditoría gratis"
+    },
+    "custom": {
+      "eyebrow": "Impresión personalizada",
+      "heading": "¿Quieres tu propio logo?",
+      "text": "Imprimimos tarjetas y soportes con tu logo, colores y texto. Los pedidos personalizados empiezan en {min} piezas, con precios por volumen.",
+      "quote": "Pedir cotización",
+      "text2": "Escribe al (781) 985-0916"
+    },
+    "designLabel": "Diseño",
+    "designs": {
+      "googleReview": "Reseña Google",
+      "instagram": "Instagram",
+      "menu": "Menú",
+      "wifi": "Wi-Fi"
     }
   }
 }

@@ -2,19 +2,25 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Minus, Plus, Lock, Loader2 } from 'lucide-react';
+import { Minus, Plus, Lock, Loader2, MessageSquare } from 'lucide-react';
+import Button from '@/components/Button';
 import ProductArt from './ProductArt';
 import {
   PRODUCTS,
-  TAP_TARGETS,
+  DESIGNS,
   FREE_SHIPPING_CENTS,
+  CUSTOM_MIN_QTY,
+  REQUIRED_LINKS,
+  cartKey,
   cartLines,
   cartSubtotal,
+  neededLinks,
   shippingFor,
   formatUsd,
   type Cart,
+  type Design,
+  type LinkField,
   type ProductId,
-  type TapTarget,
 } from '@/lib/shop/products';
 
 type Details = {
@@ -22,8 +28,6 @@ type Details = {
   contactName: string;
   phone: string;
   email: string;
-  tapTarget: TapTarget;
-  link: string;
   notes: string;
   smsConsent: boolean;
 };
@@ -33,8 +37,6 @@ const initialDetails: Details = {
   contactName: '',
   phone: '',
   email: '',
-  tapTarget: 'googleReview',
-  link: '',
   notes: '',
   smsConsent: false,
 };
@@ -48,17 +50,20 @@ const labelClass = 'block text-xs uppercase tracking-widest text-brand-light1 mb
 export default function ShopClient({ locale }: { locale: string }) {
   const t = useTranslations('shop');
   const [cart, setCart] = useState<Cart>({});
+  const [design, setDesign] = useState<Partial<Record<ProductId, Design>>>({});
   const [details, setDetails] = useState<Details>(initialDetails);
-  const [errors, setErrors] = useState<Partial<Record<keyof Details | 'cart', boolean>>>({});
+  const [links, setLinks] = useState<Partial<Record<LinkField, string>>>({});
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'closed'>('idle');
 
   const lines = cartLines(cart);
   const subtotal = cartSubtotal(cart);
   const shipping = shippingFor(subtotal);
+  const needed = neededLinks(lines);
+  const hasWifi = lines.some((l) => l.design === 'wifi');
 
-  const setQty = (id: ProductId, qty: number) => {
-    const max = PRODUCTS.find((p) => p.id === id)!.maxQty;
-    setCart((c) => ({ ...c, [id]: Math.max(0, Math.min(max, qty)) }));
+  const setQty = (key: string, qty: number, max: number) => {
+    setCart((c) => ({ ...c, [key]: Math.max(0, Math.min(max, qty)) }));
     setErrors((e) => ({ ...e, cart: false }));
   };
 
@@ -67,15 +72,20 @@ export default function ShopClient({ locale }: { locale: string }) {
     setErrors((e) => ({ ...e, [key]: false }));
   };
 
+  const setLink = (field: LinkField, value: string) => {
+    setLinks((l) => ({ ...l, [field]: value }));
+    setErrors((e) => ({ ...e, [`link_${field}`]: false }));
+  };
+
   const checkout = async () => {
-    const e: typeof errors = {
+    const e: Record<string, boolean> = {
       cart: lines.length === 0,
       business: !details.business.trim(),
       contactName: !details.contactName.trim(),
       phone: details.phone.replace(/\D/g, '').length < 10,
       email: !/^\S+@\S+\.\S+$/.test(details.email),
-      link: (details.tapTarget === 'website' || details.tapTarget === 'instagram') && !details.link.trim(),
     };
+    for (const f of needed) if (REQUIRED_LINKS.includes(f)) e[`link_${f}`] = !links[f]?.trim();
     setErrors(e);
     if (Object.values(e).some(Boolean)) return;
 
@@ -84,7 +94,7 @@ export default function ShopClient({ locale }: { locale: string }) {
       const res = await fetch('/api/shop/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...details, cart, locale }),
+        body: JSON.stringify({ ...details, links, cart, locale }),
       });
       const data = await res.json();
       if (res.status === 503) return setStatus('closed');
@@ -98,74 +108,103 @@ export default function ShopClient({ locale }: { locale: string }) {
   return (
     <>
       {/* Products */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {PRODUCTS.map((p) => {
-          const qty = cart[p.id] ?? 0;
+          const d = p.designs ? design[p.id] ?? 'googleReview' : undefined;
+          const key = cartKey(p.id, d);
+          const qty = cart[key] ?? 0;
+          const inCart = lines.filter((l) => l.product.id === p.id).reduce((n, l) => n + l.qty, 0);
           const features = t.raw(`products.${p.id}.features`) as string[];
           return (
             <div
               key={p.id}
-              className={`flex flex-col bg-brand-dark1 border ${
-                qty ? 'border-brand-light2' : 'border-brand-dark2'
-              } transition-colors`}
+              className={`flex flex-col bg-brand-white border ${
+                inCart ? 'border-brand-white ring-2 ring-brand-light2' : 'border-brand-dark2'
+              } transition-shadow`}
             >
-              <div className="relative border-b border-brand-dark2">
-                <ProductArt art={p.art} />
+              <div className="relative">
+                <ProductArt art={p.art} design={d} />
                 {p.compareAt && (
                   <span className="absolute top-3 left-3 bg-brand-white text-brand-black text-[10px] font-bold uppercase tracking-widest px-2 py-1">
                     {t('save', { amount: formatUsd(p.compareAt - p.price) })}
                   </span>
                 )}
               </div>
-              <div className="flex flex-col flex-1 p-6">
+              <div className="flex flex-col flex-1 p-6 text-brand-black">
                 <div className="flex items-baseline justify-between gap-4">
-                  <h3 className="font-display uppercase text-2xl text-brand-white tracking-tight">
-                    {t(`products.${p.id}.name`)}
-                  </h3>
-                  <p className="text-brand-white font-semibold whitespace-nowrap">
+                  <h3 className="font-display uppercase text-2xl tracking-tight">{t(`products.${p.id}.name`)}</h3>
+                  <p className="font-semibold whitespace-nowrap">
                     {p.compareAt && (
-                      <span className="text-brand-mid line-through font-normal mr-2">{formatUsd(p.compareAt)}</span>
+                      <span className="text-brand-light1 line-through font-normal mr-2">{formatUsd(p.compareAt)}</span>
                     )}
                     {formatUsd(p.price)}
                   </p>
                 </div>
-                <p className="mt-2 text-brand-light1 text-sm leading-relaxed">{t(`products.${p.id}.desc`)}</p>
-                <ul className="mt-4 space-y-1.5 text-sm text-brand-light2 flex-1">
+                <p className="mt-2 text-brand-mid text-sm leading-relaxed">{t(`products.${p.id}.desc`)}</p>
+                <ul className="mt-4 space-y-1.5 text-sm text-brand-dark2 flex-1">
                   {features.map((f) => (
                     <li key={f} className="flex gap-2">
-                      <span className="text-brand-mid">—</span>
+                      <span className="text-brand-light1">—</span>
                       {f}
                     </li>
                   ))}
                 </ul>
+
+                {p.designs && (
+                  <div className="mt-5">
+                    <p className="text-[10px] uppercase tracking-widest text-brand-mid font-semibold mb-2">
+                      {t('designLabel')}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {DESIGNS.map((option) => {
+                        const n = cart[cartKey(p.id, option)] ?? 0;
+                        return (
+                          <button
+                            key={option}
+                            onClick={() => setDesign((s) => ({ ...s, [p.id]: option }))}
+                            className={`px-3 py-1.5 text-xs font-semibold border transition-colors ${
+                              d === option
+                                ? 'bg-brand-black text-brand-white border-brand-black'
+                                : 'bg-brand-white text-brand-dark2 border-brand-light2 hover:border-brand-black'
+                            }`}
+                          >
+                            {t(`designs.${option}`)}
+                            {n > 0 && <span className="ml-1.5 opacity-70">· {n}</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 <div className="mt-6 flex items-center justify-between gap-4">
                   {qty === 0 ? (
                     <button
-                      onClick={() => setQty(p.id, 1)}
-                      className="w-full border border-brand-white bg-brand-white text-brand-black hover:bg-brand-offwhite px-4 py-3 text-xs font-semibold uppercase tracking-widest transition-colors"
+                      onClick={() => setQty(key, 1, p.maxQty)}
+                      className="w-full border border-brand-black bg-brand-black text-brand-white hover:bg-brand-dark1 px-4 py-3 text-xs font-semibold uppercase tracking-widest transition-colors"
                     >
-                      {t('add')}
+                      {p.designs ? t('addDesign', { design: t(`designs.${d}`) }) : t('add')}
                     </button>
                   ) : (
                     <>
-                      <div className="flex items-center border border-brand-dark2">
+                      <div className="flex items-center border border-brand-light2">
                         <button
-                          onClick={() => setQty(p.id, qty - 1)}
-                          className="p-3 text-brand-light2 hover:text-brand-white"
+                          onClick={() => setQty(key, qty - 1, p.maxQty)}
+                          className="p-3 text-brand-mid hover:text-brand-black"
                           aria-label={t('less')}
                         >
                           <Minus size={14} />
                         </button>
-                        <span className="w-10 text-center text-brand-white font-semibold tabular-nums">{qty}</span>
+                        <span className="w-10 text-center font-semibold tabular-nums">{qty}</span>
                         <button
-                          onClick={() => setQty(p.id, qty + 1)}
-                          className="p-3 text-brand-light2 hover:text-brand-white"
+                          onClick={() => setQty(key, qty + 1, p.maxQty)}
+                          className="p-3 text-brand-mid hover:text-brand-black"
                           aria-label={t('more')}
                         >
                           <Plus size={14} />
                         </button>
                       </div>
-                      <p className="text-brand-light1 text-sm tabular-nums">{formatUsd(p.price * qty)}</p>
+                      <p className="text-brand-mid text-sm tabular-nums">{formatUsd(p.price * qty)}</p>
                     </>
                   )}
                 </div>
@@ -173,6 +212,29 @@ export default function ShopClient({ locale }: { locale: string }) {
             </div>
           );
         })}
+
+        {/* Custom printing */}
+        <div className="flex flex-col justify-between border border-brand-dark2 p-6 sm:p-8 bg-brand-dark1">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-brand-light1 font-semibold mb-3">{t('custom.eyebrow')}</p>
+            <h3 className="font-display uppercase text-3xl text-brand-white tracking-tight">{t('custom.heading')}</h3>
+            <p className="mt-3 text-brand-light1 text-sm leading-relaxed">
+              {t('custom.text', { min: CUSTOM_MIN_QTY })}
+            </p>
+          </div>
+          <div className="mt-6 flex flex-col gap-3">
+            <Button href={`/${locale}/contact`} variant="primary" className="w-full text-xs">
+              {t('custom.quote')}
+            </Button>
+            <a
+              href="sms:+17819850916"
+              className="inline-flex items-center justify-center gap-2 border border-brand-dark2 px-6 py-3 text-xs font-semibold uppercase tracking-widest text-brand-light2 hover:border-brand-light1 hover:text-brand-white transition-colors"
+            >
+              <MessageSquare size={14} />
+              {t('custom.text2')}
+            </a>
+          </div>
+        </div>
       </div>
 
       {/* Order details + summary */}
@@ -224,35 +286,31 @@ export default function ShopClient({ locale }: { locale: string }) {
                 autoComplete="email"
               />
             </div>
-            <div>
-              <label className={labelClass}>{t('form.tapTarget')} *</label>
-              <select
-                className={inputClass()}
-                value={details.tapTarget}
-                onChange={(e) => set('tapTarget', e.target.value as TapTarget)}
-              >
-                {TAP_TARGETS.map((target) => (
-                  <option key={target} value={target}>
-                    {t(`form.targets.${target}`)}
-                  </option>
-                ))}
-              </select>
+
+            {/* Links, based on the designs in the cart */}
+            <div className="border-t border-brand-dark2 pt-5 flex flex-col gap-5">
+              <p className="text-xs uppercase tracking-widest text-brand-light2 font-semibold">{t('form.linksHeading')}</p>
+              {lines.length === 0 && <p className="text-sm text-brand-mid -mt-2">{t('form.linksEmpty')}</p>}
+              {needed.map((f) => (
+                <div key={f}>
+                  <label className={labelClass}>
+                    {t(`form.links.${f}.label`)}
+                    {REQUIRED_LINKS.includes(f) && ' *'}
+                  </label>
+                  <input
+                    className={inputClass(errors[`link_${f}`])}
+                    value={links[f] ?? ''}
+                    onChange={(e) => setLink(f, e.target.value)}
+                    placeholder={t(`form.links.${f}.placeholder`)}
+                  />
+                  {t.has(`form.links.${f}.help`) && (
+                    <p className="mt-1.5 text-xs text-brand-mid">{t(`form.links.${f}.help`)}</p>
+                  )}
+                </div>
+              ))}
+              {hasWifi && <p className="text-sm text-brand-light1">{t('form.wifiNote')}</p>}
             </div>
-            <div>
-              <label className={labelClass}>
-                {t(`form.linkLabels.${details.tapTarget}`)}
-                {(details.tapTarget === 'website' || details.tapTarget === 'instagram') && ' *'}
-              </label>
-              <input
-                className={inputClass(errors.link)}
-                value={details.link}
-                onChange={(e) => set('link', e.target.value)}
-                placeholder={t(`form.linkPlaceholders.${details.tapTarget}`)}
-              />
-              {details.tapTarget === 'googleReview' && (
-                <p className="mt-1.5 text-xs text-brand-mid">{t('form.googleHelp')}</p>
-              )}
-            </div>
+
             <div>
               <label className={labelClass}>{t('form.notes')}</label>
               <textarea
@@ -285,9 +343,10 @@ export default function ShopClient({ locale }: { locale: string }) {
             ) : (
               <ul className="space-y-3 text-sm">
                 {lines.map((l) => (
-                  <li key={l.product.id} className="flex justify-between gap-4 text-brand-light2">
+                  <li key={l.key} className="flex justify-between gap-4 text-brand-light2">
                     <span>
                       {l.qty}× {t(`products.${l.product.id}.name`)}
+                      {l.design && <span className="text-brand-mid"> · {t(`designs.${l.design}`)}</span>}
                     </span>
                     <span className="tabular-nums">{formatUsd(l.product.price * l.qty)}</span>
                   </li>

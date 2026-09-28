@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
-  PRODUCT_NAMES,
-  TAP_TARGETS,
-  TAP_TARGET_LABELS,
+  DESIGN_NAMES,
+  LINK_NAMES,
+  REQUIRED_LINKS,
   cartLines,
   cartSubtotal,
+  lineName,
+  neededLinks,
   shippingFor,
   type Cart,
-  type TapTarget,
 } from '@/lib/shop/products';
 import { stripeConfigured, stripePost } from '@/lib/shop/stripe';
 
@@ -27,8 +28,6 @@ export async function POST(req: NextRequest) {
       contactName: clip(body.contactName, 120),
       phone: clip(body.phone, 40),
       email: clip(body.email, 200).toLowerCase(),
-      tapTarget: (TAP_TARGETS.includes(body.tapTarget) ? body.tapTarget : 'googleReview') as TapTarget,
-      link: clip(body.link, 400),
       notes: clip(body.notes, 480),
       smsConsent: body.smsConsent ? 'Yes' : 'No',
     };
@@ -38,6 +37,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'missing' }, { status: 400 });
     }
 
+    const needed = neededLinks(lines);
+    const links = needed.map((f) => ({ field: f, value: clip(body.links?.[f], 200) }));
+    if (links.some((l) => REQUIRED_LINKS.includes(l.field) && !l.value)) {
+      return NextResponse.json({ error: 'missing' }, { status: 400 });
+    }
+    const designs = Array.from(new Set(lines.flatMap((l) => (l.design ? [DESIGN_NAMES[l.design]] : []))));
+
     if (!stripeConfigured()) {
       // Local preview without Stripe keys: skip payment and show the thank-you page.
       if (process.env.NODE_ENV !== 'production') {
@@ -46,7 +52,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'closed' }, { status: 503 });
     }
 
-    const items = lines.map((l) => `${l.qty}× ${PRODUCT_NAMES[l.product.id]}`).join(', ');
+    const items = lines.map((l) => `${l.qty}× ${lineName(l)}`).join(', ');
     const shipping = shippingFor(cartSubtotal(cart));
     const origin = req.nextUrl.origin;
 
@@ -69,8 +75,11 @@ export async function POST(req: NextRequest) {
       'metadata[business]': order.business,
       'metadata[contact_name]': order.contactName,
       'metadata[phone]': order.phone,
-      'metadata[tap_target]': TAP_TARGET_LABELS[order.tapTarget],
-      'metadata[link]': order.link,
+      'metadata[designs]': designs.join(', '),
+      'metadata[links]': links
+        .map((l) => `${LINK_NAMES[l.field]}: ${l.value || 'find it for me'}`)
+        .join(' | ')
+        .slice(0, 500),
       'metadata[notes]': order.notes,
       'metadata[sms_consent]': order.smsConsent,
       'metadata[items]': items.slice(0, 500),
@@ -81,9 +90,9 @@ export async function POST(req: NextRequest) {
       params[`line_items[${i}][quantity]`] = l.qty;
       params[`line_items[${i}][price_data][currency]`] = 'usd';
       params[`line_items[${i}][price_data][unit_amount]`] = l.product.price;
-      params[`line_items[${i}][price_data][product_data][name]`] = PRODUCT_NAMES[l.product.id];
+      params[`line_items[${i}][price_data][product_data][name]`] = lineName(l);
       params[`line_items[${i}][price_data][product_data][description]`] =
-        `Custom printed and programmed for ${order.business}`.slice(0, 200);
+        `Programmed for ${order.business}`.slice(0, 200);
     });
 
     const session = await stripePost<{ url: string }>('checkout/sessions', params);

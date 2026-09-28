@@ -60,14 +60,14 @@ async function sendOrderEmails(s: Session, orderId: string, total: string, addre
         html: `
 <div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:520px">
   <h2 style="margin:0 0 4px">New order ${e(orderId)}: ${e(m.business ?? '')}</h2>
-  <p style="margin:0 0 16px;color:#6b6b6b">${e(total)} paid · send a design proof, then program and ship</p>
+  <p style="margin:0 0 16px;color:#6b6b6b">${e(total)} paid · confirm the links, then program and ship</p>
   <table style="border-collapse:collapse;font-size:15px">
     ${row('Items', e(m.items ?? ''))}
     ${row('Contact', e(m.contact_name ?? ''))}
     ${row('Phone', `<a href="tel:${e((m.phone ?? '').replace(/[^\d+]/g, ''))}">${e(m.phone ?? '')}</a>`)}
     ${row('Email', `<a href="mailto:${e(email)}">${e(email)}</a>`)}
-    ${row('Tap opens', e(m.tap_target ?? ''))}
-    ${row('Link', e(m.link || '—'))}
+    ${row('Designs', e(m.designs || '—'))}
+    ${row('Links', e(m.links || '—'))}
     ${row('Notes', e(m.notes || '—'))}
     ${row('Ship to', e(address || '—'))}
   </table>
@@ -85,10 +85,10 @@ async function sendOrderEmails(s: Session, orderId: string, total: string, addre
     const pt = m.locale === 'pt';
     const hi = es ? '¡Gracias por tu pedido!' : pt ? 'Obrigado pelo seu pedido!' : 'Thanks for your order!';
     const next = es
-      ? 'En 1 día hábil te enviaremos una prueba del diseño por mensaje de texto. Cuando la apruebes, programamos y enviamos tus productos (5–10 días hábiles).'
+      ? 'En 1 día hábil te escribiremos para confirmar tus enlaces (y los datos del Wi-Fi, si aplica). Luego programamos, probamos y enviamos tu pedido (5–10 días hábiles).'
       : pt
-      ? 'Em 1 dia útil enviaremos uma prova do design por mensagem de texto. Depois da sua aprovação, programamos e enviamos seus produtos (5–10 dias úteis).'
-      : "Within 1 business day we'll text you a design proof. Once you approve it, we program and ship your order (5–10 business days).";
+      ? 'Em 1 dia útil mandaremos uma mensagem para confirmar seus links (e os dados do Wi-Fi, se for o caso). Depois programamos, testamos e enviamos seu pedido (5–10 dias úteis).'
+      : "Within 1 business day we'll text you to confirm your links (and Wi-Fi details, if you ordered Wi-Fi). Then we program, test and ship your order (5–10 business days).";
     try {
       await resend.emails.send({
         from,
@@ -136,7 +136,7 @@ export async function POST(req: NextRequest) {
       const address = shipTo(s);
       await appendOrder([
         nowNewYork(),
-        'Paid — send proof',
+        'Paid — confirm links',
         orderId,
         safeCell(m.business),
         safeCell(m.contact_name ?? ''),
@@ -144,8 +144,8 @@ export async function POST(req: NextRequest) {
         safeCell(email),
         safeCell(m.items ?? ''),
         total,
-        m.tap_target ?? '',
-        safeCell(m.link ?? ''),
+        safeCell(m.designs ?? ''),
+        safeCell(m.links ?? ''),
         safeCell(m.notes ?? ''),
         safeCell(address),
         s.id,
