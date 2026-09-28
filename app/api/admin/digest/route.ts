@@ -6,9 +6,13 @@ import { showDate, showPhone, tidy } from '@/lib/crmFormat';
 export const dynamic = 'force-dynamic';
 
 // Morning follow-up digest. Vercel Cron calls this once a day (see vercel.json) with
-// "Authorization: Bearer $CRON_SECRET". It emails the list through Resend and adds a row
-// to the Daily Digest tab of the leads sheet, which a Zapier Zap texts to your phone.
+// "Authorization: Bearer $CRON_SECRET". It emails the list through Resend. With
+// TEXT_VIA_SHEET on, it also adds a row to the Daily Digest tab of the leads sheet for a
+// Zapier "new row → SMS by Zapier" Zap to text to your phone.
 // Nothing is sent on days with nothing due. Add ?dry=1 to preview without sending.
+
+// Texts are off for now; flip this once the Zapier Zap is set up.
+const TEXT_VIA_SHEET = false;
 
 const MAX_NAMES_IN_TEXT = 4;
 
@@ -122,17 +126,19 @@ export async function GET(req: NextRequest) {
     console.warn('Digest email skipped: RESEND_API_KEY or LEAD_ALERT_EMAIL is not set');
   }
 
-  try {
-    await getSheets().spreadsheets.values.append({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: `'${DIGEST_TAB}'!A:C`,
-      valueInputOption: 'RAW',
-      requestBody: { values: [[nowInNewYork(), text, subject]] },
-    });
-    result.text = 'queued';
-  } catch (err) {
-    result.text = 'error';
-    console.error('Digest sheet row error:', err);
+  if (TEXT_VIA_SHEET) {
+    try {
+      await getSheets().spreadsheets.values.append({
+        spreadsheetId: process.env.GOOGLE_SHEET_ID,
+        range: `'${DIGEST_TAB}'!A:C`,
+        valueInputOption: 'RAW',
+        requestBody: { values: [[nowInNewYork(), text, subject]] },
+      });
+      result.text = 'queued';
+    } catch (err) {
+      result.text = 'error';
+      console.error('Digest sheet row error:', err);
+    }
   }
 
   console.log('Digest:', result);
