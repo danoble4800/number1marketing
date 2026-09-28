@@ -5,7 +5,9 @@ import { google, type sheets_v4 } from 'googleapis';
 //
 // Website Leads (GOOGLE_SHEET_ID): A:L come from /api/contact, M:P are follow-up columns.
 // Other Leads (GOOGLE_SHEET_ID): leads added by hand in the CRM, same column layout as Website Leads.
-// NFC tracker (Google Form): A:O belong to the form and are never written; P:T are tracking.
+// Q is Contact History (one dated line per contact or status change).
+// NFC tracker (Google Form): A:O belong to the form and are never written; P:T are tracking,
+// U is Contact History, V:X hold messages written for that lead (text, nudge, email).
 // Client Contacts (GOOGLE_SHEET_ID): written by /api/onboarding, read-only here.
 const IN_PERSON_SHEET_ID = process.env.IN_PERSON_SHEET_ID ?? '1G1Lx_Ep2zOXSN9hOW1dwiPwF40yUKwGN2bJqEzCU7Ks';
 export const WEBSITE_TAB = 'Website Leads';
@@ -31,6 +33,7 @@ export const COLS: Record<Source, Record<Field, string>> = {
   manual: { status: 'B', nextFollowUp: 'M', notes: 'N', lastContacted: 'O', contactedVia: 'P' },
   inperson: { status: 'P', lastContacted: 'Q', contactedVia: 'R', nextFollowUp: 'S', notes: 'T' },
 };
+export const HISTORY_COL: Record<Source, string> = { website: 'Q', manual: 'Q', inperson: 'U' };
 export const TABS: Record<Source, string> = { website: WEBSITE_TAB, manual: MANUAL_TAB, inperson: IN_PERSON_TAB };
 
 export type Lead = {
@@ -55,8 +58,19 @@ export type Lead = {
   followUpText: string; // what the sheet shows when the follow-up cell isn't a real date
   notes: string;
   details: [string, string][];
+  history: string[]; // "YYYY-MM-DD · what happened", oldest first
+  custom: { text: string; nudge: string; email: string; attach: string }; // messages written for this lead
   sheetUrl: string;
 };
+
+const NO_CUSTOM = { text: '', nudge: '', email: '', attach: '' };
+const splitHistory = (v: string) => v.split('\n').map((line) => line.trim()).filter(Boolean);
+
+// The Custom Email cell may start with "Attach: <file>" as a reminder of what to attach.
+function customEmail(v: string) {
+  const m = v.match(/^Attach:\s*(.+)\n+/);
+  return m ? { email: v.slice(m[0].length).trim(), attach: m[1].trim() } : { email: v.trim(), attach: '' };
+}
 
 let sheetsClient: sheets_v4.Sheets | null = null;
 export function getSheets() {
@@ -119,7 +133,7 @@ const rowUrl = (id: string, gid: number | undefined, row: number) =>
 async function sheetLeads(source: 'website' | 'manual'): Promise<Lead[]> {
   const id = spreadsheetId(source);
   const tab = TABS[source];
-  const [{ shown, raw }, gids] = await Promise.all([readTab(id, `'${tab}'!A2:P`), tabIds(id)]);
+  const [{ shown, raw }, gids] = await Promise.all([readTab(id, `'${tab}'!A2:Q`), tabIds(id)]);
   return shown.flatMap((r, i) => {
     const row = i + 2;
     if (!cell(r, 0) && !cell(r, 2) && !cell(r, 4)) return [];
@@ -149,6 +163,8 @@ async function sheetLeads(source: 'website' | 'manual'): Promise<Lead[]> {
         ? [['Services', cell(r, 9)], ['Came in from', cell(r, 10)], ['Texting consent', cell(r, 11)]]
         : [['How you met', cell(r, 9)], ['Source', cell(r, 10)]]
       ).filter(([, v]) => v) as [string, string][],
+      history: splitHistory(cell(r, 16)),
+      custom: NO_CUSTOM,
       sheetUrl: rowUrl(id, gids[tab], row),
     }];
   });
@@ -156,7 +172,7 @@ async function sheetLeads(source: 'website' | 'manual'): Promise<Lead[]> {
 
 async function inPersonLeads(): Promise<Lead[]> {
   const id = spreadsheetId('inperson');
-  const [{ shown, raw }, gids] = await Promise.all([readTab(id, `'${IN_PERSON_TAB}'!A2:T`), tabIds(id)]);
+  const [{ shown, raw }, gids] = await Promise.all([readTab(id, `'${IN_PERSON_TAB}'!A2:X`), tabIds(id)]);
   return shown.flatMap((r, i) => {
     const row = i + 2;
     if (!cell(r, 0) && !cell(r, 3) && !cell(r, 4)) return [];
@@ -191,6 +207,8 @@ async function inPersonLeads(): Promise<Lead[]> {
         ['Follow-up needed', cell(r, 13)],
         ['Notes from the visit', cell(r, 14)],
       ].filter(([, v]) => v) as [string, string][],
+      history: splitHistory(cell(r, 20)),
+      custom: { text: cell(r, 21), nudge: cell(r, 22), ...customEmail(String(r[23] ?? '')) },
       sheetUrl: rowUrl(id, gids[IN_PERSON_TAB], row),
     }];
   });
@@ -225,6 +243,8 @@ async function clients(): Promise<Lead[]> {
       followUpText: '',
       notes: '',
       details: [['Website', cell(r, 5)]].filter(([, v]) => v) as [string, string][],
+      history: [],
+      custom: NO_CUSTOM,
       sheetUrl: rowUrl(id, gids[CLIENTS_TAB], row),
     }];
   });
