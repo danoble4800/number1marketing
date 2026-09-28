@@ -9,6 +9,7 @@
     "tapCards": "Cartões NFC",
     "cardSignIn": "Acesso ao seu cartão",
     "bookCall": "Agendar Chamada",
+    "shop": "Loja",
     "academy": "Certifique-se em IA"
   },
   "home": {
@@ -648,5 +649,175 @@
     "cta": "Quero Minha Auditoria Grátis",
     "dismiss": "Não, obrigado",
     "close": "Fechar"
+  },
+  "shop": {
+    "metaTitle": "Cartões e Displays NFC para Avaliações",
+    "eyebrow": "Produtos Tap N°1",
+    "headline": "Mais avaliações.",
+    "headlineAccent": "Um toque.",
+    "subheading": "Cartões, displays de balcão e adesivos NFC, impressos com a sua logo e programados por nós. O cliente encosta o celular e cai direto na sua página de avaliações do Google. Sem app, sem procurar.",
+    "chips": [
+      "Funciona com iPhone e Android",
+      "Sem app",
+      "QR code de reserva",
+      "Criado e programado por nós"
+    ],
+    "add": "Adicionar ao pedido",
+    "less": "Remover um",
+    "more": "Adicionar um",
+    "save": "Economize {amount}",
+    "products": {
+      "reviewCard": {
+        "name": "Cartão de Avaliação",
+        "desc": "Um cartão para o caixa, a mesa ou o bolso. Entregue aos clientes e deixe que eles encostem o celular.",
+        "features": [
+          "Impresso com a sua logo e cores",
+          "Programado para sua página de avaliações ou link",
+          "QR code no verso como reserva",
+          "PVC fosco resistente, tamanho de cartão de crédito"
+        ]
+      },
+      "counterStand": {
+        "name": "Display de Balcão",
+        "desc": "Fica ao lado do caixa ou da recepção e pede a avaliação por você.",
+        "features": [
+          "Display de acrílico com sua logo e uma chamada clara",
+          "Toque NFC mais QR code",
+          "Ótimo para restaurantes, salões e lojas",
+          "Sem bateria, nada para configurar"
+        ]
+      },
+      "stickerPack": {
+        "name": "Adesivos Tap (pacote com 5)",
+        "desc": "Coloque um ponto de toque em mesas, vitrines, cardápios e espelhos.",
+        "features": [
+          "5 adesivos redondos de 6 cm",
+          "Cada um programado e testado",
+          "Acabamento fácil de limpar",
+          "É só descolar e colar, uso interno"
+        ]
+      },
+      "shopBundle": {
+        "name": "Kit Loja",
+        "desc": "Tudo o que um ponto movimentado precisa: um display para o balcão, cartões para a equipe e adesivos para as mesas.",
+        "features": [
+          "1 Display de Balcão",
+          "5 Cartões de Avaliação",
+          "5 Adesivos Tap",
+          "Frete grátis"
+        ]
+      }
+    },
+    "form": {
+      "heading": "Seus dados",
+      "subheading": "Usamos isso para criar seus produtos e mandar uma prova por mensagem antes de imprimir.",
+      "business": "Nome do negócio",
+      "businessPlaceholder": "ex. Bean Country Coffee",
+      "contactName": "Seu nome",
+      "phone": "Celular",
+      "email": "E-mail",
+      "tapTarget": "O que o toque deve abrir?",
+      "targets": {
+        "googleReview": "Minha página de avaliações do Google",
+        "website": "Meu site",
+        "instagram": "Meu Instagram",
+        "other": "Outra coisa (explique nas observações)"
+      },
+      "linkLabels": {
+        "googleReview": "Link de avaliações do Google (opcional)",
+        "website": "URL do site",
+        "instagram": "Usuário ou link do Instagram",
+        "other": "Link (opcional)"
+      },
+      "linkPlaceholders": {
+        "googleReview": "https://g.page/r/...",
+        "website": "https://seunegocio.com",
+        "instagram": "@seunegocio",
+        "other": "https://..."
+      },
+      "googleHelp": "Não tem o link à mão? Deixe em branco e nós encontramos seu perfil no Google.",
+      "notes": "Observações para o design",
+      "notesPlaceholder": "Cores, texto, onde achar sua logo, qualquer outra coisa que devemos saber",
+      "smsConsent": "Quero receber a prova do design e atualizações do pedido por mensagem. Podem ser cobradas tarifas; responda STOP para cancelar."
+    },
+    "summary": {
+      "heading": "Seu pedido",
+      "empty": "Adicione um produto acima para começar.",
+      "setup": "Design e programação",
+      "included": "Incluso",
+      "shipping": "Frete",
+      "free": "Grátis",
+      "freeShippingAt": "Adicione mais {amount} para ganhar frete grátis.",
+      "total": "Total",
+      "taxNote": "Impostos sobre vendas, se houver, são somados no pagamento.",
+      "checkout": "Pagamento seguro",
+      "fixErrors": "Preencha os campos destacados e adicione pelo menos um produto.",
+      "error": "Algo deu errado. Tente de novo ou mande mensagem para (781) 985-0916.",
+      "closed": "O pagamento online ainda não está aberto. Mande mensagem para (781) 985-0916 e fazemos seu pedido por telefone.",
+      "secure": "Os pagamentos são processados pela Stripe. Você informa o endereço de entrega na próxima página."
+    },
+    "stepsEyebrow": "Como funciona",
+    "stepsHeading": "Peça hoje. Receba avaliações na semana que vem.",
+    "steps": [
+      {
+        "title": "Peça online",
+        "desc": "Escolha os produtos e diga para onde o toque deve levar. Leva dois minutos."
+      },
+      {
+        "title": "Aprove a prova",
+        "desc": "Em 1 dia útil mandamos uma prova do design por mensagem e ajustamos até você amar."
+      },
+      {
+        "title": "Encoste e receba avaliações",
+        "desc": "Programamos e testamos cada peça e enviamos em 5–10 dias úteis. Coloque no lugar e veja as avaliações chegarem."
+      }
+    ],
+    "faqHeading": "Perguntas",
+    "faq": [
+      {
+        "q": "Funciona com qualquer celular?",
+        "a": "Todo iPhone a partir do XR e quase todos os Android leem NFC sem app. Para os outros, o QR code faz a mesma coisa."
+      },
+      {
+        "q": "O Google permite isso?",
+        "a": "Sim. O Google incentiva os negócios a pedir avaliações. Só peça para todos os clientes, não só para os satisfeitos, e não ofereça descontos ou prêmios em troca."
+      },
+      {
+        "q": "Posso mudar o link depois?",
+        "a": "Sim. Avise antes do envio e programamos o novo link. Depois disso, mande mensagem e reprogramamos ou enviamos um substituto."
+      },
+      {
+        "q": "Quanto tempo leva a entrega?",
+        "a": "5–10 dias úteis depois que você aprovar a prova. Está na região de Boston? Pergunte sobre entrega em mãos nas observações do pedido."
+      },
+      {
+        "q": "Posso pedir para várias unidades?",
+        "a": "Sim. Para mais de 50 cartões ou várias unidades, mande mensagem para (781) 985-0916 e pergunte sobre preço por volume."
+      },
+      {
+        "q": "E se algo não funcionar?",
+        "a": "Testamos cada peça antes de enviar. Se algo chegar danificado ou não ler, substituímos de graça."
+      }
+    ],
+    "auditHeading": "Avaliações são o primeiro passo.",
+    "auditText": "Mais avaliações ajudam você a ser encontrado. Quer saber o que mais está segurando seu negócio online? Peça uma auditoria de crescimento grátis de 30 minutos.",
+    "auditCta": "Quero minha auditoria grátis",
+    "orderCta": "Começar meu pedido",
+    "success": {
+      "metaTitle": "Pedido recebido",
+      "demo": "Prévia: nenhum pagamento foi feito",
+      "headline": "Pedido recebido.",
+      "subheading": "Obrigado! Seu pagamento foi aprovado e seu pedido está confirmado.",
+      "orderLine": "O pedido {orderId} para {business} está confirmado. Obrigado!",
+      "nextHeading": "Próximos passos",
+      "steps": [
+        "Em 1 dia útil mandamos uma prova do design por mensagem.",
+        "Você aprova, ou ajustamos até você amar.",
+        "Programamos, testamos e enviamos seu pedido em 5–10 dias úteis."
+      ],
+      "auditHeading": "Enquanto espera: uma auditoria de crescimento grátis",
+      "auditText": "Avaliações geram confiança. Em uma auditoria grátis de 30 minutos mostramos o que mais impede os clientes de encontrarem você.",
+      "auditCta": "Agendar minha auditoria grátis"
+    }
   }
 }

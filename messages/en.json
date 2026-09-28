@@ -8,6 +8,7 @@
     "tapCards": "Tap Cards",
     "cardSignIn": "Tap Card Sign-in",
     "bookCall": "Book a Call",
+    "shop": "Shop",
     "academy": "Get AI Certified"
   },
   "home": {
@@ -647,5 +648,175 @@
     "cta": "Claim My Free Audit",
     "dismiss": "No thanks",
     "close": "Close"
+  },
+  "shop": {
+    "metaTitle": "NFC Review Cards & Stands",
+    "eyebrow": "N°1 Tap Products",
+    "headline": "More reviews.",
+    "headlineAccent": "One tap.",
+    "subheading": "NFC review cards, counter stands and stickers, custom printed with your logo and programmed for you. Customers tap their phone and land right on your Google review page. No app, no searching.",
+    "chips": [
+      "Works with iPhone & Android",
+      "No app needed",
+      "QR backup on every product",
+      "Designed & programmed for you"
+    ],
+    "add": "Add to order",
+    "less": "Remove one",
+    "more": "Add one",
+    "save": "Save {amount}",
+    "products": {
+      "reviewCard": {
+        "name": "Review Card",
+        "desc": "A card for the register, the table or your pocket. Hand it to customers and let them tap.",
+        "features": [
+          "Custom printed with your logo and colors",
+          "Programmed to your review page or link",
+          "QR code on the back as a backup",
+          "Durable matte PVC, credit-card size"
+        ]
+      },
+      "counterStand": {
+        "name": "Counter Stand",
+        "desc": "Sits by the register or front desk and asks for the review for you.",
+        "features": [
+          "Acrylic stand with your logo and a clear call to action",
+          "NFC tap plus QR code",
+          "Great for restaurants, salons and shops",
+          "No batteries, nothing to set up"
+        ]
+      },
+      "stickerPack": {
+        "name": "Tap Stickers (5-pack)",
+        "desc": "Put a tap spot on tables, windows, menus and mirrors.",
+        "features": [
+          "5 round stickers, 2.5 in (6 cm)",
+          "Each one programmed and tested",
+          "Wipe-clean finish",
+          "Peel and stick, indoor use"
+        ]
+      },
+      "shopBundle": {
+        "name": "Shop Bundle",
+        "desc": "Everything a busy location needs: a stand for the counter, cards for the team and stickers for the tables.",
+        "features": [
+          "1 Counter Stand",
+          "5 Review Cards",
+          "5 Tap Stickers",
+          "Free shipping"
+        ]
+      }
+    },
+    "form": {
+      "heading": "Your details",
+      "subheading": "We use this to design your products and text you a proof before anything is printed.",
+      "business": "Business name",
+      "businessPlaceholder": "e.g. Bean Country Coffee",
+      "contactName": "Your name",
+      "phone": "Mobile phone",
+      "email": "Email",
+      "tapTarget": "What should a tap open?",
+      "targets": {
+        "googleReview": "My Google review page",
+        "website": "My website",
+        "instagram": "My Instagram",
+        "other": "Something else (tell us in the notes)"
+      },
+      "linkLabels": {
+        "googleReview": "Google review link (optional)",
+        "website": "Website URL",
+        "instagram": "Instagram handle or link",
+        "other": "Link (optional)"
+      },
+      "linkPlaceholders": {
+        "googleReview": "https://g.page/r/...",
+        "website": "https://yourbusiness.com",
+        "instagram": "@yourbusiness",
+        "other": "https://..."
+      },
+      "googleHelp": "Don't have it handy? Leave it blank and we'll find your Google listing for you.",
+      "notes": "Notes for the design",
+      "notesPlaceholder": "Colors, wording, where to find your logo, anything else we should know",
+      "smsConsent": "Text me my design proof and order updates. Msg & data rates may apply; reply STOP to opt out."
+    },
+    "summary": {
+      "heading": "Your order",
+      "empty": "Add a product above to get started.",
+      "setup": "Design & programming",
+      "included": "Included",
+      "shipping": "Shipping",
+      "free": "Free",
+      "freeShippingAt": "Add {amount} more for free shipping.",
+      "total": "Total",
+      "taxNote": "Sales tax, if any, is added at checkout.",
+      "checkout": "Secure checkout",
+      "fixErrors": "Please fill in the highlighted fields and add at least one product.",
+      "error": "Something went wrong. Please try again or text us at (781) 985-0916.",
+      "closed": "Online checkout isn't open yet. Text (781) 985-0916 and we'll take your order by phone.",
+      "secure": "Payments are handled by Stripe. You'll enter your shipping address on the next page."
+    },
+    "stepsEyebrow": "How it works",
+    "stepsHeading": "Order today. Collect reviews next week.",
+    "steps": [
+      {
+        "title": "Order online",
+        "desc": "Pick your products and tell us where the tap should go. Takes two minutes."
+      },
+      {
+        "title": "Approve your proof",
+        "desc": "Within 1 business day we text you a design proof, and we tweak it until you love it."
+      },
+      {
+        "title": "Tap and collect",
+        "desc": "We program and test every piece, then ship in 5–10 business days. Put it out and watch the reviews come in."
+      }
+    ],
+    "faqHeading": "Questions",
+    "faq": [
+      {
+        "q": "Does it work with every phone?",
+        "a": "Every iPhone since the XR and nearly all Android phones read NFC with no app. For anything else, the QR code does the same job."
+      },
+      {
+        "q": "Is this allowed by Google?",
+        "a": "Yes. Google encourages businesses to ask for reviews. Just ask every customer, not only the happy ones, and don't offer discounts or rewards in exchange."
+      },
+      {
+        "q": "Can I change where it goes later?",
+        "a": "Yes. Tell us before we ship and we'll program the new link. After that, text us and we'll reprogram it or send a replacement."
+      },
+      {
+        "q": "How long does shipping take?",
+        "a": "5–10 business days after you approve your proof. Local to the Boston area? Ask about hand delivery in your order notes."
+      },
+      {
+        "q": "Can I order for multiple locations?",
+        "a": "Yes. For more than 50 cards or several locations, text (781) 985-0916 for volume pricing."
+      },
+      {
+        "q": "What if something doesn't work?",
+        "a": "Every piece is tested before it ships. If anything arrives damaged or won't scan, we replace it free."
+      }
+    ],
+    "auditHeading": "Reviews are step one.",
+    "auditText": "More reviews help you get found. Want to know what else is holding your business back online? Get a free 30-minute growth audit.",
+    "auditCta": "Get my free audit",
+    "orderCta": "Start my order",
+    "success": {
+      "metaTitle": "Order received",
+      "demo": "Preview: no payment was taken",
+      "headline": "Order received.",
+      "subheading": "Thanks! Your payment went through and your order is in.",
+      "orderLine": "Order {orderId} for {business} is in. Thanks!",
+      "nextHeading": "What happens next",
+      "steps": [
+        "Within 1 business day we text you a design proof.",
+        "You approve it, or we tweak it until you love it.",
+        "We program, test and ship your order in 5–10 business days."
+      ],
+      "auditHeading": "While you wait: a free growth audit",
+      "auditText": "Reviews get people to trust you. In a free 30-minute audit we'll show you what else is keeping customers from finding you.",
+      "auditCta": "Book my free audit"
+    }
   }
 }

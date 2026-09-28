@@ -9,6 +9,7 @@
     "tapCards": "Tarjetas NFC",
     "cardSignIn": "Acceso a tu tarjeta",
     "bookCall": "Agendar Llamada",
+    "shop": "Tienda",
     "academy": "Certifícate en IA"
   },
   "home": {
@@ -648,5 +649,175 @@
     "cta": "Quiero Mi Auditoría Gratis",
     "dismiss": "No, gracias",
     "close": "Cerrar"
+  },
+  "shop": {
+    "metaTitle": "Tarjetas y Soportes NFC para Reseñas",
+    "eyebrow": "Productos Tap N°1",
+    "headline": "Más reseñas.",
+    "headlineAccent": "Un solo toque.",
+    "subheading": "Tarjetas, soportes de mostrador y stickers NFC, impresos con tu logo y programados por nosotros. Tus clientes acercan el teléfono y llegan directo a tu página de reseñas de Google. Sin app, sin buscar.",
+    "chips": [
+      "Funciona con iPhone y Android",
+      "Sin app",
+      "Código QR de respaldo",
+      "Diseñado y programado por nosotros"
+    ],
+    "add": "Agregar al pedido",
+    "less": "Quitar uno",
+    "more": "Agregar uno",
+    "save": "Ahorra {amount}",
+    "products": {
+      "reviewCard": {
+        "name": "Tarjeta de Reseñas",
+        "desc": "Una tarjeta para la caja, la mesa o tu bolsillo. Dásela a tus clientes y que la toquen.",
+        "features": [
+          "Impresa con tu logo y colores",
+          "Programada a tu página de reseñas o enlace",
+          "Código QR atrás como respaldo",
+          "PVC mate resistente, tamaño tarjeta de crédito"
+        ]
+      },
+      "counterStand": {
+        "name": "Soporte de Mostrador",
+        "desc": "Se queda junto a la caja o la recepción y pide la reseña por ti.",
+        "features": [
+          "Soporte acrílico con tu logo y un llamado claro",
+          "Toque NFC más código QR",
+          "Ideal para restaurantes, salones y tiendas",
+          "Sin baterías, nada que configurar"
+        ]
+      },
+      "stickerPack": {
+        "name": "Stickers Tap (paquete de 5)",
+        "desc": "Pon un punto de toque en mesas, ventanas, menús y espejos.",
+        "features": [
+          "5 stickers redondos de 6 cm",
+          "Cada uno programado y probado",
+          "Acabado fácil de limpiar",
+          "Despegar y pegar, uso en interiores"
+        ]
+      },
+      "shopBundle": {
+        "name": "Paquete Negocio",
+        "desc": "Todo lo que necesita un local con movimiento: un soporte para el mostrador, tarjetas para el equipo y stickers para las mesas.",
+        "features": [
+          "1 Soporte de Mostrador",
+          "5 Tarjetas de Reseñas",
+          "5 Stickers Tap",
+          "Envío gratis"
+        ]
+      }
+    },
+    "form": {
+      "heading": "Tus datos",
+      "subheading": "Los usamos para diseñar tus productos y enviarte una prueba por texto antes de imprimir.",
+      "business": "Nombre del negocio",
+      "businessPlaceholder": "ej. Bean Country Coffee",
+      "contactName": "Tu nombre",
+      "phone": "Celular",
+      "email": "Correo electrónico",
+      "tapTarget": "¿Qué debe abrir el toque?",
+      "targets": {
+        "googleReview": "Mi página de reseñas de Google",
+        "website": "Mi sitio web",
+        "instagram": "Mi Instagram",
+        "other": "Otra cosa (explícalo en las notas)"
+      },
+      "linkLabels": {
+        "googleReview": "Enlace de reseñas de Google (opcional)",
+        "website": "URL del sitio web",
+        "instagram": "Usuario o enlace de Instagram",
+        "other": "Enlace (opcional)"
+      },
+      "linkPlaceholders": {
+        "googleReview": "https://g.page/r/...",
+        "website": "https://tunegocio.com",
+        "instagram": "@tunegocio",
+        "other": "https://..."
+      },
+      "googleHelp": "¿No lo tienes a mano? Déjalo en blanco y nosotros buscamos tu perfil de Google.",
+      "notes": "Notas para el diseño",
+      "notesPlaceholder": "Colores, texto, dónde encontrar tu logo, cualquier otra cosa que debamos saber",
+      "smsConsent": "Envíenme la prueba del diseño y novedades del pedido por texto. Pueden aplicarse tarifas; responde STOP para cancelar."
+    },
+    "summary": {
+      "heading": "Tu pedido",
+      "empty": "Agrega un producto arriba para empezar.",
+      "setup": "Diseño y programación",
+      "included": "Incluido",
+      "shipping": "Envío",
+      "free": "Gratis",
+      "freeShippingAt": "Agrega {amount} más para envío gratis.",
+      "total": "Total",
+      "taxNote": "El impuesto de venta, si aplica, se agrega al pagar.",
+      "checkout": "Pago seguro",
+      "fixErrors": "Completa los campos marcados y agrega al menos un producto.",
+      "error": "Algo salió mal. Inténtalo de nuevo o escríbenos al (781) 985-0916.",
+      "closed": "El pago en línea aún no está abierto. Escribe al (781) 985-0916 y tomamos tu pedido por teléfono.",
+      "secure": "Los pagos los procesa Stripe. En la siguiente página ingresas tu dirección de envío."
+    },
+    "stepsEyebrow": "Cómo funciona",
+    "stepsHeading": "Pide hoy. Recibe reseñas la próxima semana.",
+    "steps": [
+      {
+        "title": "Pide en línea",
+        "desc": "Elige tus productos y dinos a dónde debe llevar el toque. Toma dos minutos."
+      },
+      {
+        "title": "Aprueba tu prueba",
+        "desc": "En 1 día hábil te enviamos una prueba del diseño por texto y la ajustamos hasta que te encante."
+      },
+      {
+        "title": "Toca y recibe reseñas",
+        "desc": "Programamos y probamos cada pieza y la enviamos en 5–10 días hábiles. Colócala y mira cómo llegan las reseñas."
+      }
+    ],
+    "faqHeading": "Preguntas",
+    "faq": [
+      {
+        "q": "¿Funciona con todos los teléfonos?",
+        "a": "Todos los iPhone desde el XR y casi todos los Android leen NFC sin app. Para los demás, el código QR hace lo mismo."
+      },
+      {
+        "q": "¿Google lo permite?",
+        "a": "Sí. Google anima a los negocios a pedir reseñas. Solo pídelas a todos tus clientes, no solo a los contentos, y no ofrezcas descuentos ni premios a cambio."
+      },
+      {
+        "q": "¿Puedo cambiar el enlace después?",
+        "a": "Sí. Avísanos antes del envío y programamos el nuevo enlace. Después, escríbenos y lo reprogramamos o te enviamos un reemplazo."
+      },
+      {
+        "q": "¿Cuánto tarda el envío?",
+        "a": "5–10 días hábiles después de aprobar tu prueba. ¿Estás en el área de Boston? Pregunta por entrega en persona en las notas del pedido."
+      },
+      {
+        "q": "¿Puedo pedir para varias sucursales?",
+        "a": "Sí. Para más de 50 tarjetas o varias sucursales, escribe al (781) 985-0916 para precios por volumen."
+      },
+      {
+        "q": "¿Y si algo no funciona?",
+        "a": "Probamos cada pieza antes de enviarla. Si algo llega dañado o no escanea, lo reemplazamos gratis."
+      }
+    ],
+    "auditHeading": "Las reseñas son el primer paso.",
+    "auditText": "Más reseñas te ayudan a que te encuentren. ¿Quieres saber qué más frena a tu negocio en línea? Pide una auditoría de crecimiento gratis de 30 minutos.",
+    "auditCta": "Quiero mi auditoría gratis",
+    "orderCta": "Empezar mi pedido",
+    "success": {
+      "metaTitle": "Pedido recibido",
+      "demo": "Vista previa: no se cobró nada",
+      "headline": "Pedido recibido.",
+      "subheading": "¡Gracias! Tu pago se procesó y tu pedido está confirmado.",
+      "orderLine": "El pedido {orderId} para {business} está confirmado. ¡Gracias!",
+      "nextHeading": "Qué sigue",
+      "steps": [
+        "En 1 día hábil te enviamos una prueba del diseño por texto.",
+        "La apruebas, o la ajustamos hasta que te encante.",
+        "Programamos, probamos y enviamos tu pedido en 5–10 días hábiles."
+      ],
+      "auditHeading": "Mientras esperas: una auditoría de crecimiento gratis",
+      "auditText": "Las reseñas generan confianza. En una auditoría gratis de 30 minutos te mostramos qué más impide que los clientes te encuentren.",
+      "auditCta": "Agendar mi auditoría gratis"
+    }
   }
 }

@@ -37,6 +37,7 @@ export default function NavBar({ locale }: NavBarProps) {
     // Only on wide screens in the top bar (no room at 1024px); always in the mobile menu.
     { href: `/${locale}/cards`, label: t('tapCards'), wideOnly: true },
     { href: `/${locale}/contact`, label: t('contact') },
+    { href: `/${locale}/shop`, label: t('shop') },
     { href: `/${locale}/academy`, label: t('academy'), highlight: true },
   ];
 
