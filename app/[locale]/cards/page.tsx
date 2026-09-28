@@ -52,7 +52,7 @@ export default async function CardsPage({ params }: { params: Promise<{ locale: 
                 forever. Every card comes with a free page.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href={`/${locale}/contact?interest=tap-card`} className="bg-brand-white px-6 py-3.5 text-sm font-semibold uppercase tracking-widest text-brand-black hover:bg-brand-offwhite">
+                <Link href={`/${locale}/shop`} className="bg-brand-white px-6 py-3.5 text-sm font-semibold uppercase tracking-widest text-brand-black hover:bg-brand-offwhite">
                   Get your card
                 </Link>
                 <Link href="/card/edit?demo=pizza" className="border border-brand-mid px-6 py-3.5 text-sm font-semibold uppercase tracking-widest text-brand-white hover:border-brand-white">

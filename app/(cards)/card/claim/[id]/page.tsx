@@ -7,7 +7,7 @@ import { Nfc } from 'lucide-react';
 import type { Session } from '@supabase/supabase-js';
 import { getSupabase } from '@/lib/supabase';
 import CardSignIn from '@/components/cards/CardSignIn';
-import { createPage, listMyPages, slugAvailable, slugify } from '@/lib/cards/client';
+import { createPage, listMyPages, slugAvailable, slugify, slugTyping } from '@/lib/cards/client';
 import type { CardPage } from '@/lib/cards/types';
 
 type Status = 'loading' | 'missing' | 'disabled' | 'unpublished' | 'unclaimed' | 'mine' | 'taken';
@@ -166,7 +166,7 @@ export default function ClaimPage({ params }: { params: { id: string } }) {
                     required
                     value={slug}
                     placeholder="tonys-brick-oven"
-                    onChange={(e) => { setSlugTouched(true); setSlug(slugify(e.target.value)); }}
+                    onChange={(e) => { setSlugTouched(true); setSlug(slugTyping(e.target.value)); }}
                   />
                 </div>
               </div>

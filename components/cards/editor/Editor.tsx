@@ -9,7 +9,7 @@ import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import type { CardPage, Plan } from '@/lib/cards/types';
 import { DEMO_PAGES } from '@/lib/cards/demo';
 import { planAtLeast } from '@/lib/cards/plans';
-import { createPage, listMyPages, slugAvailable, slugify } from '@/lib/cards/client';
+import { createPage, listMyPages, slugAvailable, slugify, slugTyping } from '@/lib/cards/client';
 import CardView from '../CardView';
 import PageTab from './PageTab';
 import LookTab from './LookTab';
@@ -353,7 +353,7 @@ function CreatePage({
           <span className="mb-1.5 block text-[11px] uppercase tracking-widest text-brand-mid">Page address</span>
           <div className="flex items-center border border-brand-dark2 bg-brand-black focus-within:border-brand-light1">
             <span className="pl-3.5 text-sm text-brand-mid">…/c/</span>
-            <input className="w-full bg-transparent px-1 py-2.5 text-sm text-brand-offwhite focus:outline-none" required value={slug} onChange={(e) => { setTouched(true); setSlug(slugify(e.target.value)); }} />
+            <input className="w-full bg-transparent px-1 py-2.5 text-sm text-brand-offwhite focus:outline-none" required value={slug} onChange={(e) => { setTouched(true); setSlug(slugTyping(e.target.value)); }} />
           </div>
         </label>
         {error && <p className="text-sm text-red-400">{error}</p>}

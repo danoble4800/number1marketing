@@ -1,13 +1,21 @@
 import { getSupabase } from '@/lib/supabase';
 import type { CardPage } from './types';
 
+// "Tony’s Pizza" → "tonys-pizza". Used on save and for suggestions from the name.
 export function slugify(s: string) {
+  return slugTyping(s).replace(/-+$/g, '');
+}
+
+// Same cleanup while someone types in the address box, but keeps a trailing hyphen
+// so "claude-" can become "claude-test" (slugify would eat the hyphen mid-typing).
+export function slugTyping(s: string) {
   return s
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/['’`]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
+    .replace(/^-+/, '')
     .slice(0, 40);
 }
 

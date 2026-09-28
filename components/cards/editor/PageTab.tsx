@@ -6,6 +6,7 @@ import type { CardLink, CardPage, LinkType } from '@/lib/cards/types';
 import { LINK_TYPES, newLinkId } from '@/lib/cards/links';
 import { can, FEATURE_PLAN } from '@/lib/cards/plans';
 import { getSupabase } from '@/lib/supabase';
+import { slugTyping } from '@/lib/cards/client';
 import LinkIcon from '../LinkIcon';
 import { Field, Section, Toggle, inputCls } from './ui';
 
@@ -109,7 +110,7 @@ export default function PageTab({ page, set, demo, userId, onUpgrade }: Props) {
               <input
                 className="w-full bg-transparent px-1 py-2.5 text-sm text-brand-offwhite focus:outline-none"
                 value={page.slug}
-                onChange={(e) => set({ slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 40) })}
+                onChange={(e) => set({ slug: slugTyping(e.target.value) })}
               />
             </div>
           </Field>

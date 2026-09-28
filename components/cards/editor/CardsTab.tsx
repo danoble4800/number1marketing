@@ -119,7 +119,9 @@ export default function CardsTab({ page, demo }: Props) {
 
       <Section title="Need more cards?" hint="Metal cards, review stands for your counter, stickers for tables.">
         <a
-          href="mailto:hello@number1digitalmarketing.com?subject=Tap%20card%20order"
+          href="/en/shop"
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-block border border-brand-white px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-brand-white hover:bg-brand-white hover:text-brand-black"
         >
           Order more
