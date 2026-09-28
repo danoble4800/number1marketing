@@ -22,8 +22,8 @@ export const PLANS: Record<
   },
   pro: {
     name: 'Pro',
-    price: '$7/mo',
-    yearly: 'or $59/year',
+    price: '$10/mo',
+    yearly: 'or $100/year',
     blurb: 'For people who hand out their card every day.',
     features: [
       'Everything in Free',
@@ -37,8 +37,8 @@ export const PLANS: Record<
   },
   business: {
     name: 'Business',
-    price: '$29/mo',
-    yearly: 'or $290/year',
+    price: '$30/mo',
+    yearly: 'or $300/year',
     blurb: 'For shops, restaurants and teams.',
     features: [
       'Everything in Pro',

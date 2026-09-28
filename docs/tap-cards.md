@@ -23,7 +23,7 @@ Customer landing pages for NFC cards (like Linktree/Dot/Popl), with Free / Pro /
 3. **Lead email sender:** `CARD_EMAIL_FROM` (optional). Defaults to `N°1 Tap Cards <cards@number1digitalmarketing.com>`,
    which works because the domain is verified in Resend.
 4. **Stripe** (optional until you want self-serve upgrades). Without these, the Upgrade button asks people to text/call.
-   - Create products "Tap Cards Pro" ($7/mo, $59/yr) and "Tap Cards Business" ($29/mo, $290/yr).
+   - Create products "Tap Cards Pro" ($10/mo, $100/yr) and "Tap Cards Business" ($30/mo, $300/yr).
    - Env vars: `STRIPE_SECRET_KEY`, `STRIPE_PRICE_PRO_MONTH`, `STRIPE_PRICE_PRO_YEAR`,
      `STRIPE_PRICE_BUSINESS_MONTH`, `STRIPE_PRICE_BUSINESS_YEAR`, `STRIPE_WEBHOOK_SECRET`.
    - Webhook endpoint: `https://number1digitalmarketing.com/api/cards/stripe-webhook`, events

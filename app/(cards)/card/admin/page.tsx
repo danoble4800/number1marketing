@@ -87,7 +87,7 @@ export default function CardsAdmin() {
   const shown = cards.filter((c) =>
     filter === 'all' ? true : filter === 'disabled' ? c.status === 'disabled' : filter === 'claimed' ? !!c.page_id : !c.page_id,
   );
-  const mrr = pages.reduce((n, p) => n + (p.plan === 'pro' ? 7 : p.plan === 'business' ? 29 : 0), 0);
+  const mrr = pages.reduce((n, p) => n + (p.plan === 'pro' ? 10 : p.plan === 'business' ? 30 : 0), 0);
 
   if (!ready) return <div className="min-h-[100dvh] bg-brand-near-black p-10 text-sm text-brand-light1">Checking access…</div>;
 
