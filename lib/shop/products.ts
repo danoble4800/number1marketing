@@ -24,7 +24,7 @@ export const PRODUCTS: Product[] = [
   { id: 'bracelet', price: 4000, maxQty: 50, art: 'bracelet', designs: false },
   { id: 'stickerPack', price: 3500, maxQty: 20, art: 'stickers', designs: false },
   // 1 stand + 5 cards + 1 sticker pack = $285 if bought separately
-  { id: 'shopBundle', price: 14900, compareAt: 28500, maxQty: 10, art: 'bundle', designs: true },
+  { id: 'shopBundle', price: 20000, compareAt: 28500, maxQty: 10, art: 'bundle', designs: true },
 ];
 
 export const PRODUCT_BY_ID = Object.fromEntries(PRODUCTS.map((p) => [p.id, p])) as Record<
