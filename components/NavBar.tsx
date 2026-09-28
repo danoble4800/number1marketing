@@ -34,6 +34,8 @@ export default function NavBar({ locale }: NavBarProps) {
     { href: `/${locale}/services`, label: t('services') },
     { href: `/${locale}/about`, label: t('about') },
     { href: `/${locale}/case-studies`, label: t('caseStudies') },
+    // Only on wide screens in the top bar (no room at 1024px); always in the mobile menu.
+    { href: `/${locale}/cards`, label: t('tapCards'), wideOnly: true },
     { href: `/${locale}/contact`, label: t('contact') },
     { href: `/${locale}/academy`, label: t('academy'), highlight: true },
   ];
@@ -57,7 +59,7 @@ export default function NavBar({ locale }: NavBarProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm tracking-wider uppercase transition-colors duration-200 ${
+                className={`text-sm tracking-wider uppercase transition-colors duration-200 ${link.wideOnly ? 'hidden xl:inline' : ''} ${
                   link.highlight
                     ? pathname.startsWith(`/${locale}/academy`)
                       ? 'text-brand-white flex items-center gap-1.5'
