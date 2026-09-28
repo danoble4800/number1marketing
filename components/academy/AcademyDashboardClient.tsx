@@ -4,8 +4,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { Lock, Award, Clock, LogOut, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Lock, Award, Clock, LogOut, CheckCircle2, ArrowRight, Download, ExternalLink, Copy } from 'lucide-react';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
+import { downloadCertificatePdf, type CertificateText } from '@/lib/certificatePdf';
+
+type Certificate = { id: string; full_name: string; issued_at: string };
 
 type ModuleItem = { number: string; title: string; time: string };
 
@@ -17,6 +20,9 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
   const [authed, setAuthed] = useState<boolean | null>(null);
   const [studentName, setStudentName] = useState('');
   const [completed, setCompleted] = useState<string[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [certificate, setCertificate] = useState<Certificate | null>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -27,12 +33,15 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
         router.replace(`/${locale}/academy/login?role=student`);
         return;
       }
-      const { data } = await getSupabase()
-        .from('module_progress')
-        .select('module_number')
-        .eq('user_id', profile.id);
+      const supabase = getSupabase();
+      const [{ data }, { data: cert }] = await Promise.all([
+        supabase.from('module_progress').select('module_number').eq('user_id', profile.id),
+        supabase.from('certificates').select('id, full_name, issued_at').eq('user_id', profile.id).maybeSingle(),
+      ]);
       if (cancelled) return;
       setCompleted((data ?? []).map((row) => row.module_number as string));
+      setCertificate((cert as Certificate) ?? null);
+      setIsAdmin(profile.role === 'admin');
       setStudentName(profile.full_name || profile.email);
       setAuthed(true);
     })();
@@ -44,7 +53,45 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
     router.push(`/${locale}/academy`);
   }
 
-  const allDone = modules.length > 0 && modules.every((m) => completed.includes(m.number));
+  const allDone = Boolean(certificate);
+  const verifyUrl = certificate
+    ? `${typeof window === 'undefined' ? '' : window.location.origin}/${locale}/academy/verify/${certificate.id}`
+    : '';
+
+  function handleDownload() {
+    if (!certificate) return;
+    downloadCertificatePdf({
+      name: certificate.full_name,
+      code: certificate.id,
+      issuedAt: certificate.issued_at,
+      verifyUrl: verifyUrl.replace(/^https?:\/\//, ''),
+      locale,
+      text: t.raw('certificate.pdf') as CertificateText,
+    });
+  }
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(verifyUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard can be blocked; the verify link is still shown on screen.
+    }
+  }
+
+  const linkedInUrl = certificate
+    ? 'https://www.linkedin.com/profile/add?' +
+      new URLSearchParams({
+        startTask: 'CERTIFICATION_NAME',
+        name: 'N°1 Academy AI Marketing Certificate',
+        organizationName: 'Number 1 Digital Marketing',
+        issueYear: String(new Date(certificate.issued_at).getFullYear()),
+        issueMonth: String(new Date(certificate.issued_at).getMonth() + 1),
+        certUrl: verifyUrl,
+        certId: certificate.id,
+      }).toString()
+    : '';
   const percent = modules.length ? Math.round((completed.length / modules.length) * 100) : 0;
 
   if (authed === null) {
@@ -99,7 +146,8 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {modules.map((mod, i) => {
               const done = completed.includes(mod.number);
-              const unlocked = i === 0 || completed.includes(modules[i - 1].number);
+              // Admins can open every module to review it.
+              const unlocked = isAdmin || i === 0 || completed.includes(modules[i - 1].number);
               const badge = done ? t('dashboard.completed') : unlocked ? t('dashboard.start') : t('dashboard.locked');
               const card = (
                 <>
@@ -179,6 +227,35 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
               <p className="text-brand-light1 text-sm max-w-md leading-relaxed">
                 {allDone ? t('dashboard.certificateEarned') : t('dashboard.certificateLocked')}
               </p>
+              {certificate && (
+                <>
+                  <p className="text-xs uppercase tracking-widest text-brand-mid mt-4">
+                    {t('certificate.pdf.idLabel')}: <span className="text-brand-offwhite">{certificate.id}</span>
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    <button
+                      onClick={handleDownload}
+                      className="inline-flex items-center gap-2 bg-brand-white text-brand-black text-xs font-semibold uppercase tracking-widest px-5 py-3 hover:bg-brand-offwhite transition-colors"
+                    >
+                      <Download size={13} /> {t('certificate.download')}
+                    </button>
+                    <a
+                      href={linkedInUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 border border-brand-dark2 text-brand-light1 text-xs uppercase tracking-widest px-5 py-3 hover:border-brand-light1 hover:text-brand-white transition-colors"
+                    >
+                      <ExternalLink size={13} /> {t('certificate.linkedIn')}
+                    </a>
+                    <button
+                      onClick={handleCopy}
+                      className="inline-flex items-center gap-2 border border-brand-dark2 text-brand-light1 text-xs uppercase tracking-widest px-5 py-3 hover:border-brand-light1 hover:text-brand-white transition-colors"
+                    >
+                      <Copy size={13} /> {copied ? t('certificate.copied') : t('certificate.copyLink')}
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </section>

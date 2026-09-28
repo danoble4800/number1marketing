@@ -5,332 +5,996 @@ export type QuizQuestion = { question: string; options: string[] };
 
 export const PASS_PERCENT = 80;
 
-export const quizzes: Record<string, QuizQuestion[]> = {
-  "01": [
-    {
-      "question": "What is a 'hallucination' in AI?",
-      "options": [
-        "When an AI refuses to answer a question",
-        "When an AI produces an image instead of text",
-        "When an AI states false information confidently, such as a fake statistic or source",
-        "When an AI runs too slowly"
-      ]
-    },
-    {
-      "question": "Which of these is an example of predictive AI?",
-      "options": [
-        "Rewriting a blog post for LinkedIn",
-        "Writing an email draft from bullet points",
-        "An ad platform deciding which people are most likely to click your ad",
-        "Creating a social media graphic"
-      ]
-    },
-    {
-      "question": "What's the best starting point for using AI in your marketing?",
-      "options": [
-        "Automate everything at once",
-        "Sign up for as many AI tools as possible",
-        "Replace your sales team with a chatbot",
-        "Find the funnel stage where you're losing the most time or customers"
-      ]
-    },
-    {
-      "question": "Which task should always have human approval before going live?",
-      "options": [
-        "A promotional email that customers will read",
-        "An internal summary of a lead form",
-        "Tagging incoming messages by topic",
-        "A first draft of blog post ideas"
-      ]
-    },
-    {
-      "question": "Which use of AI is NOT acceptable?",
-      "options": [
-        "Generating customer testimonials for your ads",
-        "Brainstorming headline ideas",
-        "Drafting replies to common customer questions for review",
-        "Summarizing real customer reviews to find common themes"
-      ]
-    }
-  ],
-  "02": [
-    {
-      "question": "In an automation workflow, what is a 'trigger'?",
-      "options": [
-        "An error message when a step fails",
-        "The monthly cost of the automation platform",
-        "The final email sent to the customer",
-        "The event that starts the workflow, like a new form submission"
-      ]
-    },
-    {
-      "question": "What's the best way to make an AI step in a workflow predictable?",
-      "options": [
-        "Run the workflow only once a month",
-        "Let the AI write as much as it wants",
-        "Require a fixed output format and add a fallback for unexpected replies",
-        "Remove all instructions so the AI can be creative"
-      ]
-    },
-    {
-      "question": "What should you do BEFORE automating a process?",
-      "options": [
-        "Connect every app you own",
-        "Map exactly how the process works today, step by step",
-        "Remove every human approval step",
-        "Buy the most expensive automation plan"
-      ]
-    },
-    {
-      "question": "When evaluating a new AI tool, which question matters most?",
-      "options": [
-        "Does it have the most features?",
-        "Are other businesses talking about it?",
-        "Is it the newest tool on the market?",
-        "Which specific task does it improve, and can I measure the difference?"
-      ]
-    },
-    {
-      "question": "Why keep a human approval step in customer-facing workflows at first?",
-      "options": [
-        "Because AI can't write emails",
-        "To catch mistakes before customers see them while you confirm the AI output is reliable",
-        "Because automation platforms require it",
-        "To make the workflow slower on purpose"
-      ]
-    }
-  ],
-  "03": [
-    {
-      "question": "Which prompt will most likely get the best result?",
-      "options": [
-        "A single keyword",
-        "\"Make it viral.\"",
-        "A prompt with role, context, task, format and constraints",
-        "\"Write something good about our business.\""
-      ]
-    },
-    {
-      "question": "What is 'few-shot prompting'?",
-      "options": [
-        "Writing prompts with as few words as possible",
-        "Using the AI for short tasks only",
-        "Including a few examples of what good output looks like",
-        "Asking the AI only a few questions per day"
-      ]
-    },
-    {
-      "question": "The AI gives you a weak draft. What's the best next step?",
-      "options": [
-        "Tell it to \"make it better\"",
-        "Hit regenerate until something better appears",
-        "Give up and write it yourself every time",
-        "Identify what was missing from the prompt, add it and give specific feedback"
-      ]
-    },
-    {
-      "question": "What belongs in a brand voice guide?",
-      "options": [
-        "Your competitors' pricing",
-        "A list of every AI tool on the market",
-        "Your company's login passwords",
-        "Voice traits with examples, words to use and avoid, and rules on claims"
-      ]
-    },
-    {
-      "question": "Why build a shared prompt library?",
-      "options": [
-        "It turns one person's best-performing prompts into the team's standard",
-        "It replaces the need for a content strategy",
-        "It lets you avoid ever editing AI output",
-        "It's required by AI companies"
-      ]
-    }
-  ],
-  "04": [
-    {
-      "question": "What should come first when planning AI-assisted content?",
-      "options": [
-        "The business goal and a specific target audience",
-        "Picking an AI image style",
-        "Choosing how many posts to publish each day",
-        "Copying a competitor's content calendar"
-      ]
-    },
-    {
-      "question": "What are content pillars?",
-      "options": [
-        "A list of hashtags",
-        "The most expensive posts you publish",
-        "Three to five recurring themes that connect audience needs with what you sell",
-        "Posts that are pinned to the top of your profile"
-      ]
-    },
-    {
-      "question": "In the repurposing pyramid, what does the pillar piece need most?",
-      "options": [
-        "Real expertise, experience or stories from the business",
-        "The highest word count possible",
-        "As many keywords as possible",
-        "A trending audio track"
-      ]
-    },
-    {
-      "question": "What kind of content does Google say it rewards?",
-      "options": [
-        "Any content written entirely by AI",
-        "Hundreds of near-identical pages for every city",
-        "Helpful, reliable, people-first content, however it was produced",
-        "Pages stuffed with keywords"
-      ]
-    },
-    {
-      "question": "Which step in the AI content workflow protects quality the most?",
-      "options": [
-        "Generating more variations",
-        "Scheduling posts at the perfect time",
-        "Adding more hashtags",
-        "The human edit and fact-check"
-      ]
-    }
-  ],
-  "05": [
-    {
-      "question": "Which is a 'decision metric' rather than a vanity metric?",
-      "options": [
-        "Cost per lead",
-        "Total likes",
-        "Impressions",
-        "Follower count"
-      ]
-    },
-    {
-      "question": "200 people visit a landing page and 10 book a call. What's the conversion rate?",
-      "options": [
-        "5%",
-        "2%",
-        "10%",
-        "20%"
-      ]
-    },
-    {
-      "question": "Before uploading a data export to an AI tool, you should:",
-      "options": [
-        "Merge cells to make it easier to read",
-        "Delete the column headers",
-        "Remove personal information like names, emails and phone numbers",
-        "Add as many columns as possible"
-      ]
-    },
-    {
-      "question": "An AI tool reports a surprising number from your data. What should you do?",
-      "options": [
-        "Share it with the team immediately",
-        "Assume it's correct because AI is good at math",
-        "Delete the data and start over",
-        "Ask it to explain the calculation and spot-check the number yourself"
-      ]
-    },
-    {
-      "question": "What makes a good A/B test?",
-      "options": [
-        "Stopping as soon as one version gets a few more clicks",
-        "Changing everything at once to find a winner faster",
-        "Changing one thing at a time and waiting for enough data",
-        "Testing without a hypothesis"
-      ]
-    }
-  ],
-  "06": [
-    {
-      "question": "What does it mean to keep a 'human in the loop'?",
-      "options": [
-        "AI tools must be used by only one person",
-        "Customers must approve every post",
-        "A person reviews and approves important or customer-facing AI output",
-        "A human must type every word"
-      ]
-    },
-    {
-      "question": "Which is the strongest reason to start with one small, frequent workflow?",
-      "options": [
-        "Large workflows are not allowed",
-        "It saves real time with low risk while you learn what can go wrong",
-        "Small workflows are free on every platform",
-        "It avoids having to test anything"
-      ]
-    },
-    {
-      "question": "Which prompt part tells the AI what to avoid?",
-      "options": [
-        "Examples",
-        "Constraints",
-        "Task",
-        "Role"
-      ]
-    },
-    {
-      "question": "Which approach is most likely to hurt your search visibility?",
-      "options": [
-        "Adding first-hand project photos to your pages",
-        "Answering real customer questions clearly",
-        "Keeping business details consistent across the web",
-        "Publishing hundreds of thin, near-identical AI pages"
-      ]
-    },
-    {
-      "question": "What's the best use of AI for audience research?",
-      "options": [
-        "Guessing what competitors' customers want",
-        "Finding common questions and exact phrases in anonymized reviews and customer messages",
-        "Inventing customer personas without any real data",
-        "Writing fake reviews to test reactions"
-      ]
-    },
-    {
-      "question": "Customer lifetime value (LTV) compared with customer acquisition cost (CAC) should be:",
-      "options": [
-        "Lower than CAC",
-        "Unrelated to CAC",
-        "Exactly equal to CAC",
-        "Much higher than CAC in a healthy business"
-      ]
-    },
-    {
-      "question": "What should a weekly marketing report lead to?",
-      "options": [
-        "A chart of follower growth only",
-        "Nothing — it's just for records",
-        "The longest possible list of metrics",
-        "Specific decisions and actions for the next week"
-      ]
-    },
-    {
-      "question": "A website chat assistant answers customer questions. What's required for responsible use?",
-      "options": [
-        "Hide it from the privacy policy",
-        "Pretend it's a real employee",
-        "Let it promise discounts on its own",
-        "Make clear it's automated and give an easy way to reach a person"
-      ]
-    },
-    {
-      "question": "Which statement about AI tools is true?",
-      "options": [
-        "They always check facts before answering",
-        "They produce text that sounds right but can be wrong, so claims must be verified",
-        "They know everything about your business automatically",
-        "Their output never needs editing"
-      ]
-    },
-    {
-      "question": "What is the purpose of a North Star metric?",
-      "options": [
-        "To measure social media likes",
-        "To focus the team on the one number that best represents current success",
-        "To replace all other metrics",
-        "To track as many numbers as possible"
-      ]
-    }
-  ]
+export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
+  "en": {
+    "01": [
+      {
+        "question": "What is a 'hallucination' in AI?",
+        "options": [
+          "When an AI refuses to answer a question",
+          "When an AI runs too slowly",
+          "When an AI produces an image instead of text",
+          "When an AI states false information confidently, such as a fake statistic or source"
+        ]
+      },
+      {
+        "question": "Which of these is an example of predictive AI?",
+        "options": [
+          "Rewriting a blog post for LinkedIn",
+          "Writing an email draft from bullet points",
+          "Creating a social media graphic",
+          "An ad platform deciding which people are most likely to click your ad"
+        ]
+      },
+      {
+        "question": "What's the best starting point for using AI in your marketing?",
+        "options": [
+          "Sign up for as many AI tools as possible",
+          "Automate everything at once",
+          "Replace your sales team with a chatbot",
+          "Find the funnel stage where you're losing the most time or customers"
+        ]
+      },
+      {
+        "question": "Which task should always have human approval before going live?",
+        "options": [
+          "An internal summary of a lead form",
+          "Tagging incoming messages by topic",
+          "A first draft of blog post ideas",
+          "A promotional email that customers will read"
+        ]
+      },
+      {
+        "question": "Which use of AI is NOT acceptable?",
+        "options": [
+          "Drafting replies to common customer questions for review",
+          "Summarizing real customer reviews to find common themes",
+          "Brainstorming headline ideas",
+          "Generating customer testimonials for your ads"
+        ]
+      }
+    ],
+    "02": [
+      {
+        "question": "In an automation workflow, what is a 'trigger'?",
+        "options": [
+          "The final email sent to the customer",
+          "The event that starts the workflow, like a new form submission",
+          "An error message when a step fails",
+          "The monthly cost of the automation platform"
+        ]
+      },
+      {
+        "question": "What's the best way to make an AI step in a workflow predictable?",
+        "options": [
+          "Run the workflow only once a month",
+          "Let the AI write as much as it wants",
+          "Require a fixed output format and add a fallback for unexpected replies",
+          "Remove all instructions so the AI can be creative"
+        ]
+      },
+      {
+        "question": "What should you do BEFORE automating a process?",
+        "options": [
+          "Buy the most expensive automation plan",
+          "Connect every app you own",
+          "Map exactly how the process works today, step by step",
+          "Remove every human approval step"
+        ]
+      },
+      {
+        "question": "When evaluating a new AI tool, which question matters most?",
+        "options": [
+          "Is it the newest tool on the market?",
+          "Are other businesses talking about it?",
+          "Which specific task does it improve, and can I measure the difference?",
+          "Does it have the most features?"
+        ]
+      },
+      {
+        "question": "Why keep a human approval step in customer-facing workflows at first?",
+        "options": [
+          "Because AI can't write emails",
+          "Because automation platforms require it",
+          "To catch mistakes before customers see them while you confirm the AI output is reliable",
+          "To make the workflow slower on purpose"
+        ]
+      }
+    ],
+    "03": [
+      {
+        "question": "Which prompt will most likely get the best result?",
+        "options": [
+          "\"Write something good about our business.\"",
+          "A single keyword",
+          "A prompt with role, context, task, format and constraints",
+          "\"Make it viral.\""
+        ]
+      },
+      {
+        "question": "What is 'few-shot prompting'?",
+        "options": [
+          "Asking the AI only a few questions per day",
+          "Writing prompts with as few words as possible",
+          "Including a few examples of what good output looks like",
+          "Using the AI for short tasks only"
+        ]
+      },
+      {
+        "question": "The AI gives you a weak draft. What's the best next step?",
+        "options": [
+          "Hit regenerate until something better appears",
+          "Give up and write it yourself every time",
+          "Identify what was missing from the prompt, add it and give specific feedback",
+          "Tell it to \"make it better\""
+        ]
+      },
+      {
+        "question": "What belongs in a brand voice guide?",
+        "options": [
+          "A list of every AI tool on the market",
+          "Voice traits with examples, words to use and avoid, and rules on claims",
+          "Your company's login passwords",
+          "Your competitors' pricing"
+        ]
+      },
+      {
+        "question": "Why build a shared prompt library?",
+        "options": [
+          "It turns one person's best-performing prompts into the team's standard",
+          "It's required by AI companies",
+          "It lets you avoid ever editing AI output",
+          "It replaces the need for a content strategy"
+        ]
+      }
+    ],
+    "04": [
+      {
+        "question": "What should come first when planning AI-assisted content?",
+        "options": [
+          "Copying a competitor's content calendar",
+          "Picking an AI image style",
+          "The business goal and a specific target audience",
+          "Choosing how many posts to publish each day"
+        ]
+      },
+      {
+        "question": "What are content pillars?",
+        "options": [
+          "Three to five recurring themes that connect audience needs with what you sell",
+          "Posts that are pinned to the top of your profile",
+          "A list of hashtags",
+          "The most expensive posts you publish"
+        ]
+      },
+      {
+        "question": "In the repurposing pyramid, what does the pillar piece need most?",
+        "options": [
+          "As many keywords as possible",
+          "Real expertise, experience or stories from the business",
+          "A trending audio track",
+          "The highest word count possible"
+        ]
+      },
+      {
+        "question": "What kind of content does Google say it rewards?",
+        "options": [
+          "Hundreds of near-identical pages for every city",
+          "Helpful, reliable, people-first content, however it was produced",
+          "Pages stuffed with keywords",
+          "Any content written entirely by AI"
+        ]
+      },
+      {
+        "question": "Which step in the AI content workflow protects quality the most?",
+        "options": [
+          "The human edit and fact-check",
+          "Scheduling posts at the perfect time",
+          "Adding more hashtags",
+          "Generating more variations"
+        ]
+      }
+    ],
+    "05": [
+      {
+        "question": "Which is a 'decision metric' rather than a vanity metric?",
+        "options": [
+          "Impressions",
+          "Cost per lead",
+          "Follower count",
+          "Total likes"
+        ]
+      },
+      {
+        "question": "200 people visit a landing page and 10 book a call. What's the conversion rate?",
+        "options": [
+          "5%",
+          "2%",
+          "10%",
+          "20%"
+        ]
+      },
+      {
+        "question": "Before uploading a data export to an AI tool, you should:",
+        "options": [
+          "Delete the column headers",
+          "Remove personal information like names, emails and phone numbers",
+          "Add as many columns as possible",
+          "Merge cells to make it easier to read"
+        ]
+      },
+      {
+        "question": "An AI tool reports a surprising number from your data. What should you do?",
+        "options": [
+          "Share it with the team immediately",
+          "Ask it to explain the calculation and spot-check the number yourself",
+          "Delete the data and start over",
+          "Assume it's correct because AI is good at math"
+        ]
+      },
+      {
+        "question": "What makes a good A/B test?",
+        "options": [
+          "Changing one thing at a time and waiting for enough data",
+          "Changing everything at once to find a winner faster",
+          "Testing without a hypothesis",
+          "Stopping as soon as one version gets a few more clicks"
+        ]
+      }
+    ],
+    "06": [
+      {
+        "question": "What does it mean to keep a 'human in the loop'?",
+        "options": [
+          "AI tools must be used by only one person",
+          "Customers must approve every post",
+          "A human must type every word",
+          "A person reviews and approves important or customer-facing AI output"
+        ]
+      },
+      {
+        "question": "Which is the strongest reason to start with one small, frequent workflow?",
+        "options": [
+          "It avoids having to test anything",
+          "Small workflows are free on every platform",
+          "Large workflows are not allowed",
+          "It saves real time with low risk while you learn what can go wrong"
+        ]
+      },
+      {
+        "question": "Which prompt part tells the AI what to avoid?",
+        "options": [
+          "Role",
+          "Examples",
+          "Task",
+          "Constraints"
+        ]
+      },
+      {
+        "question": "Which approach is most likely to hurt your search visibility?",
+        "options": [
+          "Answering real customer questions clearly",
+          "Adding first-hand project photos to your pages",
+          "Keeping business details consistent across the web",
+          "Publishing hundreds of thin, near-identical AI pages"
+        ]
+      },
+      {
+        "question": "What's the best use of AI for audience research?",
+        "options": [
+          "Guessing what competitors' customers want",
+          "Inventing customer personas without any real data",
+          "Writing fake reviews to test reactions",
+          "Finding common questions and exact phrases in anonymized reviews and customer messages"
+        ]
+      },
+      {
+        "question": "Customer lifetime value (LTV) compared with customer acquisition cost (CAC) should be:",
+        "options": [
+          "Lower than CAC",
+          "Exactly equal to CAC",
+          "Unrelated to CAC",
+          "Much higher than CAC in a healthy business"
+        ]
+      },
+      {
+        "question": "What should a weekly marketing report lead to?",
+        "options": [
+          "The longest possible list of metrics",
+          "A chart of follower growth only",
+          "Nothing — it's just for records",
+          "Specific decisions and actions for the next week"
+        ]
+      },
+      {
+        "question": "A website chat assistant answers customer questions. What's required for responsible use?",
+        "options": [
+          "Let it promise discounts on its own",
+          "Pretend it's a real employee",
+          "Hide it from the privacy policy",
+          "Make clear it's automated and give an easy way to reach a person"
+        ]
+      },
+      {
+        "question": "Which statement about AI tools is true?",
+        "options": [
+          "Their output never needs editing",
+          "They know everything about your business automatically",
+          "They always check facts before answering",
+          "They produce text that sounds right but can be wrong, so claims must be verified"
+        ]
+      },
+      {
+        "question": "What is the purpose of a North Star metric?",
+        "options": [
+          "To measure social media likes",
+          "To replace all other metrics",
+          "To track as many numbers as possible",
+          "To focus the team on the one number that best represents current success"
+        ]
+      }
+    ]
+  },
+  "es": {
+    "01": [
+      {
+        "question": "¿Qué es una 'alucinación' en la IA?",
+        "options": [
+          "Cuando una IA se niega a responder una pregunta",
+          "Cuando una IA funciona muy lento",
+          "Cuando una IA produce una imagen en lugar de texto",
+          "Cuando una IA afirma información falsa con seguridad, como una estadística o fuente inventada"
+        ]
+      },
+      {
+        "question": "¿Cuál de estos es un ejemplo de IA predictiva?",
+        "options": [
+          "Reescribir una entrada de blog para LinkedIn",
+          "Redactar un correo a partir de viñetas",
+          "Crear un gráfico para redes sociales",
+          "Una plataforma de anuncios que decide qué personas tienen más probabilidades de hacer clic en tu anuncio"
+        ]
+      },
+      {
+        "question": "¿Cuál es el mejor punto de partida para usar IA en tu marketing?",
+        "options": [
+          "Registrarte en tantas herramientas de IA como sea posible",
+          "Automatizar todo al mismo tiempo",
+          "Reemplazar a tu equipo de ventas con un chatbot",
+          "Encontrar la etapa del embudo donde pierdes más tiempo o clientes"
+        ]
+      },
+      {
+        "question": "¿Qué tarea siempre debe tener aprobación humana antes de publicarse?",
+        "options": [
+          "Un resumen interno de un formulario de prospecto",
+          "Etiquetar los mensajes entrantes por tema",
+          "Un primer borrador de ideas para el blog",
+          "Un correo promocional que leerán los clientes"
+        ]
+      },
+      {
+        "question": "¿Qué uso de la IA NO es aceptable?",
+        "options": [
+          "Redactar respuestas a preguntas frecuentes de clientes para revisarlas",
+          "Resumir reseñas reales de clientes para encontrar temas comunes",
+          "Generar ideas de titulares",
+          "Generar testimonios de clientes para tus anuncios"
+        ]
+      }
+    ],
+    "02": [
+      {
+        "question": "En un flujo de automatización, ¿qué es un 'disparador'?",
+        "options": [
+          "El último correo que se envía al cliente",
+          "El evento que inicia el flujo, como el envío de un nuevo formulario",
+          "Un mensaje de error cuando falla un paso",
+          "El costo mensual de la plataforma de automatización"
+        ]
+      },
+      {
+        "question": "¿Cuál es la mejor forma de hacer predecible un paso de IA en un flujo?",
+        "options": [
+          "Ejecutar el flujo solo una vez al mes",
+          "Dejar que la IA escriba todo lo que quiera",
+          "Exigir un formato de respuesta fijo y agregar un plan alternativo para respuestas inesperadas",
+          "Quitar todas las instrucciones para que la IA sea creativa"
+        ]
+      },
+      {
+        "question": "¿Qué debes hacer ANTES de automatizar un proceso?",
+        "options": [
+          "Comprar el plan de automatización más caro",
+          "Conectar todas las aplicaciones que tienes",
+          "Mapear exactamente cómo funciona el proceso hoy, paso a paso",
+          "Eliminar todos los pasos de aprobación humana"
+        ]
+      },
+      {
+        "question": "Al evaluar una nueva herramienta de IA, ¿qué pregunta importa más?",
+        "options": [
+          "¿Es la herramienta más nueva del mercado?",
+          "¿Otros negocios están hablando de ella?",
+          "¿Qué tarea específica mejora y puedo medir la diferencia?",
+          "¿Es la que tiene más funciones?"
+        ]
+      },
+      {
+        "question": "¿Por qué mantener al principio un paso de aprobación humana en los flujos que ve el cliente?",
+        "options": [
+          "Porque la IA no puede escribir correos",
+          "Porque las plataformas de automatización lo exigen",
+          "Para detectar errores antes de que los vean los clientes mientras confirmas que la IA es confiable",
+          "Para hacer el flujo más lento a propósito"
+        ]
+      }
+    ],
+    "03": [
+      {
+        "question": "¿Qué prompt probablemente dará el mejor resultado?",
+        "options": [
+          "\"Escribe algo bueno sobre nuestro negocio.\"",
+          "Una sola palabra clave",
+          "Un prompt con rol, contexto, tarea, formato y restricciones",
+          "\"Hazlo viral.\""
+        ]
+      },
+      {
+        "question": "¿Qué son los 'prompts con ejemplos' (few-shot)?",
+        "options": [
+          "Hacerle a la IA solo unas pocas preguntas al día",
+          "Escribir prompts con la menor cantidad de palabras posible",
+          "Incluir algunos ejemplos de cómo se ve un buen resultado",
+          "Usar la IA solo para tareas cortas"
+        ]
+      },
+      {
+        "question": "La IA te da un borrador débil. ¿Cuál es el mejor siguiente paso?",
+        "options": [
+          "Pulsar regenerar hasta que aparezca algo mejor",
+          "Rendirte y escribirlo tú mismo siempre",
+          "Identificar qué faltó en el prompt, agregarlo y dar comentarios específicos",
+          "Decirle \"mejóralo\""
+        ]
+      },
+      {
+        "question": "¿Qué debe incluir una guía de voz de marca?",
+        "options": [
+          "Una lista de todas las herramientas de IA del mercado",
+          "Rasgos de voz con ejemplos, palabras que usar y evitar, y reglas sobre afirmaciones",
+          "Las contraseñas de tu empresa",
+          "Los precios de tu competencia"
+        ]
+      },
+      {
+        "question": "¿Por qué crear una biblioteca de prompts compartida?",
+        "options": [
+          "Convierte los prompts con mejor resultado de una persona en el estándar del equipo",
+          "Las empresas de IA lo exigen",
+          "Te permite no editar nunca lo que produce la IA",
+          "Reemplaza la necesidad de una estrategia de contenido"
+        ]
+      }
+    ],
+    "04": [
+      {
+        "question": "¿Qué debe venir primero al planificar contenido asistido por IA?",
+        "options": [
+          "Copiar el calendario de contenido de un competidor",
+          "Elegir un estilo de imagen de IA",
+          "El objetivo de negocio y una audiencia específica",
+          "Decidir cuántas publicaciones hacer al día"
+        ]
+      },
+      {
+        "question": "¿Qué son los pilares de contenido?",
+        "options": [
+          "De tres a cinco temas recurrentes que conectan las necesidades de la audiencia con lo que vendes",
+          "Las publicaciones fijadas en la parte superior de tu perfil",
+          "Una lista de hashtags",
+          "Las publicaciones más caras que haces"
+        ]
+      },
+      {
+        "question": "En la pirámide de reutilización, ¿qué necesita más la pieza pilar?",
+        "options": [
+          "La mayor cantidad de palabras clave posible",
+          "Experiencia, conocimiento o historias reales del negocio",
+          "Un audio de moda",
+          "La mayor cantidad de palabras posible"
+        ]
+      },
+      {
+        "question": "¿Qué tipo de contenido dice Google que premia?",
+        "options": [
+          "Cientos de páginas casi idénticas para cada ciudad",
+          "Contenido útil, confiable y pensado para las personas, sin importar cómo se produjo",
+          "Páginas llenas de palabras clave",
+          "Cualquier contenido escrito totalmente por IA"
+        ]
+      },
+      {
+        "question": "¿Qué paso del flujo de contenido con IA protege más la calidad?",
+        "options": [
+          "La edición y verificación humana",
+          "Programar las publicaciones en el horario perfecto",
+          "Agregar más hashtags",
+          "Generar más variaciones"
+        ]
+      }
+    ],
+    "05": [
+      {
+        "question": "¿Cuál es una 'métrica de decisión' y no una métrica de vanidad?",
+        "options": [
+          "Impresiones",
+          "Costo por prospecto",
+          "Número de seguidores",
+          "Total de \"me gusta\""
+        ]
+      },
+      {
+        "question": "200 personas visitan una página y 10 agendan una llamada. ¿Cuál es la tasa de conversión?",
+        "options": [
+          "5 %",
+          "2 %",
+          "10 %",
+          "20 %"
+        ]
+      },
+      {
+        "question": "Antes de subir una exportación de datos a una herramienta de IA, debes:",
+        "options": [
+          "Borrar los encabezados de las columnas",
+          "Eliminar la información personal como nombres, correos y teléfonos",
+          "Agregar la mayor cantidad de columnas posible",
+          "Combinar celdas para que sea más fácil de leer"
+        ]
+      },
+      {
+        "question": "Una herramienta de IA reporta un número sorprendente de tus datos. ¿Qué debes hacer?",
+        "options": [
+          "Compartirlo con el equipo de inmediato",
+          "Pedirle que explique el cálculo y verificar el número tú mismo",
+          "Borrar los datos y empezar de nuevo",
+          "Suponer que es correcto porque la IA es buena en matemáticas"
+        ]
+      },
+      {
+        "question": "¿Qué hace que una prueba A/B sea buena?",
+        "options": [
+          "Cambiar una sola cosa a la vez y esperar suficientes datos",
+          "Cambiar todo a la vez para encontrar un ganador más rápido",
+          "Probar sin una hipótesis",
+          "Detenerla en cuanto una versión tenga unos pocos clics más"
+        ]
+      }
+    ],
+    "06": [
+      {
+        "question": "¿Qué significa mantener a una 'persona en el proceso'?",
+        "options": [
+          "Las herramientas de IA solo las puede usar una persona",
+          "Los clientes deben aprobar cada publicación",
+          "Una persona debe escribir cada palabra",
+          "Una persona revisa y aprueba los resultados de IA importantes o que verá el cliente"
+        ]
+      },
+      {
+        "question": "¿Cuál es la razón más fuerte para empezar con un flujo pequeño y frecuente?",
+        "options": [
+          "Evita tener que probar algo",
+          "Los flujos pequeños son gratis en todas las plataformas",
+          "Los flujos grandes no están permitidos",
+          "Ahorra tiempo real con poco riesgo mientras aprendes qué puede fallar"
+        ]
+      },
+      {
+        "question": "¿Qué parte del prompt le dice a la IA qué evitar?",
+        "options": [
+          "Rol",
+          "Ejemplos",
+          "Tarea",
+          "Restricciones"
+        ]
+      },
+      {
+        "question": "¿Qué enfoque tiene más probabilidades de dañar tu visibilidad en buscadores?",
+        "options": [
+          "Responder con claridad preguntas reales de clientes",
+          "Agregar fotos de proyectos propios a tus páginas",
+          "Mantener consistentes los datos del negocio en internet",
+          "Publicar cientos de páginas de IA pobres y casi idénticas"
+        ]
+      },
+      {
+        "question": "¿Cuál es el mejor uso de la IA para investigar a tu audiencia?",
+        "options": [
+          "Adivinar lo que quieren los clientes de la competencia",
+          "Inventar perfiles de clientes sin datos reales",
+          "Escribir reseñas falsas para probar reacciones",
+          "Encontrar preguntas comunes y frases exactas en reseñas y mensajes de clientes anónimos"
+        ]
+      },
+      {
+        "question": "En comparación con el costo de adquisición (CAC), el valor de vida del cliente (LTV) debe ser:",
+        "options": [
+          "Menor que el CAC",
+          "Exactamente igual al CAC",
+          "Sin relación con el CAC",
+          "Mucho mayor que el CAC en un negocio sano"
+        ]
+      },
+      {
+        "question": "¿A qué debe llevar un informe semanal de marketing?",
+        "options": [
+          "A la lista de métricas más larga posible",
+          "A un gráfico solo del crecimiento de seguidores",
+          "A nada; es solo para el registro",
+          "A decisiones y acciones específicas para la próxima semana"
+        ]
+      },
+      {
+        "question": "Un asistente de chat en tu sitio responde preguntas de clientes. ¿Qué exige un uso responsable?",
+        "options": [
+          "Dejar que prometa descuentos por su cuenta",
+          "Fingir que es un empleado real",
+          "Ocultarlo de la política de privacidad",
+          "Dejar claro que es automatizado y ofrecer una forma fácil de hablar con una persona"
+        ]
+      },
+      {
+        "question": "¿Qué afirmación sobre las herramientas de IA es verdadera?",
+        "options": [
+          "Lo que producen nunca necesita edición",
+          "Saben todo sobre tu negocio automáticamente",
+          "Siempre verifican los datos antes de responder",
+          "Producen texto que suena correcto pero puede estar mal, así que hay que verificar las afirmaciones"
+        ]
+      },
+      {
+        "question": "¿Para qué sirve una métrica Estrella Polar?",
+        "options": [
+          "Para medir los \"me gusta\" en redes sociales",
+          "Para reemplazar todas las demás métricas",
+          "Para seguir tantos números como sea posible",
+          "Para enfocar al equipo en el número que mejor representa el éxito actual"
+        ]
+      }
+    ]
+  },
+  "pt": {
+    "01": [
+      {
+        "question": "O que é uma 'alucinação' na IA?",
+        "options": [
+          "Quando uma IA se recusa a responder uma pergunta",
+          "Quando uma IA fica muito lenta",
+          "Quando uma IA produz uma imagem em vez de texto",
+          "Quando uma IA afirma informações falsas com confiança, como uma estatística ou fonte inventada"
+        ]
+      },
+      {
+        "question": "Qual destes é um exemplo de IA preditiva?",
+        "options": [
+          "Reescrever um post do blog para o LinkedIn",
+          "Rascunhar um e-mail a partir de tópicos",
+          "Criar uma arte para redes sociais",
+          "Uma plataforma de anúncios decidindo quais pessoas têm mais chance de clicar no seu anúncio"
+        ]
+      },
+      {
+        "question": "Qual é o melhor ponto de partida para usar IA no seu marketing?",
+        "options": [
+          "Assinar o máximo possível de ferramentas de IA",
+          "Automatizar tudo de uma vez",
+          "Substituir sua equipe de vendas por um chatbot",
+          "Encontrar a etapa do funil em que você mais perde tempo ou clientes"
+        ]
+      },
+      {
+        "question": "Qual tarefa deve sempre ter aprovação humana antes de ir ao ar?",
+        "options": [
+          "Um resumo interno de um formulário de lead",
+          "Marcar as mensagens recebidas por assunto",
+          "Um primeiro rascunho de ideias para o blog",
+          "Um e-mail promocional que os clientes vão ler"
+        ]
+      },
+      {
+        "question": "Qual uso da IA NÃO é aceitável?",
+        "options": [
+          "Rascunhar respostas para perguntas frequentes de clientes para revisão",
+          "Resumir avaliações reais de clientes para encontrar temas comuns",
+          "Gerar ideias de títulos",
+          "Gerar depoimentos de clientes para seus anúncios"
+        ]
+      }
+    ],
+    "02": [
+      {
+        "question": "Em um fluxo de automação, o que é um 'gatilho'?",
+        "options": [
+          "O último e-mail enviado ao cliente",
+          "O evento que inicia o fluxo, como o envio de um novo formulário",
+          "Uma mensagem de erro quando uma etapa falha",
+          "O custo mensal da plataforma de automação"
+        ]
+      },
+      {
+        "question": "Qual é a melhor forma de tornar previsível uma etapa de IA em um fluxo?",
+        "options": [
+          "Rodar o fluxo só uma vez por mês",
+          "Deixar a IA escrever o quanto quiser",
+          "Exigir um formato de resposta fixo e adicionar um plano B para respostas inesperadas",
+          "Remover todas as instruções para a IA ser criativa"
+        ]
+      },
+      {
+        "question": "O que você deve fazer ANTES de automatizar um processo?",
+        "options": [
+          "Comprar o plano de automação mais caro",
+          "Conectar todos os aplicativos que você tem",
+          "Mapear exatamente como o processo funciona hoje, passo a passo",
+          "Remover todas as etapas de aprovação humana"
+        ]
+      },
+      {
+        "question": "Ao avaliar uma nova ferramenta de IA, qual pergunta importa mais?",
+        "options": [
+          "Ela é a ferramenta mais nova do mercado?",
+          "Outras empresas estão falando dela?",
+          "Qual tarefa específica ela melhora e consigo medir a diferença?",
+          "Ela tem mais recursos?"
+        ]
+      },
+      {
+        "question": "Por que manter no início uma etapa de aprovação humana nos fluxos que o cliente vê?",
+        "options": [
+          "Porque a IA não sabe escrever e-mails",
+          "Porque as plataformas de automação exigem",
+          "Para pegar erros antes que os clientes vejam enquanto você confirma que a IA é confiável",
+          "Para deixar o fluxo mais lento de propósito"
+        ]
+      }
+    ],
+    "03": [
+      {
+        "question": "Qual prompt provavelmente terá o melhor resultado?",
+        "options": [
+          "\"Escreva algo bom sobre nosso negócio.\"",
+          "Uma única palavra-chave",
+          "Um prompt com papel, contexto, tarefa, formato e restrições",
+          "\"Faça viralizar.\""
+        ]
+      },
+      {
+        "question": "O que são 'prompts com exemplos' (few-shot)?",
+        "options": [
+          "Fazer só algumas perguntas à IA por dia",
+          "Escrever prompts com o mínimo possível de palavras",
+          "Incluir alguns exemplos de como é um bom resultado",
+          "Usar a IA só para tarefas curtas"
+        ]
+      },
+      {
+        "question": "A IA entrega um rascunho fraco. Qual é o melhor próximo passo?",
+        "options": [
+          "Clicar em gerar novamente até aparecer algo melhor",
+          "Desistir e escrever sempre você mesmo",
+          "Identificar o que faltou no prompt, acrescentar e dar feedback específico",
+          "Dizer \"melhore\""
+        ]
+      },
+      {
+        "question": "O que deve ter em um guia de voz da marca?",
+        "options": [
+          "Uma lista de todas as ferramentas de IA do mercado",
+          "Traços de voz com exemplos, palavras para usar e evitar e regras sobre afirmações",
+          "As senhas da sua empresa",
+          "Os preços dos concorrentes"
+        ]
+      },
+      {
+        "question": "Por que criar uma biblioteca de prompts compartilhada?",
+        "options": [
+          "Ela transforma os prompts de melhor resultado de uma pessoa no padrão da equipe",
+          "As empresas de IA exigem",
+          "Ela permite nunca editar o que a IA produz",
+          "Ela substitui a necessidade de uma estratégia de conteúdo"
+        ]
+      }
+    ],
+    "04": [
+      {
+        "question": "O que deve vir primeiro ao planejar conteúdo com ajuda de IA?",
+        "options": [
+          "Copiar o calendário de conteúdo de um concorrente",
+          "Escolher um estilo de imagem de IA",
+          "O objetivo de negócio e um público específico",
+          "Decidir quantos posts publicar por dia"
+        ]
+      },
+      {
+        "question": "O que são pilares de conteúdo?",
+        "options": [
+          "De três a cinco temas recorrentes que conectam as necessidades do público ao que você vende",
+          "Os posts fixados no topo do seu perfil",
+          "Uma lista de hashtags",
+          "Os posts mais caros que você publica"
+        ]
+      },
+      {
+        "question": "Na pirâmide de reaproveitamento, do que a peça pilar mais precisa?",
+        "options": [
+          "O máximo de palavras-chave possível",
+          "Experiência, conhecimento ou histórias reais do negócio",
+          "Um áudio em alta",
+          "O maior número de palavras possível"
+        ]
+      },
+      {
+        "question": "Que tipo de conteúdo o Google diz que valoriza?",
+        "options": [
+          "Centenas de páginas quase idênticas para cada cidade",
+          "Conteúdo útil, confiável e feito para as pessoas, não importa como foi produzido",
+          "Páginas lotadas de palavras-chave",
+          "Qualquer conteúdo escrito totalmente por IA"
+        ]
+      },
+      {
+        "question": "Qual etapa do fluxo de conteúdo com IA mais protege a qualidade?",
+        "options": [
+          "A edição e a checagem humanas",
+          "Agendar os posts no horário perfeito",
+          "Adicionar mais hashtags",
+          "Gerar mais variações"
+        ]
+      }
+    ],
+    "05": [
+      {
+        "question": "Qual é uma 'métrica de decisão', e não uma métrica de vaidade?",
+        "options": [
+          "Impressões",
+          "Custo por lead",
+          "Número de seguidores",
+          "Total de curtidas"
+        ]
+      },
+      {
+        "question": "200 pessoas visitam uma página e 10 agendam uma ligação. Qual é a taxa de conversão?",
+        "options": [
+          "5%",
+          "2%",
+          "10%",
+          "20%"
+        ]
+      },
+      {
+        "question": "Antes de enviar uma exportação de dados para uma ferramenta de IA, você deve:",
+        "options": [
+          "Apagar os cabeçalhos das colunas",
+          "Remover informações pessoais como nomes, e-mails e telefones",
+          "Adicionar o máximo de colunas possível",
+          "Mesclar células para facilitar a leitura"
+        ]
+      },
+      {
+        "question": "Uma ferramenta de IA aponta um número surpreendente nos seus dados. O que você deve fazer?",
+        "options": [
+          "Compartilhar com a equipe na hora",
+          "Pedir que ela explique o cálculo e conferir o número você mesmo",
+          "Apagar os dados e começar de novo",
+          "Supor que está certo porque a IA é boa em matemática"
+        ]
+      },
+      {
+        "question": "O que faz um bom teste A/B?",
+        "options": [
+          "Mudar uma coisa de cada vez e esperar dados suficientes",
+          "Mudar tudo de uma vez para achar um vencedor mais rápido",
+          "Testar sem uma hipótese",
+          "Parar assim que uma versão tiver alguns cliques a mais"
+        ]
+      }
+    ],
+    "06": [
+      {
+        "question": "O que significa manter uma 'pessoa no processo'?",
+        "options": [
+          "As ferramentas de IA só podem ser usadas por uma pessoa",
+          "Os clientes precisam aprovar cada post",
+          "Uma pessoa precisa digitar cada palavra",
+          "Uma pessoa revisa e aprova resultados de IA importantes ou que o cliente vai ver"
+        ]
+      },
+      {
+        "question": "Qual é o motivo mais forte para começar com um fluxo pequeno e frequente?",
+        "options": [
+          "Ele evita ter que testar qualquer coisa",
+          "Fluxos pequenos são gratuitos em todas as plataformas",
+          "Fluxos grandes não são permitidos",
+          "Ele economiza tempo real com baixo risco enquanto você aprende o que pode dar errado"
+        ]
+      },
+      {
+        "question": "Qual parte do prompt diz à IA o que evitar?",
+        "options": [
+          "Papel",
+          "Exemplos",
+          "Tarefa",
+          "Restrições"
+        ]
+      },
+      {
+        "question": "Qual abordagem tem mais chance de prejudicar sua visibilidade na busca?",
+        "options": [
+          "Responder com clareza a perguntas reais de clientes",
+          "Adicionar fotos de projetos próprios às suas páginas",
+          "Manter os dados da empresa consistentes na internet",
+          "Publicar centenas de páginas de IA rasas e quase idênticas"
+        ]
+      },
+      {
+        "question": "Qual é o melhor uso da IA para pesquisar seu público?",
+        "options": [
+          "Adivinhar o que os clientes dos concorrentes querem",
+          "Inventar personas de clientes sem nenhum dado real",
+          "Escrever avaliações falsas para testar reações",
+          "Encontrar perguntas comuns e frases exatas em avaliações e mensagens de clientes anônimas"
+        ]
+      },
+      {
+        "question": "Em comparação com o custo de aquisição (CAC), o valor do tempo de vida do cliente (LTV) deve ser:",
+        "options": [
+          "Menor que o CAC",
+          "Exatamente igual ao CAC",
+          "Sem relação com o CAC",
+          "Muito maior que o CAC em um negócio saudável"
+        ]
+      },
+      {
+        "question": "A que um relatório semanal de marketing deve levar?",
+        "options": [
+          "À maior lista de métricas possível",
+          "A um gráfico só do crescimento de seguidores",
+          "A nada; é só para registro",
+          "A decisões e ações específicas para a próxima semana"
+        ]
+      },
+      {
+        "question": "Um assistente de chat no seu site responde a perguntas de clientes. O que o uso responsável exige?",
+        "options": [
+          "Deixar que ele prometa descontos por conta própria",
+          "Fingir que é um funcionário de verdade",
+          "Escondê-lo da política de privacidade",
+          "Deixar claro que é automatizado e oferecer um jeito fácil de falar com uma pessoa"
+        ]
+      },
+      {
+        "question": "Qual afirmação sobre ferramentas de IA é verdadeira?",
+        "options": [
+          "O que elas produzem nunca precisa de edição",
+          "Elas sabem tudo sobre o seu negócio automaticamente",
+          "Elas sempre checam os fatos antes de responder",
+          "Elas produzem textos que parecem certos, mas podem estar errados, então as afirmações precisam ser checadas"
+        ]
+      },
+      {
+        "question": "Para que serve uma métrica Estrela do Norte?",
+        "options": [
+          "Para medir curtidas nas redes sociais",
+          "Para substituir todas as outras métricas",
+          "Para acompanhar o máximo de números possível",
+          "Para focar a equipe no número que melhor representa o sucesso atual"
+        ]
+      }
+    ]
+  }
 };
+
+export function getQuiz(number: string, locale: string): QuizQuestion[] | undefined {
+  return (quizzes[locale] ?? quizzes.en)[number] ?? quizzes.en[number];
+}

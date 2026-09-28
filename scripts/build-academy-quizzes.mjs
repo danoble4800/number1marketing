@@ -28,16 +28,26 @@ function seededShuffle(items, seedText) {
   return out;
 }
 
-const quizzes = {};
+// All languages share one answer key, so every language gets the same option order.
+// The shuffle is seeded by module + question position only.
+const languages = Object.keys(source).filter((k) => !k.startsWith('_'));
+const quizzes = Object.fromEntries(languages.map((lang) => [lang, {}]));
 const keyRows = [];
 
-for (const [moduleNumber, questions] of Object.entries(source)) {
-  if (moduleNumber.startsWith('_')) continue;
-  quizzes[moduleNumber] = questions.map(([question, options], qi) => {
-    const shuffled = seededShuffle(options, `${moduleNumber}-${qi}-${question}`);
-    const correct = shuffled.findIndex((o) => o.i === 0);
-    keyRows.push(`('${moduleNumber}', ${qi}, ${correct})`);
-    return { question, options: shuffled.map((o) => o.value) };
+for (const [moduleNumber, questions] of Object.entries(source.en)) {
+  questions.forEach(([question], qi) => {
+    const order = seededShuffle([0, 1, 2, 3], `${moduleNumber}-${qi}`).map((o) => o.value);
+    keyRows.push(`('${moduleNumber}', ${qi}, ${order.indexOf(0)})`);
+    for (const lang of languages) {
+      const translated = source[lang][moduleNumber]?.[qi];
+      if (!translated || translated[1].length !== 4) {
+        throw new Error(`${lang} module ${moduleNumber} question ${qi + 1} is missing or doesn't have 4 options (${question})`);
+      }
+      (quizzes[lang][moduleNumber] ??= []).push({
+        question: translated[0],
+        options: order.map((i) => translated[1][i]),
+      });
+    }
   });
 }
 
@@ -50,7 +60,11 @@ export type QuizQuestion = { question: string; options: string[] };
 
 export const PASS_PERCENT = 80;
 
-export const quizzes: Record<string, QuizQuestion[]> = ${JSON.stringify(quizzes, null, 2)};
+export const quizzes: Record<string, Record<string, QuizQuestion[]>> = ${JSON.stringify(quizzes, null, 2)};
+
+export function getQuiz(number: string, locale: string): QuizQuestion[] | undefined {
+  return (quizzes[locale] ?? quizzes.en)[number] ?? quizzes.en[number];
+}
 `
 );
 
@@ -65,4 +79,4 @@ commit;
 `
 );
 
-console.log(`Wrote ${keyRows.length} questions across ${Object.keys(quizzes).length} modules.`);
+console.log(`Wrote ${keyRows.length} questions in ${languages.join(', ')}.`);

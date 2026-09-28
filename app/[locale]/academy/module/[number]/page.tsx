@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import AcademyModuleClient from '@/components/academy/AcademyModuleClient';
 import { course, getModule } from '@/content/academy/lessons';
-import { quizzes } from '@/content/academy/quizzes';
+import { getQuiz } from '@/content/academy/quizzes';
 
 type ModuleItem = { number: string; title: string; time: string };
 
@@ -25,8 +25,8 @@ export default async function AcademyModulePage({
   const { locale, number } = await params;
   setRequestLocale(locale);
 
-  const courseModule = getModule(number);
-  const quiz = quizzes[number];
+  const courseModule = getModule(number, locale);
+  const quiz = getQuiz(number, locale);
   if (!courseModule || !quiz) notFound();
 
   const t = await getTranslations({ locale, namespace: 'academy' });

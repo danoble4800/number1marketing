@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Users, Activity, Award, LogOut } from 'lucide-react';
+import Link from 'next/link';
+import { Users, Activity, Award, LogOut, Eye } from 'lucide-react';
 import { getSupabase, getCurrentProfile, type Profile } from '@/lib/supabase';
 
 type ModuleItem = { number: string; title: string; time: string };
@@ -19,6 +20,7 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
   const [authed, setAuthed] = useState<boolean | null>(null);
   const [students, setStudents] = useState<Profile[]>([]);
   const [progress, setProgress] = useState<ProgressRow[]>([]);
+  const [certificateCount, setCertificateCount] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -31,17 +33,19 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
       }
       // Row level security only returns every profile to admins.
       const supabase = getSupabase();
-      const [profilesRes, progressRes] = await Promise.all([
+      const [profilesRes, progressRes, certificatesRes] = await Promise.all([
         supabase
           .from('profiles')
           .select('id, email, full_name, role, created_at')
           .eq('role', 'student')
           .order('created_at', { ascending: false }),
         supabase.from('module_progress').select('user_id, module_number, completed_at'),
+        supabase.from('certificates').select('id', { count: 'exact', head: true }),
       ]);
       if (cancelled) return;
       setStudents((profilesRes.data as Profile[]) ?? []);
       setProgress((progressRes.data as ProgressRow[]) ?? []);
+      setCertificateCount(certificatesRes.count ?? 0);
       setAuthed(true);
     })();
     return () => { cancelled = true; };
@@ -61,7 +65,6 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
       .filter((row) => Date.now() - new Date(row.completed_at).getTime() < WEEK_MS)
       .map((row) => row.user_id)
   ).size;
-  const finished = students.filter((s) => completedCount(s.id) >= modules.length).length;
 
   if (authed === null) {
     return <div className="min-h-screen bg-brand-near-black" />;
@@ -70,7 +73,7 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
   const stats = [
     { label: t('admin.stats.totalStudents'), value: students.length, icon: Users },
     { label: t('admin.stats.activeThisWeek'), value: activeThisWeek, icon: Activity },
-    { label: t('admin.stats.certificatesIssued'), value: finished, icon: Award },
+    { label: t('admin.stats.certificatesIssued'), value: certificateCount, icon: Award },
   ];
 
   return (
@@ -202,11 +205,20 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
                     </span>
                   </div>
                 </div>
-                <span className="text-xs uppercase tracking-widest text-brand-mid flex-shrink-0">
-                  {t('admin.modules.passed', {
-                    count: students.filter((s) => progress.some((row) => row.user_id === s.id && row.module_number === mod.number)).length,
-                  })}
-                </span>
+                <div className="flex items-center gap-4 flex-shrink-0">
+                  <span className="hidden sm:inline text-xs uppercase tracking-widest text-brand-mid">
+                    {t('admin.modules.passed', {
+                      count: students.filter((s) => progress.some((row) => row.user_id === s.id && row.module_number === mod.number)).length,
+                    })}
+                  </span>
+                  <Link
+                    href={`/${locale}/academy/module/${mod.number}`}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-widest border border-brand-dark2 text-brand-light1 hover:border-brand-light1 hover:text-brand-white transition-colors"
+                  >
+                    <Eye size={12} />
+                    {t('admin.modules.view')}
+                  </Link>
+                </div>
               </div>
             ))}
           </div>

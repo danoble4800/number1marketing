@@ -13,6 +13,7 @@
     "@supabase/supabase-js": "^2.109.0",
     "framer-motion": "^12.38.0",
     "googleapis": "^171.4.0",
+    "jspdf": "^4.2.1",
     "lucide-react": "^1.14.0",
     "next": "14.2.35",
     "next-intl": "^4.11.0",

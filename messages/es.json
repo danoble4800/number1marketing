@@ -502,7 +502,7 @@
       "start": "Comenzar",
       "completed": "Completado",
       "certificateEarnedBadge": "Obtenido",
-      "certificateEarned": "¡Felicidades! Completaste todos los módulos y aprobaste la evaluación final. La descarga del certificado estará disponible pronto."
+      "certificateEarned": "¡Felicidades! Completaste todos los módulos y aprobaste la evaluación final. Descarga tu certificado a continuación y compártelo."
     },
     "admin": {
       "heading": "ADMIN DE LA ACADEMIA",
@@ -527,7 +527,8 @@
         "edit": "Editar",
         "publish": "Publicar",
         "live": "Publicado",
-        "passed": "{count} aprobados"
+        "passed": "{count} aprobados",
+        "view": "Ver"
       },
       "logout": "Cerrar Sesión"
     },
@@ -567,6 +568,34 @@
       "retry": "Intentar de nuevo",
       "submit": "Enviar respuestas",
       "submitting": "Calificando..."
+    },
+    "certificate": {
+      "download": "Descargar PDF",
+      "linkedIn": "Agregar a LinkedIn",
+      "copyLink": "Copiar enlace de verificación",
+      "copied": "Enlace copiado",
+      "pdf": {
+        "academy": "N°1 Academy",
+        "title": "Certificado de finalización",
+        "certifies": "Se certifica que",
+        "completed": "completó los seis módulos y aprobó la evaluación final de la",
+        "courseName": "Certificación en Marketing con IA",
+        "issuer": "Number 1 Digital Marketing",
+        "dateLabel": "Fecha de emisión",
+        "idLabel": "ID del certificado",
+        "verifyLabel": "Verifica en"
+      },
+      "verify": {
+        "valid": "Certificado verificado",
+        "earned": "Completó los seis módulos de la Certificación en Marketing con IA de N°1 Academy y aprobó la evaluación final.",
+        "issued": "Emitido",
+        "id": "ID del certificado",
+        "notFoundHeading": "Certificado no encontrado",
+        "notFound": "No encontramos un certificado con el ID {code}. Revisa el ID e inténtalo de nuevo.",
+        "lookupHeading": "Verificar un certificado",
+        "lookupIntro": "Ingresa el ID impreso en un certificado de N°1 Academy para confirmar que es auténtico.",
+        "lookupButton": "Verificar"
+      }
     }
   },
   "audit": {

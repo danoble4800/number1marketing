@@ -1,10 +1,14 @@
-// N°1 Academy course content (English). Module titles and time estimates live in
+// N°1 Academy course content (English; Spanish and Portuguese in lessons.es.ts / lessons.pt.ts,
+// which must keep the same modules, lessons and order). Module titles and time estimates live in
 // messages/*.json under academy.modules.items; this file holds the lessons.
 // Quiz questions live in quizzes.ts. Correct answers are never stored in this repo —
 // they live only in the Supabase table quiz_answer_key (see supabase/schema.sql).
 //
 // Lesson bodies use a small markdown subset rendered by components/academy/LessonBody.tsx:
 //   ## Heading, paragraphs, "- " bullets, "1. " numbered lists, "> " callouts, **bold**.
+
+import { course as courseEs } from './lessons.es';
+import { course as coursePt } from './lessons.pt';
 
 export type Lesson = {
   slug: string;
@@ -738,6 +742,8 @@ Complete all seven parts of the capstone described in Lesson 1, review it agains
   },
 ];
 
-export function getModule(number: string): CourseModule | undefined {
-  return course.find((m) => m.number === number);
+const courses: Record<string, CourseModule[]> = { en: course, es: courseEs, pt: coursePt };
+
+export function getModule(number: string, locale = 'en'): CourseModule | undefined {
+  return (courses[locale] ?? course).find((m) => m.number === number);
 }

@@ -501,7 +501,7 @@
       "start": "Start",
       "completed": "Completed",
       "certificateEarnedBadge": "Earned",
-      "certificateEarned": "Congratulations — you’ve completed every module and passed the final assessment. Certificate downloads are coming soon."
+      "certificateEarned": "Congratulations — you’ve completed every module and passed the final assessment. Download your certificate below and share it."
     },
     "admin": {
       "heading": "ACADEMY ADMIN",
@@ -526,7 +526,8 @@
         "edit": "Edit",
         "publish": "Publish",
         "live": "Live",
-        "passed": "{count} passed"
+        "passed": "{count} passed",
+        "view": "View"
       },
       "logout": "Log Out"
     },
@@ -566,6 +567,34 @@
       "retry": "Try Again",
       "submit": "Submit Answers",
       "submitting": "Grading..."
+    },
+    "certificate": {
+      "download": "Download PDF",
+      "linkedIn": "Add to LinkedIn",
+      "copyLink": "Copy Verification Link",
+      "copied": "Link Copied",
+      "pdf": {
+        "academy": "N°1 Academy",
+        "title": "Certificate of Completion",
+        "certifies": "This certifies that",
+        "completed": "has completed all six modules and passed the final assessment of the",
+        "courseName": "AI Marketing Certification",
+        "issuer": "Number 1 Digital Marketing",
+        "dateLabel": "Date issued",
+        "idLabel": "Certificate ID",
+        "verifyLabel": "Verify at"
+      },
+      "verify": {
+        "valid": "Verified certificate",
+        "earned": "Completed all six modules of the N°1 Academy AI Marketing Certification and passed the final assessment.",
+        "issued": "Issued",
+        "id": "Certificate ID",
+        "notFoundHeading": "Certificate not found",
+        "notFound": "We couldn’t find a certificate with the ID {code}. Check the ID and try again.",
+        "lookupHeading": "Verify a Certificate",
+        "lookupIntro": "Enter the certificate ID printed on an N°1 Academy certificate to confirm it’s genuine.",
+        "lookupButton": "Verify"
+      }
     }
   },
   "audit": {

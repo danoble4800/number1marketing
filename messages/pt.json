@@ -502,7 +502,7 @@
       "start": "Começar",
       "completed": "Concluído",
       "certificateEarnedBadge": "Conquistado",
-      "certificateEarned": "Parabéns! Você concluiu todos os módulos e passou na avaliação final. O download do certificado estará disponível em breve."
+      "certificateEarned": "Parabéns! Você concluiu todos os módulos e passou na avaliação final. Baixe seu certificado abaixo e compartilhe."
     },
     "admin": {
       "heading": "ADMIN DA ACADEMIA",
@@ -527,7 +527,8 @@
         "edit": "Editar",
         "publish": "Publicar",
         "live": "Publicado",
-        "passed": "{count} aprovados"
+        "passed": "{count} aprovados",
+        "view": "Ver"
       },
       "logout": "Sair"
     },
@@ -567,6 +568,34 @@
       "retry": "Tentar novamente",
       "submit": "Enviar respostas",
       "submitting": "Corrigindo..."
+    },
+    "certificate": {
+      "download": "Baixar PDF",
+      "linkedIn": "Adicionar ao LinkedIn",
+      "copyLink": "Copiar link de verificação",
+      "copied": "Link copiado",
+      "pdf": {
+        "academy": "N°1 Academy",
+        "title": "Certificado de conclusão",
+        "certifies": "Certificamos que",
+        "completed": "concluiu os seis módulos e passou na avaliação final da",
+        "courseName": "Certificação em Marketing com IA",
+        "issuer": "Number 1 Digital Marketing",
+        "dateLabel": "Data de emissão",
+        "idLabel": "ID do certificado",
+        "verifyLabel": "Verifique em"
+      },
+      "verify": {
+        "valid": "Certificado verificado",
+        "earned": "Concluiu os seis módulos da Certificação em Marketing com IA da N°1 Academy e passou na avaliação final.",
+        "issued": "Emitido em",
+        "id": "ID do certificado",
+        "notFoundHeading": "Certificado não encontrado",
+        "notFound": "Não encontramos um certificado com o ID {code}. Confira o ID e tente novamente.",
+        "lookupHeading": "Verificar um certificado",
+        "lookupIntro": "Digite o ID impresso em um certificado da N°1 Academy para confirmar que ele é autêntico.",
+        "lookupButton": "Verificar"
+      }
     }
   },
   "audit": {

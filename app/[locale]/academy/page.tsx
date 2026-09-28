@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { BookOpen, Award, Clock } from 'lucide-react';
 import { getModule } from '@/content/academy/lessons';
-import { quizzes } from '@/content/academy/quizzes';
+import { getQuiz } from '@/content/academy/quizzes';
 import Container from '@/components/Container';
 import Section from '@/components/Section';
 import Heading from '@/components/Heading';
@@ -134,7 +134,7 @@ export default async function AcademyPage({
                   <span className="text-xs uppercase tracking-widest text-brand-mid">
                     {t('modules.contents', {
                       lessons: getModule(mod.number)?.lessons.length ?? 0,
-                      questions: quizzes[mod.number]?.length ?? 0,
+                      questions: getQuiz(mod.number, locale)?.length ?? 0,
                     })}
                   </span>
                 </div>

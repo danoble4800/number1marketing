@@ -91,6 +91,33 @@ drop policy if exists "attempts_select" on public.quiz_attempts;
 create policy "attempts_select" on public.quiz_attempts
   for select using (user_id = auth.uid() or public.is_admin());
 
+-- One certificate per student, issued by submit_quiz() when the final assessment
+-- is passed with every module complete. id is the public verification code.
+create table if not exists public.certificates (
+  id text primary key,
+  user_id uuid not null unique references public.profiles (id) on delete cascade,
+  full_name text not null,
+  issued_at timestamptz not null default now()
+);
+alter table public.certificates enable row level security;
+
+drop policy if exists "certificates_select" on public.certificates;
+create policy "certificates_select" on public.certificates
+  for select using (user_id = auth.uid() or public.is_admin());
+
+-- Public lookup for the verification page: returns only name and date for one code.
+create or replace function public.verify_certificate(p_code text)
+returns table (id text, full_name text, issued_at timestamptz)
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select c.id, c.full_name, c.issued_at from certificates c where c.id = upper(trim(p_code));
+$$;
+
+grant execute on function public.verify_certificate(text) to anon, authenticated;
+
 -- Grades a quiz for the signed-in user. Returns which answers were right
 -- (not what the right answers are), and records progress on a pass (>= 80%).
 create or replace function public.submit_quiz(p_module text, p_answers int[])
@@ -112,8 +139,8 @@ begin
     raise exception 'not signed in';
   end if;
 
-  -- Modules unlock in order.
-  if p_module <> '01' then
+  -- Modules unlock in order (admins can take any quiz to review it).
+  if p_module <> '01' and not public.is_admin() then
     v_prev := lpad(((p_module)::int - 1)::text, 2, '0');
     if not exists (
       select 1 from module_progress where user_id = v_user and module_number = v_prev
@@ -148,6 +175,19 @@ begin
     insert into module_progress (user_id, module_number)
     values (v_user, p_module)
     on conflict do nothing;
+
+    if p_module = '06' and (
+      select count(distinct module_number) from module_progress
+      where user_id = v_user and module_number in ('01', '02', '03', '04', '05', '06')
+    ) = 6 then
+      insert into certificates (id, user_id, full_name)
+      select
+        'N1-' || upper(substr(md5(gen_random_uuid()::text), 1, 4)) || '-' || upper(substr(md5(gen_random_uuid()::text), 1, 4)),
+        p.id,
+        coalesce(nullif(trim(p.full_name), ''), split_part(p.email, '@', 1))
+      from profiles p where p.id = v_user
+      on conflict (user_id) do nothing;
+    end if;
   end if;
 
   return json_build_object('score', v_score, 'total', v_total, 'passed', v_passed, 'results', v_results);
