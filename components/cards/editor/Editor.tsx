@@ -186,7 +186,7 @@ export default function Editor() {
           ) : null}
           <div className="ml-auto flex items-center gap-2">
             <Link href="/en/cards" target="_blank" className="hidden text-xs uppercase tracking-widest text-brand-light1 hover:text-brand-white md:inline">Plans &amp; pricing</Link>
-            {isAdmin && <Link href="/card/admin" className="hidden text-xs uppercase tracking-widest text-brand-light1 hover:text-brand-white sm:inline">Admin</Link>}
+            {isAdmin && <Link href="/en/admin?tab=cards" className="hidden text-xs uppercase tracking-widest text-brand-light1 hover:text-brand-white sm:inline">Admin</Link>}
             <a
               href={`/c/${saved?.slug}`}
               target="_blank"

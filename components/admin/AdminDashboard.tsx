@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import Container from '@/components/Container';
 import LeadsCRM from './LeadsCRM';
+import TapCardsAdmin from '@/components/cards/TapCardsAdmin';
 
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gr4UrY65r2g-dy0IUJFCFIQBUgoX0sQ9_GdmZHccpko/edit';
 const DRIVE_URL = 'https://drive.google.com/drive/folders/1cjptMcb6Tk8z48zg_3LoCdlkdq1fMl17';
@@ -234,10 +235,24 @@ function Resources() {
 }
 
 type Gate = 'checking' | 'signedOut' | 'admin';
+type Tab = 'leads' | 'cards' | 'resources';
+const TABS: [Tab, string][] = [['leads', 'Leads'], ['cards', 'Tap Cards'], ['resources', 'Links']];
 
 export default function AdminDashboard({ locale }: { locale: string }) {
   const [gate, setGate] = useState<Gate>('checking');
-  const [tab, setTab] = useState<'leads' | 'resources'>('leads');
+  const [tab, setTabState] = useState<Tab>('leads');
+
+  // ?tab=cards opens a section directly (old /card/admin links forward here).
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('tab');
+    if (TABS.some(([id]) => id === t)) setTabState(t as Tab);
+  }, []);
+  const setTab = (t: Tab) => {
+    setTabState(t);
+    const url = new URL(window.location.href);
+    if (t === 'leads') url.searchParams.delete('tab'); else url.searchParams.set('tab', t);
+    window.history.replaceState(null, '', url);
+  };
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -294,7 +309,7 @@ export default function AdminDashboard({ locale }: { locale: string }) {
           </div>
           {gate === 'admin' && (
             <nav className="flex gap-1 sm:gap-2" aria-label="Admin sections">
-              {([['leads', 'Leads'], ['resources', 'Links']] as const).map(([id, label]) => (
+              {TABS.map(([id, label]) => (
                 <button
                   key={id}
                   onClick={() => setTab(id)}
@@ -383,7 +398,9 @@ export default function AdminDashboard({ locale }: { locale: string }) {
         )}
         {gate === 'admin' && (
           <div className="py-8">
-            {tab === 'leads' ? <LeadsCRM onSignedOut={() => setGate('signedOut')} /> : <div className="py-4"><Resources /></div>}
+            {tab === 'leads' && <LeadsCRM onSignedOut={() => setGate('signedOut')} />}
+            {tab === 'cards' && <TapCardsAdmin />}
+            {tab === 'resources' && <div className="py-4"><Resources /></div>}
           </div>
         )}
       </Container>

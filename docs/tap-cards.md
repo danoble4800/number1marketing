@@ -11,7 +11,7 @@ Customer landing pages for NFC cards (like Linktree/Dot/Popl), with Free / Pro /
 | `/card` | Owner sign-in (email magic link, shared with Academy accounts). |
 | `/card/claim/<CARD_ID>` | First tap on a new card: sign in, name the page, card is linked. |
 | `/card/edit` | Owner editor: Page, Look, Stats, Contacts, Cards & QR, Plan. `?demo=pizza|realtor|free` runs it with sample data, no login. |
-| `/card/admin` | Admin (profiles.role = 'admin'): mint card IDs, see claims, switch cards off, set plans by hand. |
+| `/en/admin` → **Tap Cards** tab | Admin CRM (profiles.role = 'admin'): mint card IDs, see claims, switch cards off, set plans by hand. `/card/admin` and `/en/admin?tab=cards` open it directly. |
 | `/en/cards` | Sales and pricing page. |
 | `/c/demo-pizza`, `/c/demo-realtor`, `/c/demo-free` | Sample pages for sales demos. |
 
@@ -29,7 +29,7 @@ Customer landing pages for NFC cards (like Linktree/Dot/Popl), with Free / Pro /
    - Webhook endpoint: `https://number1digitalmarketing.com/api/cards/stripe-webhook`, events
      `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`.
    - Turn on the Customer Portal in Stripe (Settings → Billing → Customer portal).
-5. **Making cards:** `/card/admin` → Create N cards → copy the URLs → write each to a chip with the NFC Tools app
+5. **Making cards:** `/en/admin` → Tap Cards tab → Create N cards → copy the URLs → write each to a chip with the NFC Tools app
    (Write → Add a record → URL). NTAG213 or better is plenty. Put the matching `?src=qr` URL on the back as a QR code.
 
 ## How plans are enforced
