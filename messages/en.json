@@ -385,10 +385,10 @@
     },
     "overview": {
       "heading": "WHAT YOU'LL LEARN",
-      "subheading": "A structured 6-module curriculum built by AI marketing practitioners — not theorists.",
+      "subheading": "A 6-module certification built by AI marketing practitioners, not theorists, plus a hands-on track for the work small businesses actually pay for.",
       "certificate": {
         "heading": "EARN YOUR CERTIFICATE",
-        "description": "Complete all 6 modules and pass the final assessment to earn your AI Marketing Certificate — recognized by AI-forward companies and hiring managers worldwide."
+        "description": "Complete the 6 certification modules and pass the final assessment to earn your AI Marketing Certificate, then keep going with the Hands-On Track."
       },
       "items": [
         {
@@ -419,7 +419,7 @@
     },
     "modules": {
       "heading": "COURSE MODULES",
-      "subheading": "Six modules. Real skills. Fully self-paced.",
+      "subheading": "Six certification modules, then a hands-on track. Fully self-paced.",
       "comingSoon": "Coming Soon",
       "locked": "Locked",
       "estTime": "Est. time",
@@ -453,10 +453,21 @@
           "number": "06",
           "title": "Capstone & Certification",
           "time": "~4 hrs"
+        },
+        {
+          "number": "07",
+          "title": "Google Business Profile & Local SEO",
+          "time": "~2 hrs"
+        },
+        {
+          "number": "08",
+          "title": "Reviews & Reputation",
+          "time": "~2 hrs"
         }
       ],
       "available": "Available",
-      "contents": "{lessons} lessons · {questions}-question quiz"
+      "contents": "{lessons} lessons · {questions}-question quiz",
+      "handsOn": "Hands-On Track"
     },
     "login": {
       "heading": "ACADEMY LOGIN",
@@ -492,7 +503,7 @@
     },
     "dashboard": {
       "heading": "WELCOME BACK",
-      "progressLabel": "Overall Progress",
+      "progressLabel": "Certification Progress",
       "progressValue": "{percent}% Complete",
       "modulesHeading": "YOUR MODULES",
       "certificateHeading": "YOUR CERTIFICATE",
@@ -505,7 +516,48 @@
       "start": "Start",
       "completed": "Completed",
       "certificateEarnedBadge": "Earned",
-      "certificateEarned": "Congratulations — you’ve completed every module and passed the final assessment. Download your certificate below and share it."
+      "certificateEarned": "Congratulations — you’ve completed every module and passed the final assessment. Download your certificate below and share it.",
+      "handsOnHeading": "Hands-On Track",
+      "handsOnIntro": "Practical skills small businesses pay for: getting found on Google and building a strong reputation. Unlocks after your certificate.",
+      "handsOnProgress": "{done} of {total} done",
+      "toolsHeading": "Study Tools",
+      "glossaryTitle": "Glossary & Flashcards",
+      "glossaryDesc": "Every marketing and AI term in plain language, with flashcards and a quick quiz.",
+      "toolkitTitle": "Templates & Toolkit",
+      "toolkitDesc": "Copy-and-paste prompts, review requests, review replies and ready-made spreadsheets.",
+      "open": "Open",
+      "badgesHeading": "Your Badges",
+      "badgesNote": "Vocabulary and checklist badges are saved on this device.",
+      "badges": {
+        "firstStep": {
+          "title": "First Step",
+          "desc": "Passed Module 01"
+        },
+        "halfway": {
+          "title": "Halfway There",
+          "desc": "Passed 3 modules"
+        },
+        "certified": {
+          "title": "Certified",
+          "desc": "Earned the AI Marketing Certificate"
+        },
+        "localPro": {
+          "title": "Local SEO Pro",
+          "desc": "Passed Module 07"
+        },
+        "reputationPro": {
+          "title": "Reputation Pro",
+          "desc": "Passed Module 08"
+        },
+        "wordsmith": {
+          "title": "Vocabulary Master",
+          "desc": "Marked every glossary flashcard as known"
+        },
+        "handsOn": {
+          "title": "Did the Work",
+          "desc": "Finished every checklist step in 3 modules"
+        }
+      }
     },
     "admin": {
       "heading": "ACADEMY ADMIN",
@@ -570,7 +622,13 @@
       "reviewHint": "Questions marked in red were incorrect. Review the lessons and try again.",
       "retry": "Try Again",
       "submit": "Submit Answers",
-      "submitting": "Grading..."
+      "submitting": "Grading...",
+      "checklistHeading": "Do It On Your Own Business",
+      "checklistIntro": "Work through these on a real business. Tick each step when it’s done. Your ticks are saved on this device.",
+      "checklistProgress": "{done} of {total} done",
+      "certUnlocked": "Your certificate is ready on your dashboard, and the Hands-On Track is now unlocked.",
+      "trackComplete": "You’ve finished the Hands-On Track!",
+      "toolkitLink": "Templates for this module are in the Toolkit"
     },
     "certificate": {
       "download": "Download PDF",
@@ -599,6 +657,41 @@
         "lookupIntro": "Enter the certificate ID printed on an N°1 Academy certificate to confirm it’s genuine.",
         "lookupButton": "Verify"
       }
+    },
+    "glossary": {
+      "title": "Marketing & AI Glossary",
+      "intro": "The words we use every day in digital marketing and AI, in plain language, each with a small-business example.",
+      "search": "Search terms",
+      "all": "All",
+      "list": "Glossary",
+      "flashcards": "Flashcards",
+      "quiz": "Quiz me",
+      "example": "Example",
+      "noResults": "No terms match that search.",
+      "openGlossary": "Open glossary",
+      "backToAcademy": "Back to Academy",
+      "backToDashboard": "Back to Dashboard",
+      "tapToFlip": "Tap the card to see the definition",
+      "known": "I know it",
+      "again": "Study again",
+      "knownCount": "{known} of {total} known",
+      "reset": "Start over",
+      "allKnown": "You know every term in this set.",
+      "quizPrompt": "Which term matches this definition?",
+      "correct": "Correct!",
+      "wrong": "Not quite. The answer is {answer}.",
+      "next": "Next question",
+      "score": "Score: {score} of {total}"
+    },
+    "toolkit": {
+      "title": "Templates & Toolkit",
+      "intro": "Copy-and-paste prompts and messages, plus spreadsheets you can download. Fill in the [brackets] with the business’s details.",
+      "copy": "Copy",
+      "copied": "Copied",
+      "module": "Module {number}",
+      "sheetsHeading": "Spreadsheets",
+      "download": "Download (.csv)",
+      "backToDashboard": "Back to Dashboard"
     }
   },
   "audit": {

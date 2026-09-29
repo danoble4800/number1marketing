@@ -121,6 +121,13 @@ Liste 10 tarefas de marketing que você ou sua equipe fazem toda semana. Para ca
 Marque as duas tarefas que mais economizam tempo com o menor risco. Esses são seus primeiros projetos de IA; você vai construir um deles no Módulo 02.
 `,
     },
+    checklist: [
+      "Liste 10 tarefas de marketing semanais e quanto tempo cada uma leva",
+      "Marque a etapa do funil que cada tarefa apoia",
+      "Escolha as duas tarefas com mais tempo economizado e menos risco",
+      "Anote quais dados de clientes você nunca vai colar em uma ferramenta de IA",
+      "Decida quem aprova o que a IA escreve antes que os clientes vejam",
+    ],
   },
   {
     number: '02',
@@ -253,6 +260,13 @@ Pegue uma das duas tarefas que você marcou na auditoria do Módulo 01 e desenhe
 Se você tem acesso ao Zapier, Make ou n8n, construa o fluxo e rode com dados de teste.
 `,
     },
+    checklist: [
+      "Escolha uma ferramenta de IA para escrever e uma de automação, e cancele as que não usa",
+      "Escreva seu primeiro fluxo em uma frase: “Quando ___, faça ___, mas só se ___”",
+      "Desenhe cada passo e marque os que precisam de aprovação humana",
+      "Monte o fluxo (ou desenhe) e teste com dados de teste",
+      "Anote quem é o responsável, como vai saber se quebrou e como desligar",
+    ],
   },
   {
     number: '03',
@@ -376,6 +390,13 @@ Um documento ou uma planilha compartilhada com prompts testados que toda a equip
 4. Guarde as versões finais; você vai usá-las no Módulo 04 e no seu projeto final
 `,
     },
+    checklist: [
+      "Escreva um guia de voz da marca de uma página",
+      "Transforme três tarefas semanais em prompts com as seis partes",
+      "Teste cada prompt e melhore pelo menos uma vez",
+      "Guarde os prompts finais em uma biblioteca compartilhada",
+      "Marque na agenda uma revisão da biblioteca a cada trimestre",
+    ],
   },
   {
     number: '04',
@@ -494,6 +515,14 @@ Assistentes de IA e resumos de IA buscam informações em fontes que consideram 
 5. Verifique tudo e anote o que você mudou em relação ao rascunho da IA
 `,
     },
+    checklist: [
+      "Anote o objetivo de conteúdo do negócio e o cliente ideal",
+      "Escolha de três a cinco pilares de conteúdo",
+      "Escreva uma peça pilar que responda a uma pergunta real de cliente",
+      "Transforme em pelo menos dez peças menores para duas plataformas",
+      "Acrescente a cada peça um detalhe, história ou opinião real, e confira os fatos",
+      "Monte um calendário de 30 dias e produza em lote a primeira semana",
+    ],
   },
   {
     number: '05',
@@ -611,6 +640,13 @@ Mantenha um registro simples de testes: data, hipótese, o que mudou, resultado 
 5. Rascunhe um modelo de relatório semanal de uma página
 `,
     },
+    checklist: [
+      "Escolha uma métrica Estrela do Norte e anote o porquê",
+      "Escolha de três a cinco métricas de apoio e de onde vem cada uma",
+      "Faça três perguntas à IA sobre uma exportação real e confira uma resposta à mão",
+      "Escreva uma hipótese de teste que mude uma coisa só",
+      "Monte um relatório semanal de uma página e um horário fixo para preencher",
+    ],
   },
   {
     number: '06',
@@ -716,5 +752,318 @@ O jeito mais rápido de provar o que você aprendeu são os resultados. Coloque 
 Conclua as sete partes do projeto final descritas na Aula 1, revise com o checklist da Aula 2 e depois faça a avaliação final abaixo.
 `,
     },
+    checklist: [
+      "Escolha o negócio do seu projeto final",
+      "Coloque as sete partes do projeto final em um só documento",
+      "Revise com cada ponto da checklist da Aula 2",
+      "Entregue ao dono (ou a um amigo) e pergunte o que não ficou claro",
+      "Rode o sistema por 30 dias e anote o que aconteceu",
+    ],
+  },
+  {
+    number: '07',
+    summary:
+      'Faça um negócio local aparecer no Google Maps e nas buscas locais: como funciona o ranking local, como configurar direito um Perfil da Empresa no Google e como manter os dados do negócio iguais em toda a internet.',
+    lessons: [
+      {
+        slug: 'how-local-search-works',
+        title: 'Como funciona a busca local',
+        minutes: 30,
+        body: `
+Quando alguém pesquisa "café perto de mim" ou "barbearia em South Boston", o Google mostra um mapa com três negócios embaixo. Essa caixa se chama [[local pack|local-pack]] (o pacote local) e, para a maioria dos pequenos negócios, ela importa mais do que qualquer anúncio. Quem pesquisa assim geralmente quer comprar hoje.
+
+Os negócios do pacote local vêm do [[Perfil da Empresa no Google|gbp]]: a ficha gratuita que mostra o nome, o horário, as fotos, as avaliações e um botão para ligar ou traçar a rota.
+
+## As três coisas que o Google olha
+
+O Google diz que os resultados locais dependem de três coisas:
+
+- **Relevância:** o quanto o perfil corresponde ao que a pessoa pesquisou. Aqui importam as categorias, os serviços e a descrição certos.
+- **Distância:** a distância entre o negócio e quem pesquisa, ou o lugar citado na busca. Isso não dá para mudar.
+- **Destaque:** o quanto o negócio é conhecido e confiável. Contam as avaliações, a nota, os links, as menções na internet e um perfil completo e ativo.
+
+Não dá para aproximar uma loja dos clientes, então todo o trabalho está na relevância e no destaque.
+
+## Por que é a primeira coisa a arrumar
+
+- É grátis. Um Perfil da Empresa no Google não custa nada.
+- É onde estão os compradores. Buscas locais costumam virar uma ligação, uma visita ou uma rota no mesmo dia.
+- A maioria dos pequenos negócios deixa o perfil pela metade: horário errado, nenhuma foto desde a inauguração, uma categoria vaga, avaliações sem resposta. Só arrumar isso já faz muitos negócios subirem.
+
+## Como é um perfil "bom"
+
+- A **categoria principal** certa (a configuração de relevância mais importante)
+- Nome, endereço, telefone e horário corretos, incluindo feriados
+- Uma descrição clara do que o negócio faz, para quem e onde
+- Fotos reais do lugar, da equipe e do trabalho, adicionadas com frequência
+- Serviços ou produtos com descrições curtas
+- Avaliações recentes, cada uma com resposta do dono
+- Postagens nos últimos um ou dois meses
+
+> O nome do perfil tem que ser o nome real do negócio. Colocar palavras-chave no nome ("Pizzaria do Tony Melhor Pizza de Boston") vai contra as regras do Google e pode fazer o perfil ser suspenso.
+`,
+      },
+      {
+        slug: 'optimizing-the-profile',
+        title: 'Como configurar e otimizar um Perfil da Empresa no Google',
+        minutes: 50,
+        body: `
+Primeiro pesquise o nome do negócio no Google Maps. Muitos negócios já têm um perfil que o Google criou automaticamente. Se ele existir, escolha **Reivindicar esta empresa** em vez de criar um novo. Perfis duplicados confundem o Google e os clientes.
+
+## Passo 1: Verificar
+
+O Google precisa confirmar que o negócio é real antes de publicar a maioria das alterações. Dependendo do negócio, a verificação pode ser um vídeo do local, uma ligação, uma mensagem de texto, um e-mail ou um cartão postal. Siga as opções que o Google oferece no perfil. Enquanto ele não estiver verificado, trabalhe no resto, mas não espere que ele apareça bem.
+
+## Passo 2: O básico, exato
+
+- **Nome:** o que está na fachada, sem acrescentar nada.
+- **Categoria principal:** a mais específica que se encaixe ("Barbearia", não "Beleza"). Adicione algumas **categorias secundárias** para os outros serviços principais.
+- **Endereço ou área de atendimento:** uma loja que recebe clientes mostra o endereço. Um negócio que vai até o cliente (encanador, lavagem de carro a domicílio) define uma área de atendimento e pode esconder o endereço.
+- **Telefone e site:** um número local que o negócio atenda. O link deve levar para a página mais relevante.
+- **Horário:** o horário normal e horários especiais para feriados. Horário errado é um dos jeitos mais rápidos de ganhar uma avaliação de uma estrela.
+
+Anote esses dados em um só lugar. Na Aula 3 você vai usar exatamente o mesmo [[NAP|nap]] (nome, endereço, telefone) em todos os lugares.
+
+## Passo 3: Preencher todo o resto
+
+- **Descrição (até 750 caracteres):** o que o negócio faz, para quem, o que o torna diferente e a região que atende. Escreva para pessoas, não para o Google.
+- **Serviços ou produtos:** cada um com uma descrição curta e simples, e preço se o negócio quiser mostrar.
+- **Atributos:** acessibilidade para cadeira de rodas, área externa, empresa de mulheres etc., quando se aplicarem.
+- **Fotos:** fachada (para reconhecerem o lugar ao chegar), interior, equipe, produtos e trabalhos prontos. Fotos reais sempre ganham de fotos de banco de imagens.
+
+## Passo 4: Manter ativo
+
+- **Postagens:** uma novidade, oferta ou evento curto, com foto e botão. Uma por semana é um bom ritmo; uma por mês é o mínimo.
+- **Fotos novas** todo mês.
+- **Responder todas as avaliações** (o Módulo 08 explica como).
+- **Olhar a aba Desempenho todo mês:** ligações, pedidos de rota, cliques no site e as buscas que encontraram o perfil.
+
+## Onde a IA ajuda
+
+- Escrever a descrição a partir das anotações do dono e depois editar para soar como ele
+- Transformar a novidade da semana em uma postagem, uma legenda para o Instagram e uma mensagem para os clientes fiéis
+- Fazer um brainstorm da lista de serviços a partir do cardápio ou da tabela de preços
+- Resumir os números de Desempenho em uma nota mensal de duas linhas
+
+Um prompt que funciona bem para postagens:
+
+> "Você escreve postagens do Perfil da Empresa no Google para [negócio], um(a) [tipo de negócio] em [bairro]. Escreva uma postagem de 80 a 120 palavras sobre [a novidade ou oferta desta semana]. Use um tom simpático e simples, cite o bairro uma vez, termine com uma única ação clara (ligar, agendar ou visitar) e não use hashtags nem emojis."
+
+Confira cada dado, preço e data antes de publicar. O Google pode remover postagens com telefone errado, links para sites sem relação ou ofertas enganosas.
+`,
+      },
+      {
+        slug: 'local-seo-beyond-google',
+        title: 'SEO local além do perfil',
+        minutes: 40,
+        body: `
+O Perfil da Empresa no Google é a peça maior, mas o Google também olha o que o resto da internet diz sobre o negócio. É aqui que o [[SEO local|local-seo]] vai além do perfil.
+
+## Os mesmos dados em todo lugar
+
+Uma [[citação|citation]] é qualquer lugar on-line que mostra o nome, o endereço e o telefone do negócio: Yelp, Apple Maps, Bing, Facebook, a câmara de comércio, diretórios do setor. Quando esses dados batem, o Google confia neles. Quando não batem (um endereço antigo, outro telefone), ele fica em dúvida sobre qual está certo.
+
+Comece pelas fichas que mais importam:
+
+- **Apple Business Connect** (Apple Maps e Siri, que muitos usuários de iPhone usam para pesquisar)
+- **Bing Places** (Bing e vários assistentes de IA que usam dados do Bing)
+- **Yelp** e **Facebook**
+- Os diretórios do setor: por exemplo TripAdvisor para restaurantes, Doctoralia para clínicas ou Houzz para empreiteiros
+
+Use exatamente o mesmo nome, endereço e telefone da Aula 2. Uma planilha com uma linha por ficha, o link e o login deixa tudo sob controle.
+
+## O site apoia o perfil
+
+- O site mostra o mesmo nome, endereço, telefone e horário, normalmente no rodapé.
+- Um negócio que atende várias cidades tem uma página de verdade para cada serviço ou região principal, com informação útil, e não o mesmo texto trocando só o nome da cidade.
+- O título da página inicial diz o que é o negócio e onde: "Brancato Barbershop | Cortes e barba em South Boston".
+- Adicionar [[marcação de schema|schema]] (um pequeno código que identifica os dados do negócio para os buscadores) ajuda o Google a lê-los corretamente. A maioria dos criadores de sites tem uma configuração ou plugin para isso.
+- O site carrega rápido e funciona bem no celular, onde acontece a maioria das buscas locais.
+
+## Aparecer também nas respostas de IA
+
+Cada vez mais pessoas pedem recomendações ao ChatGPT, ao Gemini ou aos resultados de IA do Google. Essas respostas usam os mesmos sinais: um perfil completo, fichas consistentes, muitas avaliações recentes e um site claro. O trabalho deste módulo também ajuda aí.
+
+## Medir
+
+Uma vez por mês, anote:
+
+- Ligações, pedidos de rota e cliques no site da aba Desempenho
+- O número de avaliações e a nota média
+- Onde o negócio aparece nas duas ou três buscas mais importantes (pesquise do bairro pelo celular, ou peça para alguém da região conferir)
+
+> SEO local é um trabalho lento e constante. Espere mudanças em semanas e meses, não em dias. Quem promete o primeiro lugar no Maps para a semana que vem está chutando ou trapaceando.
+`,
+      },
+    ],
+    exercise: {
+      title: 'Exercício: auditoria de visibilidade local e lista de correções',
+      body: `
+Escolha um negócio local: o seu, o de um cliente ou um perto de você. Com o que você aprendeu:
+
+1. Pesquise o negócio no Google Maps pelo celular e tire um print do que o cliente vê
+2. Dê uma nota ao perfil usando a lista de "perfil bom" da Aula 1, um ponto por item
+3. Escreva em um só lugar o nome, endereço, telefone, horário e categoria principal corretos
+4. Confira Apple Maps, Bing, Yelp e Facebook e anote cada dado que não bate
+5. Use a IA para escrever uma nova descrição e duas postagens, e edite até soarem como o dono
+6. Transforme tudo em uma lista de correções, em ordem do que vai fazer mais diferença primeiro
+
+É a mesma auditoria que a Number 1 Digital Marketing faz para os clientes. Bem feita, é algo pelo qual o dono de um negócio pagaria.
+`,
+    },
+    checklist: [
+      'Encontre o negócio no Google Maps e reivindique ou verifique o perfil',
+      'Escolha a categoria principal mais específica e duas ou três secundárias',
+      'Deixe exatos o nome, o endereço, o telefone e o horário, incluindo feriados',
+      'Escreva com IA uma descrição de 750 caracteres e edite com a voz do dono',
+      'Adicione serviços ou produtos com descrições curtas',
+      'Suba pelo menos 10 fotos reais: fachada, interior, equipe e trabalhos',
+      'Publique uma primeira postagem e agende uma postagem por semana',
+      'Deixe os dados iguais no Apple Business Connect, Bing Places, Yelp e Facebook',
+      'Confira se o site mostra o mesmo nome, endereço, telefone e horário',
+      'Anote as ligações, rotas e cliques no site deste mês como ponto de partida',
+    ],
+  },
+  {
+    number: '08',
+    summary:
+      'Crie um fluxo constante de avaliações honestas e responda bem a cada uma, usando a IA para escrever respostas e encontrar padrões sem quebrar as regras.',
+    lessons: [
+      {
+        slug: 'why-reviews-matter',
+        title: 'Por que as avaliações geram vendas locais',
+        minutes: 30,
+        body: `
+As avaliações fazem dois trabalhos ao mesmo tempo. Ajudam o negócio a se posicionar no [[local pack|local-pack]], porque fazem parte de como o Google mede o destaque. E convencem quem lê a ligar, agendar ou entrar.
+
+## O que os clientes olham
+
+- **Nota:** a maioria descarta negócios com menos de umas quatro estrelas.
+- **Quantidade:** 150 avaliações passam mais segurança que 12, mesmo com a mesma nota.
+- **Se são recentes:** um perfil cuja última avaliação é do ano passado parece fechado ou abandonado.
+- **O que dizem:** as pessoas leem o texto, principalmente das avaliações ruins, para ver o que deu errado.
+- **As respostas do dono:** uma resposta calma e útil a uma avaliação ruim muitas vezes gera mais confiança do que uma nota perfeita.
+
+## As regras (não são opcionais)
+
+- **Nada de avaliações falsas.** Não escreva avaliações para o negócio, não pague ninguém para isso e não peça a funcionários ou parentes que publiquem. Nos EUA, a regra da FTC sobre avaliações falsas permite multas altas por comprar, vender ou escrever avaliações falsas, e o Google as remove e pode restringir o perfil.
+- **Nada de [[filtrar avaliações|review-gating]].** Não peça avaliação só para os clientes satisfeitos, nem mande os insatisfeitos primeiro para outro lugar. As regras do Google dizem para pedir a todos os clientes do mesmo jeito.
+- **Nada de prêmios por avaliações no Google.** Descontos, brindes ou sorteios em troca de uma avaliação vão contra as regras do Google.
+- **Nunca avaliações escritas por IA.** A IA pode ajudar o negócio a *responder*, nunca a escrever a avaliação.
+- **Proteja a privacidade.** Nunca confirme em uma resposta que alguém foi cliente nem compartilhe dados da pessoa. Isso importa ainda mais em negócios de saúde, jurídicos ou financeiros.
+
+> Um fluxo constante de avaliações honestas ganha de qualquer truque. Todo atalho aqui vai contra as regras, contra a lei, ou os dois.
+`,
+      },
+      {
+        slug: 'getting-more-reviews',
+        title: 'Como conseguir mais avaliações',
+        minutes: 40,
+        body: `
+A maioria dos clientes satisfeitos nunca deixa uma avaliação porque ninguém pediu, ou porque dava trabalho demais. A solução é pedir para todo cliente, na hora certa, com um link de um toque só.
+
+## Pegue o link de avaliação
+
+No Perfil da Empresa no Google, escolha **Pedir avaliações** (ou **Receber mais avaliações**) para copiar um link curto que abre direto a caixa de avaliação. Guarde onde toda a equipe consiga acessar.
+
+## Peça na hora certa
+
+A melhor hora é logo depois que o cliente recebeu o que veio buscar:
+
+- Barbearia ou salão: no pagamento, enquanto o cliente se olha no espelho
+- Restaurante ou café: no recibo, ou com um cartão junto com a conta
+- Prestador de serviço ou limpeza: no dia em que o trabalho termina, com fotos de antes e depois
+- Pedido on-line: alguns dias depois da entrega
+
+## Facilite
+
+- **Fale pessoalmente:** "Se você gostou hoje, uma avaliação no Google ajuda muito um negócio pequeno como o nosso. Aqui está o link."
+- **Um QR code ou um cartão [[NFC|nfc]] no balcão:** um toque ou uma leitura abre a caixa de avaliação. (Os Tap Cards da Number 1 fazem exatamente isso.)
+- **Uma mensagem de texto ou e-mail de acompanhamento** no mesmo dia, com o link. Mensagens de texto são lidas muito mais do que e-mails.
+- **Um lembrete** alguns dias depois se a pessoa não avaliou, e depois mais nada. Um lembrete ajuda; mais que isso incomoda.
+
+## Use IA e automação com cuidado
+
+- Escreva as mensagens de pedido com IA na voz do negócio e peça ao dono para aprovar uma vez.
+- Se o negócio tem um sistema de agendamento ou de ponto de venda, uma automação pode enviar o pedido depois de cada visita (aqui vale o que você aprendeu no Módulo 02). Envie para **todos** os clientes, não só para os que você acha que ficaram satisfeitos.
+- Faça uma contagem simples toda semana: pedidos enviados e avaliações recebidas. Se os pedidos saem e as avaliações não chegam, mude o texto ou o momento.
+
+Uma mensagem de pedido que funciona:
+
+> "Oi [nome], obrigado por vir hoje ao [negócio]! Se tiver um minutinho, uma avaliação rápida no Google ajudaria muito a gente: [link]. Obrigado! [nome do dono]"
+
+Curta, pessoal e assinada por uma pessoa de verdade.
+`,
+      },
+      {
+        slug: 'responding-with-ai',
+        title: 'Como responder avaliações com IA',
+        minutes: 45,
+        body: `
+Toda avaliação merece resposta: mostra aos futuros clientes que alguém se importa, e o próprio Google recomenda responder. Tente responder em um ou dois dias.
+
+## Responder às avaliações boas
+
+Curto e específico. Agradeça pelo nome, cite um detalhe da avaliação e convide a pessoa a voltar. Evite colar o mesmo "Obrigado pela avaliação!" em todas. As pessoas percebem.
+
+## Responder às avaliações ruins
+
+Use uma estrutura simples de quatro passos:
+
+1. **Agradeça** por ter tirado um tempo para escrever.
+2. **Reconheça** o problema sem discutir nem dar desculpas.
+3. **Leve para o privado:** dê um nome e um jeito direto de falar com o dono ou o gerente.
+4. **Diga o que vai mudar,** se algo for mudar.
+
+Nunca discuta, nunca compartilhe detalhes da visita e nunca responda com raiva. Os futuros clientes leem a resposta mais do que a própria pessoa que avaliou.
+
+## A IA escreve, você decide
+
+A IA é ótima para um primeiro rascunho calmo, principalmente quando o dono está chateado. Um prompt que funciona:
+
+> "Você responde avaliações do Google para [negócio], um(a) [tipo de negócio] em [bairro]. Nosso tom é [acolhedor, direto, um pouco divertido]. Escreva uma resposta de 40 a 80 palavras para a avaliação abaixo. Agradeça pelo nome, cite um detalhe específico da avaliação e não use ponto de exclamação mais de uma vez. Se a avaliação for negativa, peça desculpas pela experiência, não discuta, não cite detalhes da visita e convide a pessoa a falar com [nome do dono] pelo [telefone ou e-mail]. Avaliação: [cole a avaliação]"
+
+Depois leia antes de publicar. Confira se soa como o dono, se não diz nada que não seja verdade e se não tem dados pessoais.
+
+## Avaliações que quebram as regras
+
+Se uma avaliação é spam, de alguém que nunca foi cliente, ofensiva ou claramente de um concorrente, denuncie pelo perfil (**Denunciar avaliação**) e explique o motivo. Não espere que toda denúncia funcione, e nunca peça para amigos encherem o perfil de avaliações para escondê-la.
+
+## Encontre padrões nas avaliações
+
+A cada poucos meses, copie as últimas 50 avaliações (sem nomes) em uma ferramenta de IA e peça:
+
+> "Agrupe estas avaliações nos cinco temas mais comuns, positivos e negativos. Para cada tema, diga quantas avaliações o citam e dê uma citação curta. Depois sugira uma mudança que o negócio poderia fazer com base nos temas negativos."
+
+As respostas estão entre os melhores conselhos de marketing e de operação que um negócio pode receber, e são de graça. Use os temas positivos em anúncios e no site, com as palavras dos próprios clientes.
+`,
+      },
+    ],
+    exercise: {
+      title: 'Exercício: monte um sistema de avaliações',
+      body: `
+Com o mesmo negócio do Módulo 07:
+
+1. Copie o link curto de avaliação do Google
+2. Escreva a frase para pedir pessoalmente, a mensagem de acompanhamento e o lembrete na voz do negócio (rascunho com IA, edição humana)
+3. Decida quando cada um sai e quem envia
+4. Escreva o prompt de respostas do negócio usando o exemplo da Aula 3, preenchido com o tom e os contatos dele
+5. Use o prompt para responder às três avaliações mais recentes, incluindo uma negativa se houver
+6. Rode o prompt de padrões com as avaliações recentes do negócio e anote os três temas principais
+
+Confira seu sistema com as regras da Aula 1 antes de colocar qualquer coisa no ar.
+`,
+    },
+    checklist: [
+      'Copie o link curto de avaliação do Google e guarde onde toda a equipe acesse',
+      'Escreva a frase para pedir pessoalmente, a mensagem de acompanhamento e um lembrete',
+      'Coloque um QR code ou um cartão NFC de avaliação no balcão',
+      'Crie um jeito de pedir avaliação a todos os clientes, não só aos satisfeitos',
+      'Escreva o prompt de respostas do negócio com o tom e os contatos dele',
+      'Responda a todas as avaliações dos últimos 90 dias',
+      'Denuncie qualquer avaliação que claramente quebre as regras do Google',
+      'Rode o prompt de padrões com as avaliações recentes e anote os três temas principais',
+      'Comece uma contagem semanal de pedidos enviados e avaliações recebidas',
+    ],
   },
 ];

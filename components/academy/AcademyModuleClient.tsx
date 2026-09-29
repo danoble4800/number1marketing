@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { ArrowLeft, ArrowRight, CheckCircle2, Circle, ClipboardList, Lock, XCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, Circle, ClipboardList, Lock, Wrench, XCircle } from 'lucide-react';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import LessonBody from '@/components/academy/LessonBody';
-import type { CourseModule } from '@/content/academy/lessons';
+import { CERT_MODULE, type CourseModule } from '@/content/academy/lessons';
+import { readChecklist, writeChecklist } from '@/lib/academyLocal';
 import { PASS_PERCENT, type QuizQuestion } from '@/content/academy/quizzes';
 
 type QuizResult = { score: number; total: number; passed: boolean; results: boolean[] };
@@ -37,7 +38,17 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
   const lessons = courseModule.lessons;
   const quizStep = lessons.length;
   const prevNumber = String(Number(courseModule.number) - 1).padStart(2, '0');
-  const isFinal = nextNumber === null;
+  // The certificate's final assessment; the Hands-On Track modules after it are regular quizzes.
+  const isFinal = courseModule.number === CERT_MODULE;
+  const isLast = nextNumber === null;
+
+  const [ticked, setTicked] = useState<number[]>([]);
+  useEffect(() => { setTicked(readChecklist(courseModule.number)); }, [courseModule.number]);
+  function toggleTick(i: number) {
+    const next = ticked.includes(i) ? ticked.filter((x) => x !== i) : [...ticked, i];
+    setTicked(next);
+    writeChecklist(courseModule.number, next);
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -189,7 +200,7 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
               <h2 className="font-display text-2xl sm:text-3xl text-brand-white uppercase tracking-tight mt-2 mb-6">
                 {lessons[step].title}
               </h2>
-              <LessonBody body={lessons[step].body} />
+              <LessonBody body={lessons[step].body} locale={locale} />
 
               <div className="flex items-center justify-between gap-4 mt-10 pt-6 border-t border-brand-dark2">
                 <button
@@ -215,7 +226,43 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
                 <h2 className="font-display text-xl sm:text-2xl text-brand-white uppercase tracking-tight mb-5">
                   {courseModule.exercise.title}
                 </h2>
-                <LessonBody body={courseModule.exercise.body} />
+                <LessonBody body={courseModule.exercise.body} locale={locale} />
+              </section>
+
+              {/* Do it on your own business */}
+              <section className="bg-brand-dark1 border border-brand-dark2 p-6 sm:p-10">
+                <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                  <h2 className="font-display text-xl sm:text-2xl text-brand-white uppercase tracking-tight">
+                    {t('checklistHeading')}
+                  </h2>
+                  <span className="text-xs uppercase tracking-widest text-brand-mid">
+                    {t('checklistProgress', { done: ticked.length, total: courseModule.checklist.length })}
+                  </span>
+                </div>
+                <p className="text-brand-mid text-sm mb-6">{t('checklistIntro')}</p>
+                <ul className="space-y-2">
+                  {courseModule.checklist.map((item, i) => {
+                    const done = ticked.includes(i);
+                    return (
+                      <li key={i}>
+                        <label
+                          className={`flex items-start gap-3 px-4 py-3 border text-sm cursor-pointer transition-colors ${
+                            done ? 'border-brand-dark2 text-brand-mid' : 'border-brand-dark2 text-brand-light1 hover:border-brand-mid'
+                          }`}
+                        >
+                          <input type="checkbox" checked={done} onChange={() => toggleTick(i)} className="mt-0.5 accent-white" />
+                          <span className={done ? 'line-through' : ''}>{item}</span>
+                        </label>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <Link
+                  href={`/${locale}/academy/toolkit`}
+                  className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-brand-light2 hover:text-brand-white transition-colors"
+                >
+                  <Wrench size={13} /> {t('toolkitLink')} <ArrowRight size={13} />
+                </Link>
               </section>
 
               {/* Quiz */}
@@ -282,15 +329,21 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
                         : t('resultFailed', { score: result.score, total: result.total, pass: PASS_PERCENT })}
                     </p>
                     <p className="text-brand-light1 text-sm mt-1">
-                      {result.passed ? (isFinal ? t('courseComplete') : t('nextUnlocked')) : t('reviewHint')}
+                      {result.passed
+                        ? isFinal
+                          ? `${t('courseComplete')} ${t('certUnlocked')}`
+                          : isLast
+                          ? t('trackComplete')
+                          : t('nextUnlocked')
+                        : t('reviewHint')}
                     </p>
                     <div className="mt-5 flex flex-wrap gap-3">
                       {result.passed ? (
                         <Link
-                          href={isFinal ? `/${locale}/academy/dashboard` : `/${locale}/academy/module/${nextNumber}`}
+                          href={isFinal || isLast ? `/${locale}/academy/dashboard` : `/${locale}/academy/module/${nextNumber}`}
                           className="inline-flex items-center gap-2 bg-brand-white text-brand-black text-xs font-semibold uppercase tracking-widest px-5 py-3 hover:bg-brand-offwhite transition-colors"
                         >
-                          {isFinal ? t('backToDashboard') : t('goToModule', { number: nextNumber })}
+                          {isFinal || isLast ? t('backToDashboard') : t('goToModule', { number: nextNumber })}
                           <ArrowRight size={13} />
                         </Link>
                       ) : (

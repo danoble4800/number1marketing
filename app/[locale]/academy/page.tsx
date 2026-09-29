@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { BookOpen, Award, Clock } from 'lucide-react';
-import { getModule } from '@/content/academy/lessons';
+import { getModule, isHandsOn } from '@/content/academy/lessons';
 import { getQuiz } from '@/content/academy/quizzes';
 import Container from '@/components/Container';
 import Section from '@/components/Section';
@@ -120,7 +120,7 @@ export default async function AcademyPage({
               >
                 <div className="absolute top-4 right-4">
                   <span className="text-xs uppercase tracking-widest text-brand-light2 border border-brand-light2/40 px-2 py-0.5">
-                    {t('modules.available')}
+                    {isHandsOn(mod.number) ? t('modules.handsOn') : t('modules.available')}
                   </span>
                 </div>
 
@@ -133,7 +133,7 @@ export default async function AcademyPage({
                   <BookOpen size={14} className="text-brand-mid flex-shrink-0" />
                   <span className="text-xs uppercase tracking-widest text-brand-mid">
                     {t('modules.contents', {
-                      lessons: getModule(mod.number)?.lessons.length ?? 0,
+                      lessons: getModule(mod.number, locale)?.lessons.length ?? 0,
                       questions: getQuiz(mod.number, locale)?.length ?? 0,
                     })}
                   </span>
@@ -149,6 +149,11 @@ export default async function AcademyPage({
                 </div>
               </div>
             ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Button href={`/${locale}/academy/glossary`} variant="outline">
+              {t('glossary.openGlossary')}
+            </Button>
           </div>
         </Container>
       </Section>
