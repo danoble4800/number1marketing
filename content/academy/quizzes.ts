@@ -333,6 +333,100 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
           "To focus the team on the one number that best represents current success"
         ]
       }
+    ],
+    "07": [
+      {
+        "question": "Which three things does Google say local results are based on?",
+        "options": [
+          "Number of posts, photos and hashtags",
+          "Relevance, distance and prominence",
+          "Price, opening hours and parking",
+          "Ad spend, website age and follower count"
+        ]
+      },
+      {
+        "question": "A barbershop's profile name is \"Brancato Barbershop Best Haircuts Boston\". What's the problem?",
+        "options": [
+          "Adding keywords to the name breaks Google's rules and can get the profile suspended",
+          "Profile names can't include the city",
+          "The name is too short",
+          "Nothing, more keywords always rank higher"
+        ]
+      },
+      {
+        "question": "Which single setting matters most for relevance in a Google Business Profile?",
+        "options": [
+          "The website's color scheme",
+          "The primary category",
+          "The number of posts",
+          "The cover photo"
+        ]
+      },
+      {
+        "question": "What is a citation in local SEO?",
+        "options": [
+          "A paid ad on Google Maps",
+          "A quote from a customer on the website",
+          "Any place online that lists the business's name, address and phone number",
+          "A fine from Google for breaking its rules"
+        ]
+      },
+      {
+        "question": "The business moved last year. Yelp and Facebook still show the old address. Why fix it?",
+        "options": [
+          "Old addresses help the business show up in two neighborhoods",
+          "It only matters if the business runs ads",
+          "Matching details everywhere help Google trust which information is right",
+          "Only Google's own data matters, so it doesn't need fixing"
+        ]
+      }
+    ],
+    "08": [
+      {
+        "question": "Which of these is allowed when asking for Google reviews?",
+        "options": [
+          "Giving a 10% discount for a 5-star review",
+          "Asking every customer the same way, with a short review link",
+          "Asking only customers who said they were happy",
+          "Having employees post reviews from their own accounts"
+        ]
+      },
+      {
+        "question": "What is review gating?",
+        "options": [
+          "Reporting reviews that break Google's rules",
+          "Replying to reviews within a day",
+          "Asking only happy customers for reviews, or steering unhappy ones elsewhere first",
+          "Putting a review QR code at the counter"
+        ]
+      },
+      {
+        "question": "What's the best first line of a reply to a negative review?",
+        "options": [
+          "Explain why the customer is wrong",
+          "Mention the date and details of their visit",
+          "Thank them for taking the time to write",
+          "Offer a free service in exchange for removing the review"
+        ]
+      },
+      {
+        "question": "How should AI be used with reviews?",
+        "options": [
+          "To write reviews for the business",
+          "To post replies automatically without anyone reading them",
+          "To draft replies that a person checks and edits before posting",
+          "To create customer profiles from reviewers' names"
+        ]
+      },
+      {
+        "question": "When is usually the best moment to ask for a review?",
+        "options": [
+          "Before the service starts",
+          "A month after their visit",
+          "Right after the customer got what they came for",
+          "Only after they complain"
+        ]
+      }
     ]
   },
   "es": {
@@ -662,6 +756,100 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
           "Para enfocar al equipo en el número que mejor representa el éxito actual"
         ]
       }
+    ],
+    "07": [
+      {
+        "question": "¿En qué tres cosas dice Google que se basan los resultados locales?",
+        "options": [
+          "Número de publicaciones, fotos y hashtags",
+          "Relevancia, distancia y prominencia",
+          "Precio, horario y estacionamiento",
+          "Gasto en anuncios, antigüedad del sitio y seguidores"
+        ]
+      },
+      {
+        "question": "El nombre del perfil de una barbería es \"Brancato Barbershop Mejores Cortes Boston\". ¿Cuál es el problema?",
+        "options": [
+          "Agregar palabras clave al nombre va contra las reglas de Google y puede hacer que suspendan el perfil",
+          "Los nombres de perfil no pueden incluir la ciudad",
+          "El nombre es demasiado corto",
+          "Ninguno, más palabras clave siempre posicionan mejor"
+        ]
+      },
+      {
+        "question": "¿Qué ajuste es el más importante para la relevancia en un Perfil de Empresa de Google?",
+        "options": [
+          "Los colores del sitio web",
+          "La categoría principal",
+          "La cantidad de publicaciones",
+          "La foto de portada"
+        ]
+      },
+      {
+        "question": "¿Qué es una citación en SEO local?",
+        "options": [
+          "Un anuncio pagado en Google Maps",
+          "Una frase de un cliente en el sitio web",
+          "Cualquier lugar en línea que muestra el nombre, la dirección y el teléfono del negocio",
+          "Una multa de Google por romper sus reglas"
+        ]
+      },
+      {
+        "question": "El negocio se mudó el año pasado. Yelp y Facebook todavía muestran la dirección vieja. ¿Por qué arreglarlo?",
+        "options": [
+          "Las direcciones viejas ayudan a aparecer en dos barrios",
+          "Solo importa si el negocio tiene anuncios",
+          "Tener los mismos datos en todas partes ayuda a Google a confiar en cuál es la información correcta",
+          "Solo importan los datos de Google, así que no hace falta arreglarlo"
+        ]
+      }
+    ],
+    "08": [
+      {
+        "question": "¿Cuál de estas cosas está permitida al pedir reseñas en Google?",
+        "options": [
+          "Dar un 10% de descuento por una reseña de 5 estrellas",
+          "Pedírsela a todos los clientes de la misma forma, con un enlace corto",
+          "Pedírsela solo a los clientes que dijeron estar contentos",
+          "Que los empleados publiquen reseñas desde sus propias cuentas"
+        ]
+      },
+      {
+        "question": "¿Qué es filtrar reseñas (review gating)?",
+        "options": [
+          "Denunciar reseñas que rompen las reglas de Google",
+          "Responder las reseñas en un día",
+          "Pedir reseñas solo a los clientes contentos, o mandar primero a los descontentos a otro lugar",
+          "Poner un código QR de reseñas en el mostrador"
+        ]
+      },
+      {
+        "question": "¿Cuál es la mejor primera frase de una respuesta a una reseña negativa?",
+        "options": [
+          "Explicar por qué el cliente está equivocado",
+          "Mencionar la fecha y los detalles de su visita",
+          "Agradecer que se tomó el tiempo de escribir",
+          "Ofrecer un servicio gratis a cambio de borrar la reseña"
+        ]
+      },
+      {
+        "question": "¿Cómo se debe usar la IA con las reseñas?",
+        "options": [
+          "Para escribir reseñas para el negocio",
+          "Para publicar respuestas automáticamente sin que nadie las lea",
+          "Para redactar respuestas que una persona revisa y edita antes de publicarlas",
+          "Para crear perfiles de clientes con los nombres de quienes reseñan"
+        ]
+      },
+      {
+        "question": "¿Cuál suele ser el mejor momento para pedir una reseña?",
+        "options": [
+          "Antes de empezar el servicio",
+          "Un mes después de su visita",
+          "Justo después de que el cliente recibió lo que vino a buscar",
+          "Solo después de que se queje"
+        ]
+      }
     ]
   },
   "pt": {
@@ -989,6 +1177,100 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
           "Para substituir todas as outras métricas",
           "Para acompanhar o máximo de números possível",
           "Para focar a equipe no número que melhor representa o sucesso atual"
+        ]
+      }
+    ],
+    "07": [
+      {
+        "question": "Em quais três coisas o Google diz que os resultados locais se baseiam?",
+        "options": [
+          "Número de postagens, fotos e hashtags",
+          "Relevância, distância e destaque",
+          "Preço, horário e estacionamento",
+          "Gasto com anúncios, idade do site e número de seguidores"
+        ]
+      },
+      {
+        "question": "O nome do perfil de uma barbearia é \"Brancato Barbershop Melhores Cortes Boston\". Qual é o problema?",
+        "options": [
+          "Colocar palavras-chave no nome vai contra as regras do Google e pode fazer o perfil ser suspenso",
+          "Nomes de perfil não podem ter a cidade",
+          "O nome é curto demais",
+          "Nenhum, mais palavras-chave sempre posicionam melhor"
+        ]
+      },
+      {
+        "question": "Qual configuração é a mais importante para a relevância em um Perfil da Empresa no Google?",
+        "options": [
+          "As cores do site",
+          "A categoria principal",
+          "A quantidade de postagens",
+          "A foto de capa"
+        ]
+      },
+      {
+        "question": "O que é uma citação em SEO local?",
+        "options": [
+          "Um anúncio pago no Google Maps",
+          "Uma frase de cliente no site",
+          "Qualquer lugar on-line que mostra o nome, o endereço e o telefone do negócio",
+          "Uma multa do Google por quebrar as regras"
+        ]
+      },
+      {
+        "question": "O negócio mudou de endereço no ano passado. Yelp e Facebook ainda mostram o endereço antigo. Por que corrigir?",
+        "options": [
+          "Endereços antigos ajudam a aparecer em dois bairros",
+          "Só importa se o negócio faz anúncios",
+          "Dados iguais em todo lugar ajudam o Google a confiar em qual informação está certa",
+          "Só os dados do Google importam, então não precisa corrigir"
+        ]
+      }
+    ],
+    "08": [
+      {
+        "question": "Qual destas coisas é permitida ao pedir avaliações no Google?",
+        "options": [
+          "Dar 10% de desconto por uma avaliação de 5 estrelas",
+          "Pedir a todos os clientes do mesmo jeito, com um link curto",
+          "Pedir só aos clientes que disseram estar satisfeitos",
+          "Pedir que funcionários publiquem avaliações das próprias contas"
+        ]
+      },
+      {
+        "question": "O que é filtrar avaliações (review gating)?",
+        "options": [
+          "Denunciar avaliações que quebram as regras do Google",
+          "Responder às avaliações em um dia",
+          "Pedir avaliação só aos clientes satisfeitos, ou mandar os insatisfeitos primeiro para outro lugar",
+          "Colocar um QR code de avaliação no balcão"
+        ]
+      },
+      {
+        "question": "Qual é a melhor primeira frase de uma resposta a uma avaliação negativa?",
+        "options": [
+          "Explicar por que o cliente está errado",
+          "Citar a data e os detalhes da visita",
+          "Agradecer por ter tirado um tempo para escrever",
+          "Oferecer um serviço grátis em troca de apagar a avaliação"
+        ]
+      },
+      {
+        "question": "Como a IA deve ser usada com avaliações?",
+        "options": [
+          "Para escrever avaliações para o negócio",
+          "Para publicar respostas automaticamente sem ninguém ler",
+          "Para escrever respostas que uma pessoa confere e edita antes de publicar",
+          "Para criar perfis de clientes com os nomes de quem avaliou"
+        ]
+      },
+      {
+        "question": "Qual costuma ser a melhor hora para pedir uma avaliação?",
+        "options": [
+          "Antes de começar o serviço",
+          "Um mês depois da visita",
+          "Logo depois que o cliente recebeu o que veio buscar",
+          "Só depois de uma reclamação"
         ]
       }
     ]

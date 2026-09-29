@@ -4,7 +4,10 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { Lock, Award, Clock, LogOut, CheckCircle2, ArrowRight, Download, ExternalLink, Copy } from 'lucide-react';
+import { Lock, Award, Clock, LogOut, CheckCircle2, ArrowRight, Download, ExternalLink, Copy, BookOpen, Wrench, Medal } from 'lucide-react';
+import { course, isHandsOn } from '@/content/academy/lessons';
+import { GLOSSARY } from '@/content/academy/glossary';
+import { readChecklist, readKnownTerms } from '@/lib/academyLocal';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import { downloadCertificatePdf, type CertificateText } from '@/lib/certificatePdf';
 
@@ -23,6 +26,14 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [certificate, setCertificate] = useState<Certificate | null>(null);
   const [copied, setCopied] = useState(false);
+  const [knownAll, setKnownAll] = useState(false);
+  const [checklistsDone, setChecklistsDone] = useState(0);
+
+  useEffect(() => {
+    const known = new Set(readKnownTerms());
+    setKnownAll(GLOSSARY.every((g) => known.has(g.id)));
+    setChecklistsDone(course.filter((m) => readChecklist(m.number).length >= m.checklist.length).length);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -92,7 +103,76 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
         certId: certificate.id,
       }).toString()
     : '';
-  const percent = modules.length ? Math.round((completed.length / modules.length) * 100) : 0;
+  const coreModules = modules.filter((m) => !isHandsOn(m.number));
+  const handsOnModules = modules.filter((m) => isHandsOn(m.number));
+  const coreDone = coreModules.filter((m) => completed.includes(m.number)).length;
+  const handsOnDone = handsOnModules.filter((m) => completed.includes(m.number)).length;
+  const percent = coreModules.length ? Math.round((coreDone / coreModules.length) * 100) : 0;
+
+  const badges = [
+    { id: 'firstStep', earned: completed.includes('01') },
+    { id: 'halfway', earned: completed.length >= 3 },
+    { id: 'certified', earned: Boolean(certificate) },
+    { id: 'localPro', earned: completed.includes('07') },
+    { id: 'reputationPro', earned: completed.includes('08') },
+    { id: 'wordsmith', earned: knownAll },
+    { id: 'handsOn', earned: checklistsDone >= 3 },
+  ];
+
+  function moduleCard(mod: ModuleItem) {
+    const i = modules.findIndex((m) => m.number === mod.number);
+    const done = completed.includes(mod.number);
+    // Admins can open every module to review it.
+    const unlocked = isAdmin || i === 0 || completed.includes(modules[i - 1].number);
+    const badge = done ? t('dashboard.completed') : unlocked ? t('dashboard.start') : t('dashboard.locked');
+    const card = (
+      <>
+        <div className="absolute top-4 right-4">
+          <span
+            className={`inline-flex items-center gap-1 text-xs uppercase tracking-widest border px-2 py-0.5 ${
+              done
+                ? 'text-brand-light2 border-brand-light2/40'
+                : unlocked
+                ? 'text-brand-white border-brand-light1'
+                : 'text-brand-mid border-brand-dark2'
+            }`}
+          >
+            {done ? <CheckCircle2 size={11} /> : !unlocked && <Lock size={11} />}
+            {badge}
+          </span>
+        </div>
+
+        <div className={`font-display text-5xl mb-4 leading-none ${unlocked ? 'text-brand-mid' : 'text-brand-dark2'}`}>
+          {mod.number}
+        </div>
+
+        <h3 className={`font-display text-base uppercase tracking-tight mb-4 ${unlocked ? 'text-brand-white' : 'text-brand-light1'}`}>
+          {mod.title}
+        </h3>
+
+        <div className="flex items-center justify-between text-brand-mid">
+          <span className="flex items-center gap-1.5 text-xs">
+            <Clock size={12} />
+            {t('dashboard.estTime')}: {mod.time}
+          </span>
+          {unlocked && <ArrowRight size={14} className="text-brand-light1" />}
+        </div>
+      </>
+    );
+    return unlocked ? (
+      <Link
+        key={mod.number}
+        href={`/${locale}/academy/module/${mod.number}`}
+        className="relative bg-brand-dark1 border border-brand-dark2 p-6 hover:border-brand-light1 transition-colors"
+      >
+        {card}
+      </Link>
+    ) : (
+      <div key={mod.number} className="relative bg-brand-dark1 border border-brand-dark2 p-6 opacity-70">
+        {card}
+      </div>
+    );
+  }
 
   if (authed === null) {
     return <div className="min-h-screen bg-brand-near-black" />;
@@ -144,59 +224,33 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
             {t('dashboard.modulesHeading')}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {modules.map((mod, i) => {
-              const done = completed.includes(mod.number);
-              // Admins can open every module to review it.
-              const unlocked = isAdmin || i === 0 || completed.includes(modules[i - 1].number);
-              const badge = done ? t('dashboard.completed') : unlocked ? t('dashboard.start') : t('dashboard.locked');
-              const card = (
-                <>
-                  <div className="absolute top-4 right-4">
-                    <span
-                      className={`inline-flex items-center gap-1 text-xs uppercase tracking-widest border px-2 py-0.5 ${
-                        done
-                          ? 'text-brand-light2 border-brand-light2/40'
-                          : unlocked
-                          ? 'text-brand-white border-brand-light1'
-                          : 'text-brand-mid border-brand-dark2'
-                      }`}
-                    >
-                      {done ? <CheckCircle2 size={11} /> : !unlocked && <Lock size={11} />}
-                      {badge}
-                    </span>
-                  </div>
+            {coreModules.map(moduleCard)}
+          </div>
+        </section>
 
-                  <div className={`font-display text-5xl mb-4 leading-none ${unlocked ? 'text-brand-mid' : 'text-brand-dark2'}`}>
-                    {mod.number}
-                  </div>
-
-                  <h3 className={`font-display text-base uppercase tracking-tight mb-4 ${unlocked ? 'text-brand-white' : 'text-brand-light1'}`}>
-                    {mod.title}
-                  </h3>
-
-                  <div className="flex items-center justify-between text-brand-mid">
-                    <span className="flex items-center gap-1.5 text-xs">
-                      <Clock size={12} />
-                      {t('dashboard.estTime')}: {mod.time}
-                    </span>
-                    {unlocked && <ArrowRight size={14} className="text-brand-light1" />}
-                  </div>
-                </>
-              );
-              return unlocked ? (
-                <Link
-                  key={mod.number}
-                  href={`/${locale}/academy/module/${mod.number}`}
-                  className="relative bg-brand-dark1 border border-brand-dark2 p-6 hover:border-brand-light1 transition-colors"
-                >
-                  {card}
-                </Link>
-              ) : (
-                <div key={mod.number} className="relative bg-brand-dark1 border border-brand-dark2 p-6 opacity-70">
-                  {card}
-                </div>
-              );
-            })}
+        {/* Study tools */}
+        <section>
+          <h2 className="font-display text-xl sm:text-2xl text-brand-white uppercase tracking-tight mb-6">
+            {t('dashboard.toolsHeading')}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { href: 'glossary', Icon: BookOpen, title: t('dashboard.glossaryTitle'), desc: t('dashboard.glossaryDesc') },
+              { href: 'toolkit', Icon: Wrench, title: t('dashboard.toolkitTitle'), desc: t('dashboard.toolkitDesc') },
+            ].map(({ href, Icon, title, desc }) => (
+              <Link
+                key={href}
+                href={`/${locale}/academy/${href}`}
+                className="flex items-start gap-4 bg-brand-dark1 border border-brand-dark2 p-6 hover:border-brand-light1 transition-colors"
+              >
+                <Icon size={22} className="text-brand-light2 flex-shrink-0 mt-1" />
+                <span className="min-w-0 flex-1">
+                  <span className="block font-display text-base uppercase tracking-tight text-brand-white">{title}</span>
+                  <span className="block text-sm text-brand-light1 mt-1">{desc}</span>
+                </span>
+                <ArrowRight size={14} className="text-brand-light1 mt-1.5 flex-shrink-0" />
+              </Link>
+            ))}
           </div>
         </section>
 
@@ -258,6 +312,46 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
               )}
             </div>
           </div>
+        </section>
+
+        {/* Hands-On Track */}
+        {handsOnModules.length > 0 && (
+          <section>
+            <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+              <h2 className="font-display text-xl sm:text-2xl text-brand-white uppercase tracking-tight">
+                {t('dashboard.handsOnHeading')}
+              </h2>
+              <span className="text-xs uppercase tracking-widest text-brand-mid">
+                {t('dashboard.handsOnProgress', { done: handsOnDone, total: handsOnModules.length })}
+              </span>
+            </div>
+            <p className="text-brand-light1 text-sm mb-6 max-w-2xl">{t('dashboard.handsOnIntro')}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {handsOnModules.map(moduleCard)}
+            </div>
+          </section>
+        )}
+
+        {/* Badges */}
+        <section>
+          <h2 className="font-display text-xl sm:text-2xl text-brand-white uppercase tracking-tight mb-6">
+            {t('dashboard.badgesHeading')}
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {badges.map(({ id, earned }) => (
+              <div
+                key={id}
+                className={`border p-4 ${earned ? 'border-brand-light2/40 bg-brand-dark1' : 'border-brand-dark2 bg-brand-dark1 opacity-50'}`}
+              >
+                <Medal size={20} className={earned ? 'text-brand-light2' : 'text-brand-dark2'} />
+                <span className={`block mt-3 text-sm font-semibold ${earned ? 'text-brand-white' : 'text-brand-light1'}`}>
+                  {t(`dashboard.badges.${id}.title`)}
+                </span>
+                <span className="block text-xs text-brand-mid mt-1">{t(`dashboard.badges.${id}.desc`)}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-brand-mid mt-3">{t('dashboard.badgesNote')}</p>
         </section>
 
       </div>

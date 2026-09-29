@@ -386,10 +386,10 @@
     },
     "overview": {
       "heading": "QUÉ APRENDERÁS",
-      "subheading": "Un plan de estudios de 6 módulos creado por practicantes de marketing con IA, no teóricos.",
+      "subheading": "Una certificación de 6 módulos creada por practicantes de marketing con IA, no teóricos, más un track práctico para el trabajo por el que los negocios pequeños realmente pagan.",
       "certificate": {
         "heading": "OBTÉN TU CERTIFICADO",
-        "description": "Completa los 6 módulos y pasa la evaluación final para obtener tu Certificado de Marketing con IA — reconocido por empresas y reclutadores líderes en IA."
+        "description": "Completa los 6 módulos de certificación y pasa la evaluación final para obtener tu Certificado de Marketing con IA, y luego sigue con el Track Práctico."
       },
       "items": [
         {
@@ -420,7 +420,7 @@
     },
     "modules": {
       "heading": "MÓDULOS DEL CURSO",
-      "subheading": "Seis módulos. Habilidades reales. Completamente a tu ritmo.",
+      "subheading": "Seis módulos de certificación y luego un track práctico. Completamente a tu ritmo.",
       "comingSoon": "Próximamente",
       "locked": "Bloqueado",
       "estTime": "Tiempo est.",
@@ -454,10 +454,21 @@
           "number": "06",
           "title": "Proyecto Final y Certificación",
           "time": "~4 hrs"
+        },
+        {
+          "number": "07",
+          "title": "Perfil de Empresa de Google y SEO Local",
+          "time": "~2 hrs"
+        },
+        {
+          "number": "08",
+          "title": "Reseñas y Reputación",
+          "time": "~2 hrs"
         }
       ],
       "available": "Disponible",
-      "contents": "{lessons} lecciones · cuestionario de {questions} preguntas"
+      "contents": "{lessons} lecciones · cuestionario de {questions} preguntas",
+      "handsOn": "Track Práctico"
     },
     "login": {
       "heading": "ACCESO A LA ACADEMIA",
@@ -493,7 +504,7 @@
     },
     "dashboard": {
       "heading": "BIENVENIDO DE NUEVO",
-      "progressLabel": "Progreso General",
+      "progressLabel": "Progreso de la certificación",
       "progressValue": "{percent}% Completado",
       "modulesHeading": "TUS MÓDULOS",
       "certificateHeading": "TU CERTIFICADO",
@@ -506,7 +517,48 @@
       "start": "Comenzar",
       "completed": "Completado",
       "certificateEarnedBadge": "Obtenido",
-      "certificateEarned": "¡Felicidades! Completaste todos los módulos y aprobaste la evaluación final. Descarga tu certificado a continuación y compártelo."
+      "certificateEarned": "¡Felicidades! Completaste todos los módulos y aprobaste la evaluación final. Descarga tu certificado a continuación y compártelo.",
+      "handsOnHeading": "Track Práctico",
+      "handsOnIntro": "Habilidades prácticas por las que pagan los negocios pequeños: aparecer en Google y construir una buena reputación. Se desbloquea después de tu certificado.",
+      "handsOnProgress": "{done} de {total} completados",
+      "toolsHeading": "Herramientas de estudio",
+      "glossaryTitle": "Glosario y tarjetas",
+      "glossaryDesc": "Cada término de marketing e IA en lenguaje sencillo, con tarjetas de estudio y un quiz rápido.",
+      "toolkitTitle": "Plantillas y herramientas",
+      "toolkitDesc": "Prompts para copiar y pegar, pedidos de reseñas, respuestas a reseñas y hojas de cálculo listas.",
+      "open": "Abrir",
+      "badgesHeading": "Tus insignias",
+      "badgesNote": "Las insignias de vocabulario y de listas se guardan en este dispositivo.",
+      "badges": {
+        "firstStep": {
+          "title": "Primer paso",
+          "desc": "Aprobaste el Módulo 01"
+        },
+        "halfway": {
+          "title": "A mitad de camino",
+          "desc": "Aprobaste 3 módulos"
+        },
+        "certified": {
+          "title": "Certificado",
+          "desc": "Obtuviste el Certificado de Marketing con IA"
+        },
+        "localPro": {
+          "title": "Experto en SEO local",
+          "desc": "Aprobaste el Módulo 07"
+        },
+        "reputationPro": {
+          "title": "Experto en reputación",
+          "desc": "Aprobaste el Módulo 08"
+        },
+        "wordsmith": {
+          "title": "Maestro del vocabulario",
+          "desc": "Marcaste todas las tarjetas del glosario como aprendidas"
+        },
+        "handsOn": {
+          "title": "Manos a la obra",
+          "desc": "Completaste todos los pasos de la lista en 3 módulos"
+        }
+      }
     },
     "admin": {
       "heading": "ADMIN DE LA ACADEMIA",
@@ -571,7 +623,13 @@
       "reviewHint": "Las preguntas marcadas en rojo fueron incorrectas. Repasa las lecciones e inténtalo de nuevo.",
       "retry": "Intentar de nuevo",
       "submit": "Enviar respuestas",
-      "submitting": "Calificando..."
+      "submitting": "Calificando...",
+      "checklistHeading": "Hazlo en tu propio negocio",
+      "checklistIntro": "Haz estos pasos con un negocio real. Marca cada uno al terminarlo. Tus marcas se guardan en este dispositivo.",
+      "checklistProgress": "{done} de {total} completados",
+      "certUnlocked": "Tu certificado está listo en tu panel, y el Track Práctico ya está desbloqueado.",
+      "trackComplete": "¡Terminaste el Track Práctico!",
+      "toolkitLink": "Las plantillas de este módulo están en Plantillas y herramientas"
     },
     "certificate": {
       "download": "Descargar PDF",
@@ -600,6 +658,41 @@
         "lookupIntro": "Ingresa el ID impreso en un certificado de N°1 Academy para confirmar que es auténtico.",
         "lookupButton": "Verificar"
       }
+    },
+    "glossary": {
+      "title": "Glosario de Marketing e IA",
+      "intro": "Las palabras que usamos todos los días en marketing digital e IA, en lenguaje sencillo y con un ejemplo de un negocio pequeño.",
+      "search": "Buscar términos",
+      "all": "Todos",
+      "list": "Glosario",
+      "flashcards": "Tarjetas",
+      "quiz": "Ponme a prueba",
+      "example": "Ejemplo",
+      "noResults": "Ningún término coincide con esa búsqueda.",
+      "openGlossary": "Abrir glosario",
+      "backToAcademy": "Volver a la Academia",
+      "backToDashboard": "Volver al panel",
+      "tapToFlip": "Toca la tarjeta para ver la definición",
+      "known": "Me lo sé",
+      "again": "Repasar",
+      "knownCount": "{known} de {total} aprendidos",
+      "reset": "Empezar de nuevo",
+      "allKnown": "Ya te sabes todos los términos de este grupo.",
+      "quizPrompt": "¿Qué término corresponde a esta definición?",
+      "correct": "¡Correcto!",
+      "wrong": "Casi. La respuesta es {answer}.",
+      "next": "Siguiente pregunta",
+      "score": "Puntaje: {score} de {total}"
+    },
+    "toolkit": {
+      "title": "Plantillas y herramientas",
+      "intro": "Prompts y mensajes para copiar y pegar, y hojas de cálculo para descargar. Completa los [corchetes] con los datos del negocio.",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "module": "Módulo {number}",
+      "sheetsHeading": "Hojas de cálculo",
+      "download": "Descargar (.csv)",
+      "backToDashboard": "Volver al panel"
     }
   },
   "audit": {
