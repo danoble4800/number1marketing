@@ -1000,7 +1000,7 @@ Que sea corto, personal y firmado por una persona real.
         title: 'Cómo responder reseñas con IA',
         minutes: 45,
         body: `
-Cada reseña merece una respuesta: muestra a los futuros clientes que a alguien le importa, y Google considera más activo a un negocio que responde. Intenta responder en uno o dos días.
+Cada reseña merece una respuesta: muestra a los futuros clientes que a alguien le importa, y Google mismo recomienda responder. Intenta responder en uno o dos días.
 
 ## Responder a las buenas reseñas
 

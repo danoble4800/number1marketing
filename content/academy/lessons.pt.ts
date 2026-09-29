@@ -1000,7 +1000,7 @@ Curta, pessoal e assinada por uma pessoa de verdade.
         title: 'Como responder avaliações com IA',
         minutes: 45,
         body: `
-Toda avaliação merece resposta: mostra aos futuros clientes que alguém se importa, e o Google considera mais ativo um negócio que responde. Tente responder em um ou dois dias.
+Toda avaliação merece resposta: mostra aos futuros clientes que alguém se importa, e o próprio Google recomenda responder. Tente responder em um ou dois dias.
 
 ## Responder às avaliações boas
 

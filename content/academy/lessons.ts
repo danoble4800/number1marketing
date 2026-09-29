@@ -1031,7 +1031,7 @@ Keep it short, personal, and signed by a real person.
         title: 'Responding to Reviews With AI',
         minutes: 45,
         body: `
-Every review deserves a reply: it shows future customers that someone cares, and Google treats a business that responds as more active. Try to reply within a day or two.
+Every review deserves a reply: it shows future customers that someone cares, and Google itself recommends replying. Try to reply within a day or two.
 
 ## Replying to good reviews
 
