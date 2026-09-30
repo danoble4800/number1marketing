@@ -235,6 +235,45 @@ function Resources() {
   );
 }
 
+// Shareable link to the sales team's NFC lead form. The server only hands it to the
+// owner, so for everyone else this renders nothing.
+function NfcFormLink() {
+  const [url, setUrl] = useState('');
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data: { session } } = await getSupabase().auth.getSession();
+      if (!session) return;
+      const res = await fetch('/api/admin/nfc-link', { headers: { Authorization: `Bearer ${session.access_token}` } });
+      const data = res.ok ? await res.json() : null;
+      if (!cancelled && data?.url) setUrl(data.url);
+    })().catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+  if (!url) return null;
+
+  return (
+    <div className="mb-8 -mt-5 flex flex-wrap items-center justify-between gap-3 border border-brand-dark2 px-4 py-3">
+      <div>
+        <p className="text-xs uppercase tracking-widest text-brand-mid">NFC Lead Form · Owner only</p>
+        <p className="text-sm text-brand-light1">Send to your sales reps. Entries land in the In-person tracker.</p>
+      </div>
+      <div className="flex items-center gap-2">
+        <CopyButton value={url} />
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 bg-brand-white text-brand-black px-4 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-brand-offwhite transition-colors"
+        >
+          Open Form
+          <ExternalIcon />
+        </a>
+      </div>
+    </div>
+  );
+}
+
 type Gate = 'checking' | 'signedOut' | 'admin';
 type Tab = 'leads' | 'clients' | 'cards' | 'resources';
 const TABS: [Tab, string][] = [['leads', 'Leads'], ['clients', 'Clients'], ['cards', 'Tap Cards'], ['resources', 'Links']];
@@ -418,6 +457,7 @@ export default function AdminDashboard({ locale }: { locale: string }) {
                 </a>
               </div>
             </div>
+            <NfcFormLink />
             {tab === 'leads' && <LeadsCRM onSignedOut={() => setGate('signedOut')} />}
             {tab === 'clients' && <OnboardingClients onSignedOut={() => setGate('signedOut')} />}
             {tab === 'cards' && <TapCardsAdmin />}
