@@ -6,6 +6,21 @@ import { NextRequest, NextResponse } from 'next/server';
 // caller's own profile (row level security allows that) to check for the admin role.
 // Returns null when the caller is an admin, or the error response to send back.
 export async function requireAdmin(req: NextRequest): Promise<NextResponse | null> {
+  const result = await adminUser(req);
+  return result instanceof NextResponse ? result : null;
+}
+
+// Like requireAdmin, but only the business owner passes: the admin whose email is
+// OWNER_EMAIL. Sales reps with admin accounts get a 403.
+export async function requireOwner(req: NextRequest): Promise<NextResponse | null> {
+  const result = await adminUser(req);
+  if (result instanceof NextResponse) return result;
+  const owner = (process.env.OWNER_EMAIL ?? 'danoble4800@gmail.com').trim().toLowerCase();
+  if (result.email?.toLowerCase() !== owner) return NextResponse.json({ error: 'Owner only' }, { status: 403 });
+  return null;
+}
+
+async function adminUser(req: NextRequest): Promise<NextResponse | { email?: string }> {
   const token = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '');
   if (!token) return NextResponse.json({ error: 'Not signed in' }, { status: 401 });
 
@@ -31,5 +46,5 @@ export async function requireAdmin(req: NextRequest): Promise<NextResponse | nul
     .single();
   if (profile?.role !== 'admin') return NextResponse.json({ error: 'Not an admin' }, { status: 403 });
 
-  return null;
+  return { email: user.email };
 }
