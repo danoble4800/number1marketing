@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Nfc } from 'lucide-react';
 import type { Session } from '@supabase/supabase-js';
-import { getSupabase } from '@/lib/supabase';
+import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import CardSignIn from '@/components/cards/CardSignIn';
 import { createPage, listMyPages, slugAvailable, slugify, slugTyping } from '@/lib/cards/client';
 import type { CardPage } from '@/lib/cards/types';
@@ -35,6 +35,8 @@ export default function ClaimPage({ params }: { params: { id: string } }) {
   const [slugTouched, setSlugTouched] = useState(false);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  // Team (admin) accounts can't own a customer's card; claim_card refuses them too.
+  const [isTeam, setIsTeam] = useState(false);
 
   useEffect(() => {
     const supabase = getSupabase();
@@ -54,6 +56,10 @@ export default function ClaimPage({ params }: { params: { id: string } }) {
       }
       setStatus(st);
       if (s.session && st === 'unclaimed') {
+        if ((await getCurrentProfile())?.role === 'admin') {
+          setIsTeam(true);
+          return;
+        }
         const mine = await listMyPages();
         setPages(mine);
         setChoice(mine[0]?.id ?? 'new');
@@ -85,6 +91,15 @@ export default function ClaimPage({ params }: { params: { id: string } }) {
     }
   }
 
+  async function switchEmail() {
+    await getSupabase().auth.signOut();
+    setSession(null);
+    setIsTeam(false);
+    setPages([]);
+    setChoice('new');
+    setError('');
+  }
+
   const message = MESSAGES[status];
 
   return (
@@ -109,12 +124,38 @@ export default function ClaimPage({ params }: { params: { id: string } }) {
           <CardSignIn
             next={`/card/claim/${id}`}
             heading="Claim this card"
-            sub="Your card is ready. Enter your email to set up the page it opens. It takes about two minutes."
+            sub="Your card is ready. Enter the business owner’s email to set up the page it opens. It takes about two minutes."
           />
         </>
       )}
 
-      {status === 'unclaimed' && session && (
+      {status === 'unclaimed' && session && isTeam && (
+        <div className="w-full max-w-md space-y-5 border border-brand-dark2 bg-brand-dark1 p-8">
+          <div>
+            <h1 className="font-display text-3xl uppercase tracking-tight text-brand-white">Claim this card</h1>
+            <p className="mt-2 text-sm text-brand-light1">
+              Card <span className="font-mono text-brand-white">{id}</span> is ready to claim.
+            </p>
+          </div>
+          <div className="border border-red-400/60 bg-brand-black p-4 text-sm">
+            <p className="text-xs uppercase tracking-widest text-red-400">Team account</p>
+            <p className="mt-1 break-all font-semibold text-brand-white">{session.user.email}</p>
+            <p className="mt-2 text-brand-light1">
+              This is a Number 1 team account, so it can’t own a customer’s card. Switch to the business owner’s email
+              so they can sign in and edit their page later.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={switchEmail}
+            className="w-full bg-brand-white py-3 text-sm font-semibold uppercase tracking-widest text-brand-black hover:bg-brand-offwhite"
+          >
+            Use the owner’s email
+          </button>
+        </div>
+      )}
+
+      {status === 'unclaimed' && session && !isTeam && (
         <form onSubmit={claim} className="w-full max-w-md space-y-5 border border-brand-dark2 bg-brand-dark1 p-8">
           <div>
             <h1 className="font-display text-3xl uppercase tracking-tight text-brand-white">Claim this card</h1>
@@ -122,6 +163,18 @@ export default function ClaimPage({ params }: { params: { id: string } }) {
               Card <span className="font-mono text-brand-white">{id}</span> will open the page you choose. You can change
               it any time.
             </p>
+          </div>
+
+          {/* A rep signed in on their own phone would otherwise claim the card to their own account */}
+          <div className="border border-brand-light1 bg-brand-black p-4 text-sm">
+            <p className="text-xs uppercase tracking-widest text-brand-mid">This card will belong to</p>
+            <p className="mt-1 break-all font-semibold text-brand-white">{session.user.email}</p>
+            <p className="mt-2 text-brand-light1">
+              Only this email can sign in to edit the page. Make sure it’s the business owner’s.
+            </p>
+            <button type="button" onClick={switchEmail} className="mt-3 text-sm text-brand-white underline">
+              Not the owner? Use a different email
+            </button>
           </div>
 
           {pages.length > 0 && (

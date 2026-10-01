@@ -284,6 +284,9 @@ declare
   c record;
 begin
   if auth.uid() is null then raise exception 'not signed in'; end if;
+  -- Team (admin) accounts can't own a customer's card: a rep signed in on their own
+  -- phone would otherwise claim it to themselves.
+  if public.is_admin() then return json_build_object('ok', false, 'reason', 'team'); end if;
   if not exists (select 1 from card_pages where id = p_page and owner_id = auth.uid()) then
     raise exception 'not your page';
   end if;
