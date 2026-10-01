@@ -85,9 +85,11 @@ export default function NfcLeadForm() {
 
   // The key arrives in the shared link and is remembered, so a Home Screen shortcut keeps working.
   useEffect(() => {
-    const fromUrl = new URLSearchParams(window.location.search).get('k') ?? '';
+    const params = new URLSearchParams(window.location.search);
+    const fromUrl = params.get('k') ?? '';
     const k = fromUrl || load(KEY_STORE);
-    setV(blank(load(REP_STORE)));
+    // The team dashboard's "Log a new lead" link fills in the rep's name.
+    setV(blank(params.get('rep')?.trim().slice(0, 80) || load(REP_STORE)));
     if (!k) { setGate('invalid'); return; }
     fetch(`/api/nfc-lead?k=${encodeURIComponent(k)}`)
       .then((res) => {

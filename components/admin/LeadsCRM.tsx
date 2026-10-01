@@ -104,24 +104,27 @@ function smsHref(phone: string, body: string) {
 
 type Template = { id: string; label: string; body: string };
 
-// Messages for each stage of a lead. Messages written for a specific lead (the Custom
-// Text / Nudge / Email columns of the in-person tracker) replace the standard ones.
-function templates(l: Lead): Template[] {
+// Messages for each stage of a lead, signed by whoever is sending (Dan on /admin, the
+// rep on /team). Messages written for a specific lead (the Custom Text / Nudge / Email
+// columns of the in-person tracker) replace the standard ones.
+function templates(l: Lead, me: string): Template[] {
   const who = tidy(l.name.split(/\s+/)[0] || '') || 'there';
   const biz = l.business ? tidy(l.business) : '';
+  // Custom messages are written in Dan's name; a rep sends them as themselves.
+  const custom = (text: string) => (me === 'Dan' ? text : text.replace(/\bDan\b/g, me));
   const first = l.source === 'website'
-    ? `Hi ${who}, it's Dan from Number 1 Digital Marketing. Thanks for requesting a free audit${biz ? ` for ${biz}` : ''}. It takes about 30 minutes, and you keep the list of fixes either way. What day and time work for you this week?`
-    : `Hi ${who}, it's Dan from Number 1 Digital Marketing. ${l.source === 'inperson' && biz ? `We met at ${biz} recently. ` : ''}I'd love to set up your free 30-minute audit. We look at your Google profile, reviews and website, and you keep the list of fixes either way. What day and time work for you?`;
+    ? `Hi ${who}, it's ${me} from Number 1 Digital Marketing. Thanks for requesting a free audit${biz ? ` for ${biz}` : ''}. It takes about 30 minutes, and you keep the list of fixes either way. What day and time work for you this week?`
+    : `Hi ${who}, it's ${me} from Number 1 Digital Marketing. ${l.source === 'inperson' && biz ? `We met at ${biz} recently. ` : ''}I'd love to set up your free 30-minute audit. We look at your Google profile, reviews and website, and you keep the list of fixes either way. What day and time work for you?`;
   const list: Template[] = [
-    { id: 'first', label: 'First message', body: l.custom.text || first },
-    { id: 'nudge', label: 'Second nudge', body: l.custom.nudge || `Hi ${who}, Dan from Number 1 again. Just bumping this in case it got buried. Happy to do ${biz ? `${biz}'s` : 'your'} free audit whenever works, even next week.` },
-    { id: 'reminder', label: 'Audit reminder', body: `Hi ${who}, it's Dan from Number 1 Digital Marketing. Just confirming your free audit${biz ? ` for ${biz}` : ''}. Does the time we set still work? If not, send me a better day and time.` },
+    { id: 'first', label: 'First message', body: custom(l.custom.text) || first },
+    { id: 'nudge', label: 'Second nudge', body: custom(l.custom.nudge) || `Hi ${who}, ${me} from Number 1 again. Just bumping this in case it got buried. Happy to do ${biz ? `${biz}'s` : 'your'} free audit whenever works, even next week.` },
+    { id: 'reminder', label: 'Audit reminder', body: `Hi ${who}, it's ${me} from Number 1 Digital Marketing. Just confirming your free audit${biz ? ` for ${biz}` : ''}. Does the time we set still work? If not, send me a better day and time.` },
     { id: 'thanks', label: 'Thanks after the audit', body: `Hi ${who}, thanks again for making time for the audit. I'll send over the list of fixes we talked about. Happy to walk you through any of it, or take it off your plate.` },
     { id: 'checkin', label: 'Check-in', body: l.source === 'client'
-      ? `Hi ${who}, it's Dan from Number 1 Digital Marketing. Just checking in. How is everything going on your end?`
-      : `Hi ${who}, it's Dan from Number 1 Digital Marketing. Just checking in to see how things are going${biz ? ` at ${biz}` : ''}. If you ever want a fresh look at your Google profile or website, I'm happy to help.` },
+      ? `Hi ${who}, it's ${me} from Number 1 Digital Marketing. Just checking in. How is everything going on your end?`
+      : `Hi ${who}, it's ${me} from Number 1 Digital Marketing. Just checking in to see how things are going${biz ? ` at ${biz}` : ''}. If you ever want a fresh look at your Google profile or website, I'm happy to help.` },
   ];
-  if (l.custom.email) list.splice(1, 0, { id: 'email', label: 'Email draft', body: l.custom.email });
+  if (l.custom.email) list.splice(1, 0, { id: 'email', label: 'Email draft', body: custom(l.custom.email) });
   return list;
 }
 
@@ -138,12 +141,12 @@ function defaultTemplate(l: Lead): string {
   }
 }
 
-function emailHref(l: Lead, body: string) {
+function emailHref(l: Lead, body: string, me: string) {
   const subject = l.source === 'client'
     ? 'Checking in from Number 1'
     : `Your free 30-minute audit${l.business ? ` for ${tidy(l.business)}` : ''}`;
   // Drafts written for a lead already end with a signature.
-  const signed = body.includes(PHONE) ? body : `${body}\n\nThanks,\nDan\nNumber 1 Digital Marketing\n${PHONE} · number1digitalmarketing.com`;
+  const signed = body.includes(PHONE) ? body : `${body}\n\nThanks,\n${me}\nNumber 1 Digital Marketing\n${PHONE} · number1digitalmarketing.com`;
   return `mailto:${l.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(signed)}`;
 }
 
@@ -190,16 +193,17 @@ function StatusChip({ status }: { status: string }) {
 }
 
 function LeadPanel({
-  lead, contactMethods, onSave, desktop,
+  lead, contactMethods, onSave, desktop, me,
 }: {
   lead: Lead;
   contactMethods: string[];
   onSave: Save;
   desktop: boolean;
+  me: string;
 }) {
   const editable = lead.source !== 'client';
   const id = (name: string) => `${name}-${lead.key}`;
-  const options = templates(lead);
+  const options = templates(lead, me);
   const [templateId, setTemplateId] = useState(() => defaultTemplate(lead));
   const [message, setMessage] = useState(() => options.find((t) => t.id === templateId)?.body ?? '');
   const template = options.find((t) => t.id === templateId) ?? options[0];
@@ -246,7 +250,7 @@ function LeadPanel({
     <>
       {lead.phone && <a href={smsHref(lead.phone, message)} className={`${primaryClass} flex-1 lg:flex-none`}>Text</a>}
       {lead.email && (
-        <a href={emailHref(lead, message)} className={`${lead.phone ? btnClass : primaryClass} flex-1 lg:flex-none`}>Email</a>
+        <a href={emailHref(lead, message, me)} className={`${lead.phone ? btnClass : primaryClass} flex-1 lg:flex-none`}>Email</a>
       )}
       {lead.phone && <a href={`tel:${phoneForLink(lead.phone)}`} className={`${btnClass} flex-1 lg:flex-none`}>Call</a>}
     </>
@@ -467,9 +471,11 @@ function LeadPanel({
             </div>
           ))}
         </dl>
-        <a href={lead.sheetUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block text-xs text-brand-mid hover:text-brand-light2">
-          Open this row in Google Sheets ↗
-        </a>
+        {lead.sheetUrl && (
+          <a href={lead.sheetUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block text-xs text-brand-mid hover:text-brand-light2">
+            Open this row in Google Sheets ↗
+          </a>
+        )}
       </details>
 
       {/* Phone: the main actions stay pinned to the bottom of the screen */}
@@ -573,8 +579,14 @@ function AddLeadForm({
   );
 }
 
-export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
+// On /team, `team` is set: the list holds only that rep's in-person leads and messages
+// are signed with their name. `team.rep` is set when an admin is looking at a rep's view.
+export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => void; team?: { rep?: string } }) {
   const desktop = useIsDesktop();
+  const [me, setMe] = useState('Dan');
+  const [repName, setRepName] = useState('');
+  const [cardsSold, setCardsSold] = useState(0);
+  const [formUrl, setFormUrl] = useState('');
   const [leads, setLeads] = useState<Lead[]>([]);
   const [contactMethods, setContactMethods] = useState<string[]>([]);
   const [manualSources, setManualSources] = useState<string[]>([]);
@@ -593,10 +605,11 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
       onSignedOut();
       throw new Error('Signed out');
     }
-    const res = await fetch('/api/admin/leads', {
+    const url = team ? `/api/team/leads${team.rep ? `?rep=${encodeURIComponent(team.rep)}` : ''}` : '/api/admin/leads';
+    const res = await fetch(url, {
       method,
       headers: { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
-      body: body ? JSON.stringify(body) : undefined,
+      body: body ? JSON.stringify(team?.rep ? { ...(body as object), rep: team.rep } : body) : undefined,
     });
     if (res.status === 401 || res.status === 403) {
       onSignedOut();
@@ -605,7 +618,7 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
     const json = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(json.error || 'Something went wrong');
     return json;
-  }, [onSignedOut]);
+  }, [onSignedOut, team?.rep]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -613,13 +626,20 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
       const json = await api('GET');
       setLeads(json.leads as Lead[]);
       setContactMethods(json.contactMethods as string[]);
-      setManualSources(json.manualSources as string[]);
+      setManualSources((json.manualSources as string[]) ?? []);
       setLoadErrors((json.errors as string[]) ?? []);
+      if (team) {
+        const name = String(json.name ?? '');
+        setRepName(name);
+        setMe(name.split(/\s+/)[0] || 'Dan');
+        setCardsSold(Number(json.cardsSold) || 0);
+        setFormUrl(String(json.formUrl ?? ''));
+      }
     } catch (err) {
       if ((err as Error).message !== 'Signed out') setLoadErrors([(err as Error).message]);
     }
     setLoading(false);
-  }, [api]);
+  }, [api]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => { load(); }, [load]);
 
@@ -699,15 +719,31 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
     <div className={`flex flex-col gap-6 ${!desktop && selected ? 'pb-28' : 'pb-16'}`}>
       {/* Heading */}
       <div className="flex items-center justify-between gap-4">
-        <h1 className="font-display text-4xl sm:text-5xl text-brand-white uppercase tracking-tight leading-none">Leads</h1>
-        <div className="flex gap-2">
+        {team ? (
+          <div className="min-w-0">
+            <p className="text-[11px] uppercase tracking-widest text-brand-light1 mb-1.5">My leads</p>
+            <h1 className="font-display text-4xl sm:text-5xl text-brand-white uppercase tracking-tight leading-none break-words">
+              {repName || '\u00a0'}
+            </h1>
+          </div>
+        ) : (
+          <h1 className="font-display text-4xl sm:text-5xl text-brand-white uppercase tracking-tight leading-none">Leads</h1>
+        )}
+        <div className="flex gap-2 flex-shrink-0">
           <button type="button" onClick={load} disabled={loading} aria-label="Refresh" className={btnClass}>
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
             <span className="hidden sm:inline">Refresh</span>
           </button>
-          <button type="button" onClick={() => setAdding(true)} className={primaryClass}>
-            <Plus size={14} /> New lead
-          </button>
+          {!team && (
+            <button type="button" onClick={() => setAdding(true)} className={primaryClass}>
+              <Plus size={14} /> New lead
+            </button>
+          )}
+          {team && formUrl && (
+            <a href={formUrl} target="_blank" rel="noopener noreferrer" className={primaryClass}>
+              <Plus size={14} /> <span className="hidden sm:inline">Log a new</span> lead
+            </a>
+          )}
         </div>
       </div>
 
@@ -728,7 +764,7 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
       )}
 
       {/* Counters = filters */}
-      <div className="grid grid-cols-4 gap-px bg-brand-dark2 border border-brand-dark2" role="group" aria-label="Show">
+      <div className={`grid grid-cols-4 gap-px bg-brand-dark2 border border-brand-dark2 ${team ? 'sm:grid-cols-5' : ''}`} role="group" aria-label="Show">
         {TILES.map(([f, text]) => (
           <button
             key={f}
@@ -749,10 +785,18 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
             </div>
           </button>
         ))}
+        {team && (
+          <div className="col-span-4 sm:col-span-1 bg-brand-near-black px-3 sm:px-4 py-3 sm:py-4 flex sm:block items-center justify-between">
+            <div className="font-display text-2xl sm:text-3xl tabular-nums leading-none text-brand-white sm:order-none order-2">
+              {loading ? '–' : cardsSold}
+            </div>
+            <div className="text-[10px] sm:text-[11px] uppercase tracking-widest sm:mt-1.5 text-brand-light1">NFC cards sold</div>
+          </div>
+        )}
       </div>
 
       {/* Search + more filters */}
-      <div className="grid grid-cols-2 sm:grid-cols-[1fr_11rem_11rem] gap-2">
+      <div className={`grid grid-cols-2 gap-2 ${team ? 'sm:grid-cols-[1fr_11rem]' : 'sm:grid-cols-[1fr_11rem_11rem]'}`}>
         <label htmlFor="crm-search" className="sr-only">Search</label>
         <input
           id="crm-search"
@@ -772,10 +816,14 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
           <option value="">More filters…</option>
           {MORE.map(([f, text]) => <option key={f} value={f}>{text} ({counts[f]})</option>)}
         </select>
-        <label htmlFor="crm-source" className="sr-only">Source</label>
-        <select id="crm-source" value={source} onChange={(e) => setSource(e.target.value)} className={inputClass}>
-          {SOURCES.map(([v, text]) => <option key={v} value={v}>{text}</option>)}
-        </select>
+        {!team && (
+          <>
+            <label htmlFor="crm-source" className="sr-only">Source</label>
+            <select id="crm-source" value={source} onChange={(e) => setSource(e.target.value)} className={inputClass}>
+              {SOURCES.map(([v, text]) => <option key={v} value={v}>{text}</option>)}
+            </select>
+          </>
+        )}
       </div>
 
       {loadErrors.map((e) => (
@@ -827,7 +875,7 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
                       </div>
                     </button>
                     {open && !desktop && (
-                      <LeadPanel lead={l} contactMethods={contactMethods} onSave={save} desktop={false} />
+                      <LeadPanel lead={l} contactMethods={contactMethods} onSave={save} desktop={false} me={me} />
                     )}
                   </div>
                 );
@@ -840,7 +888,7 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
         {desktop && (
           <div className="sticky top-20 border border-brand-dark2 bg-brand-dark1/40 max-h-[calc(100vh-6rem)] overflow-y-auto">
             {selected
-              ? <LeadPanel key={selected.key} lead={selected} contactMethods={contactMethods} onSave={save} desktop />
+              ? <LeadPanel key={selected.key} lead={selected} contactMethods={contactMethods} onSave={save} desktop me={me} />
               : <p className="p-10 text-sm text-brand-mid text-center">Pick a lead to see it here.</p>}
           </div>
         )}

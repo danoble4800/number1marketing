@@ -20,7 +20,7 @@ export type Profile = {
   id: string;
   email: string;
   full_name: string;
-  role: 'student' | 'admin';
+  role: 'student' | 'admin' | 'rep';
   created_at: string;
 };
 

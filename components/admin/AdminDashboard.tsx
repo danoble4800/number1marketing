@@ -263,10 +263,13 @@ export default function AdminDashboard({ locale }: { locale: string }) {
   useEffect(() => {
     let cancelled = false;
     getCurrentProfile().then((profile) => {
-      if (!cancelled) setGate(profile?.role === 'admin' ? 'admin' : 'signedOut');
+      if (cancelled) return;
+      // Sales reps have their own dashboard.
+      if (profile?.role === 'rep') window.location.replace(`/${locale}/team`);
+      else setGate(profile?.role === 'admin' ? 'admin' : 'signedOut');
     });
     return () => { cancelled = true; };
-  }, []);
+  }, [locale]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -283,6 +286,10 @@ export default function AdminDashboard({ locale }: { locale: string }) {
       return;
     }
     const profile = await getCurrentProfile();
+    if (profile?.role === 'rep') {
+      window.location.replace(`/${locale}/team`);
+      return;
+    }
     if (profile?.role !== 'admin') {
       await supabase.auth.signOut();
       setError('That account isn’t an admin.');

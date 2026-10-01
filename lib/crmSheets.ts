@@ -61,6 +61,8 @@ export type Lead = {
   history: string[]; // "YYYY-MM-DD · what happened", oldest first
   custom: { text: string; nudge: string; email: string; attach: string }; // messages written for this lead
   sheetUrl: string;
+  rep?: string; // in-person leads: the sales rep who logged it (column B)
+  cardsSold?: number; // in-person leads: NFC cards bought at the visit
 };
 
 const NO_CUSTOM = { text: '', nudge: '', email: '', attach: '' };
@@ -171,7 +173,7 @@ async function sheetLeads(source: 'website' | 'manual'): Promise<Lead[]> {
   });
 }
 
-async function inPersonLeads(): Promise<Lead[]> {
+export async function inPersonLeads(): Promise<Lead[]> {
   const id = spreadsheetId('inperson');
   const [{ shown, raw }, gids] = await Promise.all([readTab(id, `'${IN_PERSON_TAB}'!A2:X`), tabIds(id)]);
   return shown.flatMap((r, i) => {
@@ -211,6 +213,8 @@ async function inPersonLeads(): Promise<Lead[]> {
       history: splitHistory(cell(r, 20)),
       custom: { text: cell(r, 21), nudge: cell(r, 22), ...customEmail(String(r[23] ?? '')) },
       sheetUrl: rowUrl(id, gids[IN_PERSON_TAB], row),
+      rep: cell(r, 1),
+      cardsSold: cell(r, 9) === 'Yes' ? parseInt(cell(r, 10).replace(/\D+/g, ''), 10) || 0 : 0,
     }];
   });
 }

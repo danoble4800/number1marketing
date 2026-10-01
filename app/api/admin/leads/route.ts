@@ -1,16 +1,12 @@
-import type { sheets_v4 } from 'googleapis';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
 import {
-  COLS, CONTACT_METHODS, HISTORY_COL, MANUAL_SOURCES, MANUAL_TAB, STATUSES, TABS,
-  getSheets, loadLeads, nowInNewYork, safeCell, spreadsheetId, todayInNewYork,
-  type Field, type Source,
+  CONTACT_METHODS, MANUAL_SOURCES, MANUAL_TAB,
+  getSheets, loadLeads, nowInNewYork, safeCell, spreadsheetId,
 } from '@/lib/crmSheets';
+import { isDate, updateLead } from '@/lib/crmUpdate';
 
 export const dynamic = 'force-dynamic';
-
-const DATE_FIELDS: Field[] = ['lastContacted', 'nextFollowUp'];
-const isDate = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v);
 
 export async function GET(req: NextRequest) {
   const denied = await requireAdmin(req);
@@ -67,65 +63,7 @@ export async function PATCH(req: NextRequest) {
   if (denied) return denied;
 
   try {
-    const { source: rawSource, row, check, changes, logEntry } = await req.json();
-    if (!Object.hasOwn(TABS, String(rawSource))) {
-      return NextResponse.json({ error: 'This record is read-only' }, { status: 400 });
-    }
-    if (!Number.isInteger(row) || row < 2 || typeof check !== 'string' || !changes || typeof changes !== 'object') {
-      return NextResponse.json({ error: 'Bad request' }, { status: 400 });
-    }
-
-    const source = rawSource as Source;
-    const tab = TABS[source];
-    const data: sheets_v4.Schema$ValueRange[] = [];
-    for (const [field, value] of Object.entries(changes as Record<string, unknown>)) {
-      const col = COLS[source][field as Field];
-      if (!col || typeof value !== 'string') {
-        return NextResponse.json({ error: `Can't update ${field}` }, { status: 400 });
-      }
-      if (field === 'status' && !STATUSES[source].includes(value)) {
-        return NextResponse.json({ error: 'Unknown status' }, { status: 400 });
-      }
-      if (field === 'contactedVia' && value && !CONTACT_METHODS.includes(value)) {
-        return NextResponse.json({ error: 'Unknown contact method' }, { status: 400 });
-      }
-      if (DATE_FIELDS.includes(field as Field) && value && !isDate(value)) {
-        return NextResponse.json({ error: 'Dates must be YYYY-MM-DD' }, { status: 400 });
-      }
-      if (value.length > 2000) {
-        return NextResponse.json({ error: 'Notes are too long' }, { status: 400 });
-      }
-      data.push({ range: `'${tab}'!${col}${row}`, values: [[field === 'notes' ? safeCell(value) : value]] });
-    }
-    const entry = typeof logEntry === 'string' ? logEntry.trim().slice(0, 200) : '';
-    if (!data.length && !entry) return NextResponse.json({ ok: true });
-
-    // Someone may have sorted or edited the sheet since the page loaded. Only write
-    // if the row still holds the same lead.
-    const sheets = getSheets();
-    const id = spreadsheetId(source);
-    const histCol = HISTORY_COL[source];
-    const current = await sheets.spreadsheets.values.batchGet({
-      spreadsheetId: id, ranges: [`'${tab}'!A${row}`, `'${tab}'!${histCol}${row}`],
-    });
-    const [checkRange, historyRange] = current.data.valueRanges ?? [];
-    if (String(checkRange?.values?.[0]?.[0] ?? '').trim() !== check) {
-      return NextResponse.json({ error: 'The sheet changed since this page loaded. Refresh and try again.' }, { status: 409 });
-    }
-
-    // Contact history: one dated line per entry, appended to what's already in the cell.
-    let history: string[] | undefined;
-    if (entry) {
-      const existing = String(historyRange?.values?.[0]?.[0] ?? '').split('\n').map((l) => l.trim()).filter(Boolean);
-      history = [...existing, `${todayInNewYork()} · ${entry}`];
-      data.push({ range: `'${tab}'!${histCol}${row}`, values: [[safeCell(history.join('\n'))]] });
-    }
-
-    await sheets.spreadsheets.values.batchUpdate({
-      spreadsheetId: id,
-      requestBody: { valueInputOption: 'USER_ENTERED', data },
-    });
-    return NextResponse.json({ ok: true, history });
+    return await updateLead(await req.json());
   } catch (err) {
     console.error('Admin CRM update error:', err);
     return NextResponse.json({ error: 'Couldn’t save to the sheet' }, { status: 500 });

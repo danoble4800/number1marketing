@@ -46,6 +46,10 @@ export default function AcademyResetPasswordClient({ locale }: { locale: string 
     setDone(true);
     const profile = await getCurrentProfile();
     await new Promise((r) => setTimeout(r, 1000));
+    if (profile?.role === 'rep') {
+      router.push(`/${locale}/team`);
+      return;
+    }
     router.push(`/${locale}/academy/${profile?.role === 'admin' ? 'admin' : 'dashboard'}`);
   }
 

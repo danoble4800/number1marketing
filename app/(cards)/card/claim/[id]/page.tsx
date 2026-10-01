@@ -56,7 +56,7 @@ export default function ClaimPage({ params }: { params: { id: string } }) {
       }
       setStatus(st);
       if (s.session && st === 'unclaimed') {
-        if ((await getCurrentProfile())?.role === 'admin') {
+        if (['admin', 'rep'].includes((await getCurrentProfile())?.role ?? '')) {
           setIsTeam(true);
           return;
         }
