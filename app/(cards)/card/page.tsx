@@ -25,10 +25,8 @@ export default function CardHome() {
       ) : (
         <>
           <CardSignIn next="/card/edit" />
+          {/* The demo editor is only offered from the public Tap Cards page */}
           <p className="mt-6 text-sm text-brand-light1">
-            Just looking?{' '}
-            <Link href="/card/edit?demo=pizza" className="text-brand-white underline">Try the editor</Link>
-            {' · '}
             <Link href="/en/cards" className="text-brand-white underline">Plans</Link>
             {' · '}
             <a href="/" className="text-brand-white underline">Home</a>
