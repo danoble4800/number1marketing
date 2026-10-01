@@ -59,8 +59,23 @@ export default async function CardsPage({ params }: { params: Promise<{ locale: 
                   Try the editor
                 </Link>
               </div>
-              <p className="mt-4 text-sm text-brand-mid">
-                Already have a card? <Link href="/card" className="text-brand-light2 underline">Sign in</Link>
+              <div className="mt-8 flex max-w-xl flex-wrap items-center justify-between gap-4 border border-brand-dark2 bg-brand-dark1 px-5 py-4">
+                <div>
+                  <p className="text-base font-semibold text-brand-white">Already have a card?</p>
+                  <p className="mt-1 text-sm text-brand-light2">Sign in to edit your page and see your taps.</p>
+                </div>
+                <Link
+                  href="/card"
+                  className="inline-flex items-center gap-2 bg-brand-white px-5 py-3 text-sm font-semibold uppercase tracking-widest text-brand-black hover:bg-brand-offwhite"
+                >
+                  Sign in <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+              <p className="mt-3 text-sm text-brand-light1">
+                On the Number 1 team?{' '}
+                <Link href={`/${locale}/team`} className="font-semibold text-brand-white underline underline-offset-4 hover:text-brand-offwhite">
+                  Team sign in
+                </Link>
               </p>
             </div>
             <div className="flex justify-center gap-4">
