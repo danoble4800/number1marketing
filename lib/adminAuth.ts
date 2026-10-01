@@ -15,9 +15,20 @@ export async function requireAdmin(req: NextRequest): Promise<NextResponse | nul
 export async function requireOwner(req: NextRequest): Promise<NextResponse | null> {
   const result = await adminUser(req);
   if (result instanceof NextResponse) return result;
-  const owner = (process.env.OWNER_EMAIL ?? 'danoble4800@gmail.com').trim().toLowerCase();
-  if (result.email?.toLowerCase() !== owner) return NextResponse.json({ error: 'Owner only' }, { status: 403 });
+  if (!isOwnerEmail(result.email)) return NextResponse.json({ error: 'Owner only' }, { status: 403 });
   return null;
+}
+
+// For routes that let every admin in but give the owner extra controls.
+export async function adminIdentity(req: NextRequest): Promise<NextResponse | { email: string; isOwner: boolean }> {
+  const result = await adminUser(req);
+  if (result instanceof NextResponse) return result;
+  return { email: result.email ?? '', isOwner: isOwnerEmail(result.email) };
+}
+
+function isOwnerEmail(email?: string) {
+  const owner = (process.env.OWNER_EMAIL ?? 'danoble4800@gmail.com').trim().toLowerCase();
+  return email?.toLowerCase() === owner;
 }
 
 async function adminUser(req: NextRequest): Promise<NextResponse | { email?: string }> {

@@ -9,6 +9,7 @@ import StepOnboarding1 from './StepOnboarding1';
 import StepOnboarding2 from './StepOnboarding2';
 import StepAccess from './StepAccess';
 import StepComplete from './StepComplete';
+import { CURRENT_AGREEMENT } from '@/lib/agreements';
 
 const STEPS = [
   { num: 1, label: 'Agreement' },
@@ -90,6 +91,8 @@ export default function OnboardingWizard() {
       for (const [k, v] of Object.entries(data)) {
         payload[k] = Array.isArray(v) ? v.join(', ') : String(v);
       }
+      // Which wording the client was shown, so the server stores and prints that exact text.
+      payload.agreementVersion = CURRENT_AGREEMENT.version;
       const res = await fetch('/api/onboarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

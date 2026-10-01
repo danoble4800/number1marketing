@@ -123,80 +123,41 @@ function Resources() {
             Where Submissions Go
           </h2>
           <p className="mt-1 text-brand-light1 text-sm">
-            Every completed onboarding writes to all four destinations simultaneously.
+            Every completed onboarding is saved to the Clients tab, and the signed agreement is emailed to the client and to you.
           </p>
         </div>
 
         <DataDestination
-          href={`${SHEET_URL}#gid=0`}
-          icon={
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M3 15h18M9 3v18" />
-            </svg>
-          }
-          title="Onboarding Tab — Google Sheet"
-          subtitle="Full form data, 60+ fields per client"
-          items={[
-            'Step 1 — Service Agreement: company, address, contact, email, signature, date',
-            'Step 2 — Point of Contact: name, title, phone, preferred channel, backup contact',
-            'Step 2 — Company: legal name, industry, revenue, business model, team size, one-sentence',
-            'Step 2 — Goals: 90-day goal, outcomes, bottleneck, success metric',
-            'Step 3 — Website: URL, traffic, CMS, hosting, domain registrar, top source, conversion rate',
-            'Step 3 — Competition: 3 competitors with names, URLs, threats, and weaknesses',
-            'Step 3 — Marketing Stack: all selected tools + any extras',
-            'Step 4 — Access Checklist: all platform checkboxes + notes',
-          ]}
-        />
-
-        <DataDestination
-          href={SHEET_URL}
-          icon={
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" />
-            </svg>
-          }
-          title="Signed Agreements Tab — Google Sheet"
-          subtitle="Formatted agreement record per client, with legal statement"
-          items={[
-            'Agreement number, date signed, submitted timestamp',
-            'Client company, address, contact, email, phone',
-            'Digital signature name + acceptance confirmation',
-            'ISO timestamp and legal binding statement',
-            '90-day goal summary',
-          ]}
-        />
-
-        <DataDestination
-          href={SHEET_URL}
+          href="?tab=clients"
           icon={
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
           }
-          title="Client Contacts Tab — Google Sheet"
-          subtitle="Quick-reference follow-up list — one row per client"
+          title="Clients Tab — Client Hub"
+          subtitle="One place per client, stored in Supabase"
+          badge="Supabase"
           items={[
-            'Date added, company name, contact name',
-            'Email, phone, website URL',
-            'Industry, HQ location',
+            'Every onboarding answer, grouped by step',
+            'Signed Service Agreement PDF with the full contract text and an audit-trail page',
+            'Agreement version, SHA-256 fingerprint of the text, signer IP, browser and timestamp',
+            'Countersign button (owner) — sends the fully executed PDF to both parties',
+            'Upload other contracts: proposals, statements of work, change orders',
           ]}
         />
 
         <DataDestination
-          href={DRIVE_URL}
+          href={SHEET_URL}
           icon={
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+              <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M3 15h18M9 3v18" />
             </svg>
           }
-          title="N1 Marketing — Signed Agreements — Google Drive"
-          subtitle="One Google Doc per client, auto-created on submission"
-          badge="Google Drive"
+          title="Google Sheet & Drive — Archive"
+          subtitle="Clients onboarded before the hub launched"
           items={[
-            'Formatted Google Doc with company letterhead styling',
-            'Client info, digital signature, ISO timestamp',
-            'Full legal binding statement',
-            'Named: "Service Agreement — [Company] — [Date]"',
+            'Onboarding, Signed Agreements and Client Contacts tabs (no longer written to)',
+            'Older signed agreement Google Docs live in the Drive folder',
           ]}
         />
       </div>
@@ -208,8 +169,8 @@ function Resources() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
-            { label: 'Google Sheet', desc: 'All submissions', href: SHEET_URL },
-            { label: 'Drive Folder', desc: 'Signed agreements', href: DRIVE_URL },
+            { label: 'Google Sheet', desc: 'Older submissions', href: SHEET_URL },
+            { label: 'Drive Folder', desc: 'Older signed agreements', href: DRIVE_URL },
             { label: 'Vercel', desc: 'Deployments & logs', href: 'https://vercel.com/dashboard' },
           ].map((link) => (
             <a
