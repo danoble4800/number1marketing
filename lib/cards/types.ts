@@ -91,6 +91,7 @@ export type CardRow = {
   label: string;
   claimed_at: string | null;
   created_at: string;
+  rep_id?: string | null; // the sales rep the card was given to
 };
 
 export type CardLead = {

@@ -40,6 +40,9 @@ create table if not exists public.cards (
   created_at timestamptz not null default now()
 );
 create index if not exists cards_page_idx on public.cards (page_id);
+-- The sales rep the card was given to; their /team Tap Cards tab shows it.
+alter table public.cards add column if not exists rep_id uuid references public.profiles (id) on delete set null;
+create index if not exists cards_rep_idx on public.cards (rep_id);
 
 -- Taps, views, clicks, contact saves, review taps.
 create table if not exists public.card_events (
@@ -346,8 +349,9 @@ end;
 $$;
 grant execute on function public.set_card_status(text, text) to authenticated;
 
--- Admin: mint a batch of card ids to write to chips.
-create or replace function public.create_cards(p_count int, p_label text default '', p_redirect text default null)
+-- Admin: mint a batch of card ids to write to chips, optionally given to a sales rep.
+drop function if exists public.create_cards(int, text, text);
+create or replace function public.create_cards(p_count int, p_label text default '', p_redirect text default null, p_rep uuid default null)
 returns setof text
 language plpgsql
 security definer
@@ -369,14 +373,14 @@ begin
       end loop;
       exit when not exists (select 1 from cards where id = v_id);
     end loop;
-    insert into cards (id, label, redirect_url) values (v_id, coalesce(p_label, ''), nullif(trim(p_redirect), ''));
+    insert into cards (id, label, redirect_url, rep_id) values (v_id, coalesce(p_label, ''), nullif(trim(p_redirect), ''), p_rep);
     return next v_id;
   end loop;
 end;
 $$;
-grant execute on function public.create_cards(int, text, text) to authenticated;
+grant execute on function public.create_cards(int, text, text, uuid) to authenticated;
 
--- Stats for the owner's dashboard.
+-- Stats for the owner's dashboard, and for the rep who sold a card on the page.
 create or replace function public.card_page_stats(p_page uuid, p_days int default 30)
 returns json
 language plpgsql
@@ -387,7 +391,9 @@ as $$
 declare
   v_since timestamptz := now() - make_interval(days => greatest(1, least(p_days, 365)));
 begin
-  if not (public.is_admin() or exists (select 1 from card_pages where id = p_page and owner_id = auth.uid())) then
+  if not (public.is_admin()
+    or exists (select 1 from card_pages where id = p_page and owner_id = auth.uid())
+    or exists (select 1 from cards where page_id = p_page and rep_id = auth.uid())) then
     raise exception 'not your page';
   end if;
   return json_build_object(
@@ -447,6 +453,63 @@ begin
 end;
 $$;
 grant execute on function public.admin_card_stats(int) to authenticated;
+
+-- A sales rep's Tap Cards tab: the cards given to them, the pages those cards are on,
+-- and tap counts. Safe columns only (no billing ids or lead email), no visitor details.
+-- An admin passes p_rep to see a rep's view.
+create or replace function public.rep_tap_cards(p_days int default 30, p_rep uuid default null)
+returns json
+language plpgsql
+stable
+security definer
+set search_path = public
+as $$
+declare
+  v_since timestamptz := now() - make_interval(days => greatest(1, least(p_days, 365)));
+  v_rep uuid;
+begin
+  if p_rep is not null and public.is_admin() then
+    v_rep := p_rep;
+  elsif exists (select 1 from profiles where id = auth.uid() and role = 'rep') then
+    v_rep := auth.uid();
+  else
+    raise exception 'team only';
+  end if;
+  return json_build_object(
+    'cards', (select coalesce(json_agg(json_build_object(
+        'id', id, 'page_id', page_id, 'status', status, 'label', label,
+        'claimed_at', claimed_at, 'created_at', created_at) order by created_at desc), '[]'::json)
+      from cards where rep_id = v_rep),
+    'pages', (select coalesce(json_agg(json_build_object(
+        'id', p.id, 'slug', p.slug, 'display_name', p.display_name, 'plan', p.plan,
+        'published', p.published, 'created_at', p.created_at, 'links', p.links, 'review', p.review)
+        order by p.created_at desc), '[]'::json)
+      from card_pages p where exists (select 1 from cards c where c.page_id = p.id and c.rep_id = v_rep)),
+    'stats', json_build_object(
+      'pages', (select coalesce(json_object_agg(page_id, json_build_object(
+          'taps', taps, 'views', views, 'taps_all', taps_all, 'last_tap', last_tap)), '{}'::json) from (
+        select page_id,
+               count(*) filter (where kind = 'tap' and created_at >= v_since) as taps,
+               count(*) filter (where kind = 'view' and created_at >= v_since) as views,
+               count(*) filter (where kind = 'tap') as taps_all,
+               max(created_at) filter (where kind = 'tap') as last_tap
+        from card_events
+        where page_id in (select page_id from cards where rep_id = v_rep and page_id is not null)
+        group by page_id) s),
+      'cards', (select coalesce(json_object_agg(card_id, json_build_object(
+          'taps', taps, 'taps_all', taps_all, 'last_tap', last_tap)), '{}'::json) from (
+        select card_id,
+               count(*) filter (where created_at >= v_since) as taps,
+               count(*) as taps_all,
+               max(created_at) as last_tap
+        from card_events
+        where kind = 'tap' and card_id in (select id from cards where rep_id = v_rep)
+        group by card_id) s)
+    )
+  );
+end;
+$$;
+grant execute on function public.rep_tap_cards(int, uuid) to authenticated;
 
 -- Photo uploads: public bucket, each user writes only inside their own folder.
 insert into storage.buckets (id, name, public)

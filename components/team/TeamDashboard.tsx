@@ -4,14 +4,17 @@ import { useEffect, useState } from 'react';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import Container from '@/components/Container';
 import LeadsCRM from '@/components/admin/LeadsCRM';
+import TapCardsTeam from '@/components/cards/TapCardsTeam';
 
 type Gate = 'checking' | 'signedOut' | 'rep' | 'admin';
+type Tab = 'leads' | 'cards';
+const TABS: [Tab, string][] = [['leads', 'Leads'], ['cards', 'Tap Cards']];
 
 const inputClass =
   'w-full bg-brand-dark2 border border-brand-dark2 text-brand-offwhite px-4 py-3 text-sm focus:outline-none focus:border-brand-light2 transition-colors';
 const labelClass = 'block text-xs uppercase tracking-widest text-brand-light1 mb-1.5';
 
-// /team: a sales rep's own leads. Same Supabase login as /admin and the Academy.
+// /team: a sales rep's own leads and tap cards. Same Supabase login as /admin.
 // Admins can open it too and pick a rep to see exactly what that rep sees.
 export default function TeamDashboard({ locale }: { locale: string }) {
   const [gate, setGate] = useState<Gate>('checking');
@@ -22,8 +25,20 @@ export default function TeamDashboard({ locale }: { locale: string }) {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
-  const [reps, setReps] = useState<string[]>([]);
-  const [viewAs, setViewAs] = useState('');
+  const [reps, setReps] = useState<{ id: string; name: string }[]>([]);
+  const [viewAs, setViewAs] = useState(''); // rep id, when an admin is looking
+  const [tab, setTabState] = useState<Tab>('leads');
+
+  // ?tab=cards opens Tap Cards directly.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('tab') === 'cards') setTabState('cards');
+  }, []);
+  const setTab = (t: Tab) => {
+    setTabState(t);
+    const url = new URL(window.location.href);
+    if (t === 'leads') url.searchParams.delete('tab'); else url.searchParams.set('tab', t);
+    window.history.replaceState(null, '', url);
+  };
 
   const enter = (role?: string) => {
     if (role === 'rep') setGate('rep');
@@ -37,19 +52,19 @@ export default function TeamDashboard({ locale }: { locale: string }) {
     return () => { cancelled = true; };
   }, []);
 
-  // Admins: load the list of reps to pick from.
+  // Admins: load the list of reps to pick from (admins can read every profile).
   useEffect(() => {
     if (gate !== 'admin') return;
-    (async () => {
-      const { data: { session } } = await getSupabase().auth.getSession();
-      if (!session) return;
-      const res = await fetch('/api/team/leads', { headers: { Authorization: `Bearer ${session.access_token}` } });
-      const json = res.ok ? await res.json() : {};
-      const list = (json.reps as string[]) ?? [];
+    getSupabase().from('profiles').select('*').eq('role', 'rep').then(({ data }) => {
+      const list = ((data ?? []) as { id: string; rep_name?: string; full_name?: string }[])
+        .map((p) => ({ id: p.id, name: (p.rep_name || p.full_name || '').split(',')[0].trim() }))
+        .filter((r) => r.name)
+        .sort((a, b) => a.name.localeCompare(b.name));
       setReps(list);
-      setViewAs((v) => v || list[0] || '');
-    })().catch(() => {});
+      setViewAs((v) => v || list[0]?.id || '');
+    });
   }, [gate]);
+  const viewing = reps.find((r) => r.id === viewAs);
 
   // Team sign-up is separate from the Academy's: only emails Dan has added to
   // team_invites can create an account, and those accounts are reps from the start.
@@ -136,9 +151,25 @@ export default function TeamDashboard({ locale }: { locale: string }) {
           <div className="flex items-center justify-between gap-4 h-14">
             <div className="flex items-center gap-3">
               <span className="font-display text-xl text-brand-white">N°1</span>
-              <span className="w-px h-4 bg-brand-dark2" />
-              <span className="text-[11px] uppercase tracking-widest text-brand-light1">Team</span>
+              <span className="hidden sm:block w-px h-4 bg-brand-dark2" />
+              <span className="hidden sm:inline text-[11px] uppercase tracking-widest text-brand-light1">Team</span>
             </div>
+            {(gate === 'rep' || gate === 'admin') && (
+              <nav className="flex gap-1 sm:gap-2" aria-label="Team sections">
+                {TABS.map(([id, label]) => (
+                  <button
+                    key={id}
+                    onClick={() => setTab(id)}
+                    aria-current={tab === id ? 'page' : undefined}
+                    className={`px-3 py-1.5 text-xs uppercase tracking-widest transition-colors ${
+                      tab === id ? 'bg-brand-dark2 text-brand-white' : 'text-brand-light1 hover:text-brand-white'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </nav>
+            )}
             {gate === 'rep' || gate === 'admin' ? (
               <div className="flex items-center gap-4">
                 {gate === 'admin' && (
@@ -248,7 +279,8 @@ export default function TeamDashboard({ locale }: { locale: string }) {
 
         {gate === 'rep' && (
           <div className="py-8">
-            <LeadsCRM team={{}} onSignedOut={() => setGate('signedOut')} />
+            {tab === 'leads' && <LeadsCRM team={{}} onSignedOut={() => setGate('signedOut')} />}
+            {tab === 'cards' && <TapCardsTeam />}
           </div>
         )}
 
@@ -269,12 +301,13 @@ export default function TeamDashboard({ locale }: { locale: string }) {
                     onChange={(e) => setViewAs(e.target.value)}
                     className="bg-brand-dark1 border border-brand-dark2 text-brand-offwhite px-3 py-2 text-sm"
                   >
-                    {reps.map((r) => <option key={r}>{r}</option>)}
+                    {reps.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}
                   </select>
                 </div>
               )}
             </div>
-            {viewAs && <LeadsCRM key={viewAs} team={{ rep: viewAs }} onSignedOut={() => setGate('signedOut')} />}
+            {viewing && tab === 'leads' && <LeadsCRM key={viewing.id} team={{ rep: viewing.name }} onSignedOut={() => setGate('signedOut')} />}
+            {viewing && tab === 'cards' && <TapCardsTeam key={viewing.id} repId={viewing.id} />}
           </div>
         )}
       </Container>

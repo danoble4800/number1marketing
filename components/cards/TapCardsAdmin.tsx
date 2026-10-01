@@ -36,16 +36,23 @@ export default function TapCardsAdmin() {
   const [statsError, setStatsError] = useState('');
   const [sort, setSort] = useState<SortKey>('taps');
   const [openPage, setOpenPage] = useState<CardPage | null>(null);
+  const [reps, setReps] = useState<{ id: string; name: string }[]>([]);
+  const [mintRep, setMintRep] = useState('');
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
   const load = useCallback(async () => {
     const supabase = getSupabase();
-    const [c, p] = await Promise.all([
+    const [c, p, r] = await Promise.all([
       supabase.from('cards').select('*').order('created_at', { ascending: false }).limit(1000),
       supabase.from('card_pages').select('id, slug, display_name, plan, published, created_at, stripe_subscription_id').order('created_at', { ascending: false }),
+      supabase.from('profiles').select('*').eq('role', 'rep'),
     ]);
     setCards((c.data as CardRow[]) ?? []);
     setPages((p.data as PageRow[]) ?? []);
+    // Sales reps, by the first name in rep_name ("Sergi, Sergy" → "Sergi").
+    setReps(((r.data ?? []) as { id: string; rep_name?: string; full_name?: string }[])
+      .map((x) => ({ id: x.id, name: (x.rep_name || x.full_name || '').split(',')[0].trim() || 'Rep' }))
+      .sort((a, b) => a.name.localeCompare(b.name)));
     const { data, error } = await supabase.rpc('admin_card_stats', { p_days: 30 });
     if (error) {
       // PGRST202: the function hasn't been added in Supabase yet
@@ -74,6 +81,7 @@ export default function TapCardsAdmin() {
       p_count: count,
       p_label: label,
       p_redirect: useRedirect ? redirect : null,
+      p_rep: mintRep || null,
     });
     if (error) { setMsg(error.message); return; }
     setFresh(data as string[]);
@@ -91,6 +99,14 @@ export default function TapCardsAdmin() {
     setMsg('');
     const { error } = await getSupabase().from('cards').update({ redirect_url: v.trim() || null }).eq('id', c.id);
     if (error) { setMsg(`Couldn’t update the redirect: ${error.message}`); return; }
+    load();
+  }
+
+  // Which sales rep a card belongs to; it then shows on their /team Tap Cards tab.
+  async function setCardRep(c: CardRow, repId: string) {
+    setMsg('');
+    const { error } = await getSupabase().from('cards').update({ rep_id: repId || null }).eq('id', c.id);
+    if (error) { setMsg(`Couldn’t change the rep: ${error.message}`); return; }
     load();
   }
 
@@ -181,6 +197,15 @@ export default function TapCardsAdmin() {
             Until claimed, send taps to
             <input className={`${inputCls} max-w-xs`} value={redirect} onChange={(e) => setRedirect(e.target.value)} disabled={!useRedirect} />
           </label>
+          {reps.length > 0 && (
+            <label className="mt-3 flex flex-wrap items-center gap-2 text-sm text-brand-light2">
+              Give these cards to
+              <select className={`${inputCls} max-w-[12rem]`} value={mintRep} onChange={(e) => setMintRep(e.target.value)}>
+                <option value="">No rep</option>
+                {reps.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}
+              </select>
+            </label>
+          )}
           {fresh.length > 0 && (
             <div className="mt-4 border border-brand-dark2 bg-brand-black p-4">
               <div className="mb-2 flex items-center justify-between">
@@ -205,9 +230,9 @@ export default function TapCardsAdmin() {
             </div>
           </header>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] text-sm">
+            <table className="w-full min-w-[820px] text-sm">
               <thead className="text-left text-[11px] uppercase tracking-widest text-brand-mid">
-                <tr><th className="px-5 py-2">Card</th><th className="py-2">Page</th><th className="py-2">Label</th><th className="py-2">Taps · 30d / all</th><th className="py-2">Unclaimed goes to</th><th className="px-5 py-2 text-right">Status</th></tr>
+                <tr><th className="px-5 py-2">Card</th><th className="py-2">Page</th><th className="py-2">Label</th><th className="py-2">Rep</th><th className="py-2">Taps · 30d / all</th><th className="py-2">Unclaimed goes to</th><th className="px-5 py-2 text-right">Status</th></tr>
               </thead>
               <tbody>
                 {shown.map((c) => {
@@ -217,6 +242,17 @@ export default function TapCardsAdmin() {
                       <td className="px-5 py-2.5 font-mono text-brand-white">{c.id}</td>
                       <td className="py-2.5">{p ? <a href={`/c/${p.slug}`} target="_blank" rel="noopener noreferrer" className="underline">{p.display_name || p.slug}</a> : <span className="text-brand-mid">Unclaimed</span>}</td>
                       <td className="py-2.5 text-brand-light1">{c.label}</td>
+                      <td className="py-2.5">
+                        <select
+                          value={c.rep_id ?? ''}
+                          onChange={(e) => setCardRep(c, e.target.value)}
+                          aria-label={`Rep for card ${c.id}`}
+                          className="border border-brand-dark2 bg-brand-black px-2 py-1 text-xs"
+                        >
+                          <option value="">—</option>
+                          {reps.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}
+                        </select>
+                      </td>
                       <td className="py-2.5 tabular-nums text-brand-light1">
                         {c.page_id ? <><span className="text-brand-white">{cardCounts(c.id).taps}</span> / {cardCounts(c.id).taps_all}</> : '—'}
                       </td>
@@ -237,7 +273,7 @@ export default function TapCardsAdmin() {
                     </tr>
                   );
                 })}
-                {shown.length === 0 && <tr><td colSpan={6} className="px-5 py-6 text-center text-brand-mid">No cards.</td></tr>}
+                {shown.length === 0 && <tr><td colSpan={7} className="px-5 py-6 text-center text-brand-mid">No cards.</td></tr>}
               </tbody>
             </table>
           </div>
