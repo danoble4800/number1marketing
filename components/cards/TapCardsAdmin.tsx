@@ -8,6 +8,7 @@ import type { CardPage, CardRow, Plan } from '@/lib/cards/types';
 import { PLAN_ORDER, PLANS } from '@/lib/cards/plans';
 import { inputCls } from '@/components/cards/editor/ui';
 import StatsTab from '@/components/cards/editor/StatsTab';
+import ChipUrl from '@/components/cards/ChipUrl';
 
 type PageRow = Pick<CardPage, 'id' | 'slug' | 'display_name' | 'plan' | 'published' | 'created_at' | 'stripe_subscription_id'>;
 
@@ -230,9 +231,9 @@ export default function TapCardsAdmin() {
             </div>
           </header>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[820px] text-sm">
+            <table className="w-full min-w-[1080px] text-sm">
               <thead className="text-left text-[11px] uppercase tracking-widest text-brand-mid">
-                <tr><th className="px-5 py-2">Card</th><th className="py-2">Page</th><th className="py-2">Label</th><th className="py-2">Rep</th><th className="py-2">Taps · 30d / all</th><th className="py-2">Unclaimed goes to</th><th className="px-5 py-2 text-right">Status</th></tr>
+                <tr><th className="px-5 py-2">Card</th><th className="py-2">Chip URL</th><th className="py-2">Page</th><th className="py-2">Label</th><th className="py-2">Rep</th><th className="py-2">Taps · 30d / all</th><th className="py-2">Unclaimed goes to</th><th className="px-5 py-2 text-right">Status</th></tr>
               </thead>
               <tbody>
                 {shown.map((c) => {
@@ -240,6 +241,7 @@ export default function TapCardsAdmin() {
                   return (
                     <tr key={c.id} className="border-t border-brand-dark2">
                       <td className="px-5 py-2.5 font-mono text-brand-white">{c.id}</td>
+                      <td className="py-2.5 pr-4"><ChipUrl id={c.id} /></td>
                       <td className="py-2.5">{p ? <a href={`/c/${p.slug}`} target="_blank" rel="noopener noreferrer" className="underline">{p.display_name || p.slug}</a> : <span className="text-brand-mid">Unclaimed</span>}</td>
                       <td className="py-2.5 text-brand-light1">{c.label}</td>
                       <td className="py-2.5">
@@ -273,7 +275,7 @@ export default function TapCardsAdmin() {
                     </tr>
                   );
                 })}
-                {shown.length === 0 && <tr><td colSpan={7} className="px-5 py-6 text-center text-brand-mid">No cards.</td></tr>}
+                {shown.length === 0 && <tr><td colSpan={8} className="px-5 py-6 text-center text-brand-mid">No cards.</td></tr>}
               </tbody>
             </table>
           </div>
