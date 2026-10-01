@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { createClient } from '@supabase/supabase-js';
+import { noStoreFetch } from '@/lib/noStoreFetch';
 import { Award, XCircle } from 'lucide-react';
 import VerifyLookupForm from '@/components/academy/VerifyLookupForm';
 
@@ -13,7 +14,7 @@ async function lookup(code: string): Promise<VerifiedCertificate | null> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !anonKey) return null;
-  const supabase = createClient(url, anonKey, { auth: { persistSession: false } });
+  const supabase = createClient(url, anonKey, { auth: { persistSession: false }, global: { fetch: noStoreFetch } });
   const { data } = await supabase.rpc('verify_certificate', { p_code: code });
   return (data as VerifiedCertificate[] | null)?.[0] ?? null;
 }

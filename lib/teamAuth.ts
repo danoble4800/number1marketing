@@ -1,5 +1,6 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
+import { noStoreFetch } from '@/lib/noStoreFetch';
 
 // Server-side check for /api/team routes. Like lib/adminAuth.ts, but lets in sales
 // reps (role 'rep') as well as admins. Reps only ever see their own leads; an admin
@@ -23,7 +24,7 @@ export async function teamMember(req: NextRequest): Promise<NextResponse | TeamM
   }
 
   const db = createClient(url, anonKey, {
-    global: { headers: { Authorization: `Bearer ${token}` } },
+    global: { headers: { Authorization: `Bearer ${token}` }, fetch: noStoreFetch },
     auth: { persistSession: false, autoRefreshToken: false },
   });
 

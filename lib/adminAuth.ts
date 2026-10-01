@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
+import { noStoreFetch } from '@/lib/noStoreFetch';
 
 // Server-side check for /api/admin routes. The browser sends the Supabase access
 // token from the Academy login; we confirm it with Supabase and then read the
@@ -43,7 +44,7 @@ async function adminUser(req: NextRequest): Promise<NextResponse | { email?: str
   }
 
   const supabase = createClient(url, anonKey, {
-    global: { headers: { Authorization: `Bearer ${token}` } },
+    global: { headers: { Authorization: `Bearer ${token}` }, fetch: noStoreFetch },
     auth: { persistSession: false, autoRefreshToken: false },
   });
 

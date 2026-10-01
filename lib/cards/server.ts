@@ -1,22 +1,25 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { PublicPage } from './types';
 import { getDemoPage } from './demo';
+import { noStoreFetch as noStore } from '@/lib/noStoreFetch';
 
 // Server-side clients for the tap-card pages. The anon client only reaches the
 // security-definer functions in supabase/cards.sql; the service client (Stripe
 // webhook, lead emails) needs SUPABASE_SERVICE_ROLE_KEY and bypasses RLS.
+// All of them skip Next's fetch cache, or saved page edits never reach /c/<slug>.
+
 export function anonClient(): SupabaseClient | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return null;
-  return createClient(url, key, { auth: { persistSession: false } });
+  return createClient(url, key, { auth: { persistSession: false }, global: { fetch: noStore } });
 }
 
 export function serviceClient(): SupabaseClient | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
-  return createClient(url, key, { auth: { persistSession: false } });
+  return createClient(url, key, { auth: { persistSession: false }, global: { fetch: noStore } });
 }
 
 // Client acting as the signed-in user, from the "Authorization: Bearer" header.
@@ -27,7 +30,7 @@ export function userClient(req: Request): SupabaseClient | null {
   if (!url || !key || !auth?.startsWith('Bearer ')) return null;
   return createClient(url, key, {
     auth: { persistSession: false },
-    global: { headers: { Authorization: auth } },
+    global: { headers: { Authorization: auth }, fetch: noStore },
   });
 }
 
