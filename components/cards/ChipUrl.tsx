@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import { Check, Copy } from 'lucide-react';
 
-// A card's permanent chip URL (what's written to the NFC chip) with a copy button.
-// Used in the Cards tables of Admin → Tap Cards and the team Tap Cards tab.
+// A card's ID, linked to its permanent chip URL (what's written to the NFC chip), with
+// a small button that copies the URL. Used in the Card column of Admin → Tap Cards and
+// the team Tap Cards tab.
 export default function ChipUrl({ id }: { id: string }) {
   const [origin, setOrigin] = useState('');
   const [copied, setCopied] = useState(false);
@@ -22,19 +23,18 @@ export default function ChipUrl({ id }: { id: string }) {
   };
 
   return (
-    <span className="inline-flex items-center gap-2 whitespace-nowrap">
-      <a href={url} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-brand-light2 hover:text-brand-white hover:underline">
-        {url.replace(/^https?:\/\//, '')}
+    <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+      <a href={url} target="_blank" rel="noopener noreferrer" title={url} className="font-mono text-brand-white hover:underline">
+        {id}
       </a>
       <button
         type="button"
         onClick={copy}
-        aria-label={`Copy link for card ${id}`}
-        className={`inline-flex items-center gap-1 border px-2 py-1 text-[10px] uppercase tracking-widest transition-colors ${
-          copied ? 'border-green-400/60 text-green-400' : 'border-brand-dark2 text-brand-light1 hover:border-brand-light1 hover:text-brand-white'
-        }`}
+        aria-label={`Copy chip URL for card ${id}`}
+        title={copied ? 'Copied' : `Copy ${url}`}
+        className={`p-1 transition-colors ${copied ? 'text-green-400' : 'text-brand-mid hover:text-brand-white'}`}
       >
-        {copied ? <Check size={11} /> : <Copy size={11} />} {copied ? 'Copied' : 'Copy'}
+        {copied ? <Check size={13} /> : <Copy size={13} />}
       </button>
     </span>
   );
