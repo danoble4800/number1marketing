@@ -18,6 +18,7 @@ export const PLANS: Record<
       '2 themes',
       'Total tap count',
       'Switch off a lost card',
+      'Google review button',
     ],
   },
   pro: {
@@ -32,7 +33,6 @@ export const PLANS: Record<
       'Full stats: taps, views and clicks per link',
       'Contact exchange: people share their info back',
       'New contacts emailed to you, CSV export',
-      'Google review button',
     ],
   },
   business: {
@@ -63,7 +63,7 @@ export const FEATURE_PLAN = {
   hideBadge: 'pro',
   fullStats: 'pro',
   leadCapture: 'pro',
-  reviewButton: 'pro',
+  reviewButton: 'free',
   reviewFunnel: 'business',
   special: 'business',
 } as const satisfies Record<string, Plan>;
