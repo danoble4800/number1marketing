@@ -1,14 +1,24 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Copy, Download, Power } from 'lucide-react';
+import { BarChart3, Copy, Download, Power } from 'lucide-react';
 import { getSupabase } from '@/lib/supabase';
 import type { CardPage, CardRow, Plan } from '@/lib/cards/types';
 import { PLAN_ORDER, PLANS } from '@/lib/cards/plans';
 import { inputCls } from '@/components/cards/editor/ui';
+import StatsTab from '@/components/cards/editor/StatsTab';
 
 type PageRow = Pick<CardPage, 'id' | 'slug' | 'display_name' | 'plan' | 'published' | 'created_at' | 'stripe_subscription_id'>;
+
+// From admin_card_stats(): counts for the last 30 days plus all time. No visitor details.
+type Counts = { taps: number; views?: number; taps_all: number; last_tap: string | null };
+type AdminStats = { pages: Record<string, Counts>; cards: Record<string, Counts> };
+type SortKey = 'created' | 'taps' | 'views' | 'taps_all' | 'last_tap';
+
+const NO_COUNTS: Counts = { taps: 0, views: 0, taps_all: 0, last_tap: null };
+const shortDate = (iso: string | null) =>
+  iso ? new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '—';
 
 // The Tap Cards section of the admin CRM (/[locale]/admin → Tap Cards tab).
 // AdminDashboard has already checked that the viewer is an admin; RLS enforces it too.
@@ -22,6 +32,10 @@ export default function TapCardsAdmin() {
   const [fresh, setFresh] = useState<string[]>([]);
   const [filter, setFilter] = useState<'all' | 'unclaimed' | 'claimed' | 'disabled'>('all');
   const [msg, setMsg] = useState('');
+  const [stats, setStats] = useState<AdminStats | null>(null);
+  const [statsError, setStatsError] = useState('');
+  const [sort, setSort] = useState<SortKey>('taps');
+  const [openPage, setOpenPage] = useState<CardPage | null>(null);
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
   const load = useCallback(async () => {
@@ -32,7 +46,24 @@ export default function TapCardsAdmin() {
     ]);
     setCards((c.data as CardRow[]) ?? []);
     setPages((p.data as PageRow[]) ?? []);
+    const { data, error } = await supabase.rpc('admin_card_stats', { p_days: 30 });
+    if (error) {
+      // PGRST202: the function hasn't been added in Supabase yet
+      setStatsError(error.code === 'PGRST202'
+        ? 'Tap stats need a one-time database update: run admin_card_stats from supabase/cards.sql in the Supabase SQL editor.'
+        : 'Couldn’t load tap stats.');
+    } else {
+      setStatsError('');
+      setStats(data as AdminStats);
+    }
   }, []);
+
+  // Full stats for one page, the same view its owner sees, with every section unlocked.
+  async function toggleStats(id: string) {
+    if (openPage?.id === id) { setOpenPage(null); return; }
+    const { data } = await getSupabase().from('card_pages').select('*').eq('id', id).single();
+    if (data) setOpenPage(data as CardPage);
+  }
 
   useEffect(() => { load(); }, [load]);
 
@@ -80,6 +111,25 @@ export default function TapCardsAdmin() {
   const shown = cards.filter((c) =>
     filter === 'all' ? true : filter === 'disabled' ? c.status === 'disabled' : filter === 'claimed' ? !!c.page_id : !c.page_id,
   );
+  const pageCounts = (id: string) => stats?.pages[id] ?? NO_COUNTS;
+  const cardCounts = (id: string) => stats?.cards[id] ?? NO_COUNTS;
+  const sortedPages = [...pages].sort((a, b) => {
+    if (sort === 'created') return b.created_at.localeCompare(a.created_at);
+    if (sort === 'last_tap') return (pageCounts(b.id).last_tap ?? '').localeCompare(pageCounts(a.id).last_tap ?? '');
+    return (pageCounts(b.id)[sort] ?? 0) - (pageCounts(a.id)[sort] ?? 0);
+  });
+  const taps30 = Object.values(stats?.pages ?? {}).reduce((n, c) => n + c.taps, 0);
+  const sortHeader = (key: SortKey, label: string, className = 'py-2') => (
+    <th className={className}>
+      <button
+        type="button"
+        onClick={() => setSort(key)}
+        className={`uppercase tracking-widest ${sort === key ? 'text-brand-white' : 'hover:text-brand-light2'}`}
+      >
+        {label}{sort === key ? ' ↓' : ''}
+      </button>
+    </th>
+  );
   const mrr = pages.reduce((n, p) => n + (p.plan === 'pro' ? 10 : p.plan === 'business' ? 30 : 0), 0);
 
   return (
@@ -94,8 +144,9 @@ export default function TapCardsAdmin() {
           </div>
         </header>
 
-        <div className="grid grid-cols-2 gap-px bg-brand-dark2 sm:grid-cols-5">
+        <div className="grid grid-cols-2 gap-px bg-brand-dark2 sm:grid-cols-3 lg:grid-cols-6">
           {[
+            ['Taps · 30 days', stats ? taps30 : '—'],
             ['Cards made', cards.length],
             ['Claimed', cards.filter((c) => c.page_id).length],
             ['Pages', pages.length],
@@ -149,9 +200,9 @@ export default function TapCardsAdmin() {
             </div>
           </header>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] text-sm">
+            <table className="w-full min-w-[720px] text-sm">
               <thead className="text-left text-[11px] uppercase tracking-widest text-brand-mid">
-                <tr><th className="px-5 py-2">Card</th><th className="py-2">Page</th><th className="py-2">Label</th><th className="py-2">Unclaimed goes to</th><th className="px-5 py-2 text-right">Status</th></tr>
+                <tr><th className="px-5 py-2">Card</th><th className="py-2">Page</th><th className="py-2">Label</th><th className="py-2">Taps · 30d / all</th><th className="py-2">Unclaimed goes to</th><th className="px-5 py-2 text-right">Status</th></tr>
               </thead>
               <tbody>
                 {shown.map((c) => {
@@ -161,6 +212,9 @@ export default function TapCardsAdmin() {
                       <td className="px-5 py-2.5 font-mono text-brand-white">{c.id}</td>
                       <td className="py-2.5">{p ? <a href={`/c/${p.slug}`} target="_blank" rel="noopener noreferrer" className="underline">{p.display_name || p.slug}</a> : <span className="text-brand-mid">Unclaimed</span>}</td>
                       <td className="py-2.5 text-brand-light1">{c.label}</td>
+                      <td className="py-2.5 tabular-nums text-brand-light1">
+                        {c.page_id ? <><span className="text-brand-white">{cardCounts(c.id).taps}</span> / {cardCounts(c.id).taps_all}</> : '—'}
+                      </td>
                       <td className="py-2.5">
                         {!c.page_id && (
                           <button type="button" onClick={() => setCardRedirect(c)} className="text-xs text-brand-light1 underline">{c.redirect_url || 'Claim screen'}</button>
@@ -178,7 +232,7 @@ export default function TapCardsAdmin() {
                     </tr>
                   );
                 })}
-                {shown.length === 0 && <tr><td colSpan={5} className="px-5 py-6 text-center text-brand-mid">No cards.</td></tr>}
+                {shown.length === 0 && <tr><td colSpan={6} className="px-5 py-6 text-center text-brand-mid">No cards.</td></tr>}
               </tbody>
             </table>
           </div>
@@ -186,28 +240,62 @@ export default function TapCardsAdmin() {
 
         <section className="border border-brand-dark2 bg-brand-dark1">
           <h2 className="border-b border-brand-dark2 px-5 py-4 text-sm font-semibold uppercase tracking-widest text-brand-white">Pages</h2>
+          {statsError && <p className="border-b border-brand-dark2 px-5 py-3 text-sm text-red-400">{statsError}</p>}
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[560px] text-sm">
+            <table className="w-full min-w-[900px] text-sm">
               <thead className="text-left text-[11px] uppercase tracking-widest text-brand-mid">
-                <tr><th className="px-5 py-2">Page</th><th className="py-2">Created</th><th className="py-2">Cards</th><th className="px-5 py-2 text-right">Plan</th></tr>
+                <tr>
+                  <th className="px-5 py-2">Page</th>
+                  {sortHeader('created', 'Created')}
+                  <th className="py-2">Cards</th>
+                  {sortHeader('taps', 'Taps · 30d')}
+                  {sortHeader('views', 'Views · 30d')}
+                  {sortHeader('taps_all', 'Taps · all')}
+                  {sortHeader('last_tap', 'Last tap')}
+                  <th className="py-2" />
+                  <th className="px-5 py-2 text-right">Plan</th>
+                </tr>
               </thead>
               <tbody>
-                {pages.map((p) => (
-                  <tr key={p.id} className="border-t border-brand-dark2">
-                    <td className="px-5 py-2.5">
-                      <a href={`/c/${p.slug}`} target="_blank" rel="noopener noreferrer" className="text-brand-white underline">{p.display_name || p.slug}</a>
-                      {!p.published && <span className="ml-2 text-xs text-brand-mid">hidden</span>}
-                    </td>
-                    <td className="py-2.5 text-brand-light1">{new Date(p.created_at).toLocaleDateString()}</td>
-                    <td className="py-2.5 text-brand-light1">{cards.filter((c) => c.page_id === p.id).length}</td>
-                    <td className="px-5 py-2.5 text-right">
-                      <select value={p.plan} onChange={(e) => setPlan(p, e.target.value as Plan)} className="border border-brand-dark2 bg-brand-black px-2 py-1 text-xs">
-                        {PLAN_ORDER.map((pl) => <option key={pl} value={pl}>{PLANS[pl].name}</option>)}
-                      </select>
-                    </td>
-                  </tr>
+                {sortedPages.map((p) => (
+                  <Fragment key={p.id}>
+                    <tr className="border-t border-brand-dark2">
+                      <td className="px-5 py-2.5">
+                        <a href={`/c/${p.slug}`} target="_blank" rel="noopener noreferrer" className="text-brand-white underline">{p.display_name || p.slug}</a>
+                        {!p.published && <span className="ml-2 text-xs text-brand-mid">hidden</span>}
+                      </td>
+                      <td className="py-2.5 text-brand-light1">{new Date(p.created_at).toLocaleDateString()}</td>
+                      <td className="py-2.5 text-brand-light1">{cards.filter((c) => c.page_id === p.id).length}</td>
+                      <td className="py-2.5 tabular-nums text-brand-white">{stats ? pageCounts(p.id).taps : '—'}</td>
+                      <td className="py-2.5 tabular-nums text-brand-light1">{stats ? pageCounts(p.id).views ?? 0 : '—'}</td>
+                      <td className="py-2.5 tabular-nums text-brand-light1">{stats ? pageCounts(p.id).taps_all : '—'}</td>
+                      <td className="py-2.5 text-brand-light1">{stats ? shortDate(pageCounts(p.id).last_tap) : '—'}</td>
+                      <td className="py-2.5">
+                        <button
+                          type="button"
+                          onClick={() => toggleStats(p.id)}
+                          aria-expanded={openPage?.id === p.id}
+                          className={`inline-flex items-center gap-1.5 text-xs uppercase tracking-widest ${openPage?.id === p.id ? 'text-brand-white' : 'text-brand-light1 hover:text-brand-white'}`}
+                        >
+                          <BarChart3 size={13} /> Stats
+                        </button>
+                      </td>
+                      <td className="px-5 py-2.5 text-right">
+                        <select value={p.plan} onChange={(e) => setPlan(p, e.target.value as Plan)} className="border border-brand-dark2 bg-brand-black px-2 py-1 text-xs">
+                          {PLAN_ORDER.map((pl) => <option key={pl} value={pl}>{PLANS[pl].name}</option>)}
+                        </select>
+                      </td>
+                    </tr>
+                    {openPage?.id === p.id && (
+                      <tr className="border-t border-brand-dark2 bg-brand-near-black">
+                        <td colSpan={9} className="px-5 py-5">
+                          <StatsTab page={openPage} demo={false} onUpgrade={() => {}} admin />
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
                 ))}
-                {pages.length === 0 && <tr><td colSpan={4} className="px-5 py-6 text-center text-brand-mid">No pages yet.</td></tr>}
+                {pages.length === 0 && <tr><td colSpan={9} className="px-5 py-6 text-center text-brand-mid">No pages yet.</td></tr>}
               </tbody>
             </table>
           </div>

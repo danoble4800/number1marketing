@@ -412,6 +412,40 @@ end;
 $$;
 grant execute on function public.card_page_stats(uuid, int) to authenticated;
 
+-- Tap and view counts for every page and card, for the admin Tap Cards tab.
+-- Counts only: no visitor contact details.
+create or replace function public.admin_card_stats(p_days int default 30)
+returns json
+language plpgsql
+stable
+security definer
+set search_path = public
+as $$
+declare
+  v_since timestamptz := now() - make_interval(days => greatest(1, least(p_days, 365)));
+begin
+  if not public.is_admin() then raise exception 'admins only'; end if;
+  return json_build_object(
+    'pages', (select coalesce(json_object_agg(page_id, json_build_object(
+        'taps', taps, 'views', views, 'taps_all', taps_all, 'last_tap', last_tap)), '{}'::json) from (
+      select page_id,
+             count(*) filter (where kind = 'tap' and created_at >= v_since) as taps,
+             count(*) filter (where kind = 'view' and created_at >= v_since) as views,
+             count(*) filter (where kind = 'tap') as taps_all,
+             max(created_at) filter (where kind = 'tap') as last_tap
+      from card_events group by page_id) p),
+    'cards', (select coalesce(json_object_agg(card_id, json_build_object(
+        'taps', taps, 'taps_all', taps_all, 'last_tap', last_tap)), '{}'::json) from (
+      select card_id,
+             count(*) filter (where created_at >= v_since) as taps,
+             count(*) as taps_all,
+             max(created_at) as last_tap
+      from card_events where kind = 'tap' and card_id is not null group by card_id) c)
+  );
+end;
+$$;
+grant execute on function public.admin_card_stats(int) to authenticated;
+
 -- Photo uploads: public bucket, each user writes only inside their own folder.
 insert into storage.buckets (id, name, public)
 values ('card-media', 'card-media', true)

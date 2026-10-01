@@ -9,9 +9,11 @@ import { LINK_TYPES } from '@/lib/cards/links';
 import { getSupabase } from '@/lib/supabase';
 import { Section } from './ui';
 
-type Props = { page: CardPage; demo: boolean; onUpgrade: () => void };
+// admin: opened from the admin Tap Cards tab, so every stat shows whatever the plan
+// and the audit pitch meant for the customer is left out.
+type Props = { page: CardPage; demo: boolean; onUpgrade: () => void; admin?: boolean };
 
-export default function StatsTab({ page, demo, onUpgrade }: Props) {
+export default function StatsTab({ page, demo, onUpgrade, admin = false }: Props) {
   const [stats, setStats] = useState<PageStats | null>(null);
   const [days, setDays] = useState(30);
   const [error, setError] = useState('');
@@ -27,7 +29,7 @@ export default function StatsTab({ page, demo, onUpgrade }: Props) {
       });
   }, [page, demo, days]);
 
-  const full = can(page.plan, 'fullStats');
+  const full = admin || can(page.plan, 'fullStats');
 
   if (error) return <p className="text-sm text-red-400">{error}</p>;
   if (!stats) return <p className="text-sm text-brand-light1">Loading stats…</p>;
@@ -79,7 +81,7 @@ export default function StatsTab({ page, demo, onUpgrade }: Props) {
         <LinkTable page={page} stats={stats} />
       </Section>
 
-      {can(page.plan, 'reviewFunnel') && page.review?.funnel && (
+      {(admin || can(page.plan, 'reviewFunnel')) && page.review?.funnel && (
         <Section title="Star ratings" hint="From the rating step on your page.">
           <div className="space-y-2">
             {[5, 4, 3, 2, 1].map((r) => {
@@ -99,22 +101,24 @@ export default function StatsTab({ page, demo, onUpgrade }: Props) {
         </Section>
       )}
 
-      <a
-        href={`/en/audit?utm_source=tapcard&utm_medium=dashboard&utm_campaign=${encodeURIComponent(page.slug)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group flex items-center justify-between gap-4 border border-brand-light1 bg-brand-white p-5 text-brand-black"
-      >
-        <span>
-          <span className="block text-sm font-semibold uppercase tracking-widest">
-            {n('tap') > 0 ? `${n('tap')} taps. How many became customers?` : 'Turn taps into customers'}
+      {!admin && (
+        <a
+          href={`/en/audit?utm_source=tapcard&utm_medium=dashboard&utm_campaign=${encodeURIComponent(page.slug)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center justify-between gap-4 border border-brand-light1 bg-brand-white p-5 text-brand-black"
+        >
+          <span>
+            <span className="block text-sm font-semibold uppercase tracking-widest">
+              {n('tap') > 0 ? `${n('tap')} taps. How many became customers?` : 'Turn taps into customers'}
+            </span>
+            <span className="mt-1 block text-sm text-brand-mid">
+              Book a free 30-minute audit. We’ll show you how to turn your card, reviews and website into more bookings.
+            </span>
           </span>
-          <span className="mt-1 block text-sm text-brand-mid">
-            Book a free 30-minute audit. We’ll show you how to turn your card, reviews and website into more bookings.
-          </span>
-        </span>
-        <ArrowRight className="shrink-0 transition-transform group-hover:translate-x-1" />
-      </a>
+          <ArrowRight className="shrink-0 transition-transform group-hover:translate-x-1" />
+        </a>
+      )}
     </div>
   );
 }
