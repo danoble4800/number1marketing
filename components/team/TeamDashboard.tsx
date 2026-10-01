@@ -15,6 +15,8 @@ const labelClass = 'block text-xs uppercase tracking-widest text-brand-light1 mb
 // Admins can open it too and pick a rep to see exactly what that rep sees.
 export default function TeamDashboard({ locale }: { locale: string }) {
   const [gate, setGate] = useState<Gate>('checking');
+  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -49,11 +51,43 @@ export default function TeamDashboard({ locale }: { locale: string }) {
     })().catch(() => {});
   }, [gate]);
 
+  // Team sign-up is separate from the Academy's: only emails Dan has added to
+  // team_invites can create an account, and those accounts are reps from the start.
+  const signUp = async () => {
+    const supabase = getSupabase();
+    const cleanEmail = email.trim().toLowerCase();
+    const { data: invited, error: inviteError } = await supabase.rpc('team_invite_open', { p_email: cleanEmail });
+    if (inviteError) return setError('Couldn’t check the team list. Try again.');
+    if (!invited) return setError('That email isn’t on the team list. Ask Dan to add you.');
+    const { data, error: signUpError } = await supabase.auth.signUp({
+      email: cleanEmail,
+      password,
+      options: { data: { full_name: name.trim() }, emailRedirectTo: `${window.location.origin}/${locale}/team` },
+    });
+    if (signUpError) return setError(signUpError.message);
+    // Supabase hides whether an email is taken: an existing address comes back with no identities.
+    if (data.user && data.user.identities?.length === 0) {
+      setMode('signin');
+      return setError('You already have an account. Sign in, or use Forgot password.');
+    }
+    setPassword('');
+    if (!data.session) {
+      setMode('signin');
+      return setMessage('Check your email and tap the link to confirm, then sign in here.');
+    }
+    enter((await getCurrentProfile())?.role);
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
     setError('');
     setMessage('');
+    if (mode === 'signup') {
+      await signUp();
+      setBusy(false);
+      return;
+    }
     const supabase = getSupabase();
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email: email.trim().toLowerCase(),
@@ -133,10 +167,29 @@ export default function TeamDashboard({ locale }: { locale: string }) {
             <div className="w-full max-w-sm flex flex-col gap-6">
               <div>
                 <p className="text-xs uppercase tracking-widest text-brand-mid mb-2">Sales Team</p>
-                <h1 className="font-display text-3xl text-brand-white uppercase tracking-tight">My Leads</h1>
-                <p className="mt-2 text-sm text-brand-light1">Sign in to see the leads you’ve logged.</p>
+                <h1 className="font-display text-3xl text-brand-white uppercase tracking-tight">
+                  {mode === 'signup' ? 'Create account' : 'My Leads'}
+                </h1>
+                <p className="mt-2 text-sm text-brand-light1">
+                  {mode === 'signup'
+                    ? 'For Number 1 sales team members. Use the email Dan added to the team.'
+                    : 'Sign in to see the leads you’ve logged.'}
+                </p>
               </div>
               <form onSubmit={submit} className="flex flex-col gap-4">
+                {mode === 'signup' && (
+                  <div>
+                    <label htmlFor="team-name" className={labelClass}>Full name</label>
+                    <input
+                      id="team-name"
+                      autoComplete="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                      className={inputClass}
+                    />
+                  </div>
+                )}
                 <div>
                   <label htmlFor="team-email" className={labelClass}>Email</label>
                   <input
@@ -155,7 +208,8 @@ export default function TeamDashboard({ locale }: { locale: string }) {
                   <input
                     id="team-password"
                     type="password"
-                    autoComplete="current-password"
+                    autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+                    minLength={mode === 'signup' ? 8 : undefined}
                     value={password}
                     onChange={(e) => { setPassword(e.target.value); setError(''); }}
                     required
@@ -169,11 +223,24 @@ export default function TeamDashboard({ locale }: { locale: string }) {
                   disabled={busy}
                   className="w-full bg-brand-white text-brand-black px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-brand-offwhite transition-colors disabled:opacity-50"
                 >
-                  {busy ? 'Signing in…' : 'Sign in'}
+                  {busy
+                    ? (mode === 'signup' ? 'Creating account…' : 'Signing in…')
+                    : (mode === 'signup' ? 'Create account' : 'Sign in')}
                 </button>
-                <button type="button" onClick={forgot} className="text-xs text-brand-light1 hover:text-brand-white underline underline-offset-4 self-start">
-                  Forgot password?
-                </button>
+                <div className="flex items-center justify-between gap-4 text-xs">
+                  <button
+                    type="button"
+                    onClick={() => { setMode(mode === 'signup' ? 'signin' : 'signup'); setError(''); setMessage(''); }}
+                    className="text-brand-light1 hover:text-brand-white underline underline-offset-4"
+                  >
+                    {mode === 'signup' ? 'Have an account? Sign in' : 'New to the team? Create account'}
+                  </button>
+                  {mode === 'signin' && (
+                    <button type="button" onClick={forgot} className="text-brand-light1 hover:text-brand-white underline underline-offset-4">
+                      Forgot password?
+                    </button>
+                  )}
+                </div>
               </form>
             </div>
           </div>

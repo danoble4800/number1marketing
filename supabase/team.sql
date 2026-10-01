@@ -42,7 +42,55 @@ end;
 $$;
 grant execute on function public.claim_card(text, uuid) to authenticated;
 
--- Then move each rep off admin, using the email they sign in with:
---   update public.profiles set role = 'rep', rep_name = 'Laquan Hazard' where email = '<laquan's email>';
---   update public.profiles set role = 'rep', rep_name = 'Sergi, Sergy'  where email = '<sergi's email>';
--- A rep with no account yet signs up at /en/academy/login first.
+-- Team sign-up (/team → Create account) is invite-only: an email listed here becomes a
+-- rep account when it signs up, and never an Academy student. Add a rep with:
+--   insert into public.team_invites (email, rep_name) values ('rep@example.com', 'First Last');
+create table if not exists public.team_invites (
+  email text primary key check (email = lower(email)),
+  rep_name text not null,
+  created_at timestamptz not null default now()
+);
+alter table public.team_invites enable row level security;
+drop policy if exists "admins read team invites" on public.team_invites;
+create policy "admins read team invites" on public.team_invites for select using (public.is_admin());
+
+-- Lets the sign-up form say "not on the team list" before creating an account.
+create or replace function public.team_invite_open(p_email text)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (select 1 from team_invites where email = lower(trim(p_email)));
+$$;
+grant execute on function public.team_invite_open(text) to anon, authenticated;
+
+-- New accounts: invited emails become reps, everyone else an Academy student.
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  invite record;
+begin
+  select * into invite from team_invites where email = lower(new.email);
+  insert into public.profiles (id, email, full_name, role, rep_name)
+  values (
+    new.id, new.email, coalesce(new.raw_user_meta_data ->> 'full_name', ''),
+    case when invite.email is not null then 'rep' else 'student' end,
+    coalesce(invite.rep_name, '')
+  )
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+
+-- Accounts that already existed before their invite: switch them over (this also takes
+-- away admin access).
+update public.profiles p
+set role = 'rep', rep_name = i.rep_name
+from public.team_invites i
+where lower(p.email) = i.email and p.role <> 'rep';

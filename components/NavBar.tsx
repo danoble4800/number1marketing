@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Menu, X, Lock, GraduationCap } from 'lucide-react';
+import { Menu, X, Lock, GraduationCap, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from './Button';
 import LocaleSwitcher from './LocaleSwitcher';
@@ -18,6 +18,8 @@ export default function NavBar({ locale }: NavBarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
+  const signInRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -27,7 +29,29 @@ export default function NavBar({ locale }: NavBarProps) {
 
   useEffect(() => {
     setMobileOpen(false);
+    setSignInOpen(false);
   }, [pathname]);
+
+  // Close the sign-in menu on an outside click or Escape.
+  useEffect(() => {
+    if (!signInOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (!signInRef.current?.contains(e.target as Node)) setSignInOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSignInOpen(false); };
+    document.addEventListener('mousedown', onClick);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onClick);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [signInOpen]);
+
+  // Team (sales reps) and Admin share one Sign in button in the header.
+  const signInLinks = [
+    { href: `/${locale}/team`, label: 'Team' },
+    { href: `/${locale}/admin`, label: 'Admin' },
+  ];
 
   const navLinks = [
     { href: `/${locale}`, label: t('home') },
@@ -76,17 +100,35 @@ export default function NavBar({ locale }: NavBarProps) {
             ))}
           </nav>
 
-          {/* Right: locale switcher + admin + CTA */}
+          {/* Right: locale switcher + sign in + CTA */}
           <div className="hidden lg:flex items-center gap-4">
             <LocaleSwitcher locale={locale} />
-            <Link
-              href={`/${locale}/admin`}
-              className="flex items-center gap-1.5 text-brand-mid hover:text-brand-light2 transition-colors"
-              title="Admin"
-            >
-              <Lock size={13} />
-              <span className="text-xs uppercase tracking-widest">Admin</span>
-            </Link>
+            <div ref={signInRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setSignInOpen(!signInOpen)}
+                aria-expanded={signInOpen}
+                aria-haspopup="true"
+                className="flex items-center gap-1.5 text-brand-mid hover:text-brand-light2 transition-colors"
+              >
+                <Lock size={13} />
+                <span className="text-xs uppercase tracking-widest">Sign in</span>
+                <ChevronDown size={12} className={`transition-transform ${signInOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {signInOpen && (
+                <div className="absolute right-0 top-full mt-3 w-40 border border-brand-dark2 bg-brand-near-black shadow-lg flex flex-col py-1">
+                  {signInLinks.map((l) => (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      className="px-4 py-2.5 text-xs uppercase tracking-widest text-brand-light1 hover:text-brand-white hover:bg-brand-dark1 transition-colors"
+                    >
+                      {l.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             <Button href={`/${locale}/contact`} variant="primary" className="text-xs">
               {t('bookCall')}
             </Button>
@@ -139,13 +181,15 @@ export default function NavBar({ locale }: NavBarProps) {
                 <Button href={`/${locale}/contact`} variant="primary" className="w-full text-xs">
                   {t('bookCall')}
                 </Button>
-                <Link
-                  href={`/${locale}/admin`}
-                  className="flex items-center justify-center gap-1.5 py-2 text-brand-mid hover:text-brand-light2 transition-colors"
-                >
-                  <Lock size={12} />
-                  <span className="text-xs uppercase tracking-widest">Admin Login</span>
-                </Link>
+                <div className="flex items-center justify-center gap-5 py-2 text-brand-mid">
+                  <Lock size={12} aria-hidden />
+                  <span className="text-xs uppercase tracking-widest">Sign in:</span>
+                  {signInLinks.map((l) => (
+                    <Link key={l.href} href={l.href} className="text-xs uppercase tracking-widest text-brand-light1 hover:text-brand-white transition-colors">
+                      {l.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </nav>
           </motion.div>

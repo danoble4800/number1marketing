@@ -119,15 +119,13 @@ export default function Footer({ locale }: FooterProps) {
             <p className="text-brand-mid text-xs">
               {t('builtWith')}
             </p>
-            <Link
-              href={`/${locale}/admin`}
-              className="flex items-center gap-1.5 text-brand-mid hover:text-brand-light2 transition-colors"
-            >
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="flex items-center gap-3 text-brand-mid">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
               </svg>
-              <span className="text-xs uppercase tracking-widest">Admin</span>
-            </Link>
+              <Link href={`/${locale}/team`} className="text-xs uppercase tracking-widest hover:text-brand-light2 transition-colors">Team</Link>
+              <Link href={`/${locale}/admin`} className="text-xs uppercase tracking-widest hover:text-brand-light2 transition-colors">Admin</Link>
+            </div>
           </div>
         </div>
       </Container>

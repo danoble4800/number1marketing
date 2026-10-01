@@ -102,6 +102,10 @@ function LoginInner({ locale }: { locale: string }) {
       router.push(`/${locale}/academy/admin`);
       return;
     }
+    if (profile?.role === 'rep') {
+      router.push(`/${locale}/team`);
+      return;
+    }
     router.push(`/${locale}/academy/dashboard`);
   }
 
