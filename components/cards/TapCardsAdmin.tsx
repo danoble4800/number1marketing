@@ -88,13 +88,17 @@ export default function TapCardsAdmin() {
   async function setCardRedirect(c: CardRow) {
     const v = prompt('Where should this card go until someone claims it? Leave blank for the claim screen.', c.redirect_url ?? '');
     if (v === null) return;
-    await getSupabase().from('cards').update({ redirect_url: v.trim() || null }).eq('id', c.id);
+    setMsg('');
+    const { error } = await getSupabase().from('cards').update({ redirect_url: v.trim() || null }).eq('id', c.id);
+    if (error) { setMsg(`Couldn’t update the redirect: ${error.message}`); return; }
     load();
   }
 
   async function setPlan(p: PageRow, plan: Plan) {
     if (p.stripe_subscription_id && !confirm('This page has a Stripe subscription. Stripe may change the plan back. Continue?')) return;
-    await getSupabase().from('card_pages').update({ plan }).eq('id', p.id);
+    setMsg('');
+    const { error } = await getSupabase().from('card_pages').update({ plan }).eq('id', p.id);
+    if (error) { setMsg(`Couldn’t change the plan: ${error.message}`); return; }
     load();
   }
 
@@ -144,6 +148,8 @@ export default function TapCardsAdmin() {
           </div>
         </header>
 
+        {msg && <p className="border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-400">{msg}</p>}
+
         <div className="grid grid-cols-2 gap-px bg-brand-dark2 sm:grid-cols-3 lg:grid-cols-6">
           {[
             ['Taps · 30 days', stats ? taps30 : '—'],
@@ -175,7 +181,6 @@ export default function TapCardsAdmin() {
             Until claimed, send taps to
             <input className={`${inputCls} max-w-xs`} value={redirect} onChange={(e) => setRedirect(e.target.value)} disabled={!useRedirect} />
           </label>
-          {msg && <p className="mt-3 text-sm text-red-400">{msg}</p>}
           {fresh.length > 0 && (
             <div className="mt-4 border border-brand-dark2 bg-brand-black p-4">
               <div className="mb-2 flex items-center justify-between">
