@@ -671,7 +671,7 @@ export default function LeadsCRM({ onSignedOut }: { onSignedOut: () => void }) {
         if (filter === 'open') return isOpen(l);
         return bucket(l.status) === filter;
       })
-      .filter((l) => !q || [l.name, l.business, l.email, l.phone, l.industry, l.location, l.notes].some((v) => v.toLowerCase().includes(q)))
+      .filter((l) => !q || [l.name, l.business, l.email, l.phone, l.industry, l.location, l.notes, l.origin].some((v) => v.toLowerCase().includes(q)))
       .sort((a, b) => {
         // Soonest follow-up first (overdue at the top), then newest.
         const fa = isOpen(a) && a.nextFollowUp ? a.nextFollowUp : '9999';

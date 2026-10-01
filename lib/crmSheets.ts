@@ -182,7 +182,7 @@ async function inPersonLeads(): Promise<Lead[]> {
     return [{
       key: `inperson:${row}`,
       source: 'inperson' as const,
-      origin: 'In person',
+      origin: cell(r, 1) ? `In person by ${cell(r, 1)}` : 'In person', // B is the sales rep who logged it
       row,
       check: cell(r, 0),
       submitted: cell(r, 0),
