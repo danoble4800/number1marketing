@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ChevronDown, TriangleAlert } from 'lucide-react';
+import { ChevronDown, Minus, Plus, TriangleAlert } from 'lucide-react';
 import Container from '@/components/Container';
 import { sameBusiness, showDate, smsHref, tidy } from '@/lib/crmFormat';
 import { FOLLOW_UP, OPEN_TO_AUDIT, PURCHASED, VISIT_RESULTS } from '@/lib/nfcLeadChoices';
@@ -16,6 +16,8 @@ type Gate = 'checking' | 'invalid' | 'open' | 'sent';
 
 const KEY_STORE = 'n1-nfc-form-key';
 const REP_STORE = 'n1-nfc-rep';
+const DRAFT_STORE = 'n1-nfc-draft';
+const TODAY_STORE = 'n1-nfc-today';
 
 const today = () => new Date().toLocaleDateString('en-CA');
 const blank = (rep = ''): Values => ({
@@ -37,6 +39,18 @@ function followUpText(v: Values) {
 // Storage can be missing or blocked (private tabs); the form works without it.
 const load = (k: string) => { try { return localStorage.getItem(k) ?? ''; } catch { return ''; } };
 const save = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* ignore */ } };
+const forget = (k: string) => { try { localStorage.removeItem(k); } catch { /* ignore */ } };
+
+// Visits logged on this phone today, shown as a running count at the top.
+const visitsToday = () => {
+  try {
+    const t = JSON.parse(load(TODAY_STORE) || '{}');
+    return t.date === today() ? Number(t.count) || 0 : 0;
+  } catch { return 0; }
+};
+
+// A visit is worth keeping as a draft once anything beyond the rep and date is filled in.
+const hasInput = (v: Values) => (Object.keys(v) as (keyof Values)[]).some((k) => k !== 'rep' && k !== 'date' && v[k]);
 
 const inputClass =
   'w-full bg-brand-dark1 border border-brand-dark2 text-brand-offwhite px-4 py-3 text-base focus:outline-none focus:border-brand-light2 transition-colors placeholder:text-brand-mid';
@@ -89,6 +103,31 @@ function Choice({ label, name, options, value, required, onChange }: {
   );
 }
 
+// Cards bought: big tap targets instead of typing a number at the counter.
+function CardCount({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const n = Math.max(1, parseInt(value, 10) || 1);
+  const btn = 'w-12 h-[46px] flex items-center justify-center bg-brand-dark1 border border-brand-dark2 text-brand-offwhite hover:border-brand-light1 disabled:opacity-40';
+  return (
+    <div className="flex items-center" role="group" aria-label="How many cards">
+      <button type="button" onClick={() => onChange(String(n - 1))} disabled={n <= 1} aria-label="One fewer card" className={btn}>
+        <Minus size={16} aria-hidden />
+      </button>
+      <input
+        id="nfc-cards"
+        inputMode="numeric"
+        aria-label="Number of cards"
+        value={value}
+        onChange={(e) => onChange(e.target.value.replace(/\D/g, '').slice(0, 3))}
+        onBlur={() => onChange(String(n))}
+        className="w-14 h-[46px] bg-brand-dark1 border-y border-brand-dark2 text-center text-lg font-semibold text-brand-offwhite tabular-nums focus:outline-none focus:border-brand-light2"
+      />
+      <button type="button" onClick={() => onChange(String(n + 1))} aria-label="One more card" className={btn}>
+        <Plus size={16} aria-hidden />
+      </button>
+    </div>
+  );
+}
+
 export default function NfcLeadForm() {
   const [gate, setGate] = useState<Gate>('checking');
   const [key, setKey] = useState('');
@@ -99,6 +138,8 @@ export default function NfcLeadForm() {
   const [known, setKnown] = useState<KnownBusiness[]>([]);
   const [last, setLast] = useState<Values | null>(null);
   const [message, setMessage] = useState('');
+  const [today_, setToday] = useState(0);
+  const [restored, setRestored] = useState(false);
 
   // The key arrives in the shared link and is remembered, so a Home Screen shortcut keeps working.
   useEffect(() => {
@@ -106,7 +147,17 @@ export default function NfcLeadForm() {
     const fromUrl = params.get('k') ?? '';
     const k = fromUrl || load(KEY_STORE);
     // The team dashboard's "Log a new lead" link fills in the rep's name.
-    setV(blank(params.get('rep')?.trim().slice(0, 80) || load(REP_STORE)));
+    const rep = params.get('rep')?.trim().slice(0, 80) || load(REP_STORE);
+    // A visit that wasn't saved (closed tab, no signal) comes back where it was left.
+    let draft: Values | null = null;
+    try { draft = JSON.parse(load(DRAFT_STORE) || 'null'); } catch { /* ignore */ }
+    if (draft && hasInput({ ...blank(), ...draft })) {
+      setV({ ...blank(rep), ...draft, rep: rep || draft.rep });
+      setRestored(true);
+    } else {
+      setV(blank(rep));
+    }
+    setToday(visitsToday());
     if (!k) { setGate('invalid'); return; }
     fetch(`/api/nfc-lead?k=${encodeURIComponent(k)}`)
       .then(async (res) => {
@@ -119,6 +170,11 @@ export default function NfcLeadForm() {
       })
       .catch(() => setGate('invalid'));
   }, []);
+
+  useEffect(() => {
+    if (gate !== 'open') return;
+    if (hasInput(v)) save(DRAFT_STORE, JSON.stringify(v)); else forget(DRAFT_STORE);
+  }, [gate, v]);
 
   const set = (field: keyof Values) => (value: string) => { setV((prev) => ({ ...prev, [field]: value })); setError(''); };
   const text = (field: keyof Values) => ({
@@ -152,6 +208,11 @@ export default function NfcLeadForm() {
         return;
       }
       save(REP_STORE, v.rep);
+      forget(DRAFT_STORE);
+      setRestored(false);
+      const count = visitsToday() + 1;
+      save(TODAY_STORE, JSON.stringify({ date: today(), count }));
+      setToday(count);
       setKnown((all) => [...all, { business: v.business, who: v.rep, date: v.date, status: v.result === 'Not interested' ? 'Not Interested' : 'New' }]);
       setLast(v);
       setMessage(followUpText(v));
@@ -160,7 +221,7 @@ export default function NfcLeadForm() {
       setGate('sent');
       window.scrollTo({ top: 0 });
     } catch {
-      setError('No connection. Check your signal and try again.');
+      setError('No connection. Your visit is kept on this phone; try again when you have signal.');
     } finally {
       setBusy(false);
     }
@@ -184,6 +245,12 @@ export default function NfcLeadForm() {
             <p className="mt-3 text-brand-light1 text-base leading-relaxed">
               The business name and how it went is all you need at the door. Add the rest from the car.
             </p>
+            {today_ > 0 && (
+              <p className="mt-4 text-xs uppercase tracking-widest text-brand-light1">
+                <span className="font-display text-xl text-brand-white tabular-nums align-middle mr-2">{today_}</span>
+                {today_ === 1 ? 'visit' : 'visits'} logged today
+              </p>
+            )}
           </div>
         </Container>
       </div>
@@ -240,6 +307,18 @@ export default function NfcLeadForm() {
 
           {gate === 'open' && (
             <form onSubmit={submit} className="flex flex-col gap-6">
+              {restored && (
+                <div className="-mb-2 flex items-center justify-between gap-3 border border-brand-dark2 px-4 py-3 text-sm text-brand-light1">
+                  <span>Picked up your unsaved visit.</span>
+                  <button
+                    type="button"
+                    onClick={() => { setV(blank(v.rep)); setRestored(false); setMore(false); }}
+                    className="text-xs uppercase tracking-widest text-brand-offwhite hover:underline"
+                  >
+                    Start over
+                  </button>
+                </div>
+              )}
               <Field id="nfc-business" label="Business Name" required>
                 <input {...text('business')} autoComplete="off" autoCapitalize="words" required />
               </Field>
@@ -258,7 +337,14 @@ export default function NfcLeadForm() {
                 </div>
               )}
 
-              <Choice label="How did it go?" name="result" options={VISIT_RESULTS} value={v.result} required onChange={set('result')} />
+              <Choice
+                label="How did it go?"
+                name="result"
+                options={VISIT_RESULTS}
+                value={v.result}
+                required
+                onChange={(result) => { setV((prev) => ({ ...prev, result, ...(result === 'Not interested' ? { purchased: '', cards: '' } : {}) })); setError(''); }}
+              />
 
               <Field id="nfc-owner" label="Owner / Contact Name">
                 <input {...text('owner')} autoComplete="off" autoCapitalize="words" />
@@ -267,11 +353,17 @@ export default function NfcLeadForm() {
                 <input {...text('phone')} type="tel" inputMode="tel" autoComplete="off" />
               </Field>
 
-              <Choice label="Bought NFC cards?" name="purchased" options={PURCHASED} value={v.purchased} onChange={set('purchased')} />
-              {v.purchased === 'Yes' && (
-                <Field id="nfc-cards" label="How many cards">
-                  <input {...text('cards')} inputMode="numeric" autoComplete="off" />
-                </Field>
+              {v.result !== 'Not interested' && (
+                <div className="flex flex-wrap items-end gap-x-4 gap-y-4">
+                  <Choice
+                    label="Bought NFC cards?"
+                    name="purchased"
+                    options={PURCHASED}
+                    value={v.purchased}
+                    onChange={(purchased) => setV((prev) => ({ ...prev, purchased, cards: purchased === 'Yes' ? prev.cards || '1' : '' }))}
+                  />
+                  {v.purchased === 'Yes' && <CardCount value={v.cards} onChange={set('cards')} />}
+                </div>
               )}
 
               <Field id="nfc-notes" label="Quick note">
@@ -316,7 +408,7 @@ export default function NfcLeadForm() {
                 <input {...text('rep')} autoComplete="name" required />
               </Field>
 
-              <div className="flex flex-col gap-3">
+              <div className="sticky bottom-0 -mx-4 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] bg-brand-near-black/95 backdrop-blur border-t border-brand-dark2 flex flex-col gap-3">
                 {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
                 <button
                   type="submit"
