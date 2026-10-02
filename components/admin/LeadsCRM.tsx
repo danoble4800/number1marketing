@@ -9,7 +9,7 @@ import type { Lead } from '@/lib/crmSheets';
 const PHONE = '781-985-0916';
 
 type Bucket = 'new' | 'contacted' | 'audit' | 'client' | 'closed';
-type Filter = 'due' | 'new' | 'open' | 'client' | 'contacted' | 'audit' | 'closed' | 'all';
+type Filter = 'due' | 'new' | 'open' | 'client' | 'mine' | 'contacted' | 'audit' | 'closed' | 'all';
 type Changes = Partial<Pick<Lead, 'status' | 'lastContacted' | 'contactedVia' | 'nextFollowUp' | 'notes'>>;
 type Save = (lead: Lead, changes: Changes, logEntry?: string) => Promise<boolean>;
 type Api = (method: 'GET' | 'PATCH' | 'POST', body?: unknown) => Promise<Record<string, unknown>>;
@@ -26,6 +26,8 @@ const BUCKETS: Record<string, Bucket> = {
 };
 const bucket = (status: string): Bucket => BUCKETS[status] ?? 'new';
 const isOpen = (l: Lead) => ['new', 'contacted', 'audit'].includes(bucket(l.status));
+// In-person leads Dan logged himself (rep column says "Dan", "Danny" or "Dan Noble").
+const isMine = (l: Lead) => /^dan(ny)?\b/i.test((l.rep ?? '').trim());
 
 // The four big counters double as the main filters; the rest live in the "More" menu.
 const TILES: [Filter, string][] = [
@@ -672,9 +674,10 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
   };
 
   const counts = useMemo(() => {
-    const c: Record<Filter, number> = { due: 0, open: 0, new: 0, contacted: 0, audit: 0, client: 0, closed: 0, all: leads.length };
+    const c: Record<Filter, number> = { due: 0, open: 0, new: 0, contacted: 0, audit: 0, client: 0, mine: 0, closed: 0, all: leads.length };
     for (const l of leads) {
       c[bucket(l.status)]++;
+      if (isMine(l)) c.mine++;
       if (isOpen(l)) c.open++;
       if (isDue(l)) c.due++;
     }
@@ -689,6 +692,7 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
         if (filter === 'all') return true;
         if (filter === 'due') return isDue(l);
         if (filter === 'open') return isOpen(l);
+        if (filter === 'mine') return isMine(l);
         return bucket(l.status) === filter;
       })
       .filter((l) => !q || [l.name, l.business, l.email, l.phone, l.industry, l.location, l.notes, l.origin].some((v) => v.toLowerCase().includes(q)))
@@ -701,7 +705,7 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
   }, [leads, filter, source, query]);
 
   // Clients and closed leads have no follow-up dates, so they're shown as one plain list.
-  const grouped = filter !== 'client' && filter !== 'closed';
+  const grouped = filter !== 'client' && filter !== 'closed' && filter !== 'mine';
   const sections = grouped
     ? GROUPS.map(([g, text, tone]) => ({ g, text, tone, items: visible.filter((l) => groupOf(l) === g) })).filter((s) => s.items.length)
     : [{ g: 'closed' as Group, text: '', tone: '', items: visible }];
@@ -764,14 +768,14 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
       )}
 
       {/* Counters = filters */}
-      <div className={`grid grid-cols-4 gap-px bg-brand-dark2 border border-brand-dark2 ${team ? 'sm:grid-cols-5' : ''}`} role="group" aria-label="Show">
-        {TILES.map(([f, text]) => (
+      <div className="grid grid-cols-4 sm:grid-cols-5 gap-px bg-brand-dark2 border border-brand-dark2" role="group" aria-label="Show">
+        {(team ? TILES : [...TILES, ['mine', 'By Dan'] as [Filter, string]]).map(([f, text]) => (
           <button
             key={f}
             type="button"
             aria-pressed={filter === f}
             onClick={() => setFilter(f)}
-            className={`text-left px-3 sm:px-4 py-3 sm:py-4 transition-colors ${
+            className={`text-left px-3 sm:px-4 py-3 sm:py-4 transition-colors ${f === 'mine' ? 'col-span-4 sm:col-span-1 ' : ''}${
               filter === f ? 'bg-brand-offwhite text-brand-black' : 'bg-brand-near-black hover:bg-brand-dark1'
             }`}
           >
