@@ -1,18 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { IN_PERSON_TAB, getSheets, nowInNewYork, safeCell, spreadsheetId } from '@/lib/crmSheets';
+import { IN_PERSON_TAB, getSheets, loadLeads, nowInNewYork, safeCell, spreadsheetId } from '@/lib/crmSheets';
 import { isNfcFormKey } from '@/lib/nfcLead';
-import { FOLLOW_UP, OPEN_TO_AUDIT, PURCHASED } from '@/lib/nfcLeadChoices';
+import { FOLLOW_UP, OPEN_TO_AUDIT, PURCHASED, VISIT_RESULTS } from '@/lib/nfcLeadChoices';
 
 export const dynamic = 'force-dynamic';
 
-// Lets the form check its link before anyone fills it out.
+export type KnownBusiness = { business: string; who: string; date: string; status: string };
+
+// Lets the form check its link before anyone fills it out, and sends the businesses
+// already on the lead lists so the form can warn about a repeat visit.
 export async function GET(req: NextRequest) {
-  const ok = isNfcFormKey(req.nextUrl.searchParams.get('k'));
-  return NextResponse.json({ ok }, { status: ok ? 200 : 403 });
+  if (!isNfcFormKey(req.nextUrl.searchParams.get('k'))) return NextResponse.json({ ok: false }, { status: 403 });
+
+  // A sheet that fails to load just means fewer warnings; the form still opens.
+  const known: KnownBusiness[] = await loadLeads()
+    .then(({ leads }) => leads.flatMap((l) => (l.business ? [{
+      business: l.business,
+      who: l.source === 'inperson' ? l.rep || 'In person' : l.origin,
+      date: l.submittedSort ? new Date(Math.round((l.submittedSort - 25569) * 86400000)).toISOString().slice(0, 10) : '',
+      status: l.status,
+    }] : [])))
+    .catch(() => []);
+  return NextResponse.json({ ok: true, known });
 }
 
-// Adds a row to the NFC tracker exactly as the Google Form would (columns A:O),
-// so the admin CRM picks it up as an in-person lead.
+// "2026-10-02" (+ days) → "10/2/2026", which Sheets stores as a real date
+function sheetDate(iso: string, plusDays = 0) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const t = new Date(Date.UTC(y, m - 1, d + plusDays));
+  return `${t.getUTCMonth() + 1}/${t.getUTCDate()}/${t.getUTCFullYear()}`;
+}
+
+// Adds a row to the NFC tracker: A:O in the Google Form's layout, plus the tracking
+// columns (P status, Q last contacted, R via, S next follow-up, U history) set from
+// the visit result, so the admin CRM picks it up as an in-person lead.
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>;
   try {
@@ -29,30 +50,41 @@ export async function POST(req: NextRequest) {
     rep: str('rep'), date: str('date', 10), owner: str('owner'), business: str('business'),
     industry: str('industry'), location: str('location', 300), phone: str('phone', 40), email: str('email'),
     purchased: str('purchased'), cards: str('cards'), audit: str('audit'), auditTime: str('auditTime'),
-    followUp: str('followUp'), notes: str('notes', 3000),
+    followUp: str('followUp'), notes: str('notes', 3000), result: str('result'),
   };
 
-  const dateMatch = f.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!f.rep || !dateMatch || !f.owner || !f.business || !f.location) {
-    return NextResponse.json({ error: 'Fill in every required field.' }, { status: 400 });
+  if (!f.rep || !/^\d{4}-\d{2}-\d{2}$/.test(f.date) || !f.business) {
+    return NextResponse.json({ error: 'Add your name and the business name.' }, { status: 400 });
   }
-  if (!PURCHASED.includes(f.purchased) || !OPEN_TO_AUDIT.includes(f.audit) || (f.followUp && !FOLLOW_UP.includes(f.followUp))) {
-    return NextResponse.json({ error: 'Pick an answer for every required question.' }, { status: 400 });
+  if (!VISIT_RESULTS.includes(f.result)) {
+    return NextResponse.json({ error: 'Pick how the visit went.' }, { status: 400 });
   }
-  // M/D/YYYY so Sheets stores a real date, like the form's date question does
-  const date = `${Number(dateMatch[2])}/${Number(dateMatch[3])}/${dateMatch[1]}`;
+  if ((f.purchased && !PURCHASED.includes(f.purchased)) || (f.audit && !OPEN_TO_AUDIT.includes(f.audit))
+    || (f.followUp && !FOLLOW_UP.includes(f.followUp))) {
+    return NextResponse.json({ error: 'Pick a listed answer for each question.' }, { status: 400 });
+  }
+
+  // Talked to owner: follow up in 2 days. Owner not in: stop back tomorrow. Not interested: closed.
+  const notInterested = f.result === 'Not interested';
+  const talked = f.result === 'Talked to owner';
+  const status = notInterested ? 'Not Interested' : 'New';
+  const nextFollowUp = notInterested ? '' : sheetDate(f.date, talked ? 2 : 1);
+  const followUp = f.followUp || (notInterested ? 'No' : 'Yes');
+  const history = `${f.date} · Visit by ${f.rep}: ${f.result.toLowerCase()}${f.purchased === 'Yes' ? ', bought NFC cards' : ''}`;
 
   try {
     await getSheets().spreadsheets.values.append({
       spreadsheetId: spreadsheetId('inperson'),
-      range: `'${IN_PERSON_TAB}'!A:O`,
+      range: `'${IN_PERSON_TAB}'!A:U`,
       valueInputOption: 'USER_ENTERED',
       insertDataOption: 'INSERT_ROWS',
       requestBody: {
         values: [[
-          nowInNewYork(), safeCell(f.rep), date, safeCell(f.owner), safeCell(f.business),
+          nowInNewYork(), safeCell(f.rep), sheetDate(f.date), safeCell(f.owner), safeCell(f.business),
           safeCell(f.industry), safeCell(f.location), safeCell(f.phone), safeCell(f.email),
-          f.purchased, safeCell(f.cards), f.audit, safeCell(f.auditTime), f.followUp, safeCell(f.notes),
+          f.purchased, safeCell(f.cards), f.audit, safeCell(f.auditTime), followUp, safeCell(f.notes),
+          status, talked || notInterested ? sheetDate(f.date) : '', talked || notInterested ? 'In person' : '',
+          nextFollowUp, '', safeCell(history),
         ]],
       },
     });

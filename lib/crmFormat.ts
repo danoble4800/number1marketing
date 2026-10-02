@@ -33,3 +33,39 @@ export function showDate(iso: string): string {
   const [y, m, d] = iso.split('-').map(Number);
   return new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' });
 }
+
+export function phoneForLink(phone: string) {
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
+  return digits ? `+${digits}` : '';
+}
+
+// Opens the phone's Messages app with the text filled in.
+export function smsHref(phone: string, body: string) {
+  const apple = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
+  return `sms:${phoneForLink(phone)}${apple ? '&' : '?'}body=${encodeURIComponent(body)}`;
+}
+
+// Business names as reps type them in a hurry: "Joe's Pizza LLC" and "joes pizza" are the same place.
+const BUSINESS_FILLER = new Set(['the', 'and', 'llc', 'inc', 'co', 'corp', 'company', 'ltd']);
+export function businessKey(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/['’`]/g, '')
+    .replace(/&/g, ' and ')
+    .split(/[^a-z0-9]+/)
+    .filter((w) => w && !BUSINESS_FILLER.has(w))
+    .join('');
+}
+
+// Also matches a shortened name ("Brancato" vs "Brancato Barbershop"), but only from the
+// start, so a plain "Barbershop" doesn't flag every barbershop.
+export function sameBusiness(a: string, b: string): boolean {
+  const x = businessKey(a);
+  const y = businessKey(b);
+  if (!x || !y) return false;
+  if (x === y) return true;
+  const [short, long] = x.length < y.length ? [x, y] : [y, x];
+  return short.length >= 5 && long.startsWith(short);
+}

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Mail, Phone, Plus, RefreshCw, X } from 'lucide-react';
 import { getSupabase } from '@/lib/supabase';
-import { showDate, showPhone, tidy } from '@/lib/crmFormat';
+import { phoneForLink, showDate, showPhone, smsHref, tidy } from '@/lib/crmFormat';
 import type { Lead } from '@/lib/crmSheets';
 
 const PHONE = '781-985-0916';
@@ -90,18 +90,6 @@ function groupOf(l: Lead): Group {
   if (l.nextFollowUp < t) return 'overdue';
   if (l.nextFollowUp === t) return 'today';
   return l.nextFollowUp <= addDays(t, 7) ? 'week' : 'later';
-}
-
-function phoneForLink(phone: string) {
-  const digits = phone.replace(/\D/g, '');
-  if (digits.length === 10) return `+1${digits}`;
-  if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
-  return digits ? `+${digits}` : '';
-}
-
-function smsHref(phone: string, body: string) {
-  const apple = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
-  return `sms:${phoneForLink(phone)}${apple ? '&' : '?'}body=${encodeURIComponent(body)}`;
 }
 
 type Template = { id: string; label: string; body: string };

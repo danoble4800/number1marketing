@@ -1,13 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { ChevronDown, TriangleAlert } from 'lucide-react';
 import Container from '@/components/Container';
-import { FOLLOW_UP, OPEN_TO_AUDIT, PURCHASED } from '@/lib/nfcLeadChoices';
+import { sameBusiness, showDate, smsHref, tidy } from '@/lib/crmFormat';
+import { FOLLOW_UP, OPEN_TO_AUDIT, PURCHASED, VISIT_RESULTS } from '@/lib/nfcLeadChoices';
+import type { KnownBusiness } from '@/app/api/nfc-lead/route';
 
 type Values = {
   rep: string; date: string; owner: string; business: string; industry: string; location: string;
   phone: string; email: string; purchased: string; cards: string; audit: string; auditTime: string;
-  followUp: string; notes: string;
+  followUp: string; notes: string; result: string;
 };
 type Gate = 'checking' | 'invalid' | 'open' | 'sent';
 
@@ -17,8 +20,19 @@ const REP_STORE = 'n1-nfc-rep';
 const today = () => new Date().toLocaleDateString('en-CA');
 const blank = (rep = ''): Values => ({
   rep, date: today(), owner: '', business: '', industry: '', location: '', phone: '', email: '',
-  purchased: '', cards: '', audit: '', auditTime: '', followUp: '', notes: '',
+  purchased: '', cards: '', audit: '', auditTime: '', followUp: '', notes: '', result: '',
 });
+
+// The text to send right after the visit, from the rep's own phone.
+function followUpText(v: Values) {
+  const me = v.rep.split(/\s+/)[0];
+  const first = tidy(v.owner.split(/\s+/)[0] ?? '');
+  const biz = tidy(v.business);
+  if (v.result === 'Owner not in') {
+    return `Hi${first ? ` ${first}` : ''}, it's ${me} from Number 1 Digital Marketing. I stopped by ${biz} today hoping to catch the owner. We help local businesses get found on Google and get more reviews. When's a good time to swing back by, or would a quick call work better?`;
+  }
+  return `Hi${first ? ` ${first}` : ''}, it's ${me} from Number 1 Digital Marketing. Great meeting you at ${biz} today!${v.purchased === 'Yes' ? ' Thanks for picking up the NFC cards.' : ''} Whenever you have 10 minutes, I'd love to do your free audit of your Google profile, reviews and website. What day works for you?`;
+}
 
 // Storage can be missing or blocked (private tabs); the form works without it.
 const load = (k: string) => { try { return localStorage.getItem(k) ?? ''; } catch { return ''; } };
@@ -81,7 +95,10 @@ export default function NfcLeadForm() {
   const [v, setV] = useState<Values>(blank());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const [lastBusiness, setLastBusiness] = useState('');
+  const [more, setMore] = useState(false);
+  const [known, setKnown] = useState<KnownBusiness[]>([]);
+  const [last, setLast] = useState<Values | null>(null);
+  const [message, setMessage] = useState('');
 
   // The key arrives in the shared link and is remembered, so a Home Screen shortcut keeps working.
   useEffect(() => {
@@ -92,8 +109,10 @@ export default function NfcLeadForm() {
     setV(blank(params.get('rep')?.trim().slice(0, 80) || load(REP_STORE)));
     if (!k) { setGate('invalid'); return; }
     fetch(`/api/nfc-lead?k=${encodeURIComponent(k)}`)
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) { setGate('invalid'); return; }
+        const data = await res.json().catch(() => ({}));
+        setKnown(Array.isArray(data.known) ? data.known : []);
         save(KEY_STORE, k);
         setKey(k);
         setGate('open');
@@ -109,8 +128,15 @@ export default function NfcLeadForm() {
     className: inputClass,
   });
 
+  // Someone may already have stopped here, or it came in from the website.
+  const repeats = useMemo(
+    () => (v.business.trim().length < 3 ? [] : known.filter((k) => sameBusiness(k.business, v.business))).slice(0, 3),
+    [known, v.business],
+  );
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!v.result) { setError('Pick how the visit went.'); return; }
     setBusy(true);
     setError('');
     try {
@@ -126,8 +152,11 @@ export default function NfcLeadForm() {
         return;
       }
       save(REP_STORE, v.rep);
-      setLastBusiness(v.business);
+      setKnown((all) => [...all, { business: v.business, who: v.rep, date: v.date, status: v.result === 'Not interested' ? 'Not Interested' : 'New' }]);
+      setLast(v);
+      setMessage(followUpText(v));
       setV(blank(v.rep));
+      setMore(false);
       setGate('sent');
       window.scrollTo({ top: 0 });
     } catch {
@@ -137,29 +166,30 @@ export default function NfcLeadForm() {
     }
   };
 
+  const canText = !!last?.phone && last.result !== 'Not interested';
+
   return (
     <div className="min-h-screen bg-brand-near-black">
-      <div className="border-b border-brand-dark2 bg-brand-black pt-[calc(env(safe-area-inset-top)+3rem)] pb-10">
+      <div className="border-b border-brand-dark2 bg-brand-black pt-[calc(env(safe-area-inset-top)+2rem)] pb-6">
         <Container>
           <div className="max-w-xl mx-auto">
-            <div className="flex items-center gap-3 mb-5">
+            <div className="flex items-center gap-3 mb-4">
               <span className="font-display text-xs text-brand-mid tracking-widest uppercase">N°1</span>
               <span className="w-px h-4 bg-brand-dark2" />
               <span className="text-xs text-brand-mid tracking-widest uppercase">Sales Team</span>
             </div>
             <h1 className="font-display text-4xl sm:text-5xl text-brand-white uppercase tracking-tight leading-none">
-              NFC Card Sales<br />Lead Intake
+              Log a visit
             </h1>
-            <p className="mt-4 text-brand-light1 text-base leading-relaxed">
-              Fill this out after speaking with a business owner about our NFC business cards. Complete every field you
-              can — it feeds the team&apos;s lead tracker.
+            <p className="mt-3 text-brand-light1 text-base leading-relaxed">
+              The business name and how it went is all you need at the door. Add the rest from the car.
             </p>
           </div>
         </Container>
       </div>
 
       <Container>
-        <div className="max-w-xl mx-auto py-10 pb-[calc(env(safe-area-inset-bottom)+4rem)]">
+        <div className="max-w-xl mx-auto py-8 pb-[calc(env(safe-area-inset-bottom)+4rem)]">
           {gate === 'checking' && <div className="min-h-[40vh]" />}
 
           {gate === 'invalid' && (
@@ -171,74 +201,120 @@ export default function NfcLeadForm() {
             </div>
           )}
 
-          {gate === 'sent' && (
+          {gate === 'sent' && last && (
             <div className="border border-brand-dark2 p-6 flex flex-col gap-5">
               <div className="flex items-center gap-3">
                 <div className="w-1 h-6 bg-brand-white" />
-                <h2 className="font-display text-2xl text-brand-white uppercase tracking-tight">Lead saved</h2>
+                <h2 className="font-display text-2xl text-brand-white uppercase tracking-tight">Visit saved</h2>
               </div>
               <p className="text-brand-light1">
-                {lastBusiness ? <><span className="text-brand-offwhite font-semibold">{lastBusiness}</span> is</> : 'It’s'} in the
-                lead tracker now.
+                <span className="text-brand-offwhite font-semibold">{tidy(last.business)}</span> is in the lead tracker
+                {last.result === 'Not interested' ? ' as not interested.' : last.result === 'Owner not in' ? ', with a reminder to stop back tomorrow.' : ', with a follow-up in 2 days.'}
               </p>
+              {canText && (
+                <div className="flex flex-col gap-3">
+                  <label htmlFor="nfc-message" className="block text-xs uppercase tracking-widest text-brand-light1">
+                    Text them while you&apos;re fresh in their mind
+                  </label>
+                  <textarea id="nfc-message" value={message} onChange={(e) => setMessage(e.target.value)} rows={6} className={inputClass} />
+                  <a
+                    href={smsHref(last.phone, message)}
+                    className="w-full text-center bg-brand-white text-brand-black px-6 py-4 text-sm font-semibold tracking-widest uppercase hover:bg-brand-offwhite transition-colors"
+                  >
+                    Text {tidy(last.owner.split(/\s+/)[0] || last.business)} now
+                  </a>
+                </div>
+              )}
               <button
                 onClick={() => setGate('open')}
-                className="w-full bg-brand-white text-brand-black px-6 py-4 text-sm font-semibold tracking-widest uppercase hover:bg-brand-offwhite transition-colors"
+                className={`w-full px-6 py-4 text-sm font-semibold tracking-widest uppercase transition-colors ${
+                  canText
+                    ? 'border border-brand-dark2 text-brand-offwhite hover:border-brand-light1'
+                    : 'bg-brand-white text-brand-black hover:bg-brand-offwhite'
+                }`}
               >
-                Log another lead
+                Log the next visit
               </button>
             </div>
           )}
 
           {gate === 'open' && (
-            <form onSubmit={submit} className="flex flex-col gap-10">
-              <section className="flex flex-col gap-5">
-                <h2 className="text-xs uppercase tracking-widest text-brand-mid border-b border-brand-dark2 pb-2">The visit</h2>
-                <Field id="nfc-rep" label="Sales Rep Name" required>
-                  <input {...text('rep')} autoComplete="name" required />
-                </Field>
-                <Field id="nfc-date" label="Date of Contact" required>
-                  <input {...text('date')} type="date" required className={`${inputClass} [color-scheme:dark]`} />
-                </Field>
-              </section>
+            <form onSubmit={submit} className="flex flex-col gap-6">
+              <Field id="nfc-business" label="Business Name" required>
+                <input {...text('business')} autoComplete="off" autoCapitalize="words" required />
+              </Field>
+              {repeats.length > 0 && (
+                <div role="status" className="-mt-3 border border-amber-300/40 bg-amber-300/10 px-4 py-3 text-sm flex gap-3">
+                  <TriangleAlert size={16} className="text-amber-300 flex-shrink-0 mt-0.5" aria-hidden />
+                  <div className="flex flex-col gap-1">
+                    <p className="text-amber-200 font-semibold">Already on the lead list</p>
+                    {repeats.map((k, i) => (
+                      <p key={i} className="text-brand-light2">
+                        {tidy(k.business)} · {k.who}{k.date && ` · ${showDate(k.date)}`} · {k.status}
+                      </p>
+                    ))}
+                    <p className="text-brand-light1">You can still save it if it&apos;s a different location.</p>
+                  </div>
+                </div>
+              )}
 
-              <section className="flex flex-col gap-5">
-                <h2 className="text-xs uppercase tracking-widest text-brand-mid border-b border-brand-dark2 pb-2">The business</h2>
-                <Field id="nfc-owner" label="Business Owner Name" required>
-                  <input {...text('owner')} autoComplete="off" required />
-                </Field>
-                <Field id="nfc-business" label="Business Name" required>
-                  <input {...text('business')} autoComplete="off" required />
-                </Field>
-                <Field id="nfc-industry" label="Business Type / Industry">
-                  <input {...text('industry')} autoComplete="off" />
-                </Field>
-                <Field id="nfc-location" label="Location (City/Address)" required>
-                  <input {...text('location')} autoComplete="off" required />
-                </Field>
-                <Field id="nfc-phone" label="Phone Number">
-                  <input {...text('phone')} type="tel" inputMode="tel" autoComplete="off" />
-                </Field>
-                <Field id="nfc-email" label="Email">
-                  <input {...text('email')} type="email" inputMode="email" autoComplete="off" autoCapitalize="none" />
-                </Field>
-              </section>
+              <Choice label="How did it go?" name="result" options={VISIT_RESULTS} value={v.result} required onChange={set('result')} />
 
-              <section className="flex flex-col gap-6">
-                <h2 className="text-xs uppercase tracking-widest text-brand-mid border-b border-brand-dark2 pb-2">Outcome</h2>
-                <Choice label="Did they purchase an NFC card?" name="purchased" options={PURCHASED} value={v.purchased} required onChange={set('purchased')} />
-                <Field id="nfc-cards" label="Number of Cards Purchased">
-                  <input {...text('cards')} autoComplete="off" />
+              <Field id="nfc-owner" label="Owner / Contact Name">
+                <input {...text('owner')} autoComplete="off" autoCapitalize="words" />
+              </Field>
+              <Field id="nfc-phone" label="Phone Number">
+                <input {...text('phone')} type="tel" inputMode="tel" autoComplete="off" />
+              </Field>
+
+              <Choice label="Bought NFC cards?" name="purchased" options={PURCHASED} value={v.purchased} onChange={set('purchased')} />
+              {v.purchased === 'Yes' && (
+                <Field id="nfc-cards" label="How many cards">
+                  <input {...text('cards')} inputMode="numeric" autoComplete="off" />
                 </Field>
-                <Choice label="Open to a free 10-minute audit?" name="audit" options={OPEN_TO_AUDIT} value={v.audit} required onChange={set('audit')} />
-                <Field id="nfc-auditTime" label="Preferred Date/Time for Audit (if applicable)">
-                  <input {...text('auditTime')} autoComplete="off" />
-                </Field>
-                <Choice label="Follow-Up Needed?" name="followUp" options={FOLLOW_UP} value={v.followUp} onChange={set('followUp')} />
-                <Field id="nfc-notes" label="Notes">
-                  <textarea {...text('notes')} rows={4} />
-                </Field>
-              </section>
+              )}
+
+              <Field id="nfc-notes" label="Quick note">
+                <textarea {...text('notes')} rows={2} />
+              </Field>
+
+              <button
+                type="button"
+                onClick={() => setMore(!more)}
+                aria-expanded={more}
+                className="flex items-center justify-between border-b border-brand-dark2 pb-2 text-xs uppercase tracking-widest text-brand-mid hover:text-brand-light1"
+              >
+                More details (optional)
+                <ChevronDown size={16} className={`transition-transform ${more ? 'rotate-180' : ''}`} aria-hidden />
+              </button>
+
+              {more && (
+                <div className="flex flex-col gap-5">
+                  <Field id="nfc-location" label="Location (street or city is fine)">
+                    <input {...text('location')} autoComplete="off" />
+                  </Field>
+                  <Field id="nfc-industry" label="Business Type / Industry">
+                    <input {...text('industry')} autoComplete="off" />
+                  </Field>
+                  <Field id="nfc-email" label="Email">
+                    <input {...text('email')} type="email" inputMode="email" autoComplete="off" autoCapitalize="none" />
+                  </Field>
+                  <Choice label="Open to a free 10-minute audit?" name="audit" options={OPEN_TO_AUDIT} value={v.audit} onChange={set('audit')} />
+                  {v.audit && v.audit !== 'No' && (
+                    <Field id="nfc-auditTime" label="Preferred Date/Time for Audit">
+                      <input {...text('auditTime')} autoComplete="off" />
+                    </Field>
+                  )}
+                  <Choice label="Follow-Up Needed?" name="followUp" options={FOLLOW_UP} value={v.followUp} onChange={set('followUp')} />
+                  <Field id="nfc-date" label="Date of Visit" required>
+                    <input {...text('date')} type="date" required className={`${inputClass} [color-scheme:dark]`} />
+                  </Field>
+                </div>
+              )}
+
+              <Field id="nfc-rep" label="Your Name" required>
+                <input {...text('rep')} autoComplete="name" required />
+              </Field>
 
               <div className="flex flex-col gap-3">
                 {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
@@ -247,9 +323,8 @@ export default function NfcLeadForm() {
                   disabled={busy}
                   className="w-full bg-brand-white text-brand-black px-6 py-4 text-sm font-semibold tracking-widest uppercase hover:bg-brand-offwhite transition-colors disabled:opacity-50"
                 >
-                  {busy ? 'Saving…' : 'Submit lead'}
+                  {busy ? 'Saving…' : 'Save visit'}
                 </button>
-                <p className="text-xs text-brand-mid text-center">* Required</p>
               </div>
             </form>
           )}
