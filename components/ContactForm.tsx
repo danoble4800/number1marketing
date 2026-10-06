@@ -292,7 +292,7 @@ export default function ContactForm({ showHeading = true, source = 'Contact Page
                 >
                   {checked && (
                     <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                      <path d="M1 4L3.5 6.5L9 1" stroke="#0E0E10" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M1 4L3.5 6.5L9 1" className="stroke-brand-near-black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   )}
                 </span>
@@ -318,7 +318,7 @@ export default function ContactForm({ showHeading = true, source = 'Contact Page
           >
             {form.consent && (
               <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                <path d="M1 4L3.5 6.5L9 1" stroke="#0E0E10" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M1 4L3.5 6.5L9 1" className="stroke-brand-near-black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             )}
           </span>

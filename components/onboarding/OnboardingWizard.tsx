@@ -146,7 +146,7 @@ export default function OnboardingWizard() {
               >
                 {step > s.num ? (
                   <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-                    <path d="M1 5L4.5 8.5L11 1" stroke="#0E0E10" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M1 5L4.5 8.5L11 1" className="stroke-brand-near-black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 ) : (
                   s.num

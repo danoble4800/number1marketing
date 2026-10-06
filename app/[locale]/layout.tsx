@@ -82,8 +82,14 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html data-site-theme="light" lang={locale} className={`${inter.variable} ${anton.variable}`}>
+    <html data-site-theme="light" suppressHydrationWarning lang={locale} className={`${inter.variable} ${anton.variable}`}>
       <body className="bg-brand-near-black text-brand-offwhite font-body antialiased">
+        {/* Apply a saved dark choice before first paint so the page doesn't flash light. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "try{if(localStorage.getItem('n1-site-theme')==='dark')document.documentElement.dataset.siteTheme='dark'}catch(e){}",
+          }}
+        />
         <NextIntlClientProvider messages={messages}>
           <SiteChrome><NavBar locale={locale} /></SiteChrome>
           <main>{children}</main>

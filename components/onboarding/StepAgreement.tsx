@@ -158,7 +158,7 @@ export default function StepAgreement({ data, errors, onChange }: Props) {
           >
             {data.agreedToTerms && (
               <svg width="11" height="9" viewBox="0 0 11 9" fill="none">
-                <path d="M1 4.5L4 7.5L10 1" stroke="#0E0E10" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M1 4.5L4 7.5L10 1" className="stroke-brand-near-black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             )}
           </span>

@@ -60,7 +60,7 @@ function MultiToggle({
             >
               {active && (
                 <svg width="9" height="7" viewBox="0 0 9 7" fill="none">
-                  <path d="M1 3.5L3 5.5L8 1" stroke="#0E0E10" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M1 3.5L3 5.5L8 1" className="stroke-brand-near-black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               )}
             </span>
