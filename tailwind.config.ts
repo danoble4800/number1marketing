@@ -9,15 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'brand-black': '#000000',
-        'brand-near-black': '#0E0E10',
-        'brand-dark1': '#1A1A1E',
-        'brand-dark2': '#2D2D32',
-        'brand-mid': '#5F5F64',
-        'brand-light1': '#8C8C91',
-        'brand-light2': '#B9B9BE',
-        'brand-offwhite': '#F5F5F6',
-        'brand-white': '#FFFFFF',
+        'brand-black': 'rgb(var(--brand-black) / <alpha-value>)',
+        'brand-near-black': 'rgb(var(--brand-near-black) / <alpha-value>)',
+        'brand-dark1': 'rgb(var(--brand-dark1) / <alpha-value>)',
+        'brand-dark2': 'rgb(var(--brand-dark2) / <alpha-value>)',
+        'brand-mid': 'rgb(var(--brand-mid) / <alpha-value>)',
+        'brand-light1': 'rgb(var(--brand-light1) / <alpha-value>)',
+        'brand-light2': 'rgb(var(--brand-light2) / <alpha-value>)',
+        'brand-offwhite': 'rgb(var(--brand-offwhite) / <alpha-value>)',
+        'brand-white': 'rgb(var(--brand-white) / <alpha-value>)',
         // Card editor: light by default, dark on request (values in globals.css).
         'ed-bg': 'rgb(var(--ed-bg) / <alpha-value>)',
         'ed-surface': 'rgb(var(--ed-surface) / <alpha-value>)',

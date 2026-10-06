@@ -82,7 +82,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${inter.variable} ${anton.variable}`}>
+    <html data-site-theme="light" lang={locale} className={`${inter.variable} ${anton.variable}`}>
       <body className="bg-brand-near-black text-brand-offwhite font-body antialiased">
         <NextIntlClientProvider messages={messages}>
           <SiteChrome><NavBar locale={locale} /></SiteChrome>

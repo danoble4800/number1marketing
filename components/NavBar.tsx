@@ -8,6 +8,7 @@ import { Menu, X, Lock, GraduationCap, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from './Button';
 import LocaleSwitcher from './LocaleSwitcher';
+import SiteThemeToggle from './SiteThemeToggle';
 
 interface NavBarProps {
   locale: string;
@@ -102,6 +103,7 @@ export default function NavBar({ locale }: NavBarProps) {
 
           {/* Right: locale switcher + sign in + CTA */}
           <div className="hidden lg:flex items-center gap-4">
+            <SiteThemeToggle />
             <LocaleSwitcher locale={locale} />
             <div ref={signInRef} className="relative">
               <button
@@ -136,6 +138,7 @@ export default function NavBar({ locale }: NavBarProps) {
 
           {/* Mobile: locale + hamburger */}
           <div className="flex lg:hidden items-center gap-3">
+            <SiteThemeToggle />
             <LocaleSwitcher locale={locale} />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}

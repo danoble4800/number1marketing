@@ -5,6 +5,30 @@
 :root {
   --background: #0E0E10;
   --foreground: #F5F5F6;
+  --brand-black: 0 0 0;
+  --brand-near-black: 14 14 16;
+  --brand-dark1: 26 26 30;
+  --brand-dark2: 45 45 50;
+  --brand-mid: 95 95 100;
+  --brand-light1: 140 140 145;
+  --brand-light2: 185 185 190;
+  --brand-offwhite: 245 245 246;
+  --brand-white: 255 255 255;
+}
+/* Light site: the grey scale flips, so "white" text becomes ink and "black" panels become paper. */
+[data-site-theme="light"] {
+  --background: #F3F3F0;
+  --foreground: #1C1C1F;
+  --brand-black: 255 255 255;
+  --brand-near-black: 243 243 240;
+  --brand-dark1: 255 255 255;
+  --brand-dark2: 228 228 223;
+  --brand-mid: 118 118 124;
+  --brand-light1: 94 94 100;
+  --brand-light2: 58 58 63;
+  --brand-offwhite: 28 28 31;
+  --brand-white: 20 20 22;
+  color-scheme: light;
 }
 
 * {
