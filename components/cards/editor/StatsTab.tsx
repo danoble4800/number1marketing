@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import type { CardPage, PageStats } from '@/lib/cards/types';
 import { can } from '@/lib/cards/plans';
 import { demoStats } from '@/lib/cards/demo';
-import { LINK_TYPES } from '@/lib/cards/links';
+import { linkNames } from '@/lib/cards/links';
 import { getSupabase } from '@/lib/supabase';
 import { Section } from './ui';
 
@@ -13,26 +13,43 @@ import { Section } from './ui';
 // and the audit pitch meant for the customer is left out.
 type Props = { page: CardPage; demo: boolean; onUpgrade: () => void; admin?: boolean };
 
-export default function StatsTab({ page, demo, onUpgrade, admin = false }: Props) {
+// Loads card_page_stats once per page / period (not on every keystroke in the editor).
+export function usePageStats(page: CardPage, demo: boolean, days: number) {
   const [stats, setStats] = useState<PageStats | null>(null);
-  const [days, setDays] = useState(30);
   const [error, setError] = useState('');
+  const latest = useRef(page);
+  latest.current = page;
 
   useEffect(() => {
-    if (demo) { setStats(demoStats(page)); return; }
+    if (demo) { setStats(demoStats(latest.current)); return; }
+    let live = true;
     setStats(null);
+    setError('');
     getSupabase()
       .rpc('card_page_stats', { p_page: page.id, p_days: days })
       .then(({ data, error: err }) => {
+        if (!live) return;
         if (err) setError('Couldn’t load stats.');
         else setStats(data as PageStats);
       });
-  }, [page, demo, days]);
+    return () => { live = false; };
+  }, [page.id, demo, days]);
+
+  return { stats, error };
+}
+
+export default function StatsTab({ page, demo, onUpgrade, admin = false }: Props) {
+  const [days, setDays] = useState(30);
+  const { stats: real, error } = usePageStats(page, demo, days);
+  const [sample, setSample] = useState(false);
 
   const full = admin || can(page.plan, 'fullStats');
 
   if (error) return <p className="text-sm text-red-400">{error}</p>;
-  if (!stats) return <p className="text-sm text-brand-light1">Loading stats…</p>;
+  if (!real) return <p className="text-sm text-brand-light1">Loading stats…</p>;
+
+  const empty = !demo && Object.values(real.all_time).every((v) => !v);
+  const stats = sample && empty ? demoStats(page) : real;
 
   const n = (k: string) => stats.totals[k] ?? 0;
   const tiles = [
@@ -45,6 +62,28 @@ export default function StatsTab({ page, demo, onUpgrade, admin = false }: Props
 
   return (
     <div className="space-y-5">
+      {full && !admin && empty && (
+        <div className="flex flex-wrap items-center justify-between gap-3 border border-brand-dark2 bg-brand-dark1 px-5 py-4 text-sm">
+          <span className="text-brand-light1">
+            {sample ? 'Showing sample data. These aren’t your real numbers.' : 'No taps yet. Your numbers show up here after the first tap.'}
+          </span>
+          <button
+            type="button"
+            onClick={() => setSample(!sample)}
+            className="border border-brand-mid px-3 py-1.5 text-xs uppercase tracking-widest text-brand-offwhite hover:border-brand-white"
+          >
+            {sample ? 'Hide sample' : 'Show sample data'}
+          </button>
+        </div>
+      )}
+
+      {full && (
+        <div className="flex items-start gap-3 border border-brand-dark2 bg-brand-dark1 px-5 py-4">
+          <Sparkles size={18} className="mt-0.5 shrink-0 text-brand-light1" />
+          <p className="text-base leading-relaxed text-brand-white">{insight(page, stats, days)}</p>
+        </div>
+      )}
+
       {!full && (
         <Section title="Your card so far">
           <p className="font-display text-6xl text-brand-white">{stats.all_time.tap ?? 0}</p>
@@ -123,17 +162,54 @@ export default function StatsTab({ page, demo, onUpgrade, admin = false }: Props
   );
 }
 
-// Single series (taps per day), one hue, hover tooltip on each bar.
-function DailyBars({ daily, days }: { daily: PageStats['daily']; days: number }) {
-  const [hover, setHover] = useState<number | null>(null);
+// One entry per day for the last `days` days, ending today (missing days are 0).
+function daySeries(daily: PageStats['daily'], days: number) {
   const byDay = new Map(daily.map((d) => [d.day, d]));
   const last = daily.length ? new Date(daily[daily.length - 1].day + 'T00:00:00Z') : new Date();
   const end = new Date(Math.max(last.getTime(), Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate())));
-  const series = Array.from({ length: days }, (_, i) => {
+  return Array.from({ length: days }, (_, i) => {
     const d = new Date(end.getTime() - (days - 1 - i) * 86400000).toISOString().slice(0, 10);
     const row = byDay.get(d);
     return { day: d, taps: row?.taps ?? 0, views: row?.views ?? 0 };
   });
+}
+
+// "37 taps this week, up 12% from last week. The most-clicked button is “Call button” (18 clicks)."
+function insight(page: CardPage, stats: PageStats, days: number) {
+  const series = daySeries(stats.daily, Math.max(days, 14));
+  const sum = (from: number, to: number, k: 'taps' | 'views') => series.slice(from, to).reduce((n, d) => n + d[k], 0);
+  const len = series.length;
+  const week = sum(len - 7, len, 'taps');
+  const prev = sum(len - 14, len - 7, 'taps');
+  const views = sum(len - 7, len, 'views');
+  const plural = (n: number, w: string) => `${n.toLocaleString()} ${w}${n === 1 ? '' : 's'}`;
+
+  let first: string;
+  if (week === 0 && prev === 0) {
+    first = views > 0
+      ? `No card taps this week, but ${views.toLocaleString()} ${views === 1 ? 'person' : 'people'} viewed your page.`
+      : 'No taps in the last two weeks. Hand out a card or put your QR code by the register.';
+  } else if (days < 14) {
+    first = `${plural(week, 'tap')} this week.`;
+  } else if (prev === 0) {
+    first = `${plural(week, 'tap')} this week, up from none the week before.`;
+  } else {
+    const pct = Math.round(((week - prev) / prev) * 100);
+    first = pct === 0
+      ? `${plural(week, 'tap')} this week, the same as last week.`
+      : `${plural(week, 'tap')} this week, ${pct > 0 ? 'up' : 'down'} ${Math.abs(pct)}% from last week.`;
+  }
+
+  const top = Object.entries(stats.links).sort((a, b) => b[1] - a[1])[0];
+  if (!top) return first;
+  const name = linkNames(page.links ?? [])[top[0]];
+  return name ? `${first} The most-clicked button is “${name}” (${plural(top[1], 'click')}).` : first;
+}
+
+// Single series (taps per day), one hue, hover tooltip on each bar.
+function DailyBars({ daily, days }: { daily: PageStats['daily']; days: number }) {
+  const [hover, setHover] = useState<number | null>(null);
+  const series = daySeries(daily, days);
   const max = Math.max(1, ...series.map((s) => s.taps));
   const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
 
@@ -179,13 +255,7 @@ function DailyBars({ daily, days }: { daily: PageStats['daily']; days: number })
 }
 
 function LinkTable({ page, stats }: { page: CardPage; stats: PageStats }) {
-  const named: Record<string, string> = {
-    'quick-call': 'Call button',
-    'quick-text': 'Text button',
-    'quick-email': 'Email button',
-    review: 'Google review',
-  };
-  page.links.forEach((l) => { named[l.id] = l.label || LINK_TYPES[l.type]?.name || l.type; });
+  const named = linkNames(page.links ?? []);
   const rows = Object.entries(stats.links).sort((a, b) => b[1] - a[1]);
   if (rows.length === 0) return <p className="text-sm text-brand-mid">No clicks yet.</p>;
   const max = rows[0][1];

@@ -1,6 +1,6 @@
 'use client';
 
-import { Lock } from 'lucide-react';
+import { Lock, X } from 'lucide-react';
 import type { Plan } from '@/lib/cards/types';
 import { PLANS } from '@/lib/cards/plans';
 
@@ -8,8 +8,10 @@ export const inputCls =
   'w-full border border-brand-dark2 bg-brand-black px-3.5 py-2.5 text-sm text-brand-offwhite placeholder:text-brand-mid focus:border-brand-light1 focus:outline-none disabled:opacity-50';
 
 export function Section({
-  title, hint, children, locked, onUpgrade, right,
+  id, title, hint, children, locked, onUpgrade, right,
 }: {
+  // Anchor for #hash deep links (/card/edit?tab=look#buttons).
+  id?: string;
   title: string;
   hint?: string;
   children: React.ReactNode;
@@ -18,7 +20,7 @@ export function Section({
   right?: React.ReactNode;
 }) {
   return (
-    <section className="border border-brand-dark2 bg-brand-dark1">
+    <section id={id} className="scroll-mt-32 border border-brand-dark2 bg-brand-dark1">
       <header className="flex items-start justify-between gap-3 border-b border-brand-dark2 px-5 py-4">
         <div>
           <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-brand-white">
@@ -59,10 +61,25 @@ export function PlanBadge({ plan }: { plan: Plan }) {
   );
 }
 
-export function Field({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) {
+export function Field({
+  label, children, hint, count,
+}: {
+  label: string;
+  children: React.ReactNode;
+  hint?: string;
+  // [current length, max] shows a "19/280" counter.
+  count?: [number, number];
+}) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-[11px] uppercase tracking-widest text-brand-mid">{label}</span>
+      <span className="mb-1.5 flex items-baseline justify-between gap-3 text-[11px] uppercase tracking-widest text-brand-mid">
+        {label}
+        {count && (
+          <span className={`normal-case tracking-normal tabular-nums ${count[0] >= count[1] ? 'text-amber-300' : ''}`}>
+            {count[0]}/{count[1]}
+          </span>
+        )}
+      </span>
       {children}
       {hint && <span className="mt-1 block text-xs text-brand-mid">{hint}</span>}
     </label>
@@ -98,4 +115,39 @@ export function Toggle({
       </button>
     </label>
   );
+}
+
+export type Undoable = {
+  text: string;
+  undo: () => void;
+  // Runs when the toast times out or is replaced (e.g. the real delete for contacts).
+  commit?: () => void;
+};
+
+export function UndoToast({ item, onUndo, onClose }: { item: Undoable; onUndo: () => void; onClose: () => void }) {
+  return (
+    <div
+      role="status"
+      className="fixed bottom-5 left-1/2 z-40 flex -translate-x-1/2 items-center gap-4 border border-brand-dark2 bg-brand-black px-4 py-3 text-sm text-brand-offwhite shadow-2xl"
+    >
+      <span>{item.text}</span>
+      <button type="button" onClick={onUndo} className="text-xs font-semibold uppercase tracking-widest text-brand-white underline">
+        Undo
+      </button>
+      <button type="button" aria-label="Dismiss" onClick={onClose} className="text-brand-mid hover:text-brand-white">
+        <X size={14} />
+      </button>
+    </div>
+  );
+}
+
+// Scrolls to a section or setting by id, puts it in the URL hash so the link can be shared,
+// and briefly outlines it so the eye lands in the right place.
+export function jumpTo(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (window.location.hash !== `#${id}`) history.replaceState(history.state, '', `#${id}`);
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  el.classList.add('ring-1', 'ring-brand-white');
+  setTimeout(() => el.classList.remove('ring-1', 'ring-brand-white'), 1400);
 }

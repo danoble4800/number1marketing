@@ -13,6 +13,9 @@ type Props = {
   page: PublicPage;
   // Editor preview: no tracking, no navigation, no network.
   preview?: boolean;
+  // Editor preview: what's being edited (a link id, or 'profile' | 'contact' | 'special' | 'review' | 'leads').
+  // Everything else dims so the owner can see where it lands.
+  focusId?: string | null;
 };
 
 function track(page: PublicPage, preview: boolean | undefined, body: Record<string, unknown>) {
@@ -25,12 +28,14 @@ function track(page: PublicPage, preview: boolean | undefined, body: Record<stri
   }
 }
 
-export default function CardView({ page, preview }: Props) {
+export default function CardView({ page, preview, focusId }: Props) {
   const t = cardStrings(page.lang);
   const theme = resolveTheme(page.theme ?? {}, page.plan);
   const [toast, setToast] = useState('');
 
-  const links = (page.links ?? []).filter((l) => l.enabled && l.url.trim());
+  const focusing = !!preview && !!focusId;
+  // A link being edited shows in the preview even before it has a URL.
+  const links = (page.links ?? []).filter((l) => (l.enabled && l.url.trim()) || (focusing && l.id === focusId));
   const buttons = links.filter((l) => !LINK_TYPES[l.type]?.social);
   const socials = links.filter((l) => LINK_TYPES[l.type]?.social);
   const c = page.contact ?? {};
@@ -38,6 +43,14 @@ export default function CardView({ page, preview }: Props) {
   const showFunnel = showReview && can(page.plan, 'reviewFunnel') && !!page.review?.funnel;
   const showSpecial = can(page.plan, 'special') && page.special?.enabled && page.special?.title;
   const showLeads = can(page.plan, 'leadCapture') && page.lead_capture;
+
+  const zone = (id: string) =>
+    !focusing
+      ? {}
+      : id === focusId
+        ? { 'data-preview-focus': true, style: { outline: `2px solid ${theme.accent}`, outlineOffset: 3, transition: 'opacity .2s' } }
+        : { style: { opacity: 0.25, transition: 'opacity .2s' } };
+  const zoneStyle = (id: string) => (zone(id) as { style?: React.CSSProperties }).style;
   const showBadge = !(can(page.plan, 'hideBadge') && page.hide_badge);
 
   const initials = page.display_name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '·';
@@ -100,7 +113,7 @@ export default function CardView({ page, preview }: Props) {
         )}
 
         <div className="px-5">
-          <div className={`flex flex-col items-center text-center ${page.cover_url ? '-mt-12' : 'mt-2'}`}>
+          <div {...zone('profile')} className={`flex flex-col items-center text-center ${page.cover_url ? '-mt-12' : 'mt-2'}`}>
             {page.avatar_url ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -132,7 +145,7 @@ export default function CardView({ page, preview }: Props) {
             {page.bio && <p className="mt-3 text-[15px] leading-relaxed">{page.bio}</p>}
           </div>
 
-          <div className="mt-6 space-y-3">
+          <div {...zone('contact')} className="mt-6 space-y-3">
             <a
               href={`/c/${page.slug}/vcard`}
               onClick={guard}
@@ -164,8 +177,9 @@ export default function CardView({ page, preview }: Props) {
 
           {showSpecial && (
             <div
+              {...zone('special')}
               className="mt-5 p-4"
-              style={{ border: `1.5px dashed ${theme.accent}`, borderRadius: boxRadius, background: theme.button }}
+              style={{ border: `1.5px dashed ${theme.accent}`, borderRadius: boxRadius, background: theme.button, ...zoneStyle('special') }}
             >
               <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: theme.accent }}>
                 <Tag size={16} /> {page.special.title}
@@ -185,7 +199,9 @@ export default function CardView({ page, preview }: Props) {
           )}
 
           {showReview && (
-            <ReviewBlock page={page} preview={preview} funnel={showFunnel} theme={theme} btnStyle={btnStyle} boxStyle={boxStyle} accentStyle={accentStyle} />
+            <div {...zone('review')}>
+              <ReviewBlock page={page} preview={preview} funnel={showFunnel} theme={theme} btnStyle={btnStyle} boxStyle={boxStyle} accentStyle={accentStyle} />
+            </div>
           )}
 
           {buttons.length > 0 && (
@@ -197,8 +213,9 @@ export default function CardView({ page, preview }: Props) {
                   target={['phone', 'sms', 'email'].includes(l.type) ? undefined : '_blank'}
                   rel="noopener noreferrer"
                   onClick={(e) => { guard(e); track(page, preview, { kind: 'click', link_id: l.id }); }}
+                  {...zone(l.id)}
                   className="relative flex w-full items-center justify-center px-12 py-3.5 text-[15px] font-medium transition-transform active:scale-[0.99]"
-                  style={btnStyle}
+                  style={{ ...btnStyle, ...zoneStyle(l.id) }}
                 >
                   <span className="absolute left-4 opacity-80"><LinkIcon type={l.type} /></span>
                   {l.label || LINK_TYPES[l.type]?.name}
@@ -217,8 +234,9 @@ export default function CardView({ page, preview }: Props) {
                   rel="noopener noreferrer"
                   aria-label={l.label || LINK_TYPES[l.type]?.name}
                   onClick={(e) => { guard(e); track(page, preview, { kind: 'click', link_id: l.id }); }}
+                  {...zone(l.id)}
                   className="flex h-11 w-11 items-center justify-center rounded-full"
-                  style={{ background: theme.button, border: `1px solid ${theme.border}`, color: theme.buttonText }}
+                  style={{ background: theme.button, border: `1px solid ${theme.border}`, color: theme.buttonText, ...zoneStyle(l.id) }}
                 >
                   <LinkIcon type={l.type} size={19} />
                 </a>
@@ -226,7 +244,11 @@ export default function CardView({ page, preview }: Props) {
             </div>
           )}
 
-          {showLeads && <LeadForm page={page} preview={preview} theme={theme} btnStyle={btnStyle} boxStyle={boxStyle} accentStyle={accentStyle} />}
+          {showLeads && (
+            <div {...zone('leads')}>
+              <LeadForm page={page} preview={preview} theme={theme} btnStyle={btnStyle} boxStyle={boxStyle} accentStyle={accentStyle} forceOpen={focusing && focusId === 'leads'} />
+            </div>
+          )}
 
           {showBadge && (
             <a
@@ -336,8 +358,8 @@ function ReviewBlock({ page, preview, funnel, theme, btnStyle, boxStyle, accentS
 }
 
 function LeadForm({
-  page, preview, theme, btnStyle, boxStyle, accentStyle, feedbackRating, inline,
-}: BlockProps & { feedbackRating?: number; inline?: boolean }) {
+  page, preview, theme, btnStyle, boxStyle, accentStyle, feedbackRating, inline, forceOpen,
+}: BlockProps & { feedbackRating?: number; inline?: boolean; forceOpen?: boolean }) {
   const t = cardStrings(page.lang);
   const [open, setOpen] = useState(!!inline);
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
@@ -375,7 +397,7 @@ function LeadForm({
     );
   }
 
-  if (!open) {
+  if (!open && !forceOpen) {
     return (
       <button
         type="button"

@@ -93,8 +93,10 @@ export function getDemoPage(slug: string) {
 }
 
 export function demoStats(page: CardPage): PageStats {
+  // Ends today so the chart and "this week" sentence have data.
+  const now = new Date();
   const daily = Array.from({ length: 30 }, (_, i) => {
-    const d = new Date(Date.UTC(2026, 8, 1 + i));
+    const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 29 + i));
     const wave = Math.round(6 + 5 * Math.sin(i / 3) + (i % 7 === 5 ? 6 : 0));
     return { day: d.toISOString().slice(0, 10), taps: wave, views: wave + 4 + (i % 4), clicks: Math.round(wave * 0.8) };
   });

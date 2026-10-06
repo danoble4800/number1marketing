@@ -49,3 +49,62 @@ export function linkHref(link: Pick<CardLink, 'type' | 'url'>): string {
 export function newLinkId() {
   return Math.random().toString(36).slice(2, 10);
 }
+
+// What a link row shows next to its click count: "calendly.com", "@joespizza", "(555) 123-4567".
+export function linkDomain(link: Pick<CardLink, 'type' | 'url'>): string {
+  const v = link.url.trim();
+  if (!v) return '';
+  if (['phone', 'sms', 'whatsapp', 'email'].includes(link.type)) return v.replace(/^mailto:/, '');
+  if (!/^https?:|\//.test(v) && v.startsWith('@')) return v;
+  if (link.type === 'maps' && !/^https?:|maps\.|goo\.gl/.test(v)) return v;
+  try {
+    return new URL(withScheme(v)).hostname.replace(/^www\./, '');
+  } catch {
+    return v;
+  }
+}
+
+// Client-side health check for a link row. Returns what to fix, or null if it looks fine.
+export function linkProblem(link: Pick<CardLink, 'type' | 'url'>): string | null {
+  const v = link.url.trim();
+  if (!v) return 'Empty, so it won’t show on your page.';
+  const isUrl = /^https?:\/\//i.test(v) || /\.[a-z]{2,}(\/|$)/i.test(v);
+  switch (link.type) {
+    case 'phone':
+    case 'sms':
+    case 'whatsapp':
+      return /^https?:/.test(v) || v.replace(/\D/g, '').length >= 10 ? null : 'Phone number looks too short.';
+    case 'email':
+      return /^(mailto:)?[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? null : 'That doesn’t look like an email address.';
+    case 'instagram':
+    case 'tiktok':
+    case 'x':
+      return isUrl || !/\s/.test(v) ? null : 'Handles can’t have spaces.';
+    case 'maps':
+      return null;
+    default:
+      if (/\s/.test(v)) return 'Web addresses can’t have spaces.';
+      return isUrl ? null : 'That doesn’t look like a web address.';
+  }
+}
+
+// The review button only works with a real Google review / Maps link.
+export function reviewUrlProblem(url: string | undefined): string | null {
+  const v = (url ?? '').trim();
+  if (!v) return null;
+  return /(g\.page|maps\.app\.goo\.gl|goo\.gl\/maps|google\.[a-z.]+\/maps|maps\.google\.|search\.google\.com|g\.co\/kgs)/i.test(v)
+    ? null
+    : 'This doesn’t look like a Google review link. Use the one from Google Business Profile → Ask for reviews.';
+}
+
+// Names for click stats, including the built-in buttons that aren't in page.links.
+export function linkNames(links: CardLink[]): Record<string, string> {
+  const named: Record<string, string> = {
+    'quick-call': 'Call button',
+    'quick-text': 'Text button',
+    'quick-email': 'Email button',
+    review: 'Google review',
+  };
+  links.forEach((l) => { named[l.id] = l.label || LINK_TYPES[l.type]?.name || l.type; });
+  return named;
+}

@@ -1,24 +1,68 @@
 'use client';
 
-import { Check, Lock } from 'lucide-react';
+import { Check, ChevronRight, Lock } from 'lucide-react';
 import type { CardPage, CardTheme } from '@/lib/cards/types';
 import { FONTS, SHAPES, THEMES } from '@/lib/cards/themes';
 import { can } from '@/lib/cards/plans';
-import { PlanBadge, Section, Toggle } from './ui';
+import { PlanBadge, Section, Toggle, jumpTo } from './ui';
 
 type Props = { page: CardPage; set: (patch: Partial<CardPage>) => void; onUpgrade: () => void };
 
 const ACCENTS = ['#FFFFFF', '#D4AF63', '#FF6B4A', '#E8467C', '#7C5CFF', '#2F80ED', '#5CE1E6', '#27AE60', '#C6FF3D', '#111111'];
+// Sub-settings are #hash targets too; the padding gives jumpTo's outline some room.
+const anchor = 'scroll-mt-32 -m-2 p-2';
 
 export default function LookTab({ page, set, onUpgrade }: Props) {
   const theme = page.theme ?? {};
   const setTheme = (patch: Partial<CardTheme>) => set({ theme: { ...theme, ...patch } });
   const allThemes = can(page.plan, 'allThemes');
   const custom = can(page.plan, 'customStyle');
+  const active = THEMES.find((t) => t.id === (theme.preset ?? 'midnight')) ?? THEMES[0];
+
+  // What each setting is right now, as the page actually renders it (Free ignores Style overrides).
+  const summary: { id: string; label: string; value: React.ReactNode; locked?: boolean }[] = [
+    { id: 'theme', label: 'Theme', value: active.name },
+    {
+      id: 'accent',
+      label: 'Accent color',
+      locked: !custom,
+      value: custom && theme.accent ? (
+        <span className="flex items-center gap-1.5">
+          <span className="h-3 w-3 rounded-full border border-brand-dark2" style={{ background: theme.accent }} />
+          {theme.accent.toUpperCase()}
+        </span>
+      ) : 'Theme default',
+    },
+    { id: 'shape', label: 'Buttons', locked: !custom, value: <span className="capitalize">{(custom && theme.shape) || 'rounded'}</span> },
+    { id: 'font', label: 'Font', locked: !custom, value: FONTS[(custom && theme.font) || 'inter'].name },
+    { id: 'branding', label: 'N°1 badge', value: page.hide_badge && can(page.plan, 'hideBadge') ? 'Hidden' : 'Shown' },
+  ];
 
   return (
     <div className="space-y-5">
-      <Section title="Theme" hint={allThemes ? undefined : 'Free pages get Midnight and Paper. Pro unlocks every theme.'}>
+      <Section title="Your look">
+        <div className="-my-2 grid sm:grid-cols-2 sm:gap-x-8">
+          {summary.map((r) => (
+            <button
+              key={r.id}
+              type="button"
+              onClick={() => jumpTo(r.id)}
+              className="group flex items-center justify-between gap-3 border-b border-brand-dark2 py-3 text-left text-sm"
+            >
+              <span className="flex items-center gap-1.5 text-brand-light1">
+                {r.label}
+                {r.locked && <Lock size={11} className="text-brand-mid" />}
+              </span>
+              <span className="flex min-w-0 items-center gap-1 text-brand-white">
+                <span className="truncate">{r.value}</span>
+                <ChevronRight size={15} className="shrink-0 text-brand-mid transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </button>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="theme" title="Theme" hint={allThemes ? undefined : 'Free pages get Midnight and Paper. Pro unlocks every theme.'}>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {THEMES.map((t) => {
             const locked = !t.free && !allThemes;
@@ -46,9 +90,9 @@ export default function LookTab({ page, set, onUpgrade }: Props) {
         </div>
       </Section>
 
-      <Section title="Style" locked={custom ? null : 'pro'} onUpgrade={onUpgrade}>
+      <Section id="style" title="Style" locked={custom ? null : 'pro'} onUpgrade={onUpgrade}>
         <div className="space-y-6">
-          <div>
+          <div id="accent" className={anchor}>
             <p className="mb-2 text-[11px] uppercase tracking-widest text-brand-mid">Accent color</p>
             <div className="flex flex-wrap items-center gap-2">
               <button
@@ -78,7 +122,7 @@ export default function LookTab({ page, set, onUpgrade }: Props) {
             </div>
           </div>
 
-          <div>
+          <div id="shape" className={anchor}>
             <p className="mb-2 text-[11px] uppercase tracking-widest text-brand-mid">Buttons</p>
             <div className="flex gap-2">
               {(Object.keys(SHAPES) as (keyof typeof SHAPES)[]).map((s) => (
@@ -95,7 +139,7 @@ export default function LookTab({ page, set, onUpgrade }: Props) {
             </div>
           </div>
 
-          <div>
+          <div id="font" className={anchor}>
             <p className="mb-2 text-[11px] uppercase tracking-widest text-brand-mid">Font</p>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {(Object.keys(FONTS) as (keyof typeof FONTS)[]).map((f) => (
@@ -114,7 +158,7 @@ export default function LookTab({ page, set, onUpgrade }: Props) {
         </div>
       </Section>
 
-      <Section title="Branding">
+      <Section id="branding" title="Branding">
         <div className="space-y-2">
           <Toggle
             label="Hide “Get your own tap card” badge"
