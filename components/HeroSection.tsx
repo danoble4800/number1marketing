@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import Button from './Button';
 import HeroWords from './HeroWords';
+import HeroCards, { HeroTicker, type HeroCardsCopy } from './HeroCards';
+import HeroBackdrop from './HeroBackdrop';
 
 interface HeroSectionProps {
   headline: string;
@@ -10,6 +12,7 @@ interface HeroSectionProps {
   subline: string;
   ctaPrimary: string;
   ctaSecondary: string;
+  cards: HeroCardsCopy;
   locale: string;
 }
 
@@ -19,6 +22,7 @@ export default function HeroSection({
   subline,
   ctaPrimary,
   ctaSecondary,
+  cards,
   locale,
 }: HeroSectionProps) {
   return (
@@ -33,8 +37,11 @@ export default function HeroSection({
       />
       {/* Radial gradient */}
       <div className="absolute inset-0 bg-gradient-radial from-brand-dark2/30 via-transparent to-transparent pointer-events-none" />
+      <HeroBackdrop />
+      <HeroCards copy={cards} />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 text-center pt-24 pb-16">
+        <HeroTicker copy={cards} />
         <HeroWords headline={headline} headlineAccent={headlineAccent} />
         <motion.p
           initial={{ opacity: 0, y: 16 }}

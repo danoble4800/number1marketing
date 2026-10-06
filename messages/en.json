@@ -56,7 +56,18 @@
       "headlineAccent": "OUTPERFORM YOUR COMPETITION",
       "subline": "Lead capture, instant follow-up, content, and conversion — connected into one system that grows your business while you sleep. Not just promises on a slide deck.",
       "ctaPrimary": "Book Your Free Digital Growth Audit",
-      "ctaSecondary": "See Our Work"
+      "ctaSecondary": "See Our Work",
+      "cards": {
+        "leadTitle": "New lead",
+        "leadBody": "Kitchen remodel quote",
+        "leadMeta": "Replied in 14 seconds",
+        "reviewTitle": "New Google review",
+        "reviewBody": "“Fast, friendly, and they actually called back.”",
+        "bookedTitle": "Call booked",
+        "bookedBody": "Thu · 10:30 AM",
+        "chartTitle": "Leads this month",
+        "chartMeta": "Trending up"
+      }
     },
     "trusted": {
       "label": "Trusted by growth-focused teams"

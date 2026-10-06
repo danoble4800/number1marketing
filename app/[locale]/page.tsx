@@ -74,6 +74,7 @@ export default async function HomePage({
         subline={t('hero.subline')}
         ctaPrimary={t('hero.ctaPrimary')}
         ctaSecondary={t('hero.ctaSecondary')}
+        cards={t.raw('hero.cards')}
         locale={locale}
       />
 

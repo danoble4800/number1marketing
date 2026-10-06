@@ -52,7 +52,18 @@
       "headlineAccent": "ÉCRASENT VOTRE CONCURRENCE",
       "subline": "Agents IA sur-mesure. Workflows automatisés. Des systèmes de croissance qui travaillent pendant que vous dormez — pas de promesses en PowerPoint.",
       "ctaPrimary": "Réserver Votre Appel Stratégique Gratuit",
-      "ctaSecondary": "Voir Nos Réalisations"
+      "ctaSecondary": "Voir Nos Réalisations",
+      "cards": {
+        "leadTitle": "Nouveau prospect",
+        "leadBody": "Devis rénovation de cuisine",
+        "leadMeta": "Réponse en 14 secondes",
+        "reviewTitle": "Nouvel avis Google",
+        "reviewBody": "« Rapides, sympathiques, et ils ont vraiment rappelé. »",
+        "bookedTitle": "Appel réservé",
+        "bookedBody": "Jeu · 10h30",
+        "chartTitle": "Prospects ce mois-ci",
+        "chartMeta": "En hausse"
+      }
     },
     "trusted": {
       "label": "Approuvé par les équipes axées sur la croissance"

@@ -57,7 +57,18 @@
       "headlineAccent": "SUPERAN A TU COMPETENCIA",
       "subline": "Captación de prospectos, seguimiento inmediato, contenido y conversión — conectados en un solo sistema que hace crecer tu negocio mientras duermes. No solo promesas en diapositivas.",
       "ctaPrimary": "Agenda Tu Auditoría de Crecimiento Digital Gratis",
-      "ctaSecondary": "Ver Nuestro Trabajo"
+      "ctaSecondary": "Ver Nuestro Trabajo",
+      "cards": {
+        "leadTitle": "Nuevo prospecto",
+        "leadBody": "Cotización de remodelación de cocina",
+        "leadMeta": "Respondido en 14 segundos",
+        "reviewTitle": "Nueva reseña en Google",
+        "reviewBody": "“Rápidos, amables y de verdad devolvieron la llamada.”",
+        "bookedTitle": "Llamada agendada",
+        "bookedBody": "Jue · 10:30 AM",
+        "chartTitle": "Prospectos este mes",
+        "chartMeta": "En aumento"
+      }
     },
     "trusted": {
       "label": "Confiado por equipos enfocados en el crecimiento"
