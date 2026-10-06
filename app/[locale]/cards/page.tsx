@@ -47,7 +47,8 @@ export default async function CardsPage({ params }: { params: Promise<{ locale: 
               <h1 className="font-display text-5xl uppercase leading-[0.95] tracking-tight text-brand-white sm:text-6xl lg:text-7xl">
                 One tap. <span className="text-brand-light2">Your whole business.</span>
               </h1>
-              <p className="mt-6 max-w-xl text-lg text-brand-light1">
+              <p className="mt-5 text-xl font-semibold text-brand-white sm:text-2xl">For owners, sellers, creators, and networkers.</p>
+              <p className="mt-4 max-w-xl text-lg text-brand-light1">
                 A card that opens a page you design yourself: contact info, links, reviews, specials. Hand it out once and update it
                 forever. Every card comes with a free page.
               </p>
