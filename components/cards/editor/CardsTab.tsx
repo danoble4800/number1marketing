@@ -63,18 +63,18 @@ export default function CardsTab({ page, demo }: Props) {
     <div className="space-y-5">
       <Section title="Your cards" hint="Every card linked to this page. Lost one? Switch it off.">
         {!cards ? (
-          <p className="text-sm text-brand-light1">Loading…</p>
+          <p className="text-sm text-ed-muted">Loading…</p>
         ) : cards.length === 0 ? (
-          <p className="text-sm text-brand-mid">No cards linked yet. Tap a new card with your phone to claim it, or enter its code below.</p>
+          <p className="text-sm text-ed-faint">No cards linked yet. Tap a new card with your phone to claim it, or enter its code below.</p>
         ) : (
-          <ul className="divide-y divide-brand-dark2">
+          <ul className="divide-y divide-ed-line">
             {cards.map((c) => (
               <li key={c.id} className="flex items-center justify-between gap-3 py-3">
                 <div className="flex items-center gap-3">
-                  <Nfc size={18} className={c.status === 'active' ? 'text-brand-white' : 'text-brand-mid'} />
+                  <Nfc size={18} className={c.status === 'active' ? 'text-ed-ink' : 'text-ed-faint'} />
                   <div>
-                    <p className="font-mono text-sm text-brand-white">{c.id}</p>
-                    <p className="text-xs text-brand-light1">
+                    <p className="font-mono text-sm text-ed-ink">{c.id}</p>
+                    <p className="text-xs text-ed-muted">
                       {c.status === 'active' ? 'Active' : 'Switched off'}
                       {c.label && ` · ${c.label}`}
                     </p>
@@ -83,7 +83,7 @@ export default function CardsTab({ page, demo }: Props) {
                 <button
                   type="button"
                   onClick={() => toggle(c)}
-                  className={`flex items-center gap-1.5 border px-3 py-1.5 text-xs uppercase tracking-wider ${c.status === 'active' ? 'border-brand-dark2 text-brand-light1 hover:border-red-400 hover:text-red-400' : 'border-brand-white text-brand-white'}`}
+                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs ${c.status === 'active' ? 'border-ed-line text-ed-muted hover:border-red-400 hover:text-ed-err' : 'border-ed-ink text-ed-ink'}`}
                 >
                   <Power size={13} /> {c.status === 'active' ? 'Switch off' : 'Turn on'}
                 </button>
@@ -93,9 +93,9 @@ export default function CardsTab({ page, demo }: Props) {
         )}
         <form onSubmit={link} className="mt-5 flex gap-2">
           <input className={inputCls} placeholder="Card code, e.g. K7M2QX9" value={newId} onChange={(e) => setNewId(e.target.value)} />
-          <button type="submit" className="shrink-0 bg-brand-white px-4 text-xs font-semibold uppercase tracking-widest text-brand-black">Link card</button>
+          <button type="submit" className="shrink-0 rounded-full bg-ed-ink px-4 text-sm font-semibold text-ed-field">Link card</button>
         </form>
-        {msg && <p className="mt-2 text-sm text-brand-light2">{msg}</p>}
+        {msg && <p className="mt-2 text-sm text-ed-soft">{msg}</p>}
       </Section>
 
       <Section title="QR code" hint="For flyers, counter signs, table tents and the back of your card. Opens the same page.">
@@ -105,11 +105,11 @@ export default function CardsTab({ page, demo }: Props) {
             <img src={qr} alt="QR code for your page" className="h-40 w-40 bg-white" />
           )}
           <div className="space-y-3">
-            <p className="break-all font-mono text-xs text-brand-light1">{pageUrl}</p>
+            <p className="break-all font-mono text-xs text-ed-muted">{pageUrl}</p>
             <a
               href={qr}
               download={`${page.slug}-qr.png`}
-              className="inline-flex items-center gap-2 bg-brand-white px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-brand-black"
+              className="inline-flex items-center gap-2 rounded-full bg-ed-ink px-4 py-2.5 text-sm font-semibold text-ed-field"
             >
               <Download size={14} /> Download PNG
             </a>
@@ -122,7 +122,7 @@ export default function CardsTab({ page, demo }: Props) {
           href="/en/shop"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block border border-brand-white px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-brand-white hover:bg-brand-white hover:text-brand-black"
+          className="inline-block rounded-full border border-ed-ink px-4 py-2.5 text-sm font-semibold text-ed-ink hover:bg-ed-ink hover:text-ed-field"
         >
           Order more
         </a>

@@ -61,17 +61,17 @@ export default function LeadsTab({ page, demo, onUpgrade, onUndoable }: Props) {
       onUpgrade={onUpgrade}
       right={
         !locked && !sample && leads && leads.length > 0 && (
-          <button type="button" onClick={exportCsv} className="flex items-center gap-1.5 border border-brand-mid px-3 py-1.5 text-xs uppercase tracking-wider text-brand-offwhite hover:border-brand-white">
+          <button type="button" onClick={exportCsv} className="flex items-center gap-1.5 rounded-full border border-ed-line px-3 py-1.5 text-xs text-ed-fg hover:border-ed-ink">
             <Download size={13} /> CSV
           </button>
         )
       }
     >
       {!leads ? (
-        <p className="text-sm text-brand-light1">Loading…</p>
+        <p className="text-sm text-ed-muted">Loading…</p>
       ) : list.length === 0 ? (
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-brand-mid">
+          <p className="text-sm text-ed-faint">
             No contacts yet. {page.lead_capture ? 'They’ll show up here when someone taps “Share your info”.' : 'Turn on Contact exchange in the Page tab.'}
           </p>
           <SampleButton on={false} onClick={() => setSample(true)} />
@@ -79,32 +79,32 @@ export default function LeadsTab({ page, demo, onUpgrade, onUndoable }: Props) {
       ) : (
         <>
           {sample && (
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-3 text-sm text-brand-light1">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-3 text-sm text-ed-muted">
               Showing sample contacts. These aren’t real people.
               <SampleButton on onClick={() => setSample(false)} />
             </div>
           )}
-          <ul className="divide-y divide-brand-dark2">
+          <ul className="divide-y divide-ed-line">
             {list.map((l) => (
               <li key={l.id} className="flex items-start justify-between gap-3 py-3.5">
                 <div className="min-w-0">
-                  <p className="flex items-center gap-2 text-sm text-brand-white">
+                  <p className="flex items-center gap-2 text-sm text-ed-ink">
                     {l.name || 'No name'}
                     {l.kind === 'feedback' && (
-                      <span className="flex items-center gap-1 rounded-full border border-brand-mid px-2 py-0.5 text-[10px] uppercase tracking-wider text-brand-light2">
+                      <span className="flex items-center gap-1 rounded-full border border-ed-faint px-2 py-0.5 text-[10px] text-ed-soft">
                         Feedback {l.rating && <>· {l.rating}<Star size={9} fill="currentColor" /></>}
                       </span>
                     )}
                   </p>
-                  <p className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-brand-light1">
-                    {l.email && <a href={`mailto:${l.email}`} className="flex items-center gap-1 hover:text-brand-white"><Mail size={12} />{l.email}</a>}
-                    {l.phone && <a href={`tel:${l.phone.replace(/[^\d+]/g, '')}`} className="flex items-center gap-1 hover:text-brand-white"><Phone size={12} />{l.phone}</a>}
+                  <p className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ed-muted">
+                    {l.email && <a href={`mailto:${l.email}`} className="flex items-center gap-1 hover:text-ed-ink"><Mail size={12} />{l.email}</a>}
+                    {l.phone && <a href={`tel:${l.phone.replace(/[^\d+]/g, '')}`} className="flex items-center gap-1 hover:text-ed-ink"><Phone size={12} />{l.phone}</a>}
                     <span>{new Date(l.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
                   </p>
-                  {l.note && <p className="mt-1.5 text-sm text-brand-light2">{l.note}</p>}
+                  {l.note && <p className="mt-1.5 text-sm text-ed-soft">{l.note}</p>}
                 </div>
                 {!locked && !sample && (
-                  <button type="button" aria-label="Delete" onClick={() => remove(l)} className="p-1 text-brand-mid hover:text-red-400">
+                  <button type="button" aria-label="Delete" onClick={() => remove(l)} className="p-1 text-ed-faint hover:text-ed-err">
                     <Trash2 size={15} />
                   </button>
                 )}
@@ -119,7 +119,7 @@ export default function LeadsTab({ page, demo, onUpgrade, onUndoable }: Props) {
 
 function SampleButton({ on, onClick }: { on: boolean; onClick: () => void }) {
   return (
-    <button type="button" onClick={onClick} className="border border-brand-mid px-3 py-1.5 text-xs uppercase tracking-widest text-brand-offwhite hover:border-brand-white">
+    <button type="button" onClick={onClick} className="rounded-full border border-ed-line px-3 py-1.5 text-sm font-medium text-ed-fg hover:border-ed-ink">
       {on ? 'Hide sample' : 'Show sample data'}
     </button>
   );

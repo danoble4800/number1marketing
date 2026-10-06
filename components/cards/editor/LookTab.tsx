@@ -32,7 +32,7 @@ const HASH_SECTION: Record<string, SectionId> = { accent: 'buttons', shape: 'but
 
 const SWATCHES = ['#FFFFFF', '#111111', '#D4AF63', '#FF6B4A', '#E8467C', '#7C5CFF', '#2F80ED', '#5CE1E6', '#27AE60', '#C6FF3D'];
 const opt = (on: boolean) =>
-  `border text-sm ${on ? 'border-brand-white text-brand-white' : 'border-brand-dark2 text-brand-light1 hover:border-brand-mid'}`;
+  `border text-sm ${on ? 'border-ed-ink text-ed-ink' : 'border-ed-line text-ed-muted hover:border-ed-faint'}`;
 
 export default function LookTab({ page, set, onUpgrade, demo, userId }: Props) {
   const theme = page.theme ?? {};
@@ -62,17 +62,17 @@ export default function LookTab({ page, set, onUpgrade, demo, userId }: Props) {
   };
 
   return (
-    <div className="border border-brand-dark2 bg-brand-dark1 sm:grid sm:grid-cols-[176px_minmax(0,1fr)]">
-      <nav className="flex gap-1 overflow-x-auto border-b border-brand-dark2 p-2 [scrollbar-width:none] sm:flex-col sm:overflow-visible sm:border-b-0 sm:border-r">
+    <div className="rounded-2xl border border-ed-line bg-ed-surface sm:grid sm:grid-cols-[176px_minmax(0,1fr)]">
+      <nav className="flex gap-1 overflow-x-auto border-b border-ed-line p-2 [scrollbar-width:none] sm:flex-col sm:overflow-visible sm:border-b-0 sm:border-r">
         {SECTIONS.map((s) => (
           <button
             key={s.id}
             type="button"
             onClick={() => choose(s.id)}
-            className={`shrink-0 px-3 py-2 text-left sm:py-2.5 ${open === s.id ? 'bg-brand-black text-brand-white' : 'text-brand-light1 hover:text-brand-white'}`}
+            className={`shrink-0 px-3 py-2 text-left sm:py-2.5 ${open === s.id ? 'bg-ed-field text-ed-ink' : 'text-ed-muted hover:text-ed-ink'}`}
           >
-            <span className="block text-xs font-semibold uppercase tracking-widest">{s.name}</span>
-            <span className="hidden truncate text-[11px] capitalize text-brand-mid sm:block">{summary[s.id]}</span>
+            <span className="block text-sm font-semibold">{s.name}</span>
+            <span className="hidden truncate text-[11px] capitalize text-ed-faint sm:block">{summary[s.id]}</span>
           </button>
         ))}
       </nav>
@@ -93,7 +93,7 @@ export default function LookTab({ page, set, onUpgrade, demo, userId }: Props) {
               onChange={(v) => set({ hide_badge: v })}
             />
             {!has('hideBadge') && (
-              <button type="button" onClick={onUpgrade} className="flex items-center gap-2 text-xs text-brand-white underline">
+              <button type="button" onClick={onUpgrade} className="flex items-center gap-2 text-xs text-ed-ink underline">
                 Remove with <PlanBadge plan="pro" />
               </button>
             )}
@@ -114,7 +114,7 @@ type PanelProps = {
 function Group({ label, id, children, pro }: { label: string; id?: string; children: React.ReactNode; pro?: boolean }) {
   return (
     <div id={id} className="scroll-mt-32">
-      <p className="mb-2 flex items-center gap-2 text-[11px] uppercase tracking-widest text-brand-mid">
+      <p className="mb-2 flex items-center gap-2 text-[13px] font-medium text-ed-faint">
         {label}
         {pro && <PlanBadge plan="pro" />}
       </p>
@@ -138,7 +138,7 @@ function Choice({
   return (
     <button type="button" onClick={locked ? onUpgrade : onClick} className={`relative ${opt(on)} ${className}`} style={style}>
       {children}
-      {locked && <Lock size={11} className="absolute right-1.5 top-1.5 text-brand-mid" />}
+      {locked && <Lock size={11} className="absolute right-1.5 top-1.5 text-ed-faint" />}
     </button>
   );
 }
@@ -149,7 +149,7 @@ function ColorField({ value, onChange, label = 'Theme' }: { value?: string; onCh
       <button
         type="button"
         onClick={() => onChange(undefined)}
-        className={`h-8 rounded-full border px-3 text-xs ${!value ? 'border-brand-white text-brand-white' : 'border-brand-dark2 text-brand-light1'}`}
+        className={`h-8 rounded-full border px-3 text-xs ${!value ? 'border-ed-ink text-ed-ink' : 'border-ed-line text-ed-muted'}`}
       >
         {label}
       </button>
@@ -159,13 +159,13 @@ function ColorField({ value, onChange, label = 'Theme' }: { value?: string; onCh
           type="button"
           aria-label={c}
           onClick={() => onChange(c)}
-          className={`h-8 w-8 rounded-full border-2 ${value?.toUpperCase() === c ? 'border-brand-white' : 'border-brand-dark2'}`}
+          className={`h-8 w-8 rounded-full border-2 ${value?.toUpperCase() === c ? 'border-ed-ink' : 'border-ed-line'}`}
           style={{ background: c }}
         />
       ))}
-      <label className="flex h-8 items-center gap-1.5 border border-brand-dark2 bg-brand-black pl-1 pr-2">
+      <label className="flex h-8 items-center gap-1.5 rounded-xl border border-ed-line bg-ed-field pl-1 pr-2">
         <input type="color" aria-label="Pick any color" value={value ?? '#888888'} onChange={(e) => onChange(e.target.value)} className="h-6 w-6 cursor-pointer bg-transparent" />
-        <span className="font-mono text-[11px] text-brand-light1">{value?.toUpperCase() ?? 'Custom'}</span>
+        <span className="font-mono text-[11px] text-ed-muted">{value?.toUpperCase() ?? 'Custom'}</span>
       </label>
     </div>
   );
@@ -209,13 +209,13 @@ function ThemePanel({ page, theme, set, onUpgrade }: { page: CardPage; theme: Ca
               key={m}
               type="button"
               onClick={() => setMood(m)}
-              className={`border px-3 py-1.5 text-xs ${mood === m ? 'border-brand-white bg-brand-white text-brand-black' : 'border-brand-dark2 text-brand-light1'}`}
+              className={`rounded-full border px-3 py-1.5 text-xs ${mood === m ? 'border-ed-ink bg-ed-ink text-ed-field' : 'border-ed-line text-ed-muted'}`}
             >
               {m === 'any' ? 'All' : m === 'light' ? 'Light' : 'Dark'}
             </button>
           ))}
         </div>
-        <button type="button" onClick={surprise} className="flex items-center gap-1.5 border border-brand-dark2 px-3 py-1.5 text-xs uppercase tracking-widest text-brand-offwhite hover:border-brand-light1">
+        <button type="button" onClick={surprise} className="flex items-center gap-1.5 rounded-full border border-ed-line px-3 py-1.5 text-sm font-medium text-ed-fg hover:border-ed-muted">
           <Shuffle size={13} /> Surprise me
         </button>
       </div>
@@ -228,19 +228,19 @@ function ThemePanel({ page, theme, set, onUpgrade }: { page: CardPage; theme: Ca
               key={t.id}
               type="button"
               onClick={() => pick(t)}
-              className={`overflow-hidden border text-left ${on ? 'border-brand-white ring-1 ring-brand-white' : 'border-brand-dark2 hover:border-brand-mid'}`}
+              className={`overflow-hidden rounded-xl border text-left ${on ? 'border-ed-ink ring-1 ring-ed-ink' : 'border-ed-line hover:border-ed-faint'}`}
             >
               <Thumb id={t.id} />
-              <div className="flex items-center justify-between gap-1 bg-brand-black px-2 py-1.5 text-[11px] text-brand-offwhite">
+              <div className="flex items-center justify-between gap-1 bg-ed-field px-2 py-1.5 text-[11px] text-ed-fg">
                 <span className="truncate">{t.name}</span>
                 {on && <Check size={12} className="shrink-0" />}
-                {locked && <Lock size={11} className="shrink-0 text-brand-mid" />}
+                {locked && <Lock size={11} className="shrink-0 text-ed-faint" />}
               </div>
             </button>
           );
         })}
       </div>
-      <p className="mt-4 text-xs text-brand-mid">Pick a starting point, then make it yours under Header, Wallpaper, Text and Buttons.</p>
+      <p className="mt-4 text-xs text-ed-faint">Pick a starting point, then make it yours under Header, Wallpaper, Text and Buttons.</p>
     </>
   );
 }
@@ -286,7 +286,7 @@ function HeaderPanel({ page, theme, setTheme, has, onUpgrade, demo, userId }: Pa
           </Choice>
         </div>
         {hero && heroOk && !page.avatar_url && (
-          <p className="mt-2 text-xs text-amber-300">Hero uses your profile photo. Add one on the Page tab.</p>
+          <p className="mt-2 text-xs text-ed-warn">Hero uses your profile photo. Add one on the Page tab.</p>
         )}
       </Group>
 
@@ -336,11 +336,11 @@ function HeaderPanel({ page, theme, setTheme, has, onUpgrade, demo, userId }: Pa
 
 function LayoutIcon({ hero }: { hero: boolean }) {
   return (
-    <span className="mx-auto mb-2 flex h-16 w-11 flex-col items-center gap-1 overflow-hidden rounded border border-brand-dark2 bg-brand-black">
-      {hero ? <span className="h-7 w-full bg-brand-mid" /> : <span className="mt-2 h-3.5 w-3.5 rounded-full bg-brand-mid" />}
-      <span className="h-1 w-6 rounded bg-brand-light1" />
-      <span className="h-1.5 w-8 rounded bg-brand-dark2" />
-      <span className="h-1.5 w-8 rounded bg-brand-dark2" />
+    <span className="mx-auto mb-2 flex h-16 w-11 flex-col items-center gap-1 overflow-hidden rounded rounded-xl border border-ed-line bg-ed-field">
+      {hero ? <span className="h-7 w-full bg-ed-faint" /> : <span className="mt-2 h-3.5 w-3.5 rounded-full bg-ed-faint" />}
+      <span className="h-1 w-6 rounded bg-ed-muted" />
+      <span className="h-1.5 w-8 rounded bg-ed-line" />
+      <span className="h-1.5 w-8 rounded bg-ed-line" />
     </span>
   );
 }
@@ -368,11 +368,11 @@ function WallpaperPanel({ page, theme, setTheme, has, onUpgrade, demo, userId }:
             </Choice>
           ))}
         </div>
-        {!pro && <p className="mt-2 text-xs text-brand-mid">Blur, photo and video wallpapers come with <PlanBadge plan="pro" /></p>}
+        {!pro && <p className="mt-2 text-xs text-ed-faint">Blur, photo and video wallpapers come with <PlanBadge plan="pro" /></p>}
       </Group>
 
       {current === 'blur' && pro && (
-        <p className="text-xs text-brand-light1">{page.avatar_url ? 'Uses a soft blur of your profile photo.' : 'Add a profile photo on the Page tab to use Blur.'}</p>
+        <p className="text-xs text-ed-muted">{page.avatar_url ? 'Uses a soft blur of your profile photo.' : 'Add a profile photo on the Page tab to use Blur.'}</p>
       )}
       {current === 'image' && pro && (
         <Group label="Your image">
@@ -388,7 +388,7 @@ function WallpaperPanel({ page, theme, setTheme, has, onUpgrade, demo, userId }:
       {!['image', 'video', 'blur'].includes(current) && (
         <Group label="Wallpaper color">
           <ColorField value={theme.bgColor} onChange={(v) => setTheme({ bgColor: v })} />
-          <p className="mt-2 text-xs text-brand-mid">Text and buttons adjust automatically so they stay readable.</p>
+          <p className="mt-2 text-xs text-ed-faint">Text and buttons adjust automatically so they stay readable.</p>
         </Group>
       )}
     </>
@@ -400,7 +400,7 @@ function WallpaperSwatch({ w, theme }: { w: Wallpaper; theme: CardTheme }) {
   const r = resolveTheme({ ...theme, wallpaper: w }, 'business', null);
   const bg = icon ? undefined : w === 'blur' ? `radial-gradient(circle at 40% 40%, ${r.accent}, ${r.base})` : r.background;
   return (
-    <span className="flex h-10 w-full items-center justify-center rounded-sm border border-brand-dark2 text-brand-light1" style={{ background: bg, filter: w === 'blur' ? 'blur(1.5px)' : undefined }}>
+    <span className="flex h-10 w-full items-center justify-center rounded-sm border border-ed-line text-ed-muted" style={{ background: bg, filter: w === 'blur' ? 'blur(1.5px)' : undefined }}>
       {icon}
     </span>
   );
@@ -416,7 +416,7 @@ function TextPanel({ theme, setTheme }: Pick<PanelProps, 'theme' | 'setTheme'>) 
       </Group>
       <Group label="Page text color">
         <ColorField value={theme.textColor} onChange={(v) => setTheme({ textColor: v })} />
-        <p className="mt-2 text-xs text-brand-mid">Your bio, headline and social icons. Title and buttons have their own colors.</p>
+        <p className="mt-2 text-xs text-ed-faint">Your bio, headline and social icons. Title and buttons have their own colors.</p>
       </Group>
     </>
   );
@@ -433,7 +433,7 @@ function FontGrid({ value, onChange, defaultLabel }: { value?: FontId; onChange:
       )}
       {(['Clean', 'Unique'] as const).map((g) => (
         <div key={g}>
-          <p className="mb-1.5 text-[10px] uppercase tracking-widest text-brand-mid">{g}</p>
+          <p className="mb-1.5 text-[10px] text-ed-faint">{g}</p>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {ids.filter((f) => FONTS[f].group === g).map((f) => (
               <button key={f} type="button" onClick={() => onChange(f)} className={`px-3 py-2.5 text-center ${opt((value ?? (defaultLabel ? undefined : 'inter')) === f)}`}>
@@ -546,7 +546,7 @@ function MediaInput({
         <button
           type="button"
           onClick={() => ref.current?.click()}
-          className={`relative flex items-center justify-center overflow-hidden border border-dashed border-brand-mid bg-brand-black text-brand-light1 hover:border-brand-light1 ${kind === 'logo' ? 'h-16 w-40' : 'h-28 w-20'}`}
+          className={`relative flex items-center justify-center overflow-hidden rounded-xl border border-dashed border-ed-faint bg-ed-field text-ed-muted hover:border-ed-muted ${kind === 'logo' ? 'h-16 w-40' : 'h-28 w-20'}`}
         >
           {value ? (
             kind === 'video' ? (
@@ -559,12 +559,12 @@ function MediaInput({
           {busy && <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs">Uploading…</span>}
         </button>
         <div className="space-y-1 text-xs">
-          <button type="button" onClick={() => ref.current?.click()} className="block text-brand-white underline">{value ? 'Replace' : 'Upload'}</button>
-          {value && <button type="button" onClick={() => onChange(undefined)} className="block text-brand-light1 underline hover:text-brand-white">Remove</button>}
+          <button type="button" onClick={() => ref.current?.click()} className="block text-ed-ink underline">{value ? 'Replace' : 'Upload'}</button>
+          {value && <button type="button" onClick={() => onChange(undefined)} className="block text-ed-muted underline hover:text-ed-ink">Remove</button>}
         </div>
       </div>
-      <p className="mt-1.5 text-xs text-brand-mid">{hint}</p>
-      {err && <p className="mt-1 text-xs text-red-400">{err}</p>}
+      <p className="mt-1.5 text-xs text-ed-faint">{hint}</p>
+      {err && <p className="mt-1 text-xs text-ed-err">{err}</p>}
       <input ref={ref} type="file" accept={m.accept} className="hidden" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) pick(f); }} />
     </div>
   );

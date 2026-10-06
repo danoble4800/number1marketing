@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import {
-  ArrowDown, ArrowUp, CircleAlert, Copy, EllipsisVertical, Eye, EyeOff, GripVertical, ImagePlus, Lock, Plus, Trash2,
+  ArrowDown, ArrowUp, Check, CircleAlert, Copy, EllipsisVertical, GripVertical, ImagePlus, Lock, Mail, Plus, QrCode,
+  Search, Settings, Star, Tag, Trash2, UserPlus, X,
 } from 'lucide-react';
 import {
   DndContext, KeyboardSensor, PointerSensor, closestCenter, useSensor, useSensors, type DragEndEvent,
@@ -29,10 +30,13 @@ type Props = {
   onUpgrade: () => void;
   onUndoable: (u: Undoable) => void;
   onSlugBlur: () => void;
+  // The saved address (the draft may be mid-edit) and a jump to the QR code on the Cards tab.
+  liveSlug: string;
+  onShowQr: () => void;
 };
 
 // data-focus marks what the phone preview highlights while you edit it (see Editor).
-export default function PageTab({ page, set, setLinks, demo, userId, onUpgrade, onUndoable, onSlugBlur }: Props) {
+export default function PageTab({ page, set, setLinks, demo, userId, onUpgrade, onUndoable, onSlugBlur, liveSlug, onShowQr }: Props) {
   const c = page.contact ?? {};
   const setContact = (k: keyof typeof c, v: string) => set({ contact: { ...c, [k]: v } });
   const lock = (f: keyof typeof FEATURE_PLAN) => (can(page.plan, f) ? null : FEATURE_PLAN[f]);
@@ -40,10 +44,11 @@ export default function PageTab({ page, set, setLinks, demo, userId, onUpgrade, 
   const reviewProblem = reviewUrlProblem(page.review?.url);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       <div data-focus="profile">
         <Section id="profile" title="Profile" hint="The top of your page.">
-          <div className="flex flex-wrap gap-5">
+          <PageLink slug={liveSlug} live={page.published} onShowQr={onShowQr} />
+          <div className="mt-5 flex flex-wrap gap-5">
             <ImageInput label="Photo / logo" round value={page.avatar_url} onChange={(v) => set({ avatar_url: v })} demo={demo} userId={userId} pageId={page.id} />
             <ImageInput label="Cover image" value={page.cover_url} onChange={(v) => set({ cover_url: v })} demo={demo} userId={userId} pageId={page.id} />
           </div>
@@ -61,8 +66,28 @@ export default function PageTab({ page, set, setLinks, demo, userId, onUpgrade, 
         </Section>
       </div>
 
+      <LinksEditor
+        links={page.links ?? []}
+        setLinks={setLinks}
+        clicks={stats?.links ?? null}
+        showClicks={can(page.plan, 'fullStats')}
+        onUpgrade={onUpgrade}
+        onUndoable={onUndoable}
+      />
+
+
+      <h2 className="px-1 pt-4 text-[17px] font-semibold text-ed-ink">More for your page</h2>
+
       <div data-focus="contact">
-        <Section id="contact" title="Contact details" hint="Powers the Call / Text / Email buttons and “Save contact”.">
+        <Section
+          id="contact"
+          collapsible
+          defaultOpen={!c.phone && !c.email}
+          icon={<Mail size={18} />}
+          title="Contact details"
+          hint="Powers the Call / Text / Email buttons and “Save contact”."
+          summary={[c.phone, c.email].filter(Boolean).join(' · ') || 'Add your phone and email for the Call and Text buttons'}
+        >
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Mobile"><input className={inputCls} type="tel" value={c.phone ?? ''} onChange={(e) => setContact('phone', e.target.value)} /></Field>
             <Field label="Email"><input className={inputCls} type="email" value={c.email ?? ''} onChange={(e) => setContact('email', e.target.value)} /></Field>
@@ -74,18 +99,12 @@ export default function PageTab({ page, set, setLinks, demo, userId, onUpgrade, 
         </Section>
       </div>
 
-      <LinksEditor
-        links={page.links ?? []}
-        setLinks={setLinks}
-        clicks={stats?.links ?? null}
-        showClicks={can(page.plan, 'fullStats')}
-        onUpgrade={onUpgrade}
-        onUndoable={onUndoable}
-      />
-
       <div data-focus="review">
         <Section
           id="reviews"
+          collapsible
+          icon={<Star size={18} />}
+          summary={page.review?.url ? (page.review.funnel ? 'Review button on · star rating first' : 'Review button is on') : 'Add a big “Leave us a review” button'}
           title="Google reviews"
           hint="A big “Leave us a review” button. Paste your Google review link (Google Business Profile → Ask for reviews)."
           locked={lock('reviewButton')}
@@ -105,7 +124,7 @@ export default function PageTab({ page, set, setLinks, demo, userId, onUpgrade, 
                 onChange={(v) => set({ review: { ...page.review, funnel: v } })}
               />
               {!can(page.plan, 'reviewFunnel') && (
-                <button type="button" onClick={onUpgrade} className="mt-2 text-xs text-brand-white underline">Upgrade to Business</button>
+                <button type="button" onClick={onUpgrade} className="mt-2 text-xs text-ed-ink underline">Upgrade to Business</button>
               )}
             </div>
           </div>
@@ -113,7 +132,13 @@ export default function PageTab({ page, set, setLinks, demo, userId, onUpgrade, 
       </div>
 
       <div data-focus="special">
-        <Section id="special" title="Special / coupon" hint="A highlighted offer at the top of your page. Change it weekly." locked={lock('special')} onUpgrade={onUpgrade}>
+        <Section
+          id="special"
+          collapsible
+          icon={<Tag size={18} />}
+          summary={page.special?.enabled && page.special.title ? `Showing: ${page.special.title}` : 'A highlighted offer at the top of your page'}
+          title="Special / coupon"
+          hint="A highlighted offer at the top of your page. Change it weekly." locked={lock('special')} onUpgrade={onUpgrade}>
           <div className="space-y-4">
             <Toggle label="Show special" checked={!!page.special?.enabled} onChange={(v) => set({ special: { ...page.special, enabled: v } })} />
             <div className="grid gap-4 sm:grid-cols-2">
@@ -127,7 +152,13 @@ export default function PageTab({ page, set, setLinks, demo, userId, onUpgrade, 
       </div>
 
       <div data-focus="leads">
-        <Section id="contact-exchange" title="Contact exchange" hint="Let people share their name, email and phone with you. New contacts are emailed to you." locked={lock('leadCapture')} onUpgrade={onUpgrade}>
+        <Section
+          id="contact-exchange"
+          collapsible
+          icon={<UserPlus size={18} />}
+          summary={page.lead_capture ? 'On · visitors can share their info with you' : 'Let visitors share their name, email and phone'}
+          title="Contact exchange"
+          hint="Let people share their name, email and phone with you. New contacts are emailed to you." locked={lock('leadCapture')} onUpgrade={onUpgrade}>
           <div className="space-y-4">
             <Toggle label="Show “Share your info” button" checked={page.lead_capture} onChange={(v) => set({ lead_capture: v })} />
             <Field label="Send new contacts to" hint="Leave blank to use your sign-in email.">
@@ -137,13 +168,19 @@ export default function PageTab({ page, set, setLinks, demo, userId, onUpgrade, 
         </Section>
       </div>
 
-      <Section id="settings" title="Settings">
+      <Section
+        id="settings"
+        collapsible
+        icon={<Settings size={18} />}
+        title="Page settings"
+        summary={`${page.published ? 'Live' : 'Hidden'} · /c/${page.slug} · ${({ en: 'English', es: 'Español', pt: 'Português' } as const)[page.lang] ?? page.lang}`}
+      >
         <div className="space-y-5">
           <Field label="Page address" hint="Saved when you leave this box. Your card keeps working if you change this, but old shared links to /c/… will stop working.">
-            <div className="flex items-center border border-brand-dark2 bg-brand-black focus-within:border-brand-light1">
-              <span className="pl-3.5 text-sm text-brand-mid">…/c/</span>
+            <div className="flex items-center rounded-xl border border-ed-line bg-ed-field focus-within:border-ed-ink focus-within:bg-ed-surface">
+              <span className="pl-3.5 text-sm text-ed-faint">…/c/</span>
               <input
-                className="w-full bg-transparent px-1 py-2.5 text-sm text-brand-offwhite focus:outline-none"
+                className="w-full bg-transparent px-1 py-2.5 text-[15px] text-ed-fg focus:outline-none"
                 value={page.slug}
                 onChange={(e) => set({ slug: slugTyping(e.target.value) })}
                 onBlur={onSlugBlur}
@@ -167,9 +204,48 @@ export default function PageTab({ page, set, setLinks, demo, userId, onUpgrade, 
 
 function FixNote({ text }: { text: string }) {
   return (
-    <span className="mt-1.5 flex items-start gap-1.5 text-xs text-red-300">
+    <span className="mt-1.5 flex items-start gap-1.5 text-xs text-ed-err">
       <CircleAlert size={13} className="mt-px shrink-0" /> {text}
     </span>
+  );
+}
+
+// The page's public address with copy and QR shortcuts, like Linktree's link bar.
+function PageLink({ slug, live, onShowQr }: { slug: string; live: boolean; onShowQr: () => void }) {
+  const [copied, setCopied] = useState(false);
+  const [origin, setOrigin] = useState('');
+  useEffect(() => setOrigin(window.location.origin), []);
+  const url = `${origin}/c/${slug}`;
+  const host = origin.replace(/^https?:\/\/(www\.)?/, '');
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    } catch {
+      window.prompt('Copy your link:', url);
+    }
+  }
+
+  return (
+    <div className="flex flex-wrap items-center gap-2 rounded-[22px] border border-ed-line bg-ed-field py-1.5 pl-4 pr-1.5 sm:rounded-full">
+      <span
+        title={live ? 'Your page is live' : 'Your page is hidden'}
+        className={`h-2 w-2 shrink-0 rounded-full ${live ? 'bg-green-500 shadow-[0_0_0_3px_rgb(34_197_94/0.2)]' : 'bg-ed-faint'}`}
+      />
+      <a href={`/c/${slug}`} target="_blank" rel="noopener noreferrer" className="min-w-0 flex-1 truncate text-sm text-ed-soft hover:underline">
+        {host}/c/<span className="font-semibold text-ed-ink">{slug}</span>
+      </a>
+      <span className="flex gap-1.5">
+        <button type="button" onClick={copy} className="flex items-center gap-1.5 rounded-full bg-ed-ink px-3.5 py-1.5 text-sm font-semibold text-ed-field hover:bg-ed-fg">
+          {copied ? <Check size={14} /> : <Copy size={14} />} {copied ? 'Copied' : 'Copy link'}
+        </button>
+        <button type="button" onClick={onShowQr} className="flex items-center gap-1.5 rounded-full border border-ed-line bg-ed-surface px-3.5 py-1.5 text-sm font-semibold text-ed-ink hover:border-ed-faint">
+          <QrCode size={14} /> QR code
+        </button>
+      </span>
+    </div>
   );
 }
 
@@ -184,6 +260,7 @@ function LinksEditor({
   onUndoable: (u: Undoable) => void;
 }) {
   const [adding, setAdding] = useState(false);
+  const [query, setQuery] = useState('');
   const [justAdded, setJustAdded] = useState<string | null>(null);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
@@ -212,11 +289,13 @@ function LinksEditor({
       undo: () => setLinks((ls) => (ls.some((l) => l.id === link.id) ? ls : [...ls.slice(0, at), link, ...ls.slice(at)])),
     });
   };
+  // New links go to the top, where you're looking (Linktree does the same).
   const add = (type: LinkType) => {
     const id = newLinkId();
-    setLinks((ls) => [...ls, { id, type, label: LINK_TYPES[type].social ? LINK_TYPES[type].name : '', url: '', enabled: true }]);
+    setLinks((ls) => [{ id, type, label: LINK_TYPES[type].social ? LINK_TYPES[type].name : '', url: '', enabled: true }, ...ls]);
     setJustAdded(id);
     setAdding(false);
+    setQuery('');
   };
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (!over || active.id === over.id) return;
@@ -227,35 +306,81 @@ function LinksEditor({
     });
   };
 
-  return (
-    <Section
-      id="links"
-      title="Buttons & links"
-      hint="Drag to reorder. Social links show as icons under your buttons."
-      right={
-        <button type="button" onClick={() => setAdding(!adding)} className="flex items-center gap-1.5 bg-brand-white px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-black">
-          <Plus size={14} /> Add
+  const q = query.trim().toLowerCase();
+  const types = (Object.keys(LINK_TYPES) as LinkType[]).filter((t) => !q || LINK_TYPES[t].name.toLowerCase().includes(q));
+  const buttons = types.filter((t) => !LINK_TYPES[t].social);
+  const socials = types.filter((t) => LINK_TYPES[t].social);
+  const typeGrid = (list: LinkType[]) => (
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+      {list.map((t) => (
+        <button
+          key={t}
+          type="button"
+          onClick={() => add(t)}
+          className="flex items-center gap-2.5 rounded-xl border border-ed-line bg-ed-surface px-3 py-2.5 text-left text-sm font-medium text-ed-fg hover:border-ed-ink"
+        >
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-ed-field"><LinkIcon type={t} size={16} /></span>
+          {LINK_TYPES[t].name}
         </button>
-      }
-    >
-      {adding && (
-        <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {(Object.keys(LINK_TYPES) as LinkType[]).map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => add(t)}
-              className="flex items-center gap-2 border border-brand-dark2 bg-brand-black px-3 py-2.5 text-left text-sm text-brand-offwhite hover:border-brand-light1"
-            >
-              <LinkIcon type={t} size={16} /> {LINK_TYPES[t].name}
+      ))}
+    </div>
+  );
+
+  return (
+    <section id="links" className="scroll-mt-36 space-y-3">
+      {adding ? (
+        <div className="space-y-4 rounded-2xl border border-ed-line bg-ed-surface p-4 shadow-lg">
+          <div className="flex items-center gap-2">
+            <label className="flex flex-1 items-center gap-2 rounded-full border border-ed-line bg-ed-field px-4 focus-within:border-ed-ink">
+              <Search size={16} className="shrink-0 text-ed-faint" />
+              <input
+                autoFocus
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') setAdding(false);
+                  if (e.key === 'Enter' && types[0]) add(types[0]);
+                }}
+                placeholder="Search: Instagram, booking, menu…"
+                className="w-full bg-transparent py-2.5 text-[15px] text-ed-fg placeholder:text-ed-faint focus:outline-none"
+              />
+            </label>
+            <button type="button" aria-label="Close" onClick={() => { setAdding(false); setQuery(''); }} className="rounded-full p-2 text-ed-muted hover:bg-ed-field hover:text-ed-ink">
+              <X size={18} />
             </button>
-          ))}
+          </div>
+          {buttons.length > 0 && (
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ed-faint">Buttons</p>
+              {typeGrid(buttons)}
+            </div>
+          )}
+          {socials.length > 0 && (
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ed-faint">Social icons</p>
+              {typeGrid(socials)}
+            </div>
+          )}
+          {types.length === 0 && <p className="text-sm text-ed-muted">Nothing matches “{query}”. Try “Website / link” for any web address.</p>}
         </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setAdding(true)}
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-ed-ink py-3.5 text-[15px] font-semibold text-ed-field shadow-sm hover:bg-ed-fg"
+        >
+          <Plus size={18} /> Add a link or button
+        </button>
       )}
-      {links.length === 0 && !adding && <p className="text-sm text-brand-mid">No links yet. Tap “Add” to start.</p>}
+
+      <div className="flex items-baseline justify-between gap-3 px-1 pt-2">
+        <h2 className="text-[17px] font-semibold text-ed-ink">Your links</h2>
+        {links.length > 1 && <p className="flex items-center gap-1 text-[13px] text-ed-muted"><GripVertical size={14} /> Drag to reorder</p>}
+      </div>
+      {links.length === 0 && <p className="rounded-2xl border border-dashed border-ed-line px-4 py-8 text-center text-sm text-ed-muted">No links yet. Tap “Add a link or button” to start.</p>}
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd} modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
         <SortableContext items={links.map((l) => l.id)} strategy={verticalListSortingStrategy}>
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {links.map((l, i) => (
               <LinkRow
                 key={l.id}
@@ -275,9 +400,14 @@ function LinksEditor({
           </div>
         </SortableContext>
       </DndContext>
-    </Section>
+      <p className="px-1 text-[13px] text-ed-muted">Instagram, TikTok and other social links show as small icons under your buttons.</p>
+    </section>
   );
 }
+
+// Inputs that look like plain text until you hover or click them.
+const inlineCls =
+  'w-full min-w-0 rounded-lg border border-transparent bg-transparent px-2 py-1 -ml-2 text-ed-fg placeholder:text-ed-faint hover:bg-ed-field focus:border-ed-line focus:bg-ed-surface focus:outline-none';
 
 function LinkRow({
   link, first, last, autoFocus, clicks, showClicks, onUpgrade, onPatch, onMove, onDuplicate, onDelete,
@@ -304,75 +434,95 @@ function LinkRow({
       ref={setNodeRef}
       data-focus={link.id}
       style={{ transform: CSS.Translate.toString(transform), transition }}
-      className={`border bg-brand-black p-3 ${isDragging ? 'relative z-10 border-brand-light1 shadow-2xl' : 'border-brand-dark2'}`}
+      className={`flex rounded-2xl border bg-ed-surface ${isDragging ? 'relative z-10 border-ed-ink shadow-2xl' : 'border-ed-line shadow-[0_1px_2px_rgb(0_0_0/0.04)] hover:border-ed-faint/50'}`}
     >
-      <div className="mb-2 flex items-center gap-1.5">
+      <button
+        type="button"
+        ref={setActivatorNodeRef}
+        {...attributes}
+        {...listeners}
+        aria-label="Drag to reorder"
+        title="Drag to reorder"
+        className="flex w-9 shrink-0 cursor-grab touch-none items-center justify-center rounded-l-2xl text-ed-faint hover:bg-ed-field hover:text-ed-ink active:cursor-grabbing"
+      >
+        <GripVertical size={18} />
+      </button>
+      <div className="min-w-0 flex-1 py-3 pr-1">
+        <div className={link.enabled ? '' : 'opacity-50'}>
+          <span className="flex min-w-0 items-center gap-1.5 text-xs font-medium text-ed-muted">
+            <LinkIcon type={link.type} size={13} /> <span className="truncate">{info?.name}{info?.social ? ' · icon' : ''}</span>
+            {!link.enabled && <span className="text-ed-faint">· Hidden</span>}
+          </span>
+          {!info?.social && (
+            <input
+              className={`${inlineCls} mt-0.5 text-[15px] font-semibold`}
+              autoFocus={autoFocus}
+              aria-label="Button text"
+              placeholder={`Add button text (${info?.name})`}
+              value={link.label}
+              onChange={(e) => onPatch({ label: e.target.value })}
+              onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); }}
+            />
+          )}
+          <input
+            className={`${inlineCls} text-sm text-ed-soft`}
+            autoFocus={autoFocus && info?.social}
+            aria-label="Link"
+            placeholder={info?.placeholder}
+            value={link.url}
+            onChange={(e) => onPatch({ url: e.target.value })}
+            onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); }}
+          />
+        </div>
+        {problem ? (
+          <FixNote text={problem} />
+        ) : (
+          <p className="mt-1 flex min-w-0 items-center gap-1.5 text-xs text-ed-faint">
+            {clicks !== null &&
+              (showClicks ? (
+                <span title="Last 30 days" className="shrink-0 tabular-nums text-ed-muted">
+                  {clicks.toLocaleString()} {clicks === 1 ? 'click' : 'clicks'}
+                </span>
+              ) : (
+                <button type="button" onClick={onUpgrade} title="See clicks per link with Pro" className="flex shrink-0 items-center gap-1 hover:text-ed-ink">
+                  <Lock size={11} /> <span className="select-none blur-[3px]">{(clicks || 12).toLocaleString()} clicks</span>
+                </button>
+              ))}
+            {clicks !== null && domain && <span>·</span>}
+            {domain && <span className="truncate">{domain}</span>}
+          </p>
+        )}
+      </div>
+      <div className="flex shrink-0 flex-col items-end justify-between gap-2 py-3 pr-3">
         <button
           type="button"
-          ref={setActivatorNodeRef}
-          {...attributes}
-          {...listeners}
-          aria-label="Drag to reorder"
-          title="Drag to reorder"
-          className="-ml-1 cursor-grab touch-none p-1 text-brand-mid hover:text-brand-white active:cursor-grabbing"
+          role="switch"
+          aria-checked={link.enabled}
+          aria-label={link.enabled ? 'Showing on your page. Tap to hide.' : 'Hidden. Tap to show on your page.'}
+          title={link.enabled ? 'Showing on your page' : 'Hidden from your page'}
+          onClick={() => onPatch({ enabled: !link.enabled })}
+          className={`relative h-[26px] w-11 rounded-full transition-colors ${link.enabled ? 'bg-green-600' : 'bg-ed-line'}`}
         >
-          <GripVertical size={16} />
+          <span className={`absolute top-[3px] h-5 w-5 rounded-full bg-white shadow transition-all ${link.enabled ? 'left-[21px]' : 'left-[3px]'}`} />
         </button>
-        <span className={`flex min-w-0 flex-1 items-center gap-2 text-xs uppercase tracking-widest text-brand-light1 ${link.enabled ? '' : 'opacity-50'}`}>
-          <LinkIcon type={link.type} size={14} /> <span className="truncate">{info?.name}</span>
-          {!link.enabled && <span className="normal-case tracking-normal text-brand-mid">· Hidden</span>}
-        </span>
-        {problem && (
-          <span title={problem} className="flex shrink-0 items-center gap-1 rounded-full bg-red-500/15 px-2 py-0.5 text-[11px] font-semibold text-red-300">
-            <CircleAlert size={12} /> Fix
-          </span>
-        )}
-        <RowMenu
-          items={[
-            { label: link.enabled ? 'Hide' : 'Show', icon: link.enabled ? <EyeOff size={14} /> : <Eye size={14} />, onClick: () => onPatch({ enabled: !link.enabled }) },
-            { label: 'Duplicate', icon: <Copy size={14} />, onClick: onDuplicate },
-            !first && { label: 'Move up', icon: <ArrowUp size={14} />, onClick: () => onMove(-1) },
-            !last && { label: 'Move down', icon: <ArrowDown size={14} />, onClick: () => onMove(1) },
-            { label: 'Delete', icon: <Trash2 size={14} />, onClick: onDelete, danger: true },
-          ]}
-        />
-      </div>
-      <div className={`grid gap-2 sm:grid-cols-[2fr_3fr] ${link.enabled ? '' : 'opacity-50'}`}>
-        {!info?.social && (
-          <input
-            className={inputCls}
-            autoFocus={autoFocus}
-            placeholder={`Button text (${info?.name})`}
-            value={link.label}
-            onChange={(e) => onPatch({ label: e.target.value })}
+        <span className="flex items-center gap-0.5">
+          {problem && (
+            <span title={problem} className="flex items-center gap-1 rounded-full bg-red-500/15 px-2 py-0.5 text-[11px] font-semibold text-ed-err">
+              <CircleAlert size={12} /> Fix
+            </span>
+          )}
+          <button type="button" aria-label="Delete" title="Delete" onClick={onDelete} className="rounded-full p-1.5 text-ed-faint hover:bg-red-500/10 hover:text-ed-err">
+            <Trash2 size={16} />
+          </button>
+          <RowMenu
+            items={[
+              { label: 'Duplicate', icon: <Copy size={14} />, onClick: onDuplicate },
+              !first && { label: 'Move up', icon: <ArrowUp size={14} />, onClick: () => onMove(-1) },
+              !last && { label: 'Move down', icon: <ArrowDown size={14} />, onClick: () => onMove(1) },
+            ]}
           />
-        )}
-        <input
-          className={`${inputCls} ${info?.social ? 'sm:col-span-2' : ''}`}
-          autoFocus={autoFocus && info?.social}
-          placeholder={info?.placeholder}
-          value={link.url}
-          onChange={(e) => onPatch({ url: e.target.value })}
-        />
+        </span>
       </div>
-      {problem ? (
-        <FixNote text={problem} />
-      ) : (
-        <p className="mt-2 flex min-w-0 items-center gap-1.5 text-xs text-brand-mid">
-          {clicks !== null &&
-            (showClicks ? (
-              <span title="Last 30 days" className="shrink-0 tabular-nums text-brand-light1">
-                {clicks.toLocaleString()} {clicks === 1 ? 'click' : 'clicks'}
-              </span>
-            ) : (
-              <button type="button" onClick={onUpgrade} title="See clicks per link with Pro" className="flex shrink-0 items-center gap-1 hover:text-brand-white">
-                <Lock size={11} /> <span className="select-none blur-[3px]">{(clicks || 12).toLocaleString()} clicks</span>
-              </button>
-            ))}
-          {clicks !== null && domain && <span>·</span>}
-          {domain && <span className="truncate">{domain}</span>}
-        </p>
-      )}
     </div>
   );
 }
@@ -404,19 +554,19 @@ function RowMenu({ items }: { items: (MenuItem | false)[] }) {
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen(!open)}
-        className="p-1.5 text-brand-light1 hover:text-brand-white"
+        className="rounded-full p-1.5 text-ed-faint hover:bg-ed-field hover:text-ed-ink"
       >
         <EllipsisVertical size={16} />
       </button>
       {open && (
-        <div role="menu" className="absolute right-0 top-full z-20 mt-1 w-40 border border-brand-dark2 bg-brand-dark1 py-1 shadow-2xl">
+        <div role="menu" className="absolute right-0 top-full z-20 mt-1 w-40 rounded-2xl border border-ed-line bg-ed-surface py-1 shadow-2xl">
           {items.filter((x): x is MenuItem => !!x).map((it) => (
             <button
               key={it.label}
               type="button"
               role="menuitem"
               onClick={() => { setOpen(false); it.onClick(); }}
-              className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm hover:bg-brand-black ${it.danger ? 'text-red-300' : 'text-brand-offwhite'}`}
+              className={`flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-sm hover:bg-ed-field ${it.danger ? 'text-ed-err' : 'text-ed-fg'}`}
             >
               {it.icon} {it.label}
             </button>
@@ -458,12 +608,12 @@ function ImageInput({
 
   return (
     <div>
-      <span className="mb-1.5 block text-[11px] uppercase tracking-widest text-brand-mid">{label}</span>
+      <span className="mb-1.5 block text-[13px] font-medium text-ed-soft">{label}</span>
       <div className="flex items-center gap-3">
         <button
           type="button"
           onClick={() => ref.current?.click()}
-          className={`relative flex items-center justify-center overflow-hidden border border-dashed border-brand-mid bg-brand-black text-brand-light1 hover:border-brand-light1 ${round ? 'h-20 w-20 rounded-full' : 'h-20 w-40'}`}
+          className={`relative flex items-center justify-center overflow-hidden border border-dashed border-ed-faint/60 bg-ed-field text-ed-muted hover:border-ed-ink hover:text-ed-ink ${round ? 'h-20 w-20 rounded-full' : 'h-20 w-40 rounded-xl'}`}
         >
           {value ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -474,10 +624,10 @@ function ImageInput({
           {busy && <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs">…</span>}
         </button>
         {value && (
-          <button type="button" onClick={() => onChange(null)} className="text-xs text-brand-light1 underline hover:text-brand-white">Remove</button>
+          <button type="button" onClick={() => onChange(null)} className="text-xs text-ed-muted underline hover:text-ed-ink">Remove</button>
         )}
       </div>
-      {err && <p className="mt-1 text-xs text-red-400">{err}</p>}
+      {err && <p className="mt-1 text-xs text-ed-err">{err}</p>}
       <input ref={ref} type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && pick(e.target.files[0])} />
     </div>
   );

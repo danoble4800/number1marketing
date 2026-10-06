@@ -25,6 +25,38 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Card editor colors. Light is the default; [data-ed-theme="dark"] matches the main site. */
+.ed {
+  --ed-bg: 243 243 240;
+  --ed-surface: 255 255 255;
+  --ed-field: 246 246 243;
+  --ed-line: 228 228 223;
+  --ed-faint: 118 118 124;
+  --ed-muted: 94 94 100;
+  --ed-soft: 58 58 63;
+  --ed-fg: 28 28 31;
+  --ed-ink: 20 20 22;
+  --ed-ok: 21 128 61;
+  --ed-warn: 161 98 7;
+  --ed-err: 200 30 30;
+  color-scheme: light;
+}
+.ed[data-ed-theme="dark"] {
+  --ed-bg: 14 14 16;
+  --ed-surface: 26 26 30;
+  --ed-field: 0 0 0;
+  --ed-line: 45 45 50;
+  --ed-faint: 95 95 100;
+  --ed-muted: 140 140 145;
+  --ed-soft: 185 185 190;
+  --ed-fg: 245 245 246;
+  --ed-ink: 255 255 255;
+  --ed-ok: 134 239 172;
+  --ed-warn: 252 211 77;
+  --ed-err: 252 165 165;
+  color-scheme: dark;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

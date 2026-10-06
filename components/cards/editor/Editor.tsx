@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Check, ExternalLink, Home, LogOut, Plus, Smartphone, X } from 'lucide-react';
+import { Check, ExternalLink, Home, LogOut, Moon, Plus, Smartphone, Sun, X } from 'lucide-react';
 import type { Session } from '@supabase/supabase-js';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import type { CardLink, CardPage, Plan } from '@/lib/cards/types';
@@ -17,7 +17,7 @@ import StatsTab from './StatsTab';
 import LeadsTab from './LeadsTab';
 import CardsTab from './CardsTab';
 import PlanTab from './PlanTab';
-import { UndoToast, inputCls, jumpTo, type Undoable } from './ui';
+import { UndoToast, inputCls, jumpTo, useEditorTheme, type Undoable } from './ui';
 
 const TABS = [
   { id: 'page', name: 'Page' },
@@ -241,7 +241,7 @@ export default function Editor() {
   const canAddPage = demo || (pages ?? []).some((p) => planAtLeast(p.plan, 'business'));
 
   if (!pages) {
-    return <Shell><p className="p-10 text-center text-sm text-brand-light1">Loading…</p></Shell>;
+    return <Shell><p className="p-10 text-center text-sm text-ed-muted">Loading…</p></Shell>;
   }
 
   if (!draft || creating) {
@@ -267,48 +267,49 @@ export default function Editor() {
   return (
     <Shell>
       {/* Top bar */}
-      <div className="sticky top-0 z-30 border-b border-brand-dark2 bg-brand-near-black/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3">
-          <a href="/" aria-label="Back to main site" title="Back to main site" className="flex items-center gap-1.5 border border-brand-dark2 px-2.5 py-1.5 text-xs uppercase tracking-widest text-brand-light1 hover:border-brand-light1 hover:text-brand-white">
+      <div className="sticky top-0 z-30 border-b border-ed-line bg-ed-bg/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-2.5 px-4 py-3">
+          <a href="/" aria-label="Back to main site" title="Back to main site" className="flex items-center gap-1.5 rounded-full border border-ed-line bg-ed-surface px-3 py-1.5 text-sm font-medium text-ed-soft hover:border-ed-faint hover:text-ed-ink">
             <Home size={14} /> <span className="hidden sm:inline">Home</span>
           </a>
-          <Link href="/card" className="font-display text-base uppercase tracking-wider text-brand-white">N°1 Tap Cards</Link>
+          <Link href="/card" className="font-display text-lg uppercase tracking-wide text-ed-ink">N°1 Tap Cards</Link>
           {pages.length > 1 || canAddPage ? (
             <select
               value={currentId}
               onChange={(e) => (e.target.value === '__new' ? (canAddPage ? setCreating(true) : upgrade()) : switchPage(e.target.value))}
-              className="max-w-[180px] border border-brand-dark2 bg-brand-black px-2 py-1.5 text-xs text-brand-offwhite"
+              className="max-w-[180px] rounded-full border border-ed-line bg-ed-surface px-3 py-1.5 text-sm text-ed-fg"
             >
               {pages.map((p) => <option key={p.id} value={p.id}>{p.display_name || p.slug}</option>)}
               <option value="__new">+ New page</option>
             </select>
           ) : null}
           <div className="ml-auto flex items-center gap-2">
-            <Link href="/en/cards" target="_blank" className="hidden text-xs uppercase tracking-widest text-brand-light1 hover:text-brand-white md:inline">Plans &amp; pricing</Link>
-            {isAdmin && <Link href="/en/admin?tab=cards" className="hidden text-xs uppercase tracking-widest text-brand-light1 hover:text-brand-white sm:inline">Admin</Link>}
+            <Link href="/en/cards" target="_blank" className="hidden text-sm font-medium text-ed-muted hover:text-ed-ink md:inline">Plans &amp; pricing</Link>
+            {isAdmin && <Link href="/en/admin?tab=cards" className="hidden text-sm font-medium text-ed-muted hover:text-ed-ink sm:inline">Admin</Link>}
             <a
               href={`/c/${saved?.slug}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden items-center gap-1.5 border border-brand-dark2 px-3 py-2 text-xs uppercase tracking-widest text-brand-offwhite hover:border-brand-light1 sm:flex"
+              className="hidden items-center gap-1.5 rounded-full border border-ed-line bg-ed-surface px-3.5 py-1.5 text-sm font-medium text-ed-fg hover:border-ed-faint sm:flex"
             >
               View <ExternalLink size={13} />
             </a>
             <SaveStatus demo={demo} status={status} pending={dirty} onRetry={() => save()} />
+            <ThemeToggle />
             {!demo && (
-              <button type="button" aria-label="Sign out" title="Sign out" onClick={signOut} className="p-2 text-brand-light1 hover:text-brand-white">
+              <button type="button" aria-label="Sign out" title="Sign out" onClick={signOut} className="rounded-full p-2 text-ed-muted hover:bg-ed-surface hover:text-ed-ink">
                 <LogOut size={16} />
               </button>
             )}
           </div>
         </div>
-        <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4">
+        <nav className="mx-auto flex max-w-7xl gap-1.5 overflow-x-auto px-4 pb-3 [scrollbar-width:none]">
           {TABS.map((t) => (
             <button
               key={t.id}
               type="button"
               onClick={() => switchTab(t.id)}
-              className={`shrink-0 border-b-2 px-3 py-2.5 text-xs uppercase tracking-widest ${tab === t.id ? 'border-brand-white text-brand-white' : 'border-transparent text-brand-light1 hover:text-brand-white'}`}
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${tab === t.id ? 'bg-ed-ink text-ed-field' : 'text-ed-muted hover:bg-ed-surface hover:text-ed-ink'}`}
             >
               {t.name}
             </button>
@@ -317,9 +318,9 @@ export default function Editor() {
       </div>
 
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_400px]">
-        <div className="min-w-0 space-y-5" onFocusCapture={trackFocus} onPointerDownCapture={trackFocus}>
+        <div className="mx-auto w-full min-w-0 max-w-[720px] space-y-4" onFocusCapture={trackFocus} onPointerDownCapture={trackFocus}>
           {demo && (
-            <div className="border border-amber-400/40 bg-amber-400/10 px-4 py-3 text-sm text-amber-200">
+            <div className="rounded-2xl border border-amber-400/40 bg-amber-400/10 px-4 py-3 text-sm text-ed-warn">
               Demo mode: edit anything and watch the preview. Changes aren’t saved.{' '}
               <span className="whitespace-nowrap">
                 Example pages:{' '}
@@ -336,7 +337,7 @@ export default function Editor() {
                     key={p}
                     type="button"
                     onClick={() => demoPlan(p)}
-                    className={`border px-2.5 py-1 text-[11px] uppercase tracking-widest ${draft.plan === p ? 'border-amber-200 bg-amber-200 text-black' : 'border-amber-400/40 hover:border-amber-200'}`}
+                    className={`rounded-full border px-2.5 py-1 text-[13px] font-medium ${draft.plan === p ? 'border-amber-200 bg-amber-200 text-black' : 'border-amber-500/40 hover:border-amber-500'}`}
                   >
                     {PLANS[p].name}
                   </button>
@@ -345,12 +346,12 @@ export default function Editor() {
             </div>
           )}
           {welcome && (
-            <div className="border border-green-500/40 bg-green-500/10 px-4 py-3 text-sm text-green-300">
+            <div className="rounded-2xl border border-green-500/40 bg-green-500/10 px-4 py-3 text-sm text-ed-ok">
               Your card is live! Add your photo, contact info and links below. Changes save automatically.
             </div>
           )}
           {notice && (
-            <div className={`flex items-start justify-between gap-3 border px-4 py-3 text-sm ${notice.kind === 'ok' ? 'border-green-500/40 bg-green-500/10 text-green-300' : 'border-red-500/40 bg-red-500/10 text-red-300'}`}>
+            <div className={`flex items-start justify-between gap-3 rounded-2xl border px-4 py-3 text-sm ${notice.kind === 'ok' ? 'border-green-500/40 bg-green-500/10 text-ed-ok' : 'border-red-500/40 bg-red-500/10 text-ed-err'}`}>
               {notice.text}
               <button type="button" aria-label="Dismiss" onClick={() => setNotice(null)}><X size={15} /></button>
             </div>
@@ -366,6 +367,8 @@ export default function Editor() {
               onUpgrade={upgrade}
               onUndoable={showUndo}
               onSlugBlur={commitSlug}
+              liveSlug={saved?.slug ?? draft.slug}
+              onShowQr={() => switchTab('cards')}
             />
           )}
           {tab === 'look' && <LookTab page={draft} set={set} onUpgrade={upgrade} demo={demo} userId={session?.user.id ?? null} />}
@@ -376,9 +379,9 @@ export default function Editor() {
         </div>
 
         <aside className="hidden lg:block">
-          <div className="sticky top-32">
+          <div className="sticky top-36">
             <PhoneFrame page={draft} focusId={previewFocus} />
-            <p className="mt-3 text-center text-xs text-brand-mid">Live preview · /c/{draft.slug}</p>
+            <p className="mt-3 text-center text-xs text-ed-faint">Live preview · /c/{draft.slug}</p>
           </div>
         </aside>
       </div>
@@ -387,7 +390,7 @@ export default function Editor() {
       <button
         type="button"
         onClick={() => setShowPreview(true)}
-        className="fixed bottom-5 right-5 z-30 flex items-center gap-2 rounded-full bg-brand-white px-4 py-3 text-xs font-semibold uppercase tracking-widest text-brand-black shadow-xl lg:hidden"
+        className="fixed bottom-5 right-5 z-30 flex items-center gap-2 rounded-full bg-ed-ink px-4 py-3 text-sm font-semibold text-ed-field shadow-xl lg:hidden"
       >
         <Smartphone size={16} /> Preview
       </button>
@@ -396,7 +399,7 @@ export default function Editor() {
           <button
             type="button"
             onClick={() => setShowPreview(false)}
-            className="fixed right-4 top-4 z-10 flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-2 text-xs font-semibold uppercase tracking-widest text-white"
+            className="fixed right-4 top-4 z-10 flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-2 text-sm font-semibold text-white"
           >
             <X size={14} /> Close
           </button>
@@ -410,7 +413,18 @@ export default function Editor() {
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
-  return <div className="min-h-[100dvh] bg-brand-near-black pb-24 text-brand-offwhite">{children}</div>;
+  const [theme] = useEditorTheme();
+  return <div data-ed-theme={theme} className="ed min-h-[100dvh] bg-ed-bg pb-24 text-ed-fg">{children}</div>;
+}
+
+function ThemeToggle() {
+  const [theme, toggle] = useEditorTheme();
+  const label = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+  return (
+    <button type="button" onClick={toggle} aria-label={label} title={label} className="rounded-full p-2 text-ed-muted hover:bg-ed-surface hover:text-ed-ink">
+      {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+    </button>
+  );
 }
 
 function SaveStatus({
@@ -421,19 +435,19 @@ function SaveStatus({
   pending: boolean;
   onRetry: () => void;
 }) {
-  const base = 'flex items-center gap-1.5 px-1 py-2 text-xs uppercase tracking-widest';
-  if (demo) return <span className={`${base} text-brand-mid`}>Demo · not saved</span>;
+  const base = 'flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium';
+  if (demo) return <span className={`${base} text-ed-faint`}>Demo · not saved</span>;
   if (status === 'error') {
     return (
-      <button type="button" onClick={onRetry} className={`${base} text-red-300 hover:text-red-200`}>
+      <button type="button" onClick={onRetry} className={`${base} text-ed-err hover:text-ed-err`}>
         Couldn’t save · <span className="underline">Retry</span>
       </button>
     );
   }
-  if (status === 'saving' || pending) return <span aria-live="polite" className={`${base} text-brand-light1`}>Saving…</span>;
+  if (status === 'saving' || pending) return <span aria-live="polite" className={`${base} text-ed-muted`}>Saving…</span>;
   return (
-    <span aria-live="polite" className={`${base} text-brand-light1`}>
-      <Check size={14} className="text-green-400" /> Saved
+    <span aria-live="polite" className={`${base} text-ed-muted`}>
+      <Check size={14} className="text-ed-ok" /> Saved
     </span>
   );
 }
@@ -489,31 +503,31 @@ function CreatePage({
 
   return (
     <div className="flex min-h-[80dvh] items-center justify-center px-4">
-      <form onSubmit={submit} className="w-full max-w-md space-y-5 border border-brand-dark2 bg-brand-dark1 p-8">
+      <form onSubmit={submit} className="w-full max-w-md space-y-5 rounded-2xl border border-ed-line bg-ed-surface p-8">
         <div>
-          <p className="font-display text-sm uppercase tracking-wider text-brand-light1">N°1 Tap Cards</p>
-          <h1 className="mt-2 font-display text-3xl uppercase tracking-tight text-brand-white">{first ? 'Create your page' : 'New page'}</h1>
-          <p className="mt-2 text-sm text-brand-light1">
+          <p className="font-display text-sm text-ed-muted">N°1 Tap Cards</p>
+          <h1 className="mt-2 font-display text-3xl uppercase tracking-tight text-ed-ink">{first ? 'Create your page' : 'New page'}</h1>
+          <p className="mt-2 text-sm text-ed-muted">
             {first ? 'This is what people see when they tap your card.' : 'Great for a second location or each person on your team.'}
           </p>
         </div>
         <label className="block">
-          <span className="mb-1.5 block text-[11px] uppercase tracking-widest text-brand-mid">Name or business</span>
+          <span className="mb-1.5 block text-[13px] font-medium text-ed-faint">Name or business</span>
           <input className={inputCls} required value={name} onChange={(e) => { setName(e.target.value); if (!touched) setSlug(slugify(e.target.value)); }} />
         </label>
         <label className="block">
-          <span className="mb-1.5 block text-[11px] uppercase tracking-widest text-brand-mid">Page address</span>
-          <div className="flex items-center border border-brand-dark2 bg-brand-black focus-within:border-brand-light1">
-            <span className="pl-3.5 text-sm text-brand-mid">…/c/</span>
-            <input className="w-full bg-transparent px-1 py-2.5 text-sm text-brand-offwhite focus:outline-none" required value={slug} onChange={(e) => { setTouched(true); setSlug(slugTyping(e.target.value)); }} />
+          <span className="mb-1.5 block text-[13px] font-medium text-ed-faint">Page address</span>
+          <div className="flex items-center rounded-xl border border-ed-line bg-ed-field focus-within:border-ed-muted">
+            <span className="pl-3.5 text-sm text-ed-faint">…/c/</span>
+            <input className="w-full bg-transparent px-1 py-2.5 text-sm text-ed-fg focus:outline-none" required value={slug} onChange={(e) => { setTouched(true); setSlug(slugTyping(e.target.value)); }} />
           </div>
         </label>
-        {error && <p className="text-sm text-red-400">{error}</p>}
+        {error && <p className="text-sm text-ed-err">{error}</p>}
         <div className="flex gap-3">
           {onCancel && (
-            <button type="button" onClick={onCancel} className="flex-1 border border-brand-dark2 py-3 text-xs uppercase tracking-widest text-brand-light1">Cancel</button>
+            <button type="button" onClick={onCancel} className="flex-1 rounded-full border border-ed-line py-3 text-sm font-medium text-ed-muted">Cancel</button>
           )}
-          <button type="submit" disabled={busy} className="flex flex-1 items-center justify-center gap-2 bg-brand-white py-3 text-xs font-semibold uppercase tracking-widest text-brand-black disabled:opacity-60">
+          <button type="submit" disabled={busy} className="flex flex-1 items-center justify-center gap-2 rounded-full bg-ed-ink py-3 text-sm font-semibold text-ed-field disabled:opacity-60">
             <Plus size={14} /> {busy ? 'Creating…' : 'Create page'}
           </button>
         </div>
