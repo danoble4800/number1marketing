@@ -26,8 +26,8 @@ export default function SiteThemeToggle() {
 
   const label = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
   return (
-    <button type="button" onClick={toggle} aria-label={label} title={label} className="p-1 text-brand-light1 transition-colors hover:text-brand-white">
-      {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+    <button type="button" onClick={toggle} aria-label={label} title={label} className="flex h-10 w-10 items-center justify-center rounded-full text-brand-light2 transition-colors hover:bg-brand-dark1 hover:text-brand-white">
+      {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
     </button>
   );
 }

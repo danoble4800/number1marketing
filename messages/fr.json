@@ -6,7 +6,45 @@
     "about": "À Propos",
     "caseStudies": "Études de Cas",
     "contact": "Contact",
-    "bookCall": "Prendre RDV"
+    "bookCall": "Prendre RDV",
+    "signIn": "Connexion",
+    "myTapCard": "Ma carte",
+    "customers": "Clients",
+    "team": "Équipe",
+    "admin": "Admin",
+    "menu": "Menu",
+    "seeResults": "Découvrez nos résultats",
+    "caseStudiesLink": "Études de cas",
+    "appearance": "Apparence",
+    "light": "Clair",
+    "dark": "Sombre",
+    "language": "Langue",
+    "svc": {
+      "ai_agents": {
+        "name": "Systèmes de croissance",
+        "desc": "Des agents IA qui répondent 24h/24"
+      },
+      "ai_consulting": {
+        "name": "Stratégie de croissance",
+        "desc": "Un plan clair pour investir"
+      },
+      "seo": {
+        "name": "SEO",
+        "desc": "Soyez trouvé quand on vous cherche"
+      },
+      "web_design": {
+        "name": "Web design",
+        "desc": "Des sites qui génèrent des appels"
+      },
+      "workflow_automation": {
+        "name": "Automatisation",
+        "desc": "Ne faites plus deux fois la même tâche"
+      },
+      "growth_marketing": {
+        "name": "Marketing de croissance",
+        "desc": "Pubs, emails et relances qui s’additionnent"
+      }
+    }
   },
   "home": {
     "hero": {
@@ -30,11 +68,26 @@
       "beforeLabel": "AVANT L'IA",
       "afterLabel": "APRÈS L'IA",
       "pairs": [
-        { "before": "Équipe marketing de 3–5 personnes à 15K€/mois", "after": "Stack d'agents IA qui en fait plus pour 3K€/mois" },
-        { "before": "Les leads stagnent dans votre CRM pendant des jours", "after": "Leads qualifiés et recontactés en 90 secondes" },
-        { "before": "Les rapports vous prennent la moitié du vendredi", "after": "Tableaux de bord en temps réel — zéro intervention manuelle" },
-        { "before": "Le calendrier de contenu a 3 semaines de retard", "after": "30 contenus par semaine, à votre image, automatisés" },
-        { "before": "Deviner ce que veulent vos clients", "after": "L'IA prédictive vous dit ce qu'ils achèteront ensuite" }
+        {
+          "before": "Équipe marketing de 3–5 personnes à 15K€/mois",
+          "after": "Stack d'agents IA qui en fait plus pour 3K€/mois"
+        },
+        {
+          "before": "Les leads stagnent dans votre CRM pendant des jours",
+          "after": "Leads qualifiés et recontactés en 90 secondes"
+        },
+        {
+          "before": "Les rapports vous prennent la moitié du vendredi",
+          "after": "Tableaux de bord en temps réel — zéro intervention manuelle"
+        },
+        {
+          "before": "Le calendrier de contenu a 3 semaines de retard",
+          "after": "30 contenus par semaine, à votre image, automatisés"
+        },
+        {
+          "before": "Deviner ce que veulent vos clients",
+          "after": "L'IA prédictive vous dit ce qu'ils achèteront ensuite"
+        }
       ]
     },
     "caseStudy": {
@@ -48,10 +101,26 @@
       "heading": "NOTRE MÉTHODE",
       "subheading": "Quatre étapes. Sans jargon. Des livrables mesurables à chaque phase.",
       "steps": [
-        { "number": "01", "title": "AUDIT", "description": "Nous analysons votre stack actuel, vos workflows et vos fuites de croissance. Pas d'hypothèses — que des données." },
-        { "number": "02", "title": "CONCEPTION", "description": "Nous cartographions les systèmes IA et automatisations exacts qui feront bouger vos indicateurs." },
-        { "number": "03", "title": "CONSTRUCTION", "description": "Nous construisons vite. Agents, automatisations et campagnes en ligne en semaines — pas en trimestres." },
-        { "number": "04", "title": "SCALABILITÉ", "description": "Nous optimisons, itérons et scalons ce qui fonctionne. Vous grandissez. Nous continuons à construire." }
+        {
+          "number": "01",
+          "title": "AUDIT",
+          "description": "Nous analysons votre stack actuel, vos workflows et vos fuites de croissance. Pas d'hypothèses — que des données."
+        },
+        {
+          "number": "02",
+          "title": "CONCEPTION",
+          "description": "Nous cartographions les systèmes IA et automatisations exacts qui feront bouger vos indicateurs."
+        },
+        {
+          "number": "03",
+          "title": "CONSTRUCTION",
+          "description": "Nous construisons vite. Agents, automatisations et campagnes en ligne en semaines — pas en trimestres."
+        },
+        {
+          "number": "04",
+          "title": "SCALABILITÉ",
+          "description": "Nous optimisons, itérons et scalons ce qui fonctionne. Vous grandissez. Nous continuons à construire."
+        }
       ]
     },
     "cta": {

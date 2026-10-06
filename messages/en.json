@@ -10,7 +10,45 @@
     "clientOnboarding": "Client Onboarding",
     "bookCall": "Book a Call",
     "shop": "Shop",
-    "academy": "Get AI Certified"
+    "academy": "Get AI Certified",
+    "signIn": "Sign in",
+    "myTapCard": "My tap card",
+    "customers": "Customers",
+    "team": "Team",
+    "admin": "Admin",
+    "menu": "Menu",
+    "seeResults": "See the results we've delivered",
+    "caseStudiesLink": "Case studies",
+    "appearance": "Appearance",
+    "light": "Light",
+    "dark": "Dark",
+    "language": "Language",
+    "svc": {
+      "ai_agents": {
+        "name": "Growth Systems",
+        "desc": "AI agents that answer leads 24/7"
+      },
+      "ai_consulting": {
+        "name": "Growth Strategy",
+        "desc": "A plan for where to spend next"
+      },
+      "seo": {
+        "name": "SEO",
+        "desc": "Show up when people search"
+      },
+      "web_design": {
+        "name": "Web Design",
+        "desc": "Sites built to turn visits into calls"
+      },
+      "workflow_automation": {
+        "name": "Workflow Automation",
+        "desc": "Stop doing the same task twice"
+      },
+      "growth_marketing": {
+        "name": "Growth Marketing",
+        "desc": "Ads, email and follow-up that compound"
+      }
+    }
   },
   "home": {
     "hero": {

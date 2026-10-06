@@ -11,7 +11,45 @@
     "clientOnboarding": "Onboarding de clientes",
     "bookCall": "Agendar Chamada",
     "shop": "Loja",
-    "academy": "Certifique-se em IA"
+    "academy": "Certifique-se em IA",
+    "signIn": "Entrar",
+    "myTapCard": "Meu cartão",
+    "customers": "Clientes",
+    "team": "Equipe",
+    "admin": "Admin",
+    "menu": "Menu",
+    "seeResults": "Veja os resultados que entregamos",
+    "caseStudiesLink": "Casos de sucesso",
+    "appearance": "Aparência",
+    "light": "Claro",
+    "dark": "Escuro",
+    "language": "Idioma",
+    "svc": {
+      "ai_agents": {
+        "name": "Sistemas de Crescimento",
+        "desc": "Agentes de IA que respondem leads 24/7"
+      },
+      "ai_consulting": {
+        "name": "Estratégia de Crescimento",
+        "desc": "Um plano claro de onde investir"
+      },
+      "seo": {
+        "name": "SEO",
+        "desc": "Apareça quando te procuram"
+      },
+      "web_design": {
+        "name": "Web Design",
+        "desc": "Sites que transformam visitas em ligações"
+      },
+      "workflow_automation": {
+        "name": "Automação",
+        "desc": "Pare de fazer a mesma tarefa duas vezes"
+      },
+      "growth_marketing": {
+        "name": "Marketing de Crescimento",
+        "desc": "Anúncios, email e follow-up que se somam"
+      }
+    }
   },
   "home": {
     "hero": {

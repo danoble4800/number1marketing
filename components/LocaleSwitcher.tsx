@@ -28,8 +28,13 @@ export default function LocaleSwitcher({ locale }: LocaleSwitcherProps) {
         setOpen(false);
       }
     };
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
     document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('keydown', handleKey);
+    };
   }, []);
 
   const switchLocale = (newLocale: string) => {
@@ -49,24 +54,26 @@ export default function LocaleSwitcher({ locale }: LocaleSwitcherProps) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 text-brand-light1 hover:text-brand-white transition-colors text-sm"
+        className={`flex h-10 items-center gap-1 rounded-full px-2.5 text-sm transition-colors ${open ? 'bg-brand-dark1 text-brand-white' : 'text-brand-light2 hover:bg-brand-dark1 hover:text-brand-white'}`}
         aria-label={t('label')}
+        aria-expanded={open}
+        title={t('label')}
       >
-        <Globe size={15} />
-        <span className="uppercase tracking-wider font-semibold">{locale}</span>
-        <ChevronDown size={13} className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+        <Globe size={16} />
+        <span className="font-semibold uppercase">{locale}</span>
+        <ChevronDown size={13} className={`hidden transition-transform duration-200 sm:block ${open ? 'rotate-180' : ''}`} />
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-36 bg-brand-dark1 border border-brand-dark2 shadow-xl z-50">
+        <div className="absolute right-0 top-full z-50 mt-2 w-40 rounded-2xl border border-brand-dark2 bg-brand-dark1 p-1.5 shadow-2xl">
           {locales.map((loc) => (
             <button
               key={loc.code}
               onClick={() => switchLocale(loc.code)}
-              className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
+              className={`w-full rounded-xl px-3 py-2.5 text-left text-sm transition-colors ${
                 loc.code === locale
-                  ? 'text-brand-white bg-brand-dark2'
-                  : 'text-brand-light1 hover:text-brand-white hover:bg-brand-dark2'
+                  ? 'bg-brand-near-black font-semibold text-brand-white'
+                  : 'text-brand-light1 hover:bg-brand-near-black hover:text-brand-white'
               }`}
             >
               {loc.label}
