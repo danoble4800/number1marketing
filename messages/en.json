@@ -834,6 +834,37 @@
           ],
           "cta": "Book a 1-on-1"
         }
+      },
+      "perOneTime": "one-time",
+      "dwy": {
+        "heading": "DONE-WITH-YOU SETUP",
+        "subheading": "Rather build it together? We set up the systems from the course inside your business on live Zoom calls, so you learn them and own them.",
+        "note": "You keep your own accounts for the tools we use (for example Zapier and your Google Business Profile). Tool subscriptions aren’t included.",
+        "one": {
+          "name": "One System",
+          "features": [
+            "Two 60-minute Zoom build sessions",
+            "We build one system with you: an AI lead-response automation, or a Google Business Profile and review system",
+            "Everything documented so your team can run it",
+            "A check-in call 14 days later"
+          ],
+          "cta": "Start With One System"
+        },
+        "both": {
+          "name": "Both Systems",
+          "features": [
+            "Four 60-minute Zoom build sessions",
+            "The AI lead-response automation and the Google Business Profile and review system",
+            "Everything documented so your team can run it",
+            "A check-in call 30 days later"
+          ],
+          "cta": "Build Both Systems"
+        }
+      },
+      "team": {
+        "heading": "Training a team?",
+        "desc": "Enroll your staff together and add live training sessions just for your team. Tell us about your team and we’ll send a custom quote.",
+        "cta": "Get a Team Quote"
       }
     }
   },

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { BookOpen, Award, Clock, Check, Quote } from 'lucide-react';
+import { BookOpen, Award, Clock, Check, Quote, Users } from 'lucide-react';
 import { getModule, isHandsOn } from '@/content/academy/lessons';
 import { getQuiz } from '@/content/academy/quizzes';
 import Container from '@/components/Container';
@@ -57,6 +57,37 @@ export default async function AcademyPage({
     { tier: tiers.group, price: `$${COACHING_PRICES.group}`, per: t('coaching.perMonth'), href: coachingHref('group', locale), featured: true },
     { tier: tiers.oneOnOne, price: `$${COACHING_PRICES.oneOnOne}`, per: t('coaching.perSession'), href: coachingHref('oneOnOne', locale), featured: false },
   ];
+  const dwy = t.raw('coaching.dwy') as Record<'one' | 'both', Tier>;
+  const dwyPlans = [
+    { tier: dwy.one, price: `$${COACHING_PRICES.dwyOne}`, per: t('coaching.perOneTime'), href: coachingHref('dwyOne', locale), featured: false },
+    { tier: dwy.both, price: `$${COACHING_PRICES.dwyBoth}`, per: t('coaching.perOneTime'), href: coachingHref('dwyBoth', locale), featured: false },
+  ];
+
+  const planCard = ({ tier, price, per, href, featured }: (typeof plans)[number]) => (
+    <div
+      key={tier.name}
+      className={`bg-brand-dark1 border p-6 sm:p-8 flex flex-col ${featured ? 'border-brand-light1' : 'border-brand-dark2'}`}
+    >
+      <h3 className="font-display text-lg text-brand-white uppercase tracking-tight">{tier.name}</h3>
+      <p className="mt-4 flex items-baseline gap-1">
+        <span className="font-display text-4xl text-brand-white">{price}</span>
+        {per && <span className="text-sm text-brand-mid">{per}</span>}
+      </p>
+      <ul className="mt-6 space-y-3 flex-1">
+        {tier.features.map((feature) => (
+          <li key={feature} className="flex items-start gap-2 text-sm text-brand-light1">
+            <Check size={15} className="text-brand-light2 mt-0.5 flex-shrink-0" />
+            {feature}
+          </li>
+        ))}
+      </ul>
+      <div className="mt-8">
+        <Button href={href} external={href.startsWith('http')} variant={featured ? 'primary' : 'outline'} className="w-full justify-center">
+          {tier.cta}
+        </Button>
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -234,33 +265,26 @@ export default async function AcademyPage({
             <Heading as="h2" size="lg">{t('coaching.heading')}</Heading>
             <p className="mt-4 text-brand-light1 max-w-2xl mx-auto">{t('coaching.subheading')}</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {plans.map(({ tier, price, per, href, featured }) => (
-              <div
-                key={tier.name}
-                className={`bg-brand-dark1 border p-6 sm:p-8 flex flex-col ${featured ? 'border-brand-light1' : 'border-brand-dark2'}`}
-              >
-                <h3 className="font-display text-lg text-brand-white uppercase tracking-tight">{tier.name}</h3>
-                <p className="mt-4 flex items-baseline gap-1">
-                  <span className="font-display text-4xl text-brand-white">{price}</span>
-                  {per && <span className="text-sm text-brand-mid">{per}</span>}
-                </p>
-                <ul className="mt-6 space-y-3 flex-1">
-                  {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm text-brand-light1">
-                      <Check size={15} className="text-brand-light2 mt-0.5 flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-8">
-                  <Button href={href} external={href.startsWith('http')} variant={featured ? 'primary' : 'outline'} className="w-full justify-center">
-                    {tier.cta}
-                  </Button>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">{plans.map(planCard)}</div>
+
+          <div className="text-center mt-20 mb-12">
+            <Heading as="h3" size="md">{t('coaching.dwy.heading')}</Heading>
+            <p className="mt-4 text-brand-light1 max-w-2xl mx-auto">{t('coaching.dwy.subheading')}</p>
           </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">{dwyPlans.map(planCard)}</div>
+          <p className="mt-4 text-center text-xs text-brand-mid max-w-2xl mx-auto">{t('coaching.dwy.note')}</p>
+
+          <div className="mt-12 max-w-4xl mx-auto bg-brand-dark1 border border-brand-dark2 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-6">
+            <Users size={28} className="text-brand-light2 flex-shrink-0" />
+            <div className="flex-1">
+              <h3 className="font-display text-lg text-brand-white uppercase tracking-tight">{t('coaching.team.heading')}</h3>
+              <p className="mt-2 text-sm text-brand-light1">{t('coaching.team.desc')}</p>
+            </div>
+            <Button href={coachingHref('team', locale)} variant="outline" className="flex-shrink-0">
+              {t('coaching.team.cta')}
+            </Button>
+          </div>
+
           <p className="mt-6 text-center text-xs text-brand-mid">{t('coaching.note')}</p>
         </Container>
       </Section>

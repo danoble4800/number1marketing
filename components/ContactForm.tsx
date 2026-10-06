@@ -57,10 +57,13 @@ export default function ContactForm({ showHeading = true, source = 'Contact Page
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   // Set when someone arrives from an in-person follow-up PDF's QR code (?utm_source=inperson&utm_campaign=<business>)
   const [inPersonRef, setInPersonRef] = useState('');
+  // Set when someone clicks an Academy paid offer (?interest=academy-…); the API labels the lead with it
+  const [interest, setInterest] = useState('');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('utm_source') === 'inperson') setInPersonRef(params.get('utm_campaign') ?? 'general');
+    setInterest(params.get('interest') ?? '');
   }, []);
 
   const validate = (): FormErrors => {
@@ -115,7 +118,7 @@ export default function ContactForm({ showHeading = true, source = 'Contact Page
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source, inPersonRef }),
+        body: JSON.stringify({ ...form, source, inPersonRef, interest }),
       });
       if (!res.ok) throw new Error('Server error');
       setStatus('success');

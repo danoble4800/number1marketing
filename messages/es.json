@@ -835,6 +835,37 @@
           ],
           "cta": "Reserva una sesión 1 a 1"
         }
+      },
+      "perOneTime": "pago único",
+      "dwy": {
+        "heading": "IMPLEMENTACIÓN CONTIGO",
+        "subheading": "¿Prefieres construirlo juntos? Montamos los sistemas del curso dentro de tu negocio en llamadas en vivo por Zoom, para que los aprendas y sean tuyos.",
+        "note": "Las cuentas de las herramientas que usamos quedan a tu nombre (por ejemplo, Zapier y tu Perfil de Empresa de Google). Las suscripciones a herramientas no están incluidas.",
+        "one": {
+          "name": "Un sistema",
+          "features": [
+            "Dos sesiones de trabajo de 60 minutos por Zoom",
+            "Construimos contigo un sistema: una automatización de respuesta a prospectos con IA, o un Perfil de Empresa de Google con un sistema de reseñas",
+            "Todo documentado para que tu equipo lo maneje",
+            "Una llamada de seguimiento 14 días después"
+          ],
+          "cta": "Empezar con un sistema"
+        },
+        "both": {
+          "name": "Ambos sistemas",
+          "features": [
+            "Cuatro sesiones de trabajo de 60 minutos por Zoom",
+            "La automatización de respuesta a prospectos con IA y el Perfil de Empresa de Google con sistema de reseñas",
+            "Todo documentado para que tu equipo lo maneje",
+            "Una llamada de seguimiento 30 días después"
+          ],
+          "cta": "Construir ambos sistemas"
+        }
+      },
+      "team": {
+        "heading": "¿Capacitas a un equipo?",
+        "desc": "Inscribe a tu personal en conjunto y agrega sesiones de capacitación en vivo solo para tu equipo. Cuéntanos sobre tu equipo y te enviaremos una cotización a la medida.",
+        "cta": "Pedir cotización para equipos"
       }
     }
   },

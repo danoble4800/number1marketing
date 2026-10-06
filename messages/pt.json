@@ -57,7 +57,18 @@
       "headlineAccent": "NÓS FAZEMOS VOCÊ SER NÚMERO 1.",
       "subline": "Captação de leads, follow-up imediato, conteúdo e conversão — conectados em um único sistema que faz seu negócio crescer enquanto você dorme. Não apenas promessas em slides.",
       "ctaPrimary": "Agende Sua Auditoria de Crescimento Digital Grátis",
-      "ctaSecondary": "Ver Nosso Trabalho"
+      "ctaSecondary": "Ver Nosso Trabalho",
+      "cards": {
+        "leadTitle": "Novo lead",
+        "leadBody": "Orçamento de reforma de cozinha",
+        "leadMeta": "Respondido em 14 segundos",
+        "reviewTitle": "Nova avaliação no Google",
+        "reviewBody": "“Rápidos, simpáticos e retornaram a ligação de verdade.”",
+        "bookedTitle": "Ligação agendada",
+        "bookedBody": "Qui · 10:30",
+        "chartTitle": "Leads este mês",
+        "chartMeta": "Em alta"
+      }
     },
     "trusted": {
       "label": "Confiado por equipes focadas em crescimento"
@@ -824,6 +835,37 @@
           ],
           "cta": "Agendar sessão individual"
         }
+      },
+      "perOneTime": "pagamento único",
+      "dwy": {
+        "heading": "IMPLEMENTAÇÃO COM VOCÊ",
+        "subheading": "Prefere construir junto? Montamos os sistemas do curso dentro do seu negócio em chamadas ao vivo por Zoom, para você aprender e ficar com eles.",
+        "note": "As contas das ferramentas que usamos ficam no seu nome (por exemplo, Zapier e seu Perfil da Empresa no Google). Assinaturas de ferramentas não estão incluídas.",
+        "one": {
+          "name": "Um sistema",
+          "features": [
+            "Duas sessões de trabalho de 60 minutos por Zoom",
+            "Construímos um sistema com você: uma automação de resposta a leads com IA, ou um Perfil da Empresa no Google com sistema de avaliações",
+            "Tudo documentado para sua equipe tocar",
+            "Uma chamada de acompanhamento 14 dias depois"
+          ],
+          "cta": "Começar com um sistema"
+        },
+        "both": {
+          "name": "Os dois sistemas",
+          "features": [
+            "Quatro sessões de trabalho de 60 minutos por Zoom",
+            "A automação de resposta a leads com IA e o Perfil da Empresa no Google com sistema de avaliações",
+            "Tudo documentado para sua equipe tocar",
+            "Uma chamada de acompanhamento 30 dias depois"
+          ],
+          "cta": "Construir os dois sistemas"
+        }
+      },
+      "team": {
+        "heading": "Vai treinar uma equipe?",
+        "desc": "Inscreva sua equipe junta e adicione sessões de treinamento ao vivo só para ela. Conte sobre sua equipe e enviaremos um orçamento sob medida.",
+        "cta": "Pedir orçamento para equipes"
       }
     }
   },

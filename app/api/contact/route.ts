@@ -117,10 +117,18 @@ async function appendToSheet(values: string[]) {
   });
 }
 
+const ACADEMY_OFFERS: Record<string, string> = {
+  'academy-group': 'Live Group Call ($49/mo)',
+  'academy-1on1': '1-on-1 Zoom ($197)',
+  'academy-dwy-one': 'Done-With-You, one system ($497)',
+  'academy-dwy-both': 'Done-With-You, both systems ($997)',
+  'academy-team': 'Team Training (quote)',
+};
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { firstName, lastName, phone, email, businessName, industry, location, services, consent, source, inPersonRef } = body;
+    const { firstName, lastName, phone, email, businessName, industry, location, services, consent, source, inPersonRef, interest } = body;
 
     if (!firstName || !lastName || !phone || !email) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -131,7 +139,15 @@ export async function POST(req: NextRequest) {
       : '';
     // QR codes on the in-person follow-up PDFs tag the visit with the business they were made for
     const ref = typeof inPersonRef === 'string' && /^[a-z0-9-]{1,40}$/.test(inPersonRef) ? inPersonRef : '';
-    const leadSource = ref ? `In-Person QR (${ref})` : LEAD_SOURCES.includes(source) ? source : 'Website';
+    // Academy paid-offer buttons link here with ?interest=<offer> so the lead says what they want
+    const academyOffer = typeof interest === 'string' ? ACADEMY_OFFERS[interest] : undefined;
+    const leadSource = ref
+      ? `In-Person QR (${ref})`
+      : academyOffer
+      ? `Academy: ${academyOffer}`
+      : LEAD_SOURCES.includes(source)
+      ? source
+      : 'Website';
     // "YYYY-MM-DD HH:MM:SS" in New York time so Sheets stores a real, sortable date
     const submittedAt = new Date().toLocaleString('sv-SE', { timeZone: 'America/New_York' });
 
