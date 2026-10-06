@@ -27,8 +27,8 @@ export type CourseModule = {
   checklist: string[];
 };
 
-// Passing this module's final assessment issues the certificate. Modules after it form the
-// Hands-On Track: optional, unlocked in order after the certificate.
+// Passing this module's final assessment (plus an approved capstone) issues the certificate.
+// Modules after it form the Hands-On Track: optional, unlocked in order after the final.
 export const CERT_MODULE = '06';
 export const isHandsOn = (number: string) => Number(number) > Number(CERT_MODULE);
 
@@ -682,7 +682,7 @@ Keep a simple test log — date, hypothesis, what changed, result, decision. Ove
   {
     number: '06',
     summary:
-      'Bring everything together in a complete AI marketing system for a real or sample business, then pass the final assessment to earn your certificate.',
+      'Bring everything together in a complete AI marketing system for a real or sample business, pass the final assessment and get your capstone approved to earn your certificate.',
     lessons: [
       {
         slug: 'capstone-brief',
@@ -710,6 +710,10 @@ Your capstone is a complete, practical **AI Marketing System** for one business 
 ## Format
 
 Put everything in one document or slide deck that could be handed to the business owner and put to use the next day. Keep a copy — it's the portfolio piece that shows what you can do.
+
+## Submitting it
+
+Save it as a Google Doc, Google Slides deck or PDF, set sharing so anyone with the link can view it, and submit the link from your dashboard. A member of our team reviews every capstone. If anything is missing we'll send it back with feedback, and you can resubmit as many times as you need.
 `,
       },
       {
@@ -752,9 +756,9 @@ Before you take the final assessment, review your capstone against this checklis
 
 ## Ready for the final assessment?
 
-The final assessment has 10 questions covering all six modules. You need **80% (8 of 10)** to pass. You can retake it if you don't pass on the first try — review the lessons for any questions you missed.
+The final assessment has 10 questions covering all six modules. You need **80% (8 of 10)** to pass. If you don't pass, you'll see your score but not which answers were wrong, and you can try again after an hour. Use that time to review the lessons.
 
-> Passing the final assessment completes the course and unlocks your N°1 Academy AI Marketing Certificate.
+> Your N°1 Academy AI Marketing Certificate is issued once you've passed the final assessment **and** your capstone has been approved. You can do them in either order.
 `,
       },
       {
@@ -780,7 +784,7 @@ The fastest way to prove what you've learned is results. Put your capstone syste
     exercise: {
       title: 'Capstone: Your AI Marketing System',
       body: `
-Complete all seven parts of the capstone described in Lesson 1, review it against the checklist in Lesson 2, then take the final assessment below.
+Complete all seven parts of the capstone described in Lesson 1, review it against the checklist in Lesson 2, submit it from your dashboard, then take the final assessment below.
 `,
     },
     checklist: [

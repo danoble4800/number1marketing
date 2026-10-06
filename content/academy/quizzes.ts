@@ -11,46 +11,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "What is a 'hallucination' in AI?",
         "options": [
-          "When an AI refuses to answer a question",
-          "When an AI runs too slowly",
-          "When an AI produces an image instead of text",
+          "When an AI repeats its training data word for word instead of writing something new",
+          "When an AI mixes up instructions from earlier in a long conversation with new ones",
+          "When an AI gives a different answer each time you ask it the same question",
           "When an AI states false information confidently, such as a fake statistic or source"
         ]
       },
       {
         "question": "Which of these is an example of predictive AI?",
         "options": [
-          "Rewriting a blog post for LinkedIn",
-          "Writing an email draft from bullet points",
-          "Creating a social media graphic",
+          "A chatbot rewriting your product description in a friendlier, shorter tone",
+          "An AI assistant turning your meeting notes into a follow-up email for a lead",
+          "An image tool creating three versions of an ad graphic in different sizes",
           "An ad platform deciding which people are most likely to click your ad"
         ]
       },
       {
         "question": "What's the best starting point for using AI in your marketing?",
         "options": [
-          "Sign up for as many AI tools as possible",
-          "Automate everything at once",
-          "Replace your sales team with a chatbot",
+          "Pick the most popular AI tool and find ways to use it everywhere",
+          "Have AI write a month of social posts first, since content is the quickest win",
+          "Automate the tasks that take the most clicks, starting with customer messages",
           "Find the funnel stage where you're losing the most time or customers"
         ]
       },
       {
         "question": "Which task should always have human approval before going live?",
         "options": [
-          "An internal summary of a lead form",
-          "Tagging incoming messages by topic",
-          "A first draft of blog post ideas",
-          "A promotional email that customers will read"
+          "An internal summary of a lead form for the sales owner",
+          "Tagging incoming messages as sales, support or spam",
+          "A list of blog topic ideas for the marketing team",
+          "A promotional email that your customers will read"
         ]
       },
       {
         "question": "Which use of AI is NOT acceptable?",
         "options": [
-          "Drafting replies to common customer questions for review",
+          "Drafting replies to common customer questions for a person to review",
           "Summarizing real customer reviews to find common themes",
-          "Brainstorming headline ideas",
-          "Generating customer testimonials for your ads"
+          "Brainstorming headline and subject line ideas for a promotion",
+          "Generating realistic customer testimonials for your ads"
         ]
       }
     ],
@@ -58,46 +58,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "In an automation workflow, what is a 'trigger'?",
         "options": [
-          "The final email sent to the customer",
+          "The step that sends information to an AI model and uses its reply",
           "The event that starts the workflow, like a new form submission",
-          "An error message when a step fails",
-          "The monthly cost of the automation platform"
+          "The action that happens after a lead is saved, like a confirmation email",
+          "A rule that decides whether the workflow continues, like a minimum budget"
         ]
       },
       {
         "question": "What's the best way to make an AI step in a workflow predictable?",
         "options": [
-          "Run the workflow only once a month",
-          "Let the AI write as much as it wants",
+          "Ask the AI to explain its reasoning in a full paragraph before each answer",
+          "Give the AI more creative freedom so it can handle any reply it gets",
           "Require a fixed output format and add a fallback for unexpected replies",
-          "Remove all instructions so the AI can be creative"
+          "Use the newest AI model, since newer models always follow instructions"
         ]
       },
       {
         "question": "What should you do BEFORE automating a process?",
         "options": [
-          "Buy the most expensive automation plan",
-          "Connect every app you own",
+          "Choose the automation platform with the most app integrations",
+          "Connect every app the team uses",
           "Map exactly how the process works today, step by step",
-          "Remove every human approval step"
+          "Remove human approval steps so the workflow can run on its own"
         ]
       },
       {
         "question": "When evaluating a new AI tool, which question matters most?",
         "options": [
-          "Is it the newest tool on the market?",
-          "Are other businesses talking about it?",
+          "How many features does it have compared with other tools on the market?",
+          "Do its demo examples look better than what our current tools produce?",
           "Which specific task does it improve, and can I measure the difference?",
-          "Does it have the most features?"
+          "Is it the newest release, and how many businesses are already using it?"
         ]
       },
       {
         "question": "Why keep a human approval step in customer-facing workflows at first?",
         "options": [
-          "Because AI can't write emails",
-          "Because automation platforms require it",
+          "To slow the workflow down so customers don’t notice the replies are automated",
+          "Because automation platforms won’t send anything to customers without one",
           "To catch mistakes before customers see them while you confirm the AI output is reliable",
-          "To make the workflow slower on purpose"
+          "Because AI output should never reach customers directly, even after months of consistently good results"
         ]
       }
     ],
@@ -105,46 +105,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Which prompt will most likely get the best result?",
         "options": [
-          "\"Write something good about our business.\"",
-          "A single keyword",
-          "A prompt with role, context, task, format and constraints",
-          "\"Make it viral.\""
+          "A short prompt so the AI can fill in the details with its own creativity",
+          "\"Write a great post about our business that will go viral on Instagram.\"",
+          "A prompt that sets out the role, context, task, format and constraints",
+          "A long paragraph about the business’s history with no task stated"
         ]
       },
       {
         "question": "What is 'few-shot prompting'?",
         "options": [
-          "Asking the AI only a few questions per day",
-          "Writing prompts with as few words as possible",
-          "Including a few examples of what good output looks like",
-          "Using the AI for short tasks only"
+          "Asking the AI for several short drafts and picking the best one",
+          "Writing prompts with as few words as possible to save on usage costs",
+          "Including a few examples in the prompt of what good output looks like",
+          "Breaking a big task into a few smaller prompts that run one after another"
         ]
       },
       {
         "question": "The AI gives you a weak draft. What's the best next step?",
         "options": [
-          "Hit regenerate until something better appears",
-          "Give up and write it yourself every time",
+          "Click regenerate a few times until a stronger version appears on its own",
+          "Switch to a different AI tool, since the first one has shown it can’t handle this kind of task",
           "Identify what was missing from the prompt, add it and give specific feedback",
-          "Tell it to \"make it better\""
+          "Reply \"make it better\" so the AI knows to improve on its first attempt"
         ]
       },
       {
         "question": "What belongs in a brand voice guide?",
         "options": [
-          "A list of every AI tool on the market",
+          "A list of the AI tools the team uses and who has access to each one",
           "Voice traits with examples, words to use and avoid, and rules on claims",
-          "Your company's login passwords",
-          "Your competitors' pricing"
+          "Your logo files, brand colors and the fonts approved for every platform",
+          "Competitor taglines to borrow so your messaging feels familiar to customers"
         ]
       },
       {
         "question": "Why build a shared prompt library?",
         "options": [
           "It turns one person's best-performing prompts into the team's standard",
-          "It's required by AI companies",
-          "It lets you avoid ever editing AI output",
-          "It replaces the need for a content strategy"
+          "It replaces the need for a content strategy, since prompts set the topics",
+          "It means AI output from saved prompts no longer needs a human edit",
+          "Most AI tools only remember prompts that are saved in a shared library"
         ]
       }
     ],
@@ -152,46 +152,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "What should come first when planning AI-assisted content?",
         "options": [
-          "Copying a competitor's content calendar",
-          "Picking an AI image style",
-          "The business goal and a specific target audience",
-          "Choosing how many posts to publish each day"
+          "A competitor’s content calendar to use as a starting point",
+          "Which AI tool and image style to use for the brand",
+          "The business goal and a specific target audience to reach",
+          "How many posts to publish each day on each platform"
         ]
       },
       {
         "question": "What are content pillars?",
         "options": [
           "Three to five recurring themes that connect audience needs with what you sell",
-          "Posts that are pinned to the top of your profile",
-          "A list of hashtags",
-          "The most expensive posts you publish"
+          "The platforms where you publish most often, such as Instagram and Google",
+          "A fixed set of branded hashtags added to every post so content is easy to find",
+          "The three to five posts that got the most engagement, reused as templates"
         ]
       },
       {
         "question": "In the repurposing pyramid, what does the pillar piece need most?",
         "options": [
-          "As many keywords as possible",
-          "Real expertise, experience or stories from the business",
-          "A trending audio track",
-          "The highest word count possible"
+          "The highest possible word count so it can be split into more pieces",
+          "Real expertise, first-hand experience or stories from the business",
+          "A trending format or audio track so it reaches people beyond your followers",
+          "As many keywords as possible so it ranks for every related search"
         ]
       },
       {
         "question": "What kind of content does Google say it rewards?",
         "options": [
-          "Hundreds of near-identical pages for every city",
+          "Long pages that use the main keyword in every heading and paragraph",
           "Helpful, reliable, people-first content, however it was produced",
-          "Pages stuffed with keywords",
-          "Any content written entirely by AI"
+          "A separate page for every city served, each with the same text and the city swapped",
+          "Content written by people, since Google lowers the ranking of anything AI-assisted"
         ]
       },
       {
         "question": "Which step in the AI content workflow protects quality the most?",
         "options": [
-          "The human edit and fact-check",
-          "Scheduling posts at the perfect time",
-          "Adding more hashtags",
-          "Generating more variations"
+          "The human edit and fact-check before publishing",
+          "Scheduling posts for the best time of day",
+          "Running every draft through an AI grammar checker",
+          "Generating many variations to choose from"
         ]
       }
     ],
@@ -199,10 +199,10 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Which is a 'decision metric' rather than a vanity metric?",
         "options": [
-          "Impressions",
+          "Video views",
           "Cost per lead",
-          "Follower count",
-          "Total likes"
+          "Total impressions",
+          "Follower growth"
         ]
       },
       {
@@ -217,19 +217,19 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Before uploading a data export to an AI tool, you should:",
         "options": [
-          "Delete the column headers",
+          "Convert it to a PDF so the AI can’t change the original numbers",
           "Remove personal information like names, emails and phone numbers",
-          "Add as many columns as possible",
-          "Merge cells to make it easier to read"
+          "Add every column you have so the AI has as much context as possible",
+          "Merge cells and add colors so the AI can read the structure more easily"
         ]
       },
       {
         "question": "An AI tool reports a surprising number from your data. What should you do?",
         "options": [
-          "Share it with the team immediately",
+          "Share it with the team right away so decisions can be made quickly",
           "Ask it to explain the calculation and spot-check the number yourself",
-          "Delete the data and start over",
-          "Assume it's correct because AI is good at math"
+          "Ask the same question again and use the number if it comes back the same",
+          "Trust it, since AI tools calculate numbers more reliably than spreadsheets"
         ]
       },
       {
@@ -237,7 +237,7 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
         "options": [
           "Changing one thing at a time and waiting for enough data",
           "Changing everything at once to find a winner faster",
-          "Testing without a hypothesis",
+          "Testing two ideas without writing down what you expect to happen",
           "Stopping as soon as one version gets a few more clicks"
         ]
       }
@@ -246,27 +246,27 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "What does it mean to keep a 'human in the loop'?",
         "options": [
-          "AI tools must be used by only one person",
-          "Customers must approve every post",
-          "A human must type every word",
+          "Customers are asked to approve AI-written posts before they are published",
+          "Only one person on the team uses AI tools, so the output stays consistent",
+          "A person types every message, and AI is only used for internal research",
           "A person reviews and approves important or customer-facing AI output"
         ]
       },
       {
         "question": "Which is the strongest reason to start with one small, frequent workflow?",
         "options": [
-          "It avoids having to test anything",
-          "Small workflows are free on every platform",
-          "Large workflows are not allowed",
+          "A small workflow doesn’t need testing, so it can go live the same day",
+          "Small workflows are free on most automation platforms, so there’s no cost",
+          "Large workflows can’t include AI steps until a small one has run first",
           "It saves real time with low risk while you learn what can go wrong"
         ]
       },
       {
         "question": "Which prompt part tells the AI what to avoid?",
         "options": [
-          "Role",
+          "Context",
           "Examples",
-          "Task",
+          "Output format",
           "Constraints"
         ]
       },
@@ -274,7 +274,7 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
         "question": "Which approach is most likely to hurt your search visibility?",
         "options": [
           "Answering real customer questions clearly",
-          "Adding first-hand project photos to your pages",
+          "Adding first-hand project photos and short captions to your service pages",
           "Keeping business details consistent across the web",
           "Publishing hundreds of thin, near-identical AI pages"
         ]
@@ -282,54 +282,54 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "What's the best use of AI for audience research?",
         "options": [
-          "Guessing what competitors' customers want",
-          "Inventing customer personas without any real data",
-          "Writing fake reviews to test reactions",
+          "Pasting full customer emails, names and phone numbers in so the AI sees everything",
+          "Asking AI to invent detailed customer personas, with names and jobs, when you don’t have real data yet",
+          "Writing sample reviews with AI and posting them to see which ones get reactions",
           "Finding common questions and exact phrases in anonymized reviews and customer messages"
         ]
       },
       {
         "question": "Customer lifetime value (LTV) compared with customer acquisition cost (CAC) should be:",
         "options": [
-          "Lower than CAC",
-          "Exactly equal to CAC",
-          "Unrelated to CAC",
-          "Much higher than CAC in a healthy business"
+          "Lower than CAC while the business is growing quickly",
+          "About equal to CAC, so marketing pays for itself",
+          "Unrelated to CAC, since they measure different things",
+          "Much higher than CAC, as it is in a healthy business"
         ]
       },
       {
         "question": "What should a weekly marketing report lead to?",
         "options": [
-          "The longest possible list of metrics",
-          "A chart of follower growth only",
-          "Nothing — it's just for records",
+          "A full list of every metric so nothing is missed",
+          "A record of results to look back on at year end",
+          "A chart of follower growth to share with the owner",
           "Specific decisions and actions for the next week"
         ]
       },
       {
         "question": "A website chat assistant answers customer questions. What's required for responsible use?",
         "options": [
-          "Let it promise discounts on its own",
-          "Pretend it's a real employee",
-          "Hide it from the privacy policy",
+          "Let it offer discounts on its own so it can close sales faster",
+          "Give it a staff name and photo so customers feel more comfortable",
+          "Keep it out of the privacy policy, since it doesn’t store any data",
           "Make clear it's automated and give an easy way to reach a person"
         ]
       },
       {
         "question": "Which statement about AI tools is true?",
         "options": [
-          "Their output never needs editing",
-          "They know everything about your business automatically",
-          "They always check facts before answering",
+          "Their output only needs editing when the prompt was written badly",
+          "They learn your business automatically after you use them for a few weeks",
+          "They check facts against the web before every answer, so their claims can be trusted as written",
           "They produce text that sounds right but can be wrong, so claims must be verified"
         ]
       },
       {
         "question": "What is the purpose of a North Star metric?",
         "options": [
-          "To measure social media likes",
-          "To replace all other metrics",
-          "To track as many numbers as possible",
+          "To replace every other metric so the team only ever looks at one number",
+          "To set the long-term vision statement that guides the brand’s content",
+          "To track as many numbers as possible so no part of the funnel is missed",
           "To focus the team on the one number that best represents current success"
         ]
       }
@@ -338,25 +338,25 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Which three things does Google say local results are based on?",
         "options": [
-          "Number of posts, photos and hashtags",
+          "Number of posts, photos and keywords",
           "Relevance, distance and prominence",
-          "Price, opening hours and parking",
-          "Ad spend, website age and follower count"
+          "Price, opening hours and photos",
+          "Ad spend, website age and review count"
         ]
       },
       {
         "question": "A barbershop's profile name is \"Brancato Barbershop Best Haircuts Boston\". What's the problem?",
         "options": [
           "Adding keywords to the name breaks Google's rules and can get the profile suspended",
-          "Profile names can't include the city",
-          "The name is too short",
-          "Nothing, more keywords always rank higher"
+          "Profile names can’t include a city, so Boston has to move to the address field",
+          "The name is too long, and Google cuts off anything after the first three words",
+          "Nothing — adding the city and service to the name helps it rank for those searches"
         ]
       },
       {
         "question": "Which single setting matters most for relevance in a Google Business Profile?",
         "options": [
-          "The website's color scheme",
+          "The business description",
           "The primary category",
           "The number of posts",
           "The cover photo"
@@ -365,19 +365,19 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "What is a citation in local SEO?",
         "options": [
-          "A paid ad on Google Maps",
-          "A quote from a customer on the website",
+          "A link from another website to yours, which Google counts as a vote of trust",
+          "A customer quote or review that the business shows on its own website",
           "Any place online that lists the business's name, address and phone number",
-          "A fine from Google for breaking its rules"
+          "A warning from Google when a profile breaks its rules about names or reviews"
         ]
       },
       {
         "question": "The business moved last year. Yelp and Facebook still show the old address. Why fix it?",
         "options": [
-          "Old addresses help the business show up in two neighborhoods",
-          "It only matters if the business runs ads",
+          "Old addresses help the business appear in two neighborhoods’ searches until it’s established in the new one",
+          "It only matters for businesses that run Google or Facebook ads",
           "Matching details everywhere help Google trust which information is right",
-          "Only Google's own data matters, so it doesn't need fixing"
+          "Only Google’s own data matters, so the other sites don’t need fixing"
         ]
       }
     ],
@@ -385,46 +385,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Which of these is allowed when asking for Google reviews?",
         "options": [
-          "Giving a 10% discount for a 5-star review",
+          "Offering 10% off to customers who leave a 5-star review",
           "Asking every customer the same way, with a short review link",
-          "Asking only customers who said they were happy",
-          "Having employees post reviews from their own accounts"
+          "Asking only the customers who said they were happy with the visit",
+          "Having staff post reviews from their own accounts about real jobs"
         ]
       },
       {
         "question": "What is review gating?",
         "options": [
-          "Reporting reviews that break Google's rules",
-          "Replying to reviews within a day",
+          "Reporting reviews that break Google’s rules, such as spam or conflicts of interest, so they’re removed",
+          "Replying to every review within a day so unhappy customers don’t post more",
           "Asking only happy customers for reviews, or steering unhappy ones elsewhere first",
-          "Putting a review QR code at the counter"
+          "Holding new reviews for approval before Google shows them on the profile"
         ]
       },
       {
         "question": "What's the best first line of a reply to a negative review?",
         "options": [
-          "Explain why the customer is wrong",
+          "Explain the business policy that applies to their complaint",
           "Mention the date and details of their visit",
-          "Thank them for taking the time to write",
+          "Thank them for taking the time to write to you",
           "Offer a free service in exchange for removing the review"
         ]
       },
       {
         "question": "How should AI be used with reviews?",
         "options": [
-          "To write reviews for the business",
-          "To post replies automatically without anyone reading them",
+          "To write sample reviews that show customers what to say",
+          "To post replies automatically within minutes, so every reviewer gets a fast response",
           "To draft replies that a person checks and edits before posting",
-          "To create customer profiles from reviewers' names"
+          "To build customer profiles from reviewers’ names and photos"
         ]
       },
       {
         "question": "When is usually the best moment to ask for a review?",
         "options": [
-          "Before the service starts",
-          "A month after their visit",
-          "Right after the customer got what they came for",
-          "Only after they complain"
+          "Before the service starts, while they’re most excited about it",
+          "About a month later, once they’ve judged the result",
+          "Right after the customer got the result they came for",
+          "After they’ve visited at least three times and become regulars"
         ]
       }
     ]
@@ -434,46 +434,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "¿Qué es una 'alucinación' en la IA?",
         "options": [
-          "Cuando una IA se niega a responder una pregunta",
-          "Cuando una IA funciona muy lento",
-          "Cuando una IA produce una imagen en lugar de texto",
+          "Cuando una IA repite palabra por palabra sus datos de entrenamiento en lugar de crear algo nuevo",
+          "Cuando una IA confunde instrucciones anteriores de una conversación larga con las nuevas",
+          "Cuando una IA da una respuesta distinta cada vez que le haces la misma pregunta",
           "Cuando una IA afirma información falsa con seguridad, como una estadística o fuente inventada"
         ]
       },
       {
         "question": "¿Cuál de estos es un ejemplo de IA predictiva?",
         "options": [
-          "Reescribir una entrada de blog para LinkedIn",
-          "Redactar un correo a partir de viñetas",
-          "Crear un gráfico para redes sociales",
+          "Un chatbot que reescribe la descripción de tu producto en un tono más amigable y corto",
+          "Un asistente de IA que convierte tus notas de reunión en un correo de seguimiento para un prospecto",
+          "Una herramienta de imágenes que crea tres versiones de un anuncio en distintos tamaños",
           "Una plataforma de anuncios que decide qué personas tienen más probabilidades de hacer clic en tu anuncio"
         ]
       },
       {
         "question": "¿Cuál es el mejor punto de partida para usar IA en tu marketing?",
         "options": [
-          "Registrarte en tantas herramientas de IA como sea posible",
-          "Automatizar todo al mismo tiempo",
-          "Reemplazar a tu equipo de ventas con un chatbot",
+          "Elegir la herramienta de IA más popular y usarla en todo",
+          "Pedirle a la IA un mes de publicaciones primero, porque el contenido es lo más rápido",
+          "Automatizar las tareas que requieren más clics, empezando por los mensajes de clientes",
           "Encontrar la etapa del embudo donde pierdes más tiempo o clientes"
         ]
       },
       {
         "question": "¿Qué tarea siempre debe tener aprobación humana antes de publicarse?",
         "options": [
-          "Un resumen interno de un formulario de prospecto",
-          "Etiquetar los mensajes entrantes por tema",
-          "Un primer borrador de ideas para el blog",
-          "Un correo promocional que leerán los clientes"
+          "Un resumen interno de un formulario de prospecto para el vendedor",
+          "Etiquetar mensajes como ventas, soporte o spam",
+          "Una lista de ideas de temas para el blog del equipo de marketing",
+          "Un correo promocional que van a leer tus clientes"
         ]
       },
       {
         "question": "¿Qué uso de la IA NO es aceptable?",
         "options": [
-          "Redactar respuestas a preguntas frecuentes de clientes para revisarlas",
+          "Redactar respuestas a preguntas frecuentes para que una persona las revise",
           "Resumir reseñas reales de clientes para encontrar temas comunes",
-          "Generar ideas de titulares",
-          "Generar testimonios de clientes para tus anuncios"
+          "Generar ideas de titulares y asuntos de correo para una promoción",
+          "Generar testimonios de clientes realistas para usarlos en tus anuncios"
         ]
       }
     ],
@@ -481,46 +481,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "En un flujo de automatización, ¿qué es un 'disparador'?",
         "options": [
-          "El último correo que se envía al cliente",
+          "El paso que envía información a un modelo de IA y usa su respuesta",
           "El evento que inicia el flujo, como el envío de un nuevo formulario",
-          "Un mensaje de error cuando falla un paso",
-          "El costo mensual de la plataforma de automatización"
+          "La acción que ocurre después de guardar un prospecto, como un correo de confirmación",
+          "Una regla que decide si el flujo continúa, como un presupuesto mínimo"
         ]
       },
       {
         "question": "¿Cuál es la mejor forma de hacer predecible un paso de IA en un flujo?",
         "options": [
-          "Ejecutar el flujo solo una vez al mes",
-          "Dejar que la IA escriba todo lo que quiera",
+          "Pedirle a la IA que explique su razonamiento en un párrafo completo antes de cada respuesta",
+          "Darle a la IA más libertad creativa para que pueda manejar cualquier respuesta",
           "Exigir un formato de respuesta fijo y agregar un plan alternativo para respuestas inesperadas",
-          "Quitar todas las instrucciones para que la IA sea creativa"
+          "Usar el modelo de IA más nuevo, porque los modelos nuevos siempre siguen las instrucciones"
         ]
       },
       {
         "question": "¿Qué debes hacer ANTES de automatizar un proceso?",
         "options": [
-          "Comprar el plan de automatización más caro",
-          "Conectar todas las aplicaciones que tienes",
+          "Elegir la plataforma de automatización con más integraciones de apps",
+          "Conectar todas las apps del equipo",
           "Mapear exactamente cómo funciona el proceso hoy, paso a paso",
-          "Eliminar todos los pasos de aprobación humana"
+          "Quitar los pasos de aprobación humana para que el flujo funcione solo"
         ]
       },
       {
         "question": "Al evaluar una nueva herramienta de IA, ¿qué pregunta importa más?",
         "options": [
-          "¿Es la herramienta más nueva del mercado?",
-          "¿Otros negocios están hablando de ella?",
+          "¿Cuántas funciones tiene en comparación con otras herramientas del mercado?",
+          "¿Sus ejemplos de demostración se ven mejor que lo que producen nuestras herramientas?",
           "¿Qué tarea específica mejora y puedo medir la diferencia?",
-          "¿Es la que tiene más funciones?"
+          "¿Es la más nueva del mercado?"
         ]
       },
       {
         "question": "¿Por qué mantener al principio un paso de aprobación humana en los flujos que ve el cliente?",
         "options": [
-          "Porque la IA no puede escribir correos",
-          "Porque las plataformas de automatización lo exigen",
+          "Para hacer más lento el flujo y que los clientes no noten que las respuestas son automáticas",
+          "Porque las plataformas de automatización no envían nada a los clientes sin ese paso",
           "Para detectar errores antes de que los vean los clientes mientras confirmas que la IA es confiable",
-          "Para hacer el flujo más lento a propósito"
+          "Porque los resultados de la IA nunca deben llegar directamente a los clientes, ni siquiera después de meses de buenos resultados"
         ]
       }
     ],
@@ -528,46 +528,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "¿Qué prompt probablemente dará el mejor resultado?",
         "options": [
-          "\"Escribe algo bueno sobre nuestro negocio.\"",
-          "Una sola palabra clave",
+          "Un prompt corto para que la IA complete los detalles con su propia creatividad",
+          "\"Escribe una gran publicación sobre nuestro negocio que se haga viral en Instagram.\"",
           "Un prompt con rol, contexto, tarea, formato y restricciones",
-          "\"Hazlo viral.\""
+          "Un párrafo largo sobre la historia del negocio"
         ]
       },
       {
         "question": "¿Qué son los 'prompts con ejemplos' (few-shot)?",
         "options": [
-          "Hacerle a la IA solo unas pocas preguntas al día",
-          "Escribir prompts con la menor cantidad de palabras posible",
-          "Incluir algunos ejemplos de cómo se ve un buen resultado",
-          "Usar la IA solo para tareas cortas"
+          "Pedirle a la IA varios borradores cortos y elegir el mejor",
+          "Escribir prompts con la menor cantidad de palabras posible para ahorrar en costos de uso",
+          "Incluir en el prompt algunos ejemplos de cómo se ve un buen resultado",
+          "Dividir una tarea grande en algunos prompts más pequeños que se ejecutan uno tras otro"
         ]
       },
       {
         "question": "La IA te da un borrador débil. ¿Cuál es el mejor siguiente paso?",
         "options": [
-          "Pulsar regenerar hasta que aparezca algo mejor",
-          "Rendirte y escribirlo tú mismo siempre",
-          "Identificar qué faltó en el prompt, agregarlo y dar comentarios específicos",
-          "Decirle \"mejóralo\""
+          "Hacer clic en regenerar varias veces hasta que aparezca una versión mejor por sí sola",
+          "Cambiar a otra herramienta de IA, porque la primera ya demostró que no puede con este tipo de tarea",
+          "Identificar qué faltó en el prompt, agregarlo y darle comentarios específicos",
+          "Responder \"mejóralo\" para que la IA sepa que debe superar su primer intento"
         ]
       },
       {
         "question": "¿Qué debe incluir una guía de voz de marca?",
         "options": [
-          "Una lista de todas las herramientas de IA del mercado",
-          "Rasgos de voz con ejemplos, palabras que usar y evitar, y reglas sobre afirmaciones",
-          "Las contraseñas de tu empresa",
-          "Los precios de tu competencia"
+          "Una lista de las herramientas de IA que usa el equipo y quién tiene acceso a cada una",
+          "Rasgos de voz con ejemplos, palabras que usar y evitar, y reglas claras sobre afirmaciones",
+          "Los archivos del logo, los colores de marca y las tipografías aprobadas para cada plataforma",
+          "Eslóganes de la competencia para que tus mensajes les resulten familiares a los clientes"
         ]
       },
       {
         "question": "¿Por qué crear una biblioteca de prompts compartida?",
         "options": [
           "Convierte los prompts con mejor resultado de una persona en el estándar del equipo",
-          "Las empresas de IA lo exigen",
-          "Te permite no editar nunca lo que produce la IA",
-          "Reemplaza la necesidad de una estrategia de contenido"
+          "Reemplaza la necesidad de una estrategia de contenido, porque los prompts definen los temas",
+          "Significa que los resultados de prompts guardados ya no necesitan edición humana",
+          "La mayoría de las herramientas de IA solo recuerdan prompts guardados en una biblioteca compartida"
         ]
       }
     ],
@@ -575,46 +575,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "¿Qué debe venir primero al planificar contenido asistido por IA?",
         "options": [
-          "Copiar el calendario de contenido de un competidor",
-          "Elegir un estilo de imagen de IA",
-          "El objetivo de negocio y una audiencia específica",
-          "Decidir cuántas publicaciones hacer al día"
+          "El calendario de contenido de un competidor como punto de partida",
+          "Qué herramienta de IA y estilo de imagen usar para la marca",
+          "El objetivo de negocio y una audiencia específica a alcanzar",
+          "Cuántas publicaciones hacer cada día en cada plataforma"
         ]
       },
       {
         "question": "¿Qué son los pilares de contenido?",
         "options": [
           "De tres a cinco temas recurrentes que conectan las necesidades de la audiencia con lo que vendes",
-          "Las publicaciones fijadas en la parte superior de tu perfil",
-          "Una lista de hashtags",
-          "Las publicaciones más caras que haces"
+          "Las plataformas donde publicas con más frecuencia, como Instagram y Google",
+          "Un conjunto fijo de hashtags de marca que agregas a cada publicación para que sea fácil de encontrar",
+          "Las tres a cinco publicaciones con más interacción, reutilizadas como plantillas"
         ]
       },
       {
         "question": "En la pirámide de reutilización, ¿qué necesita más la pieza pilar?",
         "options": [
-          "La mayor cantidad de palabras clave posible",
-          "Experiencia, conocimiento o historias reales del negocio",
-          "Un audio de moda",
-          "La mayor cantidad de palabras posible"
+          "La mayor extensión posible para poder dividirla en más piezas",
+          "Experiencia propia, conocimiento o historias reales del negocio",
+          "Un formato o audio de tendencia para llegar a personas que no te siguen",
+          "La mayor cantidad posible de palabras clave para posicionar en cada búsqueda relacionada"
         ]
       },
       {
         "question": "¿Qué tipo de contenido dice Google que premia?",
         "options": [
-          "Cientos de páginas casi idénticas para cada ciudad",
+          "Páginas largas que usan la palabra clave principal en cada título y párrafo",
           "Contenido útil, confiable y pensado para las personas, sin importar cómo se produjo",
-          "Páginas llenas de palabras clave",
-          "Cualquier contenido escrito totalmente por IA"
+          "Una página distinta para cada ciudad atendida, con el mismo texto y solo el nombre de la ciudad cambiado",
+          "Contenido escrito por personas, porque Google baja el posicionamiento de todo lo asistido por IA"
         ]
       },
       {
         "question": "¿Qué paso del flujo de contenido con IA protege más la calidad?",
         "options": [
-          "La edición y verificación humana",
-          "Programar las publicaciones en el horario perfecto",
-          "Agregar más hashtags",
-          "Generar más variaciones"
+          "La edición y verificación humana antes de publicar",
+          "Programar las publicaciones a la mejor hora del día",
+          "Pasar cada borrador por un corrector gramatical con IA",
+          "Generar muchas variaciones para elegir"
         ]
       }
     ],
@@ -622,10 +622,10 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "¿Cuál es una 'métrica de decisión' y no una métrica de vanidad?",
         "options": [
-          "Impresiones",
+          "Reproducciones de video",
           "Costo por prospecto",
-          "Número de seguidores",
-          "Total de \"me gusta\""
+          "Impresiones totales",
+          "Crecimiento de seguidores"
         ]
       },
       {
@@ -640,19 +640,19 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Antes de subir una exportación de datos a una herramienta de IA, debes:",
         "options": [
-          "Borrar los encabezados de las columnas",
-          "Eliminar la información personal como nombres, correos y teléfonos",
-          "Agregar la mayor cantidad de columnas posible",
-          "Combinar celdas para que sea más fácil de leer"
+          "Convertirla a PDF para que la IA no pueda cambiar los números originales",
+          "Eliminar la información personal, como nombres, correos y teléfonos de clientes",
+          "Agregar todas las columnas que tengas para que la IA tenga el mayor contexto posible",
+          "Combinar celdas y agregar colores para que la IA entienda mejor la estructura"
         ]
       },
       {
         "question": "Una herramienta de IA reporta un número sorprendente de tus datos. ¿Qué debes hacer?",
         "options": [
-          "Compartirlo con el equipo de inmediato",
+          "Compartirlo con el equipo de inmediato para poder tomar decisiones rápido",
           "Pedirle que explique el cálculo y verificar el número tú mismo",
-          "Borrar los datos y empezar de nuevo",
-          "Suponer que es correcto porque la IA es buena en matemáticas"
+          "Hacer la misma pregunta otra vez",
+          "Confiar en él, porque las herramientas de IA calculan con más precisión que una hoja de cálculo"
         ]
       },
       {
@@ -660,8 +660,8 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
         "options": [
           "Cambiar una sola cosa a la vez y esperar suficientes datos",
           "Cambiar todo a la vez para encontrar un ganador más rápido",
-          "Probar sin una hipótesis",
-          "Detenerla en cuanto una versión tenga unos pocos clics más"
+          "Probar dos ideas sin anotar qué esperas que pase",
+          "Detenerla en cuanto una versión consiga unos cuantos clics más"
         ]
       }
     ],
@@ -669,27 +669,27 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "¿Qué significa mantener a una 'persona en el proceso'?",
         "options": [
-          "Las herramientas de IA solo las puede usar una persona",
-          "Los clientes deben aprobar cada publicación",
-          "Una persona debe escribir cada palabra",
+          "Se pide a los clientes que aprueben las publicaciones escritas por IA antes de publicarlas",
+          "Solo una persona del equipo usa herramientas de IA para que los resultados sean consistentes",
+          "Una persona escribe cada mensaje y la IA solo se usa para investigación interna",
           "Una persona revisa y aprueba los resultados de IA importantes o que verá el cliente"
         ]
       },
       {
         "question": "¿Cuál es la razón más fuerte para empezar con un flujo pequeño y frecuente?",
         "options": [
-          "Evita tener que probar algo",
-          "Los flujos pequeños son gratis en todas las plataformas",
-          "Los flujos grandes no están permitidos",
-          "Ahorra tiempo real con poco riesgo mientras aprendes qué puede fallar"
+          "Un flujo pequeño no necesita pruebas, así que puede activarse el mismo día",
+          "Los flujos pequeños son gratis en la mayoría de las plataformas, así que no cuestan nada",
+          "Los flujos grandes no pueden incluir pasos de IA hasta que uno pequeño haya funcionado",
+          "Ahorra tiempo real con poco riesgo mientras aprendes qué cosas pueden fallar"
         ]
       },
       {
         "question": "¿Qué parte del prompt le dice a la IA qué evitar?",
         "options": [
-          "Rol",
+          "Contexto",
           "Ejemplos",
-          "Tarea",
+          "Formato de salida",
           "Restricciones"
         ]
       },
@@ -697,62 +697,62 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
         "question": "¿Qué enfoque tiene más probabilidades de dañar tu visibilidad en buscadores?",
         "options": [
           "Responder con claridad preguntas reales de clientes",
-          "Agregar fotos de proyectos propios a tus páginas",
-          "Mantener consistentes los datos del negocio en internet",
+          "Agregar fotos propias de proyectos y descripciones breves a tus páginas de servicios",
+          "Mantener los datos del negocio consistentes en toda la web",
           "Publicar cientos de páginas de IA pobres y casi idénticas"
         ]
       },
       {
         "question": "¿Cuál es el mejor uso de la IA para investigar a tu audiencia?",
         "options": [
-          "Adivinar lo que quieren los clientes de la competencia",
-          "Inventar perfiles de clientes sin datos reales",
-          "Escribir reseñas falsas para probar reacciones",
+          "Pegar correos completos de clientes, con nombres y teléfonos, para que la IA lo vea todo",
+          "Pedirle a la IA que invente perfiles de clientes detallados, con nombres y profesiones, cuando aún no tienes datos reales",
+          "Escribir reseñas de muestra con IA y publicarlas para ver cuáles generan reacciones",
           "Encontrar preguntas comunes y frases exactas en reseñas y mensajes de clientes anónimos"
         ]
       },
       {
         "question": "En comparación con el costo de adquisición (CAC), el valor de vida del cliente (LTV) debe ser:",
         "options": [
-          "Menor que el CAC",
-          "Exactamente igual al CAC",
-          "Sin relación con el CAC",
-          "Mucho mayor que el CAC en un negocio sano"
+          "Menor que el CAC mientras el negocio crece rápido",
+          "Más o menos igual al CAC, para que el marketing se pague solo",
+          "Sin relación con el CAC, porque miden cosas distintas",
+          "Mucho mayor que el CAC, como ocurre en un negocio sano"
         ]
       },
       {
         "question": "¿A qué debe llevar un informe semanal de marketing?",
         "options": [
-          "A la lista de métricas más larga posible",
-          "A un gráfico solo del crecimiento de seguidores",
-          "A nada; es solo para el registro",
+          "A una lista completa de todas las métricas para no perder nada",
+          "A un registro de resultados para revisar a fin de año",
+          "A una gráfica de crecimiento de seguidores para el dueño",
           "A decisiones y acciones específicas para la próxima semana"
         ]
       },
       {
         "question": "Un asistente de chat en tu sitio responde preguntas de clientes. ¿Qué exige un uso responsable?",
         "options": [
-          "Dejar que prometa descuentos por su cuenta",
-          "Fingir que es un empleado real",
-          "Ocultarlo de la política de privacidad",
+          "Dejar que ofrezca descuentos por su cuenta para cerrar ventas más rápido",
+          "Darle un nombre y una foto de empleado para que los clientes se sientan más cómodos",
+          "Dejarlo fuera de la política de privacidad, porque no guarda ningún dato",
           "Dejar claro que es automatizado y ofrecer una forma fácil de hablar con una persona"
         ]
       },
       {
         "question": "¿Qué afirmación sobre las herramientas de IA es verdadera?",
         "options": [
-          "Lo que producen nunca necesita edición",
-          "Saben todo sobre tu negocio automáticamente",
-          "Siempre verifican los datos antes de responder",
+          "Sus resultados solo necesitan edición cuando el prompt estaba mal escrito",
+          "Aprenden sobre tu negocio automáticamente después de usarlas unas semanas",
+          "Verifican los datos en la web antes de cada respuesta, así que sus afirmaciones son confiables tal como vienen",
           "Producen texto que suena correcto pero puede estar mal, así que hay que verificar las afirmaciones"
         ]
       },
       {
         "question": "¿Para qué sirve una métrica Estrella Polar?",
         "options": [
-          "Para medir los \"me gusta\" en redes sociales",
-          "Para reemplazar todas las demás métricas",
-          "Para seguir tantos números como sea posible",
+          "Para reemplazar todas las demás métricas y que el equipo mire un solo número",
+          "Para definir la visión de largo plazo que guía el contenido de la marca",
+          "Para medir la mayor cantidad posible de números y no perder ninguna parte del embudo",
           "Para enfocar al equipo en el número que mejor representa el éxito actual"
         ]
       }
@@ -761,46 +761,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "¿En qué tres cosas dice Google que se basan los resultados locales?",
         "options": [
-          "Número de publicaciones, fotos y hashtags",
+          "Número de publicaciones, fotos y palabras clave",
           "Relevancia, distancia y prominencia",
-          "Precio, horario y estacionamiento",
-          "Gasto en anuncios, antigüedad del sitio y seguidores"
+          "Precio, horario de atención y fotos",
+          "Inversión en anuncios, antigüedad del sitio y número de reseñas"
         ]
       },
       {
         "question": "El nombre del perfil de una barbería es \"Brancato Barbershop Mejores Cortes Boston\". ¿Cuál es el problema?",
         "options": [
           "Agregar palabras clave al nombre va contra las reglas de Google y puede hacer que suspendan el perfil",
-          "Los nombres de perfil no pueden incluir la ciudad",
-          "El nombre es demasiado corto",
-          "Ninguno, más palabras clave siempre posicionan mejor"
+          "Los nombres de perfil no pueden incluir una ciudad, así que Boston debe ir en el campo de dirección",
+          "El nombre es demasiado largo y Google corta todo lo que va después de las tres primeras palabras",
+          "Ninguno: agregar la ciudad y el servicio al nombre lo ayuda a posicionar en esas búsquedas"
         ]
       },
       {
         "question": "¿Qué ajuste es el más importante para la relevancia en un Perfil de Empresa de Google?",
         "options": [
-          "Los colores del sitio web",
+          "La descripción del negocio",
           "La categoría principal",
-          "La cantidad de publicaciones",
+          "El número de publicaciones",
           "La foto de portada"
         ]
       },
       {
         "question": "¿Qué es una citación en SEO local?",
         "options": [
-          "Un anuncio pagado en Google Maps",
-          "Una frase de un cliente en el sitio web",
+          "Un enlace de otro sitio web al tuyo, que Google cuenta como un voto de confianza",
+          "Una cita o reseña de un cliente que el negocio muestra en su propio sitio web",
           "Cualquier lugar en línea que muestra el nombre, la dirección y el teléfono del negocio",
-          "Una multa de Google por romper sus reglas"
+          "Un aviso de Google cuando un perfil rompe sus reglas sobre nombres o reseñas"
         ]
       },
       {
         "question": "El negocio se mudó el año pasado. Yelp y Facebook todavía muestran la dirección vieja. ¿Por qué arreglarlo?",
         "options": [
-          "Las direcciones viejas ayudan a aparecer en dos barrios",
-          "Solo importa si el negocio tiene anuncios",
+          "Las direcciones viejas ayudan a que el negocio aparezca en las búsquedas de dos barrios hasta que se establezca en el nuevo",
+          "Solo importa para negocios que pagan anuncios en Google o Facebook",
           "Tener los mismos datos en todas partes ayuda a Google a confiar en cuál es la información correcta",
-          "Solo importan los datos de Google, así que no hace falta arreglarlo"
+          "Solo importan los datos de Google, así que los otros sitios no necesitan corrección"
         ]
       }
     ],
@@ -808,46 +808,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "¿Cuál de estas cosas está permitida al pedir reseñas en Google?",
         "options": [
-          "Dar un 10% de descuento por una reseña de 5 estrellas",
+          "Ofrecer un 10 % de descuento por una reseña de 5 estrellas",
           "Pedírsela a todos los clientes de la misma forma, con un enlace corto",
-          "Pedírsela solo a los clientes que dijeron estar contentos",
-          "Que los empleados publiquen reseñas desde sus propias cuentas"
+          "Pedírsela solo a los clientes que dijeron que estaban contentos con la visita",
+          "Que los empleados publiquen reseñas desde sus propias cuentas sobre trabajos reales"
         ]
       },
       {
         "question": "¿Qué es filtrar reseñas (review gating)?",
         "options": [
-          "Denunciar reseñas que rompen las reglas de Google",
-          "Responder las reseñas en un día",
+          "Denunciar reseñas que rompen las reglas de Google, como spam o conflictos de interés, para que las eliminen",
+          "Responder cada reseña en menos de un día para que los clientes descontentos no publiquen más",
           "Pedir reseñas solo a los clientes contentos, o mandar primero a los descontentos a otro lugar",
-          "Poner un código QR de reseñas en el mostrador"
+          "Retener las reseñas nuevas para aprobarlas antes de que Google las muestre en el perfil"
         ]
       },
       {
         "question": "¿Cuál es la mejor primera frase de una respuesta a una reseña negativa?",
         "options": [
-          "Explicar por qué el cliente está equivocado",
+          "Explicar la política del negocio que aplica a su queja",
           "Mencionar la fecha y los detalles de su visita",
-          "Agradecer que se tomó el tiempo de escribir",
-          "Ofrecer un servicio gratis a cambio de borrar la reseña"
+          "Agradecerle que se haya tomado el tiempo de escribir",
+          "Ofrecer un servicio gratis a cambio de que elimine la reseña"
         ]
       },
       {
         "question": "¿Cómo se debe usar la IA con las reseñas?",
         "options": [
-          "Para escribir reseñas para el negocio",
-          "Para publicar respuestas automáticamente sin que nadie las lea",
+          "Para escribir reseñas de muestra que les enseñen a los clientes qué decir",
+          "Para publicar respuestas automáticamente en minutos, así cada cliente recibe una respuesta rápida",
           "Para redactar respuestas que una persona revisa y edita antes de publicarlas",
-          "Para crear perfiles de clientes con los nombres de quienes reseñan"
+          "Para crear perfiles de clientes a partir de los nombres y fotos de quienes dejan reseñas"
         ]
       },
       {
         "question": "¿Cuál suele ser el mejor momento para pedir una reseña?",
         "options": [
-          "Antes de empezar el servicio",
-          "Un mes después de su visita",
-          "Justo después de que el cliente recibió lo que vino a buscar",
-          "Solo después de que se queje"
+          "Antes de que empiece el servicio, cuando está más entusiasmado",
+          "Un mes después, cuando ya tuvo tiempo de evaluar el resultado",
+          "Justo después de que el cliente recibió el resultado que vino a buscar",
+          "Después de que haya venido al menos tres veces y sea un cliente habitual"
         ]
       }
     ]
@@ -857,45 +857,45 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "O que é uma 'alucinação' na IA?",
         "options": [
-          "Quando uma IA se recusa a responder uma pergunta",
-          "Quando uma IA fica muito lenta",
-          "Quando uma IA produz uma imagem em vez de texto",
+          "Quando uma IA repete palavra por palavra seus dados de treinamento em vez de criar algo novo",
+          "Quando uma IA confunde instruções do início de uma conversa longa com as novas",
+          "Quando uma IA dá uma resposta diferente cada vez que você faz a mesma pergunta",
           "Quando uma IA afirma informações falsas com confiança, como uma estatística ou fonte inventada"
         ]
       },
       {
         "question": "Qual destes é um exemplo de IA preditiva?",
         "options": [
-          "Reescrever um post do blog para o LinkedIn",
-          "Rascunhar um e-mail a partir de tópicos",
-          "Criar uma arte para redes sociais",
+          "Um chatbot reescrevendo a descrição do seu produto em um tom mais simpático e curto",
+          "Um assistente de IA transformando suas anotações de reunião em um e-mail de follow-up para um lead",
+          "Uma ferramenta de imagem criando três versões de um anúncio em tamanhos diferentes",
           "Uma plataforma de anúncios decidindo quais pessoas têm mais chance de clicar no seu anúncio"
         ]
       },
       {
         "question": "Qual é o melhor ponto de partida para usar IA no seu marketing?",
         "options": [
-          "Assinar o máximo possível de ferramentas de IA",
-          "Automatizar tudo de uma vez",
-          "Substituir sua equipe de vendas por um chatbot",
+          "Escolher a ferramenta de IA mais popular e usar em tudo",
+          "Pedir à IA um mês de posts primeiro, porque conteúdo é o ganho mais rápido",
+          "Automatizar as tarefas que exigem mais cliques, começando pelas mensagens de clientes",
           "Encontrar a etapa do funil em que você mais perde tempo ou clientes"
         ]
       },
       {
         "question": "Qual tarefa deve sempre ter aprovação humana antes de ir ao ar?",
         "options": [
-          "Um resumo interno de um formulário de lead",
-          "Marcar as mensagens recebidas por assunto",
-          "Um primeiro rascunho de ideias para o blog",
-          "Um e-mail promocional que os clientes vão ler"
+          "Um resumo interno de um formulário de lead para o vendedor",
+          "Marcar mensagens recebidas como vendas, suporte ou spam",
+          "Uma lista de ideias de temas para o blog da equipe de marketing",
+          "Um e-mail promocional que os seus clientes vão receber e ler"
         ]
       },
       {
         "question": "Qual uso da IA NÃO é aceitável?",
         "options": [
-          "Rascunhar respostas para perguntas frequentes de clientes para revisão",
-          "Resumir avaliações reais de clientes para encontrar temas comuns",
-          "Gerar ideias de títulos",
+          "Rascunhar respostas a perguntas frequentes para uma pessoa revisar",
+          "Resumir avaliações reais de clientes para encontrar temas em comum",
+          "Gerar ideias de títulos para uma promoção",
           "Gerar depoimentos de clientes para seus anúncios"
         ]
       }
@@ -904,46 +904,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Em um fluxo de automação, o que é um 'gatilho'?",
         "options": [
-          "O último e-mail enviado ao cliente",
-          "O evento que inicia o fluxo, como o envio de um novo formulário",
-          "Uma mensagem de erro quando uma etapa falha",
-          "O custo mensal da plataforma de automação"
+          "A etapa que envia informações para um modelo de IA e usa a resposta dele",
+          "O evento que inicia o fluxo, como o envio de um novo formulário no site",
+          "A ação que acontece depois que um lead é salvo, como um e-mail de confirmação",
+          "Uma regra que decide se o fluxo continua, como um orçamento mínimo"
         ]
       },
       {
         "question": "Qual é a melhor forma de tornar previsível uma etapa de IA em um fluxo?",
         "options": [
-          "Rodar o fluxo só uma vez por mês",
-          "Deixar a IA escrever o quanto quiser",
+          "Pedir que a IA explique seu raciocínio em um parágrafo completo antes de cada resposta",
+          "Dar mais liberdade criativa à IA para que ela lide com qualquer resposta",
           "Exigir um formato de resposta fixo e adicionar um plano B para respostas inesperadas",
-          "Remover todas as instruções para a IA ser criativa"
+          "Usar o modelo de IA mais novo, porque modelos novos sempre seguem as instruções"
         ]
       },
       {
         "question": "O que você deve fazer ANTES de automatizar um processo?",
         "options": [
-          "Comprar o plano de automação mais caro",
-          "Conectar todos os aplicativos que você tem",
+          "Escolher a plataforma de automação com mais integrações de apps",
+          "Conectar todos os apps da equipe",
           "Mapear exatamente como o processo funciona hoje, passo a passo",
-          "Remover todas as etapas de aprovação humana"
+          "Remover as etapas de aprovação humana para o fluxo rodar sozinho"
         ]
       },
       {
         "question": "Ao avaliar uma nova ferramenta de IA, qual pergunta importa mais?",
         "options": [
-          "Ela é a ferramenta mais nova do mercado?",
-          "Outras empresas estão falando dela?",
+          "Quantos recursos ela tem em comparação com outras ferramentas do mercado?",
+          "Os exemplos da demonstração parecem melhores do que o que nossas ferramentas produzem?",
           "Qual tarefa específica ela melhora e consigo medir a diferença?",
-          "Ela tem mais recursos?"
+          "É a mais nova do mercado?"
         ]
       },
       {
         "question": "Por que manter no início uma etapa de aprovação humana nos fluxos que o cliente vê?",
         "options": [
-          "Porque a IA não sabe escrever e-mails",
-          "Porque as plataformas de automação exigem",
+          "Para deixar o fluxo mais lento e os clientes não perceberem que as respostas são automáticas",
+          "Porque as plataformas de automação não enviam nada aos clientes sem essa etapa",
           "Para pegar erros antes que os clientes vejam enquanto você confirma que a IA é confiável",
-          "Para deixar o fluxo mais lento de propósito"
+          "Porque os resultados da IA nunca devem chegar direto aos clientes, nem depois de meses de bons resultados"
         ]
       }
     ],
@@ -951,46 +951,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Qual prompt provavelmente terá o melhor resultado?",
         "options": [
-          "\"Escreva algo bom sobre nosso negócio.\"",
-          "Uma única palavra-chave",
+          "Um prompt curto para a IA completar os detalhes com a própria criatividade",
+          "\"Escreva um ótimo post sobre nosso negócio que viralize no Instagram.\"",
           "Um prompt com papel, contexto, tarefa, formato e restrições",
-          "\"Faça viralizar.\""
+          "Um parágrafo longo sobre a história do negócio"
         ]
       },
       {
         "question": "O que são 'prompts com exemplos' (few-shot)?",
         "options": [
-          "Fazer só algumas perguntas à IA por dia",
-          "Escrever prompts com o mínimo possível de palavras",
-          "Incluir alguns exemplos de como é um bom resultado",
-          "Usar a IA só para tarefas curtas"
+          "Pedir à IA vários rascunhos curtos e escolher o melhor",
+          "Escrever prompts com o mínimo de palavras possível para economizar no uso",
+          "Incluir no prompt alguns exemplos de como é um bom resultado",
+          "Dividir uma tarefa grande em alguns prompts menores que rodam um depois do outro"
         ]
       },
       {
         "question": "A IA entrega um rascunho fraco. Qual é o melhor próximo passo?",
         "options": [
-          "Clicar em gerar novamente até aparecer algo melhor",
-          "Desistir e escrever sempre você mesmo",
-          "Identificar o que faltou no prompt, acrescentar e dar feedback específico",
-          "Dizer \"melhore\""
+          "Clicar em gerar novamente várias vezes até aparecer uma versão melhor sozinha",
+          "Trocar de ferramenta de IA, porque a primeira já mostrou que não dá conta desse tipo de tarefa",
+          "Identificar o que faltou no prompt, acrescentar e dar à IA um feedback específico",
+          "Responder \"melhore isso\" para a IA saber que precisa superar a primeira tentativa"
         ]
       },
       {
         "question": "O que deve ter em um guia de voz da marca?",
         "options": [
-          "Uma lista de todas as ferramentas de IA do mercado",
+          "Uma lista das ferramentas de IA que a equipe usa e quem tem acesso a cada uma",
           "Traços de voz com exemplos, palavras para usar e evitar e regras sobre afirmações",
-          "As senhas da sua empresa",
-          "Os preços dos concorrentes"
+          "Os arquivos do logo, as cores da marca e as fontes aprovadas para cada plataforma",
+          "Slogans da concorrência para suas mensagens parecerem familiares aos clientes"
         ]
       },
       {
         "question": "Por que criar uma biblioteca de prompts compartilhada?",
         "options": [
-          "Ela transforma os prompts de melhor resultado de uma pessoa no padrão da equipe",
-          "As empresas de IA exigem",
-          "Ela permite nunca editar o que a IA produz",
-          "Ela substitui a necessidade de uma estratégia de conteúdo"
+          "Ela transforma os prompts de melhor resultado de uma pessoa no padrão de toda a equipe",
+          "Ela substitui a necessidade de uma estratégia de conteúdo, porque os prompts definem os temas",
+          "Significa que os resultados de prompts salvos não precisam mais de edição humana",
+          "A maioria das ferramentas de IA só lembra de prompts salvos em uma biblioteca compartilhada"
         ]
       }
     ],
@@ -998,46 +998,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "O que deve vir primeiro ao planejar conteúdo com ajuda de IA?",
         "options": [
-          "Copiar o calendário de conteúdo de um concorrente",
-          "Escolher um estilo de imagem de IA",
-          "O objetivo de negócio e um público específico",
-          "Decidir quantos posts publicar por dia"
+          "O calendário de conteúdo de um concorrente como ponto de partida",
+          "Qual ferramenta de IA e estilo de imagem usar para a marca",
+          "O objetivo de negócio e um público específico a alcançar",
+          "Quantos posts publicar por dia em cada plataforma"
         ]
       },
       {
         "question": "O que são pilares de conteúdo?",
         "options": [
           "De três a cinco temas recorrentes que conectam as necessidades do público ao que você vende",
-          "Os posts fixados no topo do seu perfil",
-          "Uma lista de hashtags",
-          "Os posts mais caros que você publica"
+          "As plataformas onde você publica com mais frequência, como Instagram e Google",
+          "Um conjunto fixo de hashtags da marca adicionado a todo post para facilitar a busca",
+          "Os três a cinco posts com mais engajamento, reaproveitados como modelos"
         ]
       },
       {
         "question": "Na pirâmide de reaproveitamento, do que a peça pilar mais precisa?",
         "options": [
-          "O máximo de palavras-chave possível",
-          "Experiência, conhecimento ou histórias reais do negócio",
-          "Um áudio em alta",
-          "O maior número de palavras possível"
+          "O maior número possível de palavras para poder dividi-la em mais peças",
+          "Experiência própria, conhecimento ou histórias reais vividas pelo negócio",
+          "Um formato ou áudio em alta para alcançar pessoas além dos seus seguidores",
+          "O máximo possível de palavras-chave para ranquear em toda busca relacionada"
         ]
       },
       {
         "question": "Que tipo de conteúdo o Google diz que valoriza?",
         "options": [
-          "Centenas de páginas quase idênticas para cada cidade",
+          "Páginas longas que usam a palavra-chave principal em todo título e parágrafo",
           "Conteúdo útil, confiável e feito para as pessoas, não importa como foi produzido",
-          "Páginas lotadas de palavras-chave",
-          "Qualquer conteúdo escrito totalmente por IA"
+          "Uma página separada para cada cidade atendida, com o mesmo texto e só o nome da cidade trocado",
+          "Conteúdo escrito por pessoas, porque o Google rebaixa tudo o que teve ajuda de IA"
         ]
       },
       {
         "question": "Qual etapa do fluxo de conteúdo com IA mais protege a qualidade?",
         "options": [
-          "A edição e a checagem humanas",
-          "Agendar os posts no horário perfeito",
-          "Adicionar mais hashtags",
-          "Gerar mais variações"
+          "A edição e a checagem humanas antes de publicar",
+          "Agendar os posts para o melhor horário do dia",
+          "Passar cada rascunho por um corretor gramatical com IA",
+          "Gerar muitas variações para escolher"
         ]
       }
     ],
@@ -1045,10 +1045,10 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Qual é uma 'métrica de decisão', e não uma métrica de vaidade?",
         "options": [
-          "Impressões",
+          "Visualizações de vídeo",
           "Custo por lead",
-          "Número de seguidores",
-          "Total de curtidas"
+          "Impressões",
+          "Crescimento de seguidores"
         ]
       },
       {
@@ -1063,19 +1063,19 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Antes de enviar uma exportação de dados para uma ferramenta de IA, você deve:",
         "options": [
-          "Apagar os cabeçalhos das colunas",
-          "Remover informações pessoais como nomes, e-mails e telefones",
-          "Adicionar o máximo de colunas possível",
-          "Mesclar células para facilitar a leitura"
+          "Converter para PDF para a IA não conseguir alterar os números originais",
+          "Remover informações pessoais, como nomes, e-mails e telefones de clientes",
+          "Adicionar todas as colunas que você tiver para a IA ter o máximo de contexto",
+          "Mesclar células e adicionar cores para a IA entender melhor a estrutura"
         ]
       },
       {
         "question": "Uma ferramenta de IA aponta um número surpreendente nos seus dados. O que você deve fazer?",
         "options": [
-          "Compartilhar com a equipe na hora",
-          "Pedir que ela explique o cálculo e conferir o número você mesmo",
-          "Apagar os dados e começar de novo",
-          "Supor que está certo porque a IA é boa em matemática"
+          "Compartilhar com a equipe na hora para as decisões serem tomadas rápido",
+          "Pedir que ela explique o cálculo e conferir você mesmo o número nos dados",
+          "Fazer a mesma pergunta de novo e usar o número se ele se repetir",
+          "Confiar nele, porque ferramentas de IA calculam com mais precisão que planilhas"
         ]
       },
       {
@@ -1083,7 +1083,7 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
         "options": [
           "Mudar uma coisa de cada vez e esperar dados suficientes",
           "Mudar tudo de uma vez para achar um vencedor mais rápido",
-          "Testar sem uma hipótese",
+          "Testar duas ideias sem anotar o que você espera que aconteça",
           "Parar assim que uma versão tiver alguns cliques a mais"
         ]
       }
@@ -1092,27 +1092,27 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "O que significa manter uma 'pessoa no processo'?",
         "options": [
-          "As ferramentas de IA só podem ser usadas por uma pessoa",
-          "Os clientes precisam aprovar cada post",
-          "Uma pessoa precisa digitar cada palavra",
+          "Os clientes precisam aprovar os posts escritos pela IA antes da publicação",
+          "Só uma pessoa da equipe usa ferramentas de IA, para os resultados serem consistentes",
+          "Uma pessoa digita cada mensagem, e a IA só é usada para pesquisa interna",
           "Uma pessoa revisa e aprova resultados de IA importantes ou que o cliente vai ver"
         ]
       },
       {
         "question": "Qual é o motivo mais forte para começar com um fluxo pequeno e frequente?",
         "options": [
-          "Ele evita ter que testar qualquer coisa",
-          "Fluxos pequenos são gratuitos em todas as plataformas",
-          "Fluxos grandes não são permitidos",
+          "Um fluxo pequeno não precisa de testes, então pode entrar no ar no mesmo dia",
+          "Fluxos pequenos são gratuitos na maioria das plataformas, então não têm custo",
+          "Fluxos grandes não podem ter etapas de IA até um pequeno ter rodado antes",
           "Ele economiza tempo real com baixo risco enquanto você aprende o que pode dar errado"
         ]
       },
       {
         "question": "Qual parte do prompt diz à IA o que evitar?",
         "options": [
-          "Papel",
+          "Contexto",
           "Exemplos",
-          "Tarefa",
+          "Formato de saída",
           "Restrições"
         ]
       },
@@ -1120,17 +1120,17 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
         "question": "Qual abordagem tem mais chance de prejudicar sua visibilidade na busca?",
         "options": [
           "Responder com clareza a perguntas reais de clientes",
-          "Adicionar fotos de projetos próprios às suas páginas",
-          "Manter os dados da empresa consistentes na internet",
+          "Adicionar fotos próprias de projetos e legendas curtas às suas páginas de serviços",
+          "Manter os dados do negócio consistentes em toda a web",
           "Publicar centenas de páginas de IA rasas e quase idênticas"
         ]
       },
       {
         "question": "Qual é o melhor uso da IA para pesquisar seu público?",
         "options": [
-          "Adivinhar o que os clientes dos concorrentes querem",
-          "Inventar personas de clientes sem nenhum dado real",
-          "Escrever avaliações falsas para testar reações",
+          "Colar e-mails completos de clientes, com nomes e telefones, para a IA ver tudo",
+          "Pedir à IA que invente perfis detalhados de clientes, com nomes e profissões, quando você ainda não tem dados reais",
+          "Escrever avaliações de exemplo com IA e publicá-las para ver quais geram reação",
           "Encontrar perguntas comuns e frases exatas em avaliações e mensagens de clientes anônimas"
         ]
       },
@@ -1138,44 +1138,44 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
         "question": "Em comparação com o custo de aquisição (CAC), o valor do tempo de vida do cliente (LTV) deve ser:",
         "options": [
           "Menor que o CAC",
-          "Exatamente igual ao CAC",
-          "Sem relação com o CAC",
+          "Mais ou menos igual ao CAC, para o marketing se pagar",
+          "Sem relação com o CAC, porque medem coisas diferentes",
           "Muito maior que o CAC em um negócio saudável"
         ]
       },
       {
         "question": "A que um relatório semanal de marketing deve levar?",
         "options": [
-          "À maior lista de métricas possível",
-          "A um gráfico só do crescimento de seguidores",
-          "A nada; é só para registro",
-          "A decisões e ações específicas para a próxima semana"
+          "A uma lista completa de todas as métricas para nada ficar de fora",
+          "A um registro de resultados para consultar no fim do ano",
+          "A um gráfico de crescimento de seguidores para o dono",
+          "A decisões e ações específicas para a próxima semana de trabalho"
         ]
       },
       {
         "question": "Um assistente de chat no seu site responde a perguntas de clientes. O que o uso responsável exige?",
         "options": [
-          "Deixar que ele prometa descontos por conta própria",
-          "Fingir que é um funcionário de verdade",
-          "Escondê-lo da política de privacidade",
+          "Deixar que ele ofereça descontos por conta própria para fechar vendas mais rápido",
+          "Dar a ele um nome e uma foto de funcionário para os clientes se sentirem mais à vontade",
+          "Deixá-lo fora da política de privacidade, porque ele não guarda nenhum dado",
           "Deixar claro que é automatizado e oferecer um jeito fácil de falar com uma pessoa"
         ]
       },
       {
         "question": "Qual afirmação sobre ferramentas de IA é verdadeira?",
         "options": [
-          "O que elas produzem nunca precisa de edição",
-          "Elas sabem tudo sobre o seu negócio automaticamente",
-          "Elas sempre checam os fatos antes de responder",
+          "Os resultados só precisam de edição quando o prompt foi mal escrito",
+          "Elas aprendem sobre o seu negócio automaticamente depois de algumas semanas de uso",
+          "Elas checam os fatos na web antes de cada resposta, então as afirmações podem ser usadas como vieram",
           "Elas produzem textos que parecem certos, mas podem estar errados, então as afirmações precisam ser checadas"
         ]
       },
       {
         "question": "Para que serve uma métrica Estrela do Norte?",
         "options": [
-          "Para medir curtidas nas redes sociais",
-          "Para substituir todas as outras métricas",
-          "Para acompanhar o máximo de números possível",
+          "Para substituir todas as outras métricas e a equipe olhar um único número",
+          "Para definir a visão de longo prazo que guia o conteúdo da marca",
+          "Para acompanhar o máximo de números possível e não perder nenhuma parte do funil",
           "Para focar a equipe no número que melhor representa o sucesso atual"
         ]
       }
@@ -1184,46 +1184,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Em quais três coisas o Google diz que os resultados locais se baseiam?",
         "options": [
-          "Número de postagens, fotos e hashtags",
+          "Número de posts, fotos e palavras-chave",
           "Relevância, distância e destaque",
-          "Preço, horário e estacionamento",
-          "Gasto com anúncios, idade do site e número de seguidores"
+          "Preço, horário de funcionamento e fotos",
+          "Investimento em anúncios, idade do site e número de avaliações"
         ]
       },
       {
         "question": "O nome do perfil de uma barbearia é \"Brancato Barbershop Melhores Cortes Boston\". Qual é o problema?",
         "options": [
           "Colocar palavras-chave no nome vai contra as regras do Google e pode fazer o perfil ser suspenso",
-          "Nomes de perfil não podem ter a cidade",
-          "O nome é curto demais",
-          "Nenhum, mais palavras-chave sempre posicionam melhor"
+          "Nomes de perfil não podem ter cidade, então Boston precisa ir para o campo de endereço",
+          "O nome é longo demais, e o Google corta tudo depois das três primeiras palavras",
+          "Nenhum: colocar a cidade e o serviço no nome ajuda a ranquear nessas buscas"
         ]
       },
       {
         "question": "Qual configuração é a mais importante para a relevância em um Perfil da Empresa no Google?",
         "options": [
-          "As cores do site",
+          "A descrição do negócio",
           "A categoria principal",
-          "A quantidade de postagens",
+          "O número de posts",
           "A foto de capa"
         ]
       },
       {
         "question": "O que é uma citação em SEO local?",
         "options": [
-          "Um anúncio pago no Google Maps",
-          "Uma frase de cliente no site",
+          "Um link de outro site para o seu, que o Google conta como um voto de confiança",
+          "Uma frase ou avaliação de cliente que o negócio mostra no próprio site",
           "Qualquer lugar on-line que mostra o nome, o endereço e o telefone do negócio",
-          "Uma multa do Google por quebrar as regras"
+          "Um aviso do Google quando um perfil quebra as regras sobre nomes ou avaliações"
         ]
       },
       {
         "question": "O negócio mudou de endereço no ano passado. Yelp e Facebook ainda mostram o endereço antigo. Por que corrigir?",
         "options": [
-          "Endereços antigos ajudam a aparecer em dois bairros",
-          "Só importa se o negócio faz anúncios",
+          "Endereços antigos ajudam o negócio a aparecer nas buscas de dois bairros até se firmar no novo",
+          "Só importa para negócios que fazem anúncios no Google ou no Facebook",
           "Dados iguais em todo lugar ajudam o Google a confiar em qual informação está certa",
-          "Só os dados do Google importam, então não precisa corrigir"
+          "Só os dados do próprio Google importam, então os outros sites não precisam de correção"
         ]
       }
     ],
@@ -1231,46 +1231,46 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
       {
         "question": "Qual destas coisas é permitida ao pedir avaliações no Google?",
         "options": [
-          "Dar 10% de desconto por uma avaliação de 5 estrelas",
+          "Dar 10% de desconto por uma avaliação 5 estrelas",
           "Pedir a todos os clientes do mesmo jeito, com um link curto",
-          "Pedir só aos clientes que disseram estar satisfeitos",
-          "Pedir que funcionários publiquem avaliações das próprias contas"
+          "Pedir só aos clientes que disseram ter gostado do atendimento",
+          "Funcionários publicarem avaliações das próprias contas sobre trabalhos reais"
         ]
       },
       {
         "question": "O que é filtrar avaliações (review gating)?",
         "options": [
-          "Denunciar avaliações que quebram as regras do Google",
-          "Responder às avaliações em um dia",
+          "Denunciar avaliações que quebram as regras do Google, como spam ou conflito de interesse, para serem removidas",
+          "Responder a toda avaliação em até um dia para clientes insatisfeitos não publicarem mais",
           "Pedir avaliação só aos clientes satisfeitos, ou mandar os insatisfeitos primeiro para outro lugar",
-          "Colocar um QR code de avaliação no balcão"
+          "Segurar as avaliações novas para aprovação antes de o Google mostrá-las no perfil"
         ]
       },
       {
         "question": "Qual é a melhor primeira frase de uma resposta a uma avaliação negativa?",
         "options": [
-          "Explicar por que o cliente está errado",
-          "Citar a data e os detalhes da visita",
+          "Explicar a política do negócio que se aplica à reclamação",
+          "Mencionar a data e os detalhes da visita",
           "Agradecer por ter tirado um tempo para escrever",
-          "Oferecer um serviço grátis em troca de apagar a avaliação"
+          "Oferecer um serviço grátis em troca de remover a avaliação"
         ]
       },
       {
         "question": "Como a IA deve ser usada com avaliações?",
         "options": [
-          "Para escrever avaliações para o negócio",
-          "Para publicar respostas automaticamente sem ninguém ler",
-          "Para escrever respostas que uma pessoa confere e edita antes de publicar",
-          "Para criar perfis de clientes com os nomes de quem avaliou"
+          "Para escrever avaliações de exemplo que mostrem aos clientes o que dizer",
+          "Para publicar respostas automaticamente em minutos, assim todo cliente recebe resposta rápida",
+          "Para escrever respostas que uma pessoa confere e edita antes de serem publicadas",
+          "Para montar perfis de clientes a partir dos nomes e fotos de quem avaliou"
         ]
       },
       {
         "question": "Qual costuma ser a melhor hora para pedir uma avaliação?",
         "options": [
-          "Antes de começar o serviço",
-          "Um mês depois da visita",
-          "Logo depois que o cliente recebeu o que veio buscar",
-          "Só depois de uma reclamação"
+          "Antes de o serviço começar, quando ele está mais animado",
+          "Um mês depois, quando ele já teve tempo de avaliar o resultado",
+          "Logo depois que o cliente recebeu o resultado que veio buscar",
+          "Depois que ele vier pelo menos três vezes e virar cliente fiel"
         ]
       }
     ]

@@ -427,7 +427,7 @@
       "subheading": "Uma certificação de 6 módulos criada por praticantes de marketing com IA, não teóricos, mais uma trilha prática para o trabalho pelo qual pequenos negócios realmente pagam.",
       "certificate": {
         "heading": "GANHE SEU CERTIFICADO",
-        "description": "Conclua os 6 módulos da certificação e passe na avaliação final para ganhar seu Certificado de Marketing com IA, e depois continue com a Trilha Prática."
+        "description": "Passe nos 6 módulos de certificação e na avaliação final e depois envie seu projeto final para revisão. Quando ele for aprovado, você conquista seu Certificado de Marketing com IA e pode seguir para a Trilha Prática."
       },
       "items": [
         {
@@ -546,7 +546,7 @@
       "progressValue": "{percent}% Concluído",
       "modulesHeading": "SEUS MÓDULOS",
       "certificateHeading": "SEU CERTIFICADO",
-      "certificateLocked": "Conclua todos os 6 módulos e passe na avaliação final para desbloquear seu Certificado de Marketing com IA.",
+      "certificateLocked": "Passe nos 6 módulos e tenha seu projeto final aprovado para conquistar seu Certificado de Marketing com IA.",
       "certificateLockedBadge": "Bloqueado",
       "comingSoon": "Em Breve",
       "locked": "Bloqueado",
@@ -555,9 +555,9 @@
       "start": "Começar",
       "completed": "Concluído",
       "certificateEarnedBadge": "Conquistado",
-      "certificateEarned": "Parabéns! Você concluiu todos os módulos e passou na avaliação final. Baixe seu certificado abaixo e compartilhe.",
+      "certificateEarned": "Parabéns! Você passou em todos os módulos e seu projeto final foi aprovado. Baixe seu certificado abaixo e compartilhe.",
       "handsOnHeading": "Trilha Prática",
-      "handsOnIntro": "Habilidades práticas pelas quais pequenos negócios pagam: aparecer no Google e construir uma boa reputação. Libera depois do seu certificado.",
+      "handsOnIntro": "Habilidades práticas pelas quais pequenos negócios pagam: aparecer no Google e construir uma boa reputação. Libera quando você passa na avaliação final.",
       "handsOnProgress": "{done} de {total} concluídos",
       "toolsHeading": "Ferramentas de estudo",
       "glossaryTitle": "Glossário e flashcards",
@@ -566,7 +566,7 @@
       "toolkitDesc": "Prompts para copiar e colar, pedidos de avaliação, respostas a avaliações e planilhas prontas.",
       "open": "Abrir",
       "badgesHeading": "Suas conquistas",
-      "badgesNote": "As conquistas de vocabulário e de checklists ficam salvas neste dispositivo.",
+      "badgesNote": "As conquistas e as marcações dos checklists ficam salvas na sua conta.",
       "badges": {
         "firstStep": {
           "title": "Primeiro passo",
@@ -596,7 +596,33 @@
           "title": "Mão na massa",
           "desc": "Concluiu todos os passos do checklist em 3 módulos"
         }
-      }
+      },
+      "requirementModules": "Passar nos módulos 01–06 ({done} de 6)",
+      "requirementCapstone": "Projeto final aprovado",
+      "capstone": {
+        "heading": "Projeto final",
+        "intro": "Coloque seu Sistema de Marketing com IA em um Google Docs, uma apresentação do Slides ou um PDF, deixe o compartilhamento como “qualquer pessoa com o link pode ver” e cole o link aqui. Uma pessoa da nossa equipe revisa cada projeto final.",
+        "locked": "Você poderá enviar seu projeto final quando chegar ao Módulo 06.",
+        "linkLabel": "Link do seu projeto final",
+        "linkPlaceholder": "https://docs.google.com/…",
+        "noteLabel": "Algo que devemos saber? (opcional)",
+        "submit": "Enviar para revisão",
+        "resubmit": "Reenviar para revisão",
+        "submitting": "Enviando…",
+        "invalidLink": "Cole um link completo que comece com https://",
+        "error": "Não conseguimos enviar seu projeto final. Tente novamente.",
+        "pendingNote": "Obrigado! Vamos revisar e atualizar esta página.",
+        "feedbackLabel": "Feedback de quem revisou",
+        "submittedOn": "Enviado em {date}",
+        "viewLink": "Abrir seu envio",
+        "status": {
+          "pending": "Em revisão",
+          "approved": "Aprovado",
+          "changes_requested": "Alterações solicitadas"
+        }
+      },
+      "coachingTitle": "Mentoria ao vivo",
+      "coachingDesc": "Chamadas mensais em grupo e sessões individuais por Zoom com nossa equipe quando você quiser ajuda prática."
     },
     "admin": {
       "heading": "ADMIN DA ACADEMIA",
@@ -624,7 +650,23 @@
         "passed": "{count} aprovados",
         "view": "Ver"
       },
-      "logout": "Sair"
+      "logout": "Sair",
+      "capstones": {
+        "heading": "REVISÃO DE PROJETOS FINAIS",
+        "empty": "Nenhum projeto final enviado ainda.",
+        "waiting": "{count} aguardando revisão",
+        "open": "Abrir projeto",
+        "feedbackPlaceholder": "Feedback para o aluno (obrigatório ao pedir alterações)",
+        "feedbackRequired": "Escreva um feedback para o aluno saber o que mudar.",
+        "approve": "Aprovar",
+        "requestChanges": "Pedir alterações",
+        "saving": "Salvando…",
+        "error": "Não foi possível salvar a revisão. Tente novamente.",
+        "finalPassed": "Avaliação final aprovada",
+        "finalNotPassed": "Avaliação final ainda não aprovada",
+        "submitted": "Enviado em {date}",
+        "certificateIssued": "Certificado emitido"
+      }
     },
     "reset": {
       "heading": "REDEFINIR SENHA",
@@ -651,14 +693,14 @@
       "nextLesson": "Próxima aula",
       "toQuiz": "Exercício e quiz",
       "toFinal": "Projeto final e avaliação",
-      "quizIntro": "Responda às {total} perguntas. Você precisa de {pass}% para passar e pode refazer quantas vezes precisar.",
+      "quizIntro": "Responda às {total} perguntas. Você precisa de {pass}% para passar. Se não passar, pode tentar de novo depois de uma breve espera.",
       "answerAll": "Responda a todas as perguntas antes de enviar.",
       "submitError": "Não conseguimos corrigir seu quiz. Tente novamente.",
       "resultPassed": "Aprovado — {score}/{total}",
       "resultFailed": "{score}/{total} — você precisa de {pass}% para passar",
       "nextUnlocked": "O próximo módulo foi desbloqueado.",
       "courseComplete": "Você concluiu o curso da N°1 Academy!",
-      "reviewHint": "As perguntas marcadas em vermelho estavam incorretas. Revise as aulas e tente novamente.",
+      "reviewHint": "Para o certificado ter valor, não mostramos quais respostas estavam erradas. Revise as aulas e tente novamente.",
       "retry": "Tentar novamente",
       "submit": "Enviar respostas",
       "submitting": "Corrigindo...",
@@ -667,7 +709,12 @@
       "checklistProgress": "{done} de {total} concluídos",
       "certUnlocked": "Seu certificado está pronto no painel, e a Trilha Prática já está liberada.",
       "trackComplete": "Você concluiu a Trilha Prática!",
-      "toolkitLink": "Os modelos deste módulo estão em Modelos e ferramentas"
+      "toolkitLink": "Os modelos deste módulo estão em Modelos e ferramentas",
+      "cooldown": "Você pode tentar este quiz de novo às {time}. Aproveite para revisar as aulas.",
+      "finalPassed": "Você passou na avaliação final!",
+      "capstoneNext": "Último passo: envie seu projeto final pelo painel. Seu certificado é emitido assim que ele for aprovado. A Trilha Prática já está liberada.",
+      "toCapstone": "Enviar seu projeto final",
+      "videoHeading": "Assista: visão geral do módulo"
     },
     "certificate": {
       "download": "Baixar PDF",
@@ -678,7 +725,7 @@
         "academy": "N°1 Academy",
         "title": "Certificado de conclusão",
         "certifies": "Certificamos que",
-        "completed": "concluiu os seis módulos e passou na avaliação final da",
+        "completed": "concluiu os seis módulos e foi aprovado na avaliação final e no projeto final da",
         "courseName": "Certificação em Marketing com IA",
         "issuer": "Number 1 Digital Marketing",
         "dateLabel": "Data de emissão",
@@ -687,7 +734,7 @@
       },
       "verify": {
         "valid": "Certificado verificado",
-        "earned": "Concluiu os seis módulos da Certificação em Marketing com IA da N°1 Academy e passou na avaliação final.",
+        "earned": "Concluiu os seis módulos da Certificação em Marketing com IA da N°1 Academy, passou na avaliação final e teve o projeto final aprovado.",
         "issued": "Emitido em",
         "id": "ID do certificado",
         "notFoundHeading": "Certificado não encontrado",
@@ -731,6 +778,53 @@
       "sheetsHeading": "Planilhas",
       "download": "Baixar (.csv)",
       "backToDashboard": "Voltar para o painel"
+    },
+    "sampleCertificate": {
+      "name": "Seu nome aqui",
+      "watermark": "Amostra",
+      "caption": "Certificado de exemplo. Cada certificado real tem um ID próprio que qualquer pessoa pode conferir na nossa página de verificação."
+    },
+    "testimonials": {
+      "heading": "O QUE OS ALUNOS DIZEM"
+    },
+    "coaching": {
+      "heading": "VÁ MAIS LONGE COM MENTORIA AO VIVO",
+      "subheading": "O curso e o certificado são gratuitos. Quando quiser alguém ao seu lado, adicione ajuda ao vivo da nossa equipe.",
+      "free": "Grátis",
+      "perMonth": "/mês",
+      "perSession": "/sessão",
+      "note": "Preços em USD.",
+      "tiers": {
+        "free": {
+          "name": "Curso e certificado",
+          "features": [
+            "Os 8 módulos, quizzes, glossário e kit de ferramentas",
+            "Revisão do seu projeto final pela nossa equipe",
+            "Certificado de Marketing com IA verificável"
+          ],
+          "cta": "Inscreva-se grátis"
+        },
+        "group": {
+          "name": "Chamada em grupo ao vivo",
+          "features": [
+            "Uma chamada mensal por Zoom com nossa equipe e outros alunos",
+            "Traga suas perguntas, prompts e fluxos",
+            "Feedback sobre seu projeto final em um grupo pequeno",
+            "Gravação de todas as chamadas"
+          ],
+          "cta": "Entrar na chamada em grupo"
+        },
+        "oneOnOne": {
+          "name": "Sessão individual por Zoom",
+          "features": [
+            "60 minutos sobre o seu negócio: só você e nossa equipe",
+            "Revisamos ao vivo seu projeto final, seus fluxos ou seus anúncios",
+            "Saia com próximos passos claros para os próximos 30 dias",
+            "Gravação e anotações depois da chamada"
+          ],
+          "cta": "Agendar sessão individual"
+        }
+      }
     }
   },
   "audit": {

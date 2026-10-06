@@ -437,7 +437,7 @@
       "subheading": "A 6-module certification built by AI marketing practitioners, not theorists, plus a hands-on track for the work small businesses actually pay for.",
       "certificate": {
         "heading": "EARN YOUR CERTIFICATE",
-        "description": "Complete the 6 certification modules and pass the final assessment to earn your AI Marketing Certificate, then keep going with the Hands-On Track."
+        "description": "Pass the 6 certification modules and the final assessment, then submit your capstone project for review. Once it’s approved, you earn your AI Marketing Certificate and can keep going with the Hands-On Track."
       },
       "items": [
         {
@@ -556,7 +556,7 @@
       "progressValue": "{percent}% Complete",
       "modulesHeading": "YOUR MODULES",
       "certificateHeading": "YOUR CERTIFICATE",
-      "certificateLocked": "Complete all 6 modules and pass the final assessment to unlock your AI Marketing Certificate.",
+      "certificateLocked": "Pass all 6 modules and get your capstone project approved to earn your AI Marketing Certificate.",
       "certificateLockedBadge": "Locked",
       "comingSoon": "Coming Soon",
       "locked": "Locked",
@@ -565,9 +565,9 @@
       "start": "Start",
       "completed": "Completed",
       "certificateEarnedBadge": "Earned",
-      "certificateEarned": "Congratulations — you’ve completed every module and passed the final assessment. Download your certificate below and share it.",
+      "certificateEarned": "Congratulations — you’ve passed every module and your capstone was approved. Download your certificate below and share it.",
       "handsOnHeading": "Hands-On Track",
-      "handsOnIntro": "Practical skills small businesses pay for: getting found on Google and building a strong reputation. Unlocks after your certificate.",
+      "handsOnIntro": "Practical skills small businesses pay for: getting found on Google and building a strong reputation. Unlocks after you pass the final assessment.",
       "handsOnProgress": "{done} of {total} done",
       "toolsHeading": "Study Tools",
       "glossaryTitle": "Glossary & Flashcards",
@@ -576,7 +576,7 @@
       "toolkitDesc": "Copy-and-paste prompts, review requests, review replies and ready-made spreadsheets.",
       "open": "Open",
       "badgesHeading": "Your Badges",
-      "badgesNote": "Vocabulary and checklist badges are saved on this device.",
+      "badgesNote": "Badges and checklist ticks are saved to your account.",
       "badges": {
         "firstStep": {
           "title": "First Step",
@@ -606,7 +606,33 @@
           "title": "Did the Work",
           "desc": "Finished every checklist step in 3 modules"
         }
-      }
+      },
+      "requirementModules": "Pass modules 01–06 ({done} of 6)",
+      "requirementCapstone": "Capstone project approved",
+      "capstone": {
+        "heading": "Capstone Project",
+        "intro": "Put your AI Marketing System in one Google Doc, Slides deck or PDF, set sharing to “anyone with the link can view”, and paste the link here. A member of our team reviews every capstone.",
+        "locked": "You can submit your capstone once you reach Module 06.",
+        "linkLabel": "Link to your capstone",
+        "linkPlaceholder": "https://docs.google.com/…",
+        "noteLabel": "Anything we should know? (optional)",
+        "submit": "Submit for Review",
+        "resubmit": "Resubmit for Review",
+        "submitting": "Submitting…",
+        "invalidLink": "Paste a full link that starts with https://",
+        "error": "We couldn’t submit your capstone. Please try again.",
+        "pendingNote": "Thanks! We’ll review it and update this page.",
+        "feedbackLabel": "Feedback from your reviewer",
+        "submittedOn": "Submitted {date}",
+        "viewLink": "Open your submission",
+        "status": {
+          "pending": "In Review",
+          "approved": "Approved",
+          "changes_requested": "Changes Requested"
+        }
+      },
+      "coachingTitle": "Live Coaching",
+      "coachingDesc": "Monthly group calls and 1-on-1 Zoom sessions with our team when you want hands-on help."
     },
     "admin": {
       "heading": "ACADEMY ADMIN",
@@ -634,7 +660,23 @@
         "passed": "{count} passed",
         "view": "View"
       },
-      "logout": "Log Out"
+      "logout": "Log Out",
+      "capstones": {
+        "heading": "CAPSTONE REVIEWS",
+        "empty": "No capstones submitted yet.",
+        "waiting": "{count} waiting for review",
+        "open": "Open capstone",
+        "feedbackPlaceholder": "Feedback for the student (required when requesting changes)",
+        "feedbackRequired": "Add feedback so the student knows what to change.",
+        "approve": "Approve",
+        "requestChanges": "Request Changes",
+        "saving": "Saving…",
+        "error": "Couldn’t save the review. Please try again.",
+        "finalPassed": "Final assessment passed",
+        "finalNotPassed": "Final assessment not passed yet",
+        "submitted": "Submitted {date}",
+        "certificateIssued": "Certificate issued"
+      }
     },
     "reset": {
       "heading": "RESET PASSWORD",
@@ -661,14 +703,14 @@
       "nextLesson": "Next Lesson",
       "toQuiz": "Exercise & Quiz",
       "toFinal": "Capstone & Final Assessment",
-      "quizIntro": "Answer all {total} questions. You need {pass}% to pass, and you can retake it as many times as you need.",
+      "quizIntro": "Answer all {total} questions. You need {pass}% to pass. If you don’t pass, you can try again after a short wait.",
       "answerAll": "Please answer every question before submitting.",
       "submitError": "We couldn’t grade your quiz. Please try again.",
       "resultPassed": "Passed — {score}/{total}",
       "resultFailed": "{score}/{total} — you need {pass}% to pass",
       "nextUnlocked": "The next module is now unlocked.",
       "courseComplete": "You’ve completed the N°1 Academy course!",
-      "reviewHint": "Questions marked in red were incorrect. Review the lessons and try again.",
+      "reviewHint": "To keep the certificate meaningful, we don’t show which answers were wrong. Review the lessons and try again.",
       "retry": "Try Again",
       "submit": "Submit Answers",
       "submitting": "Grading...",
@@ -677,7 +719,12 @@
       "checklistProgress": "{done} of {total} done",
       "certUnlocked": "Your certificate is ready on your dashboard, and the Hands-On Track is now unlocked.",
       "trackComplete": "You’ve finished the Hands-On Track!",
-      "toolkitLink": "Templates for this module are in the Toolkit"
+      "toolkitLink": "Templates for this module are in the Toolkit",
+      "cooldown": "You can try this quiz again at {time}. Use the time to review the lessons.",
+      "finalPassed": "You passed the final assessment!",
+      "capstoneNext": "Last step: submit your capstone project from your dashboard. Your certificate is issued as soon as it’s approved. The Hands-On Track is now unlocked.",
+      "toCapstone": "Submit Your Capstone",
+      "videoHeading": "Watch: Module Overview"
     },
     "certificate": {
       "download": "Download PDF",
@@ -688,7 +735,7 @@
         "academy": "N°1 Academy",
         "title": "Certificate of Completion",
         "certifies": "This certifies that",
-        "completed": "has completed all six modules and passed the final assessment of the",
+        "completed": "has completed all six modules, passed the final assessment and had a capstone project approved for the",
         "courseName": "AI Marketing Certification",
         "issuer": "Number 1 Digital Marketing",
         "dateLabel": "Date issued",
@@ -697,7 +744,7 @@
       },
       "verify": {
         "valid": "Verified certificate",
-        "earned": "Completed all six modules of the N°1 Academy AI Marketing Certification and passed the final assessment.",
+        "earned": "Completed all six modules of the N°1 Academy AI Marketing Certification, passed the final assessment and had a capstone project approved.",
         "issued": "Issued",
         "id": "Certificate ID",
         "notFoundHeading": "Certificate not found",
@@ -741,6 +788,53 @@
       "sheetsHeading": "Spreadsheets",
       "download": "Download (.csv)",
       "backToDashboard": "Back to Dashboard"
+    },
+    "sampleCertificate": {
+      "name": "Your Name Here",
+      "watermark": "Sample",
+      "caption": "Sample certificate. Every real certificate has its own ID that anyone can check on our verification page."
+    },
+    "testimonials": {
+      "heading": "WHAT STUDENTS SAY"
+    },
+    "coaching": {
+      "heading": "GO FURTHER WITH LIVE COACHING",
+      "subheading": "The course and certificate are free. When you want a person in your corner, add live help from our team.",
+      "free": "Free",
+      "perMonth": "/month",
+      "perSession": "/session",
+      "note": "Prices in USD.",
+      "tiers": {
+        "free": {
+          "name": "Course & Certificate",
+          "features": [
+            "All 8 modules, quizzes, glossary and toolkit",
+            "Capstone review by our team",
+            "Verifiable AI Marketing Certificate"
+          ],
+          "cta": "Enroll Free"
+        },
+        "group": {
+          "name": "Live Group Call",
+          "features": [
+            "A monthly live Zoom call with our team and other students",
+            "Bring your questions, prompts and workflows",
+            "Feedback on your capstone in a small group",
+            "Recordings of every call"
+          ],
+          "cta": "Join the Group Call"
+        },
+        "oneOnOne": {
+          "name": "1-on-1 Zoom Session",
+          "features": [
+            "60 minutes on your business: just you and our team",
+            "We review your capstone, workflows or ads live",
+            "Leave with clear next steps for the next 30 days",
+            "Recording and notes after the call"
+          ],
+          "cta": "Book a 1-on-1"
+        }
+      }
     }
   },
   "audit": {

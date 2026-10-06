@@ -6,6 +6,8 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { Users, Activity, Award, LogOut, Eye } from 'lucide-react';
 import { getSupabase, getCurrentProfile, type Profile } from '@/lib/supabase';
+import CapstoneReviews, { type CapstoneRow } from '@/components/academy/CapstoneReviews';
+import type { CapstoneStatus } from '@/components/academy/CapstoneCard';
 
 type ModuleItem = { number: string; title: string; time: string };
 type ProgressRow = { user_id: string; module_number: string; completed_at: string };
@@ -20,7 +22,8 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
   const [authed, setAuthed] = useState<boolean | null>(null);
   const [students, setStudents] = useState<Profile[]>([]);
   const [progress, setProgress] = useState<ProgressRow[]>([]);
-  const [certificateCount, setCertificateCount] = useState(0);
+  const [certified, setCertified] = useState<Set<string>>(new Set());
+  const [capstones, setCapstones] = useState<CapstoneRow[]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -33,19 +36,23 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
       }
       // Row level security only returns every profile to admins.
       const supabase = getSupabase();
-      const [profilesRes, progressRes, certificatesRes] = await Promise.all([
+      const [profilesRes, progressRes, certificatesRes, capstonesRes] = await Promise.all([
         supabase
           .from('profiles')
           .select('id, email, full_name, role, created_at')
           .eq('role', 'student')
           .order('created_at', { ascending: false }),
         supabase.from('module_progress').select('user_id, module_number, completed_at'),
-        supabase.from('certificates').select('id', { count: 'exact', head: true }),
+        supabase.from('certificates').select('user_id'),
+        supabase
+          .from('capstone_submissions')
+          .select('user_id, link, note, status, feedback, submitted_at, reviewed_at'),
       ]);
       if (cancelled) return;
       setStudents((profilesRes.data as Profile[]) ?? []);
       setProgress((progressRes.data as ProgressRow[]) ?? []);
-      setCertificateCount(certificatesRes.count ?? 0);
+      setCertified(new Set((certificatesRes.data ?? []).map((row) => row.user_id as string)));
+      setCapstones((capstonesRes.data as CapstoneRow[]) ?? []);
       setAuthed(true);
     })();
     return () => { cancelled = true; };
@@ -66,6 +73,13 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
       .map((row) => row.user_id)
   ).size;
 
+  function handleReviewed(userId: string, status: CapstoneStatus, feedback: string, certificate: boolean) {
+    setCapstones((rows) =>
+      rows.map((row) => (row.user_id === userId ? { ...row, status, feedback, reviewed_at: new Date().toISOString() } : row))
+    );
+    if (certificate) setCertified((ids) => new Set(ids).add(userId));
+  }
+
   if (authed === null) {
     return <div className="min-h-screen bg-brand-near-black" />;
   }
@@ -73,7 +87,7 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
   const stats = [
     { label: t('admin.stats.totalStudents'), value: students.length, icon: Users },
     { label: t('admin.stats.activeThisWeek'), value: activeThisWeek, icon: Activity },
-    { label: t('admin.stats.certificatesIssued'), value: certificateCount, icon: Award },
+    { label: t('admin.stats.certificatesIssued'), value: certified.size, icon: Award },
   ];
 
   return (
@@ -129,6 +143,15 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
             })}
           </div>
         </section>
+
+        <CapstoneReviews
+          locale={locale}
+          submissions={capstones}
+          students={students}
+          finalPassed={new Set(progress.filter((row) => row.module_number === '06').map((row) => row.user_id))}
+          certified={certified}
+          onReviewed={handleReviewed}
+        />
 
         {/* Student Roster */}
         <section>

@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { Lock, Award, Clock, LogOut, CheckCircle2, ArrowRight, Download, ExternalLink, Copy, BookOpen, Wrench, Medal } from 'lucide-react';
+import { Lock, Award, Clock, LogOut, CheckCircle2, Circle, ArrowRight, Download, ExternalLink, Copy, BookOpen, Wrench, Medal, Video } from 'lucide-react';
 import { course, isHandsOn } from '@/content/academy/lessons';
 import { GLOSSARY } from '@/content/academy/glossary';
-import { readChecklist, readKnownTerms } from '@/lib/academyLocal';
+import { loadAcademyState } from '@/lib/academyState';
+import CapstoneCard, { type CapstoneSubmission } from '@/components/academy/CapstoneCard';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import { downloadCertificatePdf, type CertificateText } from '@/lib/certificatePdf';
 
@@ -28,11 +29,17 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
   const [copied, setCopied] = useState(false);
   const [knownAll, setKnownAll] = useState(false);
   const [checklistsDone, setChecklistsDone] = useState(0);
+  const [capstone, setCapstone] = useState<CapstoneSubmission | null>(null);
 
   useEffect(() => {
-    const known = new Set(readKnownTerms());
-    setKnownAll(GLOSSARY.every((g) => known.has(g.id)));
-    setChecklistsDone(course.filter((m) => readChecklist(m.number).length >= m.checklist.length).length);
+    let cancelled = false;
+    loadAcademyState().then(({ checklists, knownTerms }) => {
+      if (cancelled) return;
+      const known = new Set(knownTerms);
+      setKnownAll(GLOSSARY.every((g) => known.has(g.id)));
+      setChecklistsDone(course.filter((m) => (checklists[m.number] ?? []).length >= m.checklist.length).length);
+    });
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
@@ -45,11 +52,17 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
         return;
       }
       const supabase = getSupabase();
-      const [{ data }, { data: cert }] = await Promise.all([
+      const [{ data }, { data: cert }, { data: capstoneRow }] = await Promise.all([
         supabase.from('module_progress').select('module_number').eq('user_id', profile.id),
         supabase.from('certificates').select('id, full_name, issued_at').eq('user_id', profile.id).maybeSingle(),
+        supabase
+          .from('capstone_submissions')
+          .select('link, note, status, feedback, submitted_at')
+          .eq('user_id', profile.id)
+          .maybeSingle(),
       ]);
       if (cancelled) return;
+      setCapstone((capstoneRow as CapstoneSubmission) ?? null);
       setCompleted((data ?? []).map((row) => row.module_number as string));
       setCertificate((cert as Certificate) ?? null);
       setIsAdmin(profile.role === 'admin');
@@ -233,14 +246,15 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
           <h2 className="font-display text-xl sm:text-2xl text-brand-white uppercase tracking-tight mb-6">
             {t('dashboard.toolsHeading')}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { href: 'glossary', Icon: BookOpen, title: t('dashboard.glossaryTitle'), desc: t('dashboard.glossaryDesc') },
-              { href: 'toolkit', Icon: Wrench, title: t('dashboard.toolkitTitle'), desc: t('dashboard.toolkitDesc') },
+              { href: 'academy/glossary', Icon: BookOpen, title: t('dashboard.glossaryTitle'), desc: t('dashboard.glossaryDesc') },
+              { href: 'academy/toolkit', Icon: Wrench, title: t('dashboard.toolkitTitle'), desc: t('dashboard.toolkitDesc') },
+              { href: 'academy#coaching', Icon: Video, title: t('dashboard.coachingTitle'), desc: t('dashboard.coachingDesc') },
             ].map(({ href, Icon, title, desc }) => (
               <Link
                 key={href}
-                href={`/${locale}/academy/${href}`}
+                href={`/${locale}/${href}`}
                 className="flex items-start gap-4 bg-brand-dark1 border border-brand-dark2 p-6 hover:border-brand-light1 transition-colors"
               >
                 <Icon size={22} className="text-brand-light2 flex-shrink-0 mt-1" />
@@ -259,7 +273,7 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
           <h2 className="font-display text-xl sm:text-2xl text-brand-white uppercase tracking-tight mb-6">
             {t('dashboard.certificateHeading')}
           </h2>
-          <div className="bg-brand-dark1 border border-brand-dark2 p-8 sm:p-12 flex flex-col sm:flex-row items-center gap-8">
+          <div className="bg-brand-dark1 border border-brand-dark2 p-8 sm:p-12 flex flex-col sm:flex-row items-center sm:items-start gap-8">
             <div className={`flex-shrink-0 w-32 h-32 border-2 flex items-center justify-center relative ${allDone ? 'border-brand-light2' : 'border-brand-dark2'}`}>
               <Award size={48} className={allDone ? 'text-brand-light2' : 'text-brand-dark2'} />
               {!allDone && (
@@ -268,7 +282,7 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
                 </div>
               )}
             </div>
-            <div>
+            <div className="w-full min-w-0 flex-1">
               <div className={`inline-flex items-center gap-1.5 mb-3 px-2 py-1 border ${allDone ? 'border-brand-light2/40' : 'border-brand-dark2'}`}>
                 {allDone ? <CheckCircle2 size={11} className="text-brand-light2" /> : <Lock size={11} className="text-brand-mid" />}
                 <span className={`text-xs uppercase tracking-widest ${allDone ? 'text-brand-light2' : 'text-brand-mid'}`}>
@@ -281,6 +295,27 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
               <p className="text-brand-light1 text-sm max-w-md leading-relaxed">
                 {allDone ? t('dashboard.certificateEarned') : t('dashboard.certificateLocked')}
               </p>
+              {!certificate && (
+                <ul className="mt-4 space-y-1.5 text-sm">
+                  {[
+                    { done: coreDone === coreModules.length, label: t('dashboard.requirementModules', { done: coreDone }) },
+                    { done: capstone?.status === 'approved', label: t('dashboard.requirementCapstone') },
+                  ].map(({ done, label }) => (
+                    <li key={label} className={`flex items-center gap-2 ${done ? 'text-brand-light2' : 'text-brand-light1'}`}>
+                      {done ? <CheckCircle2 size={14} /> : <Circle size={14} className="text-brand-mid" />}
+                      {label}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {!certificate && (
+                <CapstoneCard
+                  locale={locale}
+                  unlocked={isAdmin || completed.includes('05')}
+                  submission={capstone}
+                  onSubmitted={setCapstone}
+                />
+              )}
               {certificate && (
                 <>
                   <p className="text-xs uppercase tracking-widest text-brand-mid mt-4">

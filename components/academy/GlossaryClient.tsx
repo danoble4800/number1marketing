@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { ArrowLeft, Check, RotateCcw, Search, X } from 'lucide-react';
 import { CATEGORIES, GLOSSARY, toLocale, type CategoryId, type GlossaryTerm } from '@/content/academy/glossary';
-import { readKnownTerms, writeKnownTerms } from '@/lib/academyLocal';
+import { loadAcademyState, saveKnownTerms } from '@/lib/academyState';
 import { getSupabase } from '@/lib/supabase';
 
 type Mode = 'list' | 'flashcards' | 'quiz';
@@ -134,9 +134,13 @@ function Flashcards({ terms, lang }: { terms: GlossaryTerm[]; lang: 'en' | 'es' 
   const [flipped, setFlipped] = useState(false);
 
   useEffect(() => {
-    const k = readKnownTerms();
-    setKnown(k);
-    setDeck(shuffle(terms.filter((g) => !k.includes(g.id))));
+    let cancelled = false;
+    loadAcademyState().then(({ knownTerms }) => {
+      if (cancelled) return;
+      setKnown(knownTerms);
+      setDeck(shuffle(terms.filter((g) => !knownTerms.includes(g.id))));
+    });
+    return () => { cancelled = true; };
   }, [terms]);
 
   const knownHere = terms.filter((g) => known.includes(g.id)).length;
@@ -148,7 +152,7 @@ function Flashcards({ terms, lang }: { terms: GlossaryTerm[]; lang: 'en' | 'es' 
     if (gotIt) {
       const next = [...known, card.id];
       setKnown(next);
-      writeKnownTerms(next);
+      saveKnownTerms(next);
       setDeck(deck.slice(1));
     } else {
       setDeck([...deck.slice(1), card]);
@@ -159,7 +163,7 @@ function Flashcards({ terms, lang }: { terms: GlossaryTerm[]; lang: 'en' | 'es' 
     const ids = new Set(terms.map((g) => g.id));
     const next = known.filter((id) => !ids.has(id));
     setKnown(next);
-    writeKnownTerms(next);
+    saveKnownTerms(next);
     setDeck(shuffle(terms));
     setFlipped(false);
   }

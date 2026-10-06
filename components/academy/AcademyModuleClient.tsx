@@ -7,11 +7,22 @@ import { useTranslations } from 'next-intl';
 import { ArrowLeft, ArrowRight, CheckCircle2, Circle, ClipboardList, Lock, Wrench, XCircle } from 'lucide-react';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import LessonBody from '@/components/academy/LessonBody';
+import VideoEmbed from '@/components/academy/VideoEmbed';
+import { getModuleVideo } from '@/content/academy/videos';
 import { CERT_MODULE, type CourseModule } from '@/content/academy/lessons';
-import { readChecklist, writeChecklist } from '@/lib/academyLocal';
+import { loadAcademyState, saveChecklist } from '@/lib/academyState';
 import { PASS_PERCENT, type QuizQuestion } from '@/content/academy/quizzes';
 
-type QuizResult = { score: number; total: number; passed: boolean; results: boolean[] };
+// A failed attempt comes back with only the score and when the quiz reopens; which answers
+// were right is returned only on a pass. A submit during the wait returns just retry_at.
+type QuizResult = {
+  score: number;
+  total: number;
+  passed: boolean;
+  results?: boolean[];
+  certificate?: boolean;
+  retry_at?: string | null;
+};
 
 interface Props {
   locale: string;
@@ -34,6 +45,7 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
   const [result, setResult] = useState<QuizResult | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [retryAt, setRetryAt] = useState<Date | null>(null);
 
   const lessons = courseModule.lessons;
   const quizStep = lessons.length;
@@ -41,14 +53,30 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
   // The certificate's final assessment; the Hands-On Track modules after it are regular quizzes.
   const isFinal = courseModule.number === CERT_MODULE;
   const isLast = nextNumber === null;
+  const video = getModuleVideo(courseModule.number, locale);
 
   const [ticked, setTicked] = useState<number[]>([]);
-  useEffect(() => { setTicked(readChecklist(courseModule.number)); }, [courseModule.number]);
+  useEffect(() => {
+    let cancelled = false;
+    loadAcademyState().then(({ checklists }) => {
+      if (!cancelled) setTicked(checklists[courseModule.number] ?? []);
+    });
+    return () => { cancelled = true; };
+  }, [courseModule.number]);
   function toggleTick(i: number) {
     const next = ticked.includes(i) ? ticked.filter((x) => x !== i) : [...ticked, i];
     setTicked(next);
-    writeChecklist(courseModule.number, next);
+    saveChecklist(courseModule.number, next);
   }
+
+  // Clear the wait once it's over so the quiz can be retaken without a reload.
+  useEffect(() => {
+    if (!retryAt) return;
+    const ms = retryAt.getTime() - Date.now();
+    if (ms <= 0) { setRetryAt(null); return; }
+    const timer = setTimeout(() => setRetryAt(null), ms);
+    return () => clearTimeout(timer);
+  }, [retryAt]);
 
   useEffect(() => {
     let cancelled = false;
@@ -69,6 +97,9 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
       const unlocked =
         courseModule.number === '01' || done.has(prevNumber) || profile.role === 'admin';
       setStatus(unlocked ? 'open' : 'locked');
+      if (!unlocked) return;
+      const { data: until } = await getSupabase().rpc('quiz_retry_at', { p_module: courseModule.number });
+      if (!cancelled && until) setRetryAt(new Date(until as string));
     })();
     return () => { cancelled = true; };
   }, [locale, router, courseModule.number, prevNumber]);
@@ -95,6 +126,8 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
       return;
     }
     const graded = data as QuizResult;
+    if (graded.retry_at) setRetryAt(new Date(graded.retry_at));
+    if (graded.score === undefined) return;
     setResult(graded);
     if (graded.passed) setCompleted(true);
   }
@@ -104,6 +137,10 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
     setAnswers(quiz.map(() => null));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  const retryTime = retryAt?.toLocaleTimeString(locale, { hour: 'numeric', minute: '2-digit' }) ?? '';
+  // The final assessment issues the certificate only once the capstone is approved too.
+  const awaitingCapstone = isFinal && result?.passed && !result.certificate;
 
   if (status === 'loading') {
     return <div className="min-h-screen bg-brand-near-black" />;
@@ -200,6 +237,12 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
               <h2 className="font-display text-2xl sm:text-3xl text-brand-white uppercase tracking-tight mt-2 mb-6">
                 {lessons[step].title}
               </h2>
+              {step === 0 && video && (
+                <div className="mb-8">
+                  <p className="text-xs uppercase tracking-widest text-brand-mid mb-3">{t('videoHeading')}</p>
+                  <VideoEmbed link={video} title={`${title} — ${t('videoHeading')}`} />
+                </div>
+              )}
               <LessonBody body={lessons[step].body} locale={locale} />
 
               <div className="flex items-center justify-between gap-4 mt-10 pt-6 border-t border-brand-dark2">
@@ -276,13 +319,13 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
 
                 <ol className="space-y-8">
                   {quiz.map((q, qi) => {
-                    const graded = result?.results[qi];
+                    const graded = result?.results?.[qi];
                     return (
                       <li key={qi}>
                         <p className="text-brand-offwhite mb-3 flex items-start gap-2">
                           <span className="text-brand-mid">{qi + 1}.</span>
                           <span className="flex-1">{q.question}</span>
-                          {result && (graded
+                          {result?.results && (graded
                             ? <CheckCircle2 size={18} className="text-emerald-400 flex-shrink-0" />
                             : <XCircle size={18} className="text-red-400 flex-shrink-0" />)}
                         </p>
@@ -330,7 +373,9 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
                     </p>
                     <p className="text-brand-light1 text-sm mt-1">
                       {result.passed
-                        ? isFinal
+                        ? awaitingCapstone
+                          ? `${t('finalPassed')} ${t('capstoneNext')}`
+                          : isFinal
                           ? `${t('courseComplete')} ${t('certUnlocked')}`
                           : isLast
                           ? t('trackComplete')
@@ -343,19 +388,31 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
                           href={isFinal || isLast ? `/${locale}/academy/dashboard` : `/${locale}/academy/module/${nextNumber}`}
                           className="inline-flex items-center gap-2 bg-brand-white text-brand-black text-xs font-semibold uppercase tracking-widest px-5 py-3 hover:bg-brand-offwhite transition-colors"
                         >
-                          {isFinal || isLast ? t('backToDashboard') : t('goToModule', { number: nextNumber })}
+                          {awaitingCapstone
+                            ? t('toCapstone')
+                            : isFinal || isLast
+                            ? t('backToDashboard')
+                            : t('goToModule', { number: nextNumber })}
                           <ArrowRight size={13} />
                         </Link>
                       ) : (
                         <button
                           onClick={retry}
-                          className="bg-brand-white text-brand-black text-xs font-semibold uppercase tracking-widest px-5 py-3 hover:bg-brand-offwhite transition-colors"
+                          disabled={Boolean(retryAt)}
+                          className="bg-brand-white text-brand-black text-xs font-semibold uppercase tracking-widest px-5 py-3 hover:bg-brand-offwhite transition-colors disabled:opacity-50"
                         >
                           {t('retry')}
                         </button>
                       )}
                     </div>
+                    {!result.passed && retryAt && (
+                      <p className="text-brand-mid text-sm mt-4">{t('cooldown', { time: retryTime })}</p>
+                    )}
                   </div>
+                ) : retryAt ? (
+                  <p className="mt-8 border border-brand-dark2 px-6 py-5 text-brand-light1 text-sm">
+                    {t('cooldown', { time: retryTime })}
+                  </p>
                 ) : (
                   <button
                     onClick={submitQuiz}

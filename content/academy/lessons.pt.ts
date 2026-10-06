@@ -651,7 +651,7 @@ Mantenha um registro simples de testes: data, hipótese, o que mudou, resultado 
   {
     number: '06',
     summary:
-      'Junte tudo em um sistema completo de marketing com IA para um negócio real ou de exemplo e passe na avaliação final para conquistar seu certificado.',
+      'Junte tudo em um sistema completo de marketing com IA para um negócio real ou de exemplo passe na avaliação final e tenha seu projeto final aprovado para conquistar seu certificado.',
     lessons: [
       {
         slug: 'capstone-brief',
@@ -679,6 +679,10 @@ Seu projeto final é um **Sistema de Marketing com IA** completo e prático para
 ## Formato
 
 Coloque tudo em um único documento ou apresentação que possa ser entregue ao dono do negócio e colocado em prática no dia seguinte. Guarde uma cópia: é a peça de portfólio que mostra do que você é capaz.
+
+## Como enviar
+
+Salve como Google Docs, apresentação do Google Slides ou PDF, deixe o compartilhamento como "qualquer pessoa com o link pode ver" e envie o link pelo seu painel. Uma pessoa da nossa equipe revisa cada projeto final. Se faltar algo, devolvemos com feedback, e você pode reenviar quantas vezes precisar.
 `,
       },
       {
@@ -721,9 +725,9 @@ Antes de fazer a avaliação final, revise seu projeto com este checklist. Um si
 
 ## Pronto para a avaliação final?
 
-A avaliação final tem 10 perguntas que cobrem os seis módulos. Você precisa de **80% (8 de 10)** para passar. Se não passar na primeira tentativa, pode refazer; revise as aulas das perguntas que errou.
+A avaliação final tem 10 perguntas que cobrem os seis módulos. Você precisa de **80% (8 de 10)** para passar. Se não passar, você verá sua nota, mas não quais respostas errou, e poderá tentar de novo depois de uma hora. Use esse tempo para revisar as aulas.
 
-> Passar na avaliação final conclui o curso e desbloqueia seu Certificado de Marketing com IA da N°1 Academy.
+> Seu Certificado de Marketing com IA da N°1 Academy é emitido quando você passa na avaliação final **e** seu projeto final é aprovado. Você pode fazer os dois em qualquer ordem.
 `,
       },
       {
@@ -749,7 +753,7 @@ O jeito mais rápido de provar o que você aprendeu são os resultados. Coloque 
     exercise: {
       title: 'Projeto final: seu sistema de marketing com IA',
       body: `
-Conclua as sete partes do projeto final descritas na Aula 1, revise com o checklist da Aula 2 e depois faça a avaliação final abaixo.
+Conclua as sete partes do projeto final descritas na Aula 1, revise com o checklist da Aula 2 envie pelo seu painel e depois faça a avaliação final abaixo.
 `,
     },
     checklist: [

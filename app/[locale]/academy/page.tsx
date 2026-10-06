@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { BookOpen, Award, Clock } from 'lucide-react';
+import { BookOpen, Award, Clock, Check, Quote } from 'lucide-react';
 import { getModule, isHandsOn } from '@/content/academy/lessons';
 import { getQuiz } from '@/content/academy/quizzes';
 import Container from '@/components/Container';
 import Section from '@/components/Section';
 import Heading from '@/components/Heading';
 import Button from '@/components/Button';
+import SampleCertificate from '@/components/academy/SampleCertificate';
+import type { CertificateText } from '@/lib/certificatePdf';
+import { testimonials, quoteFor } from '@/content/academy/testimonials';
+import { COACHING_PRICES, coachingHref } from '@/content/academy/coaching';
 
 export async function generateMetadata({
   params,
@@ -34,6 +38,7 @@ export async function generateMetadata({
 
 type ModuleItem = { number: string; title: string; time: string };
 type OverviewItem = { title: string; desc: string };
+type Tier = { name: string; features: string[]; cta: string };
 
 export default async function AcademyPage({
   params,
@@ -46,6 +51,12 @@ export default async function AcademyPage({
   const t = await getTranslations({ locale, namespace: 'academy' });
   const modules = t.raw('modules.items') as ModuleItem[];
   const overviewItems = t.raw('overview.items') as OverviewItem[];
+  const tiers = t.raw('coaching.tiers') as Record<'free' | 'group' | 'oneOnOne', Tier>;
+  const plans = [
+    { tier: tiers.free, price: t('coaching.free'), per: '', href: `/${locale}/academy/login?role=student`, featured: false },
+    { tier: tiers.group, price: `$${COACHING_PRICES.group}`, per: t('coaching.perMonth'), href: coachingHref('group', locale), featured: true },
+    { tier: tiers.oneOnOne, price: `$${COACHING_PRICES.oneOnOne}`, per: t('coaching.perSession'), href: coachingHref('oneOnOne', locale), featured: false },
+  ];
 
   return (
     <>
@@ -161,20 +172,96 @@ export default async function AcademyPage({
       {/* Certificate CTA */}
       <Section className="bg-brand-dark1 border-t border-brand-dark2">
         <Container>
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="mb-8 mx-auto w-24 h-24 border-2 border-brand-dark2 flex items-center justify-center">
-              <Award size={40} className="text-brand-light2" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <div className="mb-6 inline-flex w-14 h-14 border-2 border-brand-dark2 items-center justify-center">
+                <Award size={26} className="text-brand-light2" />
+              </div>
+              <Heading as="h2" size="lg">{t('overview.certificate.heading')}</Heading>
+              <p className="mt-6 text-brand-light1 text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+                {t('overview.certificate.description')}
+              </p>
+              <div className="mt-10">
+                <Button href={`/${locale}/academy/login?role=student`} variant="primary">
+                  {t('hero.enrollCta')}
+                </Button>
+              </div>
             </div>
-            <Heading as="h2" size="lg">{t('overview.certificate.heading')}</Heading>
-            <p className="mt-6 text-brand-light1 text-lg leading-relaxed max-w-xl mx-auto">
-              {t('overview.certificate.description')}
-            </p>
-            <div className="mt-10">
-              <Button href={`/${locale}/academy/login?role=student`} variant="primary">
-                {t('hero.enrollCta')}
-              </Button>
-            </div>
+            <figure>
+              <SampleCertificate
+                text={t.raw('certificate.pdf') as CertificateText}
+                name={t('sampleCertificate.name')}
+                watermark={t('sampleCertificate.watermark')}
+                date={new Date().toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })}
+              />
+              <figcaption className="mt-4 text-sm text-brand-mid text-center">
+                <a href={`/${locale}/academy/verify`} className="hover:text-brand-light1 transition-colors">
+                  {t('sampleCertificate.caption')}
+                </a>
+              </figcaption>
+            </figure>
           </div>
+        </Container>
+      </Section>
+
+      {/* Student quotes: hidden until real ones are added in content/academy/testimonials.ts */}
+      {testimonials.length > 0 && (
+        <Section className="bg-brand-black">
+          <Container>
+            <div className="text-center mb-12">
+              <Heading as="h2" size="lg">{t('testimonials.heading')}</Heading>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {testimonials.map((item) => (
+                <figure key={item.name} className="bg-brand-dark1 border border-brand-dark2 p-6 flex flex-col">
+                  <Quote size={20} className="text-brand-mid mb-4" />
+                  <blockquote className="text-brand-offwhite leading-relaxed flex-1">{quoteFor(item, locale)}</blockquote>
+                  <figcaption className="mt-6 text-sm">
+                    <span className="block text-brand-white font-semibold">{item.name}</span>
+                    <span className="block text-brand-mid">{item.role}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
+
+      {/* Paid add-ons */}
+      <Section id="coaching" className="bg-brand-near-black border-t border-brand-dark2">
+        <Container>
+          <div className="text-center mb-12">
+            <Heading as="h2" size="lg">{t('coaching.heading')}</Heading>
+            <p className="mt-4 text-brand-light1 max-w-2xl mx-auto">{t('coaching.subheading')}</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {plans.map(({ tier, price, per, href, featured }) => (
+              <div
+                key={tier.name}
+                className={`bg-brand-dark1 border p-6 sm:p-8 flex flex-col ${featured ? 'border-brand-light1' : 'border-brand-dark2'}`}
+              >
+                <h3 className="font-display text-lg text-brand-white uppercase tracking-tight">{tier.name}</h3>
+                <p className="mt-4 flex items-baseline gap-1">
+                  <span className="font-display text-4xl text-brand-white">{price}</span>
+                  {per && <span className="text-sm text-brand-mid">{per}</span>}
+                </p>
+                <ul className="mt-6 space-y-3 flex-1">
+                  {tier.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2 text-sm text-brand-light1">
+                      <Check size={15} className="text-brand-light2 mt-0.5 flex-shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-8">
+                  <Button href={href} external={href.startsWith('http')} variant={featured ? 'primary' : 'outline'} className="w-full justify-center">
+                    {tier.cta}
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-xs text-brand-mid">{t('coaching.note')}</p>
         </Container>
       </Section>
     </>
