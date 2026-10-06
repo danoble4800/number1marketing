@@ -35,11 +35,38 @@ export type CardContact = {
   address?: string;
 };
 
+export type Wallpaper = 'solid' | 'gradient' | 'aura' | 'dots' | 'blur' | 'image' | 'video';
+export type BtnStyle = 'solid' | 'glass' | 'outline';
+export type Radius = 'square' | 'round' | 'rounder' | 'full';
+export type Shadow = 'none' | 'soft' | 'strong' | 'hard';
+export type FontId = 'inter' | 'grotesk' | 'serif' | 'display' | 'editorial' | 'friendly' | 'mono' | 'script';
+
+// The chosen theme (preset) plus everything the owner changed on top of it in the Look tab.
+// Colors are #RRGGBB; anything unset falls back to the theme.
 export type CardTheme = {
   preset?: string;
-  accent?: string;
-  shape?: 'rounded' | 'pill' | 'square';
-  font?: 'inter' | 'grotesk' | 'serif' | 'display';
+  // Header
+  header?: 'classic' | 'hero';
+  logo?: string; // image shown instead of the name
+  titleSize?: 'small' | 'large';
+  titleFont?: FontId;
+  titleColor?: string;
+  // Wallpaper
+  wallpaper?: Wallpaper;
+  bgColor?: string;
+  wallpaperImage?: string;
+  wallpaperVideo?: string;
+  // Text
+  font?: FontId;
+  textColor?: string;
+  // Buttons
+  button?: BtnStyle;
+  radius?: Radius;
+  shadow?: Shadow;
+  buttonColor?: string;
+  buttonText?: string;
+  accent?: string; // "Save my contact" button
+  shape?: 'rounded' | 'pill' | 'square'; // older pages; read as radius
 };
 
 export type CardReview = { url?: string; funnel?: boolean };

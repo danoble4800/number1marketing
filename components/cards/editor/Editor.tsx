@@ -8,7 +8,7 @@ import type { Session } from '@supabase/supabase-js';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import type { CardLink, CardPage, Plan } from '@/lib/cards/types';
 import { DEMO_PAGES } from '@/lib/cards/demo';
-import { planAtLeast } from '@/lib/cards/plans';
+import { PLANS, PLAN_ORDER, planAtLeast } from '@/lib/cards/plans';
 import { createPage, listMyPages, slugAvailable, slugify, slugTyping } from '@/lib/cards/client';
 import CardView from '../CardView';
 import PageTab from './PageTab';
@@ -322,13 +322,26 @@ export default function Editor() {
             <div className="border border-amber-400/40 bg-amber-400/10 px-4 py-3 text-sm text-amber-200">
               Demo mode: edit anything and watch the preview. Changes aren’t saved.{' '}
               <span className="whitespace-nowrap">
-                Try:{' '}
+                Example pages:{' '}
                 {DEMO_PAGES.map((p, i) => (
                   <button key={p.id} type="button" onClick={() => switchPage(p.id)} className="underline">
-                    {p.plan}{i < DEMO_PAGES.length - 1 ? ', ' : ''}
+                    {p.display_name.split(' ')[0]}{i < DEMO_PAGES.length - 1 ? ', ' : ''}
                   </button>
                 ))}
               </span>
+              <div className="mt-2 flex items-center gap-1.5">
+                <span className="mr-1 text-xs">See it as:</span>
+                {PLAN_ORDER.map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => demoPlan(p)}
+                    className={`border px-2.5 py-1 text-[11px] uppercase tracking-widest ${draft.plan === p ? 'border-amber-200 bg-amber-200 text-black' : 'border-amber-400/40 hover:border-amber-200'}`}
+                  >
+                    {PLANS[p].name}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
           {welcome && (
@@ -355,7 +368,7 @@ export default function Editor() {
               onSlugBlur={commitSlug}
             />
           )}
-          {tab === 'look' && <LookTab page={draft} set={set} onUpgrade={upgrade} />}
+          {tab === 'look' && <LookTab page={draft} set={set} onUpgrade={upgrade} demo={demo} userId={session?.user.id ?? null} />}
           {tab === 'stats' && <StatsTab page={draft} demo={demo} onUpgrade={upgrade} />}
           {tab === 'leads' && <LeadsTab page={draft} demo={demo} onUpgrade={upgrade} onUndoable={showUndo} />}
           {tab === 'cards' && <CardsTab page={saved ?? draft} demo={demo} />}

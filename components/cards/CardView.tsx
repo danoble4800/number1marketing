@@ -30,7 +30,7 @@ function track(page: PublicPage, preview: boolean | undefined, body: Record<stri
 
 export default function CardView({ page, preview, focusId }: Props) {
   const t = cardStrings(page.lang);
-  const theme = resolveTheme(page.theme ?? {}, page.plan);
+  const theme = resolveTheme(page.theme ?? {}, page.plan, page.avatar_url);
   const [toast, setToast] = useState('');
 
   const focusing = !!preview && !!focusId;
@@ -79,18 +79,15 @@ export default function CardView({ page, preview, focusId }: Props) {
     }
   }
 
-  const btnStyle: React.CSSProperties = {
-    background: theme.button,
-    color: theme.buttonText,
-    border: `1px solid ${theme.border}`,
-    borderRadius: theme.radius,
-  };
-  const boxRadius = page.theme?.shape === 'pill' && can(page.plan, 'customStyle') ? '24px' : theme.radius;
-  const boxStyle: React.CSSProperties = { ...btnStyle, borderRadius: boxRadius };
+  const btnStyle: React.CSSProperties = { ...theme.button, borderRadius: theme.radius };
+  const boxRadius = theme.radiusId === 'full' ? '24px' : theme.radius;
+  const boxStyle: React.CSSProperties = { ...theme.box, borderRadius: boxRadius };
   const accentStyle: React.CSSProperties = {
     background: theme.accent,
     color: theme.accentText,
     borderRadius: theme.radius,
+    boxShadow: theme.shadow === 'none' ? undefined : theme.button.boxShadow,
+    border: theme.shadow === 'hard' ? `2px solid ${theme.text}` : undefined,
   };
 
   const quick = [
@@ -99,13 +96,43 @@ export default function CardView({ page, preview, focusId }: Props) {
     c.email && { key: 'email', icon: <Mail size={18} />, label: t.email, href: `mailto:${c.email}` },
   ].filter(Boolean) as { key: string; icon: React.ReactNode; label: string; href: string }[];
 
+  const title = theme.logo ? (
+    <h1 className={theme.hero ? 'mt-0' : 'mt-4'}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={theme.logo} alt={page.display_name} className="mx-auto w-auto max-w-[260px] object-contain" style={{ height: page.theme?.titleSize === 'large' ? 84 : 56 }} />
+    </h1>
+  ) : (
+    <h1
+      className={`${theme.hero ? 'mt-0' : 'mt-4'} leading-tight`}
+      style={{
+        fontFamily: theme.titleFont.heading,
+        fontWeight: 700,
+        fontSize: theme.titleSize,
+        color: theme.titleColor,
+        textTransform: theme.titleFont.upper ? 'uppercase' : undefined,
+        letterSpacing: theme.titleFont.upper ? '0.01em' : undefined,
+      }}
+    >
+      {page.display_name || 'Your name'}
+    </h1>
+  );
+
   return (
     <div
-      className={`w-full ${preview ? 'min-h-full' : 'min-h-[100dvh]'}`}
-      style={{ background: theme.background, color: theme.text, fontFamily: theme.font.css }}
+      className={`relative isolate w-full ${preview ? 'min-h-full' : 'min-h-[100dvh]'}`}
+      style={{ background: theme.media ? theme.base : theme.background, color: theme.text, fontFamily: theme.font.css }}
     >
+      {theme.media && <WallpaperMedia kind={theme.wallpaper} url={theme.media} tint={theme.tint} preview={preview} />}
       <div className="mx-auto w-full max-w-[440px] pb-10">
-        {page.cover_url ? (
+        {theme.hero ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={page.avatar_url!}
+            alt={page.display_name}
+            className="h-[380px] w-full object-cover"
+            style={{ maskImage: 'linear-gradient(to bottom, #000 55%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, #000 55%, transparent 100%)' }}
+          />
+        ) : page.cover_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={page.cover_url} alt="" className="h-40 w-full object-cover" />
         ) : (
@@ -113,8 +140,8 @@ export default function CardView({ page, preview, focusId }: Props) {
         )}
 
         <div className="px-5">
-          <div {...zone('profile')} className={`flex flex-col items-center text-center ${page.cover_url ? '-mt-12' : 'mt-2'}`}>
-            {page.avatar_url ? (
+          <div {...zone('profile')} className={`relative flex flex-col items-center text-center ${theme.hero ? '-mt-20' : page.cover_url ? '-mt-12' : 'mt-2'}`}>
+            {theme.hero ? null : page.avatar_url ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={page.avatar_url}
@@ -130,17 +157,7 @@ export default function CardView({ page, preview, focusId }: Props) {
                 {initials}
               </div>
             )}
-            <h1
-              className="mt-4 text-[26px] leading-tight"
-              style={{
-                fontFamily: theme.font.heading,
-                fontWeight: 700,
-                textTransform: page.theme?.font === 'display' && can(page.plan, 'customStyle') ? 'uppercase' : undefined,
-                letterSpacing: page.theme?.font === 'display' && can(page.plan, 'customStyle') ? '0.01em' : undefined,
-              }}
-            >
-              {page.display_name || 'Your name'}
-            </h1>
+            {title}
             {page.headline && <p className="mt-1 text-sm" style={{ color: theme.muted }}>{page.headline}</p>}
             {page.bio && <p className="mt-3 text-[15px] leading-relaxed">{page.bio}</p>}
           </div>
@@ -179,7 +196,7 @@ export default function CardView({ page, preview, focusId }: Props) {
             <div
               {...zone('special')}
               className="mt-5 p-4"
-              style={{ border: `1.5px dashed ${theme.accent}`, borderRadius: boxRadius, background: theme.button, ...zoneStyle('special') }}
+              style={{ border: `1.5px dashed ${theme.accent}`, borderRadius: boxRadius, background: theme.surface, ...zoneStyle('special') }}
             >
               <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: theme.accent }}>
                 <Tag size={16} /> {page.special.title}
@@ -236,7 +253,7 @@ export default function CardView({ page, preview, focusId }: Props) {
                   onClick={(e) => { guard(e); track(page, preview, { kind: 'click', link_id: l.id }); }}
                   {...zone(l.id)}
                   className="flex h-11 w-11 items-center justify-center rounded-full"
-                  style={{ background: theme.button, border: `1px solid ${theme.border}`, color: theme.buttonText, ...zoneStyle(l.id) }}
+                  style={{ ...btnStyle, borderRadius: '999px', ...zoneStyle(l.id) }}
                 >
                   <LinkIcon type={l.type} size={19} />
                 </a>
@@ -255,7 +272,7 @@ export default function CardView({ page, preview, focusId }: Props) {
               href={`/en/cards?ref=${encodeURIComponent(page.slug)}`}
               onClick={guard}
               className="mx-auto mt-10 flex w-fit items-center gap-2 rounded-full px-3.5 py-1.5 text-xs"
-              style={{ background: theme.button, border: `1px solid ${theme.border}`, color: theme.muted }}
+              style={{ background: theme.surface, border: `1px solid ${theme.border}`, color: theme.muted }}
             >
               <span className="font-bold" style={{ color: theme.text }}>N°1</span>
               {t.badge}
@@ -267,6 +284,25 @@ export default function CardView({ page, preview, focusId }: Props) {
       {toast && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-black/85 px-4 py-2 text-sm text-white">{toast}</div>
       )}
+    </div>
+  );
+}
+
+// Photo, video or blurred-profile wallpaper. Fixed behind the page on the live site;
+// inside the editor's phone frame it fills the page instead, so it can't cover the editor.
+function WallpaperMedia({ kind, url, tint, preview }: { kind: string; url: string; tint: string; preview?: boolean }) {
+  const layer = `${preview ? 'absolute' : 'fixed'} inset-0 -z-10 overflow-hidden`;
+  return (
+    <div className={layer} aria-hidden>
+      {kind === 'video' ? (
+        <video src={url} autoPlay muted loop playsInline className="h-full w-full object-cover" />
+      ) : (
+        <div
+          className="h-full w-full bg-cover bg-center"
+          style={{ backgroundImage: `url("${url}")`, ...(kind === 'blur' ? { filter: 'blur(40px) saturate(1.3)', transform: 'scale(1.25)' } : {}) }}
+        />
+      )}
+      <div className="absolute inset-0" style={{ background: tint }} />
     </div>
   );
 }

@@ -15,7 +15,7 @@ export const PLANS: Record<
       'Your page with photo, bio and unlimited links',
       '“Save my contact” button',
       'Call, text and email buttons',
-      '2 themes',
+      '26 themes, 4 wallpapers, 3 button styles, 8 fonts and any colors',
       'Total tap count',
       'Switch off a lost card',
       'Google review button',
@@ -28,7 +28,9 @@ export const PLANS: Record<
     blurb: 'For people who hand out their card every day.',
     features: [
       'Everything in Free',
-      'All themes, your colors, fonts and button styles',
+      'Hero header with a big photo, and your logo as the title',
+      'Photo and video wallpapers, blur and bold button shadows',
+      '6 signature themes',
       'Remove the N°1 badge',
       'Full stats: taps, views and clicks per link',
       'Contact exchange: people share their info back',
@@ -59,7 +61,10 @@ export function planAtLeast(plan: Plan, min: Plan) {
 // Which plan unlocks a feature — used for gating and "Upgrade" labels.
 export const FEATURE_PLAN = {
   allThemes: 'pro',
-  customStyle: 'pro',
+  heroHeader: 'pro',
+  logoTitle: 'pro',
+  mediaWallpaper: 'pro',
+  boldShadows: 'pro',
   hideBadge: 'pro',
   fullStats: 'pro',
   leadCapture: 'pro',
