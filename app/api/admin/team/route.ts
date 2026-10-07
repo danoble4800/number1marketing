@@ -140,3 +140,42 @@ export async function PATCH(req: NextRequest) {
   }
   return NextResponse.json({ ok: true });
 }
+
+// Add a sales rep. Owner only. They go on the team_invites list, so their account
+// becomes a rep when they sign up at /team; an existing account (say an Academy
+// student) is switched over right away, as supabase/team.sql does.
+export async function POST(req: NextRequest) {
+  const who = await adminIdentity(req);
+  if (who instanceof NextResponse) return who;
+  if (!who.isOwner) return NextResponse.json({ error: 'Owner only' }, { status: 403 });
+
+  const db = serviceClient();
+  if (!db) return NextResponse.json({ error: 'Server not configured (SUPABASE_SERVICE_ROLE_KEY)' }, { status: 500 });
+
+  const body = await req.json().catch(() => null);
+  const name = String(body?.name ?? '').trim();
+  const email = String(body?.email ?? '').trim().toLowerCase();
+  const repName = String(body?.repName ?? '').trim() || name;
+  if (!name) return NextResponse.json({ error: 'Name can’t be empty.' }, { status: 400 });
+  if (!EMAIL_RE.test(email)) return NextResponse.json({ error: 'That email doesn’t look right.' }, { status: 400 });
+
+  const { data: existing } = await db.from('profiles').select('*').ilike('email', email.replace(/[\\%_]/g, '\\$&')).maybeSingle();
+  if (existing && (existing.role === 'admin' || existing.role === 'rep')) {
+    return NextResponse.json({ error: 'They’re already on the team.' }, { status: 409 });
+  }
+
+  const { error } = await db.from('team_invites').insert({ email, rep_name: repName });
+  if (error && error.code !== '23505') {
+    console.error('Admin team: could not add invite:', error);
+    return NextResponse.json({ error: 'Couldn’t add them.' }, { status: 500 });
+  }
+  if (error) return NextResponse.json({ error: 'That email is already invited.' }, { status: 409 });
+
+  if (existing) {
+    const { error: upErr } = await db.from('profiles')
+      .update({ role: 'rep', rep_name: repName, full_name: existing.full_name || name })
+      .eq('id', existing.id);
+    if (upErr) console.error('Admin team: could not switch existing account to rep:', upErr);
+  }
+  return NextResponse.json({ ok: true, hasAccount: !!existing });
+}

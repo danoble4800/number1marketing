@@ -20,6 +20,8 @@ export default function TeamMembers({ onSignedOut }: { onSignedOut: () => void }
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [editing, setEditing] = useState<string | null>(null);
+  const [adding, setAdding] = useState(false);
+  const [notice, setNotice] = useState('');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -52,16 +54,41 @@ export default function TeamMembers({ onSignedOut }: { onSignedOut: () => void }
             {!isOwner && ' Only the owner can make changes.'}
           </p>
         </div>
-        <button
-          onClick={load}
-          disabled={loading}
-          className="px-4 py-2 text-xs uppercase tracking-widest border border-brand-dark2 text-brand-light1 hover:border-brand-light2 hover:text-brand-white transition-colors disabled:opacity-50"
-        >
-          {loading ? 'Loading…' : 'Refresh'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={load}
+            disabled={loading}
+            className="px-4 py-2 text-xs uppercase tracking-widest border border-brand-dark2 text-brand-light1 hover:border-brand-light2 hover:text-brand-white transition-colors disabled:opacity-50"
+          >
+            {loading ? 'Loading…' : 'Refresh'}
+          </button>
+          {isOwner && !adding && (
+            <button
+              onClick={() => { setAdding(true); setNotice(''); }}
+              className="px-4 py-2 text-xs font-semibold uppercase tracking-widest bg-brand-white text-brand-black hover:bg-brand-offwhite transition-colors"
+            >
+              + Add member
+            </button>
+          )}
+        </div>
       </div>
 
       {error && <p className="text-sm text-red-400">{error}</p>}
+
+      {adding && (
+        <AddMember
+          onCancel={() => setAdding(false)}
+          onAdded={(msg) => { setAdding(false); setNotice(msg); load(); }}
+          onSignedOut={onSignedOut}
+        />
+      )}
+
+      {notice && (
+        <div className="border border-emerald-400/50 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-emerald-300">{notice}</p>
+          <button onClick={() => setNotice('')} aria-label="Dismiss" className="text-brand-light1 hover:text-brand-white">×</button>
+        </div>
+      )}
 
       {!loading && !error && members.length === 0 && (
         <p className="border border-brand-dark2 px-5 py-8 text-center text-sm text-brand-mid">No team members yet.</p>
@@ -104,9 +131,83 @@ export default function TeamMembers({ onSignedOut }: { onSignedOut: () => void }
       </ul>
 
       <p className="text-xs text-brand-mid">
-        To add a rep, insert them into <code className="font-mono">team_invites</code> (see supabase/team.sql); they show up here as Invited until they create their account at /team.
+        New members are added as sales reps and show as Invited until they create their account at /team. Admins are still promoted in Supabase.
       </p>
     </div>
+  );
+}
+
+function AddMember({
+  onCancel, onAdded, onSignedOut,
+}: { onCancel: () => void; onAdded: (notice: string) => void; onSignedOut: () => void }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [repName, setRepName] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+
+  const add = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    setError('');
+    try {
+      const headers = await authHeader();
+      if (!headers) return onSignedOut();
+      const res = await fetch('/api/admin/team', {
+        method: 'POST',
+        headers: { ...headers, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, repName }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json.error || 'Couldn’t add them.');
+      const first = name.trim().split(/\s+/)[0];
+      onAdded(json.hasAccount
+        ? `${first} already had an account, so it’s now a sales rep account. They sign in at ${window.location.origin}/en/team.`
+        : `${first} is invited. Send them ${window.location.origin}/en/team to create their account with ${email.trim().toLowerCase()}.`);
+    } catch (err) {
+      setError((err as Error).message);
+      setBusy(false);
+    }
+  };
+
+  return (
+    <form onSubmit={add} className="border border-brand-light1 px-5 py-4 flex flex-col gap-4">
+      <p className="text-xs uppercase tracking-widest text-brand-mid">New sales rep</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <label className="flex flex-col gap-1.5">
+          <span className="text-xs uppercase tracking-widest text-brand-light1">Name</span>
+          <input value={name} onChange={(e) => setName(e.target.value)} required autoFocus className={inputClass} />
+        </label>
+        <label className="flex flex-col gap-1.5">
+          <span className="text-xs uppercase tracking-widest text-brand-light1">Email</span>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className={inputClass} />
+        </label>
+        <label className="flex flex-col gap-1.5 sm:col-span-2">
+          <span className="text-xs uppercase tracking-widest text-brand-light1">Tracker name (optional)</span>
+          <input value={repName} onChange={(e) => setRepName(e.target.value)} placeholder={name} className={inputClass} />
+          <span className="text-xs text-brand-mid">
+            How they’re written in the in-person tracker’s Sales Rep Name column, if different from their name. List other spellings after commas.
+          </span>
+        </label>
+      </div>
+      {error && <p className="text-xs text-red-400">{error}</p>}
+      <div className="flex gap-2">
+        <button
+          type="submit"
+          disabled={busy}
+          className="px-4 py-2 text-xs font-semibold uppercase tracking-widest bg-brand-white text-brand-black hover:bg-brand-offwhite transition-colors disabled:opacity-50"
+        >
+          {busy ? 'Adding…' : 'Add to team'}
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="px-4 py-2 text-xs uppercase tracking-widest border border-brand-dark2 text-brand-light1 hover:border-brand-light2 hover:text-brand-white transition-colors"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
   );
 }
 
