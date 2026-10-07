@@ -5,6 +5,7 @@ import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import Container from '@/components/Container';
 import LeadsCRM from './LeadsCRM';
 import OnboardingClients from './OnboardingClients';
+import TeamMembers from './TeamMembers';
 import TapCardsAdmin from '@/components/cards/TapCardsAdmin';
 
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gr4UrY65r2g-dy0IUJFCFIQBUgoX0sQ9_GdmZHccpko/edit';
@@ -236,8 +237,8 @@ function NfcFormLink() {
 }
 
 type Gate = 'checking' | 'signedOut' | 'admin';
-type Tab = 'leads' | 'clients' | 'cards' | 'resources';
-const TABS: [Tab, string][] = [['leads', 'Leads'], ['clients', 'Clients'], ['cards', 'Tap Cards'], ['resources', 'Links']];
+type Tab = 'leads' | 'clients' | 'team' | 'cards' | 'resources';
+const TABS: [Tab, string][] = [['leads', 'Leads'], ['clients', 'Clients'], ['team', 'Team'], ['cards', 'Tap Cards'], ['resources', 'Links']];
 
 export default function AdminDashboard({ locale }: { locale: string }) {
   const [gate, setGate] = useState<Gate>('checking');
@@ -316,13 +317,13 @@ export default function AdminDashboard({ locale }: { locale: string }) {
             <span className="hidden sm:inline text-[11px] uppercase tracking-widest text-brand-light1">Admin</span>
           </div>
           {gate === 'admin' && (
-            <nav className="flex gap-1 sm:gap-2" aria-label="Admin sections">
+            <nav className="flex min-w-0 gap-1 sm:gap-2 overflow-x-auto" aria-label="Admin sections">
               {TABS.map(([id, label]) => (
                 <button
                   key={id}
                   onClick={() => setTab(id)}
                   aria-current={tab === id ? 'page' : undefined}
-                  className={`px-3 py-1.5 text-xs uppercase tracking-widest transition-colors ${
+                  className={`flex-shrink-0 px-3 py-1.5 text-xs uppercase tracking-widest transition-colors ${
                     tab === id ? 'bg-brand-dark2 text-brand-white' : 'text-brand-light1 hover:text-brand-white'
                   }`}
                 >
@@ -428,6 +429,7 @@ export default function AdminDashboard({ locale }: { locale: string }) {
             <NfcFormLink />
             {tab === 'leads' && <LeadsCRM onSignedOut={() => setGate('signedOut')} />}
             {tab === 'clients' && <OnboardingClients onSignedOut={() => setGate('signedOut')} />}
+            {tab === 'team' && <TeamMembers onSignedOut={() => setGate('signedOut')} />}
             {tab === 'cards' && <TapCardsAdmin />}
             {tab === 'resources' && <div className="py-4"><Resources /></div>}
           </div>

@@ -27,7 +27,7 @@ export async function adminIdentity(req: NextRequest): Promise<NextResponse | { 
   return { email: result.email ?? '', isOwner: isOwnerEmail(result.email) };
 }
 
-function isOwnerEmail(email?: string) {
+export function isOwnerEmail(email?: string) {
   const owner = (process.env.OWNER_EMAIL ?? 'danoble4800@gmail.com').trim().toLowerCase();
   return email?.toLowerCase() === owner;
 }
