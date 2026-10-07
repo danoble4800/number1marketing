@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { Lock, Award, Clock, LogOut, CheckCircle2, Circle, ArrowRight, Download, ExternalLink, Copy, BookOpen, Wrench, Medal, Video } from 'lucide-react';
-import { course, isHandsOn } from '@/content/academy/lessons';
+import { course, prerequisite, TRACKS, type TrackId } from '@/content/academy/lessons';
 import { GLOSSARY } from '@/content/academy/glossary';
 import { loadAcademyState } from '@/lib/academyState';
 import CapstoneCard, { type CapstoneSubmission } from '@/components/academy/CapstoneCard';
@@ -108,7 +108,7 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
     ? 'https://www.linkedin.com/profile/add?' +
       new URLSearchParams({
         startTask: 'CERTIFICATION_NAME',
-        name: 'N°1 Academy AI Marketing Certificate',
+        name: 'N°1 AI Starter Guide: AI Marketing Course Certificate of Completion',
         organizationName: 'Number 1 Digital Marketing',
         issueYear: String(new Date(certificate.issued_at).getFullYear()),
         issueMonth: String(new Date(certificate.issued_at).getMonth() + 1),
@@ -116,14 +116,18 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
         certId: certificate.id,
       }).toString()
     : '';
-  const coreModules = modules.filter((m) => !isHandsOn(m.number));
-  const handsOnModules = modules.filter((m) => isHandsOn(m.number));
-  const coreDone = coreModules.filter((m) => completed.includes(m.number)).length;
-  const handsOnDone = handsOnModules.filter((m) => completed.includes(m.number)).length;
-  const percent = coreModules.length ? Math.round((coreDone / coreModules.length) * 100) : 0;
+  const inTrack = (id: TrackId) => modules.filter((m) => TRACKS[id].includes(m.number));
+  const coreModules = inTrack('marketing');
+  const handsOnModules = inTrack('handsOn');
+  const starterModules = [...inTrack('forYou'), ...inTrack('forBusiness')];
+  const doneIn = (list: ModuleItem[]) => list.filter((m) => completed.includes(m.number)).length;
+  const coreDone = doneIn(coreModules);
+  const handsOnDone = doneIn(handsOnModules);
+  const percent = modules.length ? Math.round((doneIn(modules) / modules.length) * 100) : 0;
 
   const badges = [
-    { id: 'firstStep', earned: completed.includes('01') },
+    { id: 'firstStep', earned: completed.length > 0 },
+    { id: 'starter', earned: starterModules.length > 0 && doneIn(starterModules) === starterModules.length },
     { id: 'halfway', earned: completed.length >= 3 },
     { id: 'certified', earned: Boolean(certificate) },
     { id: 'localPro', earned: completed.includes('07') },
@@ -133,10 +137,10 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
   ];
 
   function moduleCard(mod: ModuleItem) {
-    const i = modules.findIndex((m) => m.number === mod.number);
     const done = completed.includes(mod.number);
+    const prev = prerequisite(mod.number);
     // Admins can open every module to review it.
-    const unlocked = isAdmin || i === 0 || completed.includes(modules[i - 1].number);
+    const unlocked = isAdmin || !prev || completed.includes(prev);
     const badge = done ? t('dashboard.completed') : unlocked ? t('dashboard.start') : t('dashboard.locked');
     const card = (
       <>
@@ -199,7 +203,7 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs uppercase tracking-widest text-brand-mid">N°1 Academy</span>
+                <span className="text-xs uppercase tracking-widest text-brand-mid">N°1 AI Starter Guide</span>
               </div>
               <h1 className="font-display text-2xl sm:text-3xl text-brand-white uppercase tracking-tight">
                 {t('dashboard.heading')}, {studentName}
@@ -231,11 +235,31 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
           </div>
         </section>
 
-        {/* Modules */}
+        {/* Starter Guide: open in any order */}
+        {(['forYou', 'forBusiness'] as const).map((id) => {
+          const list = inTrack(id);
+          return (
+            <section key={id}>
+              <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                <h2 className="font-display text-xl sm:text-2xl text-brand-white uppercase tracking-tight">
+                  {t(`tracks.${id}.title`)}
+                </h2>
+                <span className="text-xs uppercase tracking-widest text-brand-mid">
+                  {t('dashboard.handsOnProgress', { done: doneIn(list), total: list.length })}
+                </span>
+              </div>
+              <p className="text-brand-light1 text-sm mb-6 max-w-2xl">{t(`tracks.${id}.desc`)}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">{list.map(moduleCard)}</div>
+            </section>
+          );
+        })}
+
+        {/* AI Marketing Course */}
         <section>
-          <h2 className="font-display text-xl sm:text-2xl text-brand-white uppercase tracking-tight mb-6">
+          <h2 className="font-display text-xl sm:text-2xl text-brand-white uppercase tracking-tight mb-2">
             {t('dashboard.modulesHeading')}
           </h2>
+          <p className="text-brand-light1 text-sm mb-6 max-w-2xl">{t('tracks.marketing.desc')}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {coreModules.map(moduleCard)}
           </div>
@@ -290,7 +314,7 @@ export default function AcademyDashboardClient({ locale }: { locale: string }) {
                 </span>
               </div>
               <h3 className="font-display text-xl text-brand-offwhite uppercase tracking-tight mb-2">
-                AI Marketing Certificate
+                {t('dashboard.certificateTitle')}
               </h3>
               <p className="text-brand-light1 text-sm max-w-md leading-relaxed">
                 {allDone ? t('dashboard.certificateEarned') : t('dashboard.certificateLocked')}

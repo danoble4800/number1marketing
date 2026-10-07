@@ -28,8 +28,8 @@ export async function generateMetadata({
   const cert = await lookup(decodeURIComponent(code));
   return {
     title: cert
-      ? `${cert.full_name} — AI Marketing Certificate | N°1 Academy`
-      : 'Certificate Verification | N°1 Academy',
+      ? `${cert.full_name} — AI Marketing Course Certificate of Completion | N°1 AI Starter Guide`
+      : 'Certificate Verification | N°1 AI Starter Guide',
     robots: { index: false, follow: false },
   };
 }

@@ -4,7 +4,7 @@ import { Award } from 'lucide-react';
 import VerifyLookupForm from '@/components/academy/VerifyLookupForm';
 
 export const metadata: Metadata = {
-  title: 'Verify a Certificate | N°1 Academy',
+  title: 'Verify a Certificate | N°1 AI Starter Guide',
 };
 
 export default async function VerifyLookupPage({

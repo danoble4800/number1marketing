@@ -3,7 +3,7 @@ import { setRequestLocale } from 'next-intl/server';
 import AcademyDashboardClient from '@/components/academy/AcademyDashboardClient';
 
 export const metadata: Metadata = {
-  title: 'My Dashboard | N°1 Academy',
+  title: 'My Dashboard | N°1 AI Starter Guide',
   robots: { index: false, follow: false },
 };
 

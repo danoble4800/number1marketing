@@ -1,13 +1,15 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { BookOpen, Award, Clock, Check, Quote, Users } from 'lucide-react';
-import { getModule, isHandsOn } from '@/content/academy/lessons';
+import { BookOpen, Award, Clock, Check, Quote, Users, Sparkles, User, Store, MessageSquareText, Timer, ListChecks, ArrowRight } from 'lucide-react';
+import { getModule, isHandsOn, isStarter, TRACKS } from '@/content/academy/lessons';
+import { GLOSSARY } from '@/content/academy/glossary';
 import { getQuiz } from '@/content/academy/quizzes';
 import Container from '@/components/Container';
 import Section from '@/components/Section';
 import Heading from '@/components/Heading';
 import Button from '@/components/Button';
 import SampleCertificate from '@/components/academy/SampleCertificate';
+import ModuleGlyph from '@/components/illustrations/ModuleGlyph';
 import type { CertificateText } from '@/lib/certificatePdf';
 import { testimonials, quoteFor } from '@/content/academy/testimonials';
 import { COACHING_PRICES, coachingHref } from '@/content/academy/coaching';
@@ -21,9 +23,9 @@ export async function generateMetadata({
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://number1digitalmarketing.com';
 
   return {
-    title: `Get AI Certified | Number 1 Digital Marketing`,
+    title: `N°1 AI Starter Guide: Learn What AI Can Do`,
     description:
-      'Master AI marketing and automation. Earn your AI Marketing Certificate with Number 1 Digital Marketing Academy.',
+      'AI can do more than you think. Free, plain-English lessons on what AI can do for you and your business, with a 5-minute try-it in every lesson. No tech background needed.',
     alternates: {
       canonical: `${siteUrl}/${locale}/academy`,
       languages: {
@@ -50,6 +52,14 @@ export default async function AcademyPage({
 
   const t = await getTranslations({ locale, namespace: 'academy' });
   const modules = t.raw('modules.items') as ModuleItem[];
+  const courseModules = modules.filter((m) => !isStarter(m.number));
+  const lessonsCount = (number: string) => getModule(number, locale)?.lessons.length ?? 0;
+  const howItems = t.raw('how.items') as OverviewItem[];
+  const glossaryLocale = (['en', 'es', 'pt'] as const).find((l) => l === locale) ?? 'en';
+  const sampleTerms = ['ai-assistant', 'prompt', 'hallucination', 'ai-agent']
+    .map((id) => GLOSSARY.find((g) => g.id === id))
+    .filter((g) => g !== undefined)
+    .map((g) => g[glossaryLocale]);
   const overviewItems = t.raw('overview.items') as OverviewItem[];
   const tiers = t.raw('coaching.tiers') as Record<'free' | 'group' | 'oneOnOne', Tier>;
   const plans = [
@@ -102,13 +112,16 @@ export default async function AcademyPage({
         />
         <Container className="relative text-center">
           <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 border border-brand-dark2 bg-brand-dark1">
-            <Award size={14} className="text-brand-light2" />
-            <span className="text-xs uppercase tracking-widest text-brand-light2">Number 1 Digital Marketing Academy</span>
+            <Sparkles size={14} className="text-brand-light2" />
+            <span className="text-xs uppercase tracking-widest text-brand-light2">{t('hero.badge')}</span>
           </div>
           <Heading as="h1" size="xl" className="mb-6">
             {t('hero.headline')}
           </Heading>
-          <p className="mt-4 max-w-2xl mx-auto text-brand-light1 text-xl leading-relaxed">
+          <p className="font-display text-2xl sm:text-3xl uppercase tracking-tight text-brand-light2">
+            {t('hero.tagline')}
+          </p>
+          <p className="mt-6 max-w-2xl mx-auto text-brand-light1 text-xl leading-relaxed">
             {t('hero.subheadline')}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -122,7 +135,80 @@ export default async function AcademyPage({
         </Container>
       </Section>
 
-      {/* Program Overview */}
+      {/* Starter Guide: pick a starting point */}
+      <Section className="bg-brand-black">
+        <Container>
+          <div className="text-center mb-16">
+            <Heading as="h2" size="lg">{t('tracks.heading')}</Heading>
+            <p className="mt-4 text-brand-light1 max-w-2xl mx-auto">{t('tracks.subheading')}</p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            {(['forYou', 'forBusiness'] as const).map((id) => {
+              const Icon = id === 'forYou' ? User : Store;
+              return (
+                <div key={id}>
+                  <div className="flex items-center gap-3 mb-2">
+                    <Icon size={20} className="text-brand-light2" />
+                    <h3 className="font-display text-xl text-brand-white uppercase tracking-tight">{t(`tracks.${id}.title`)}</h3>
+                  </div>
+                  <p className="text-sm text-brand-light1 mb-6">{t(`tracks.${id}.desc`)}</p>
+                  <div className="space-y-3">
+                    {TRACKS[id].map((number) => {
+                      const mod = modules.find((m) => m.number === number);
+                      if (!mod) return null;
+                      return (
+                        <div key={number} className="bg-brand-dark1 border border-brand-dark2 p-5 flex gap-4">
+                          <div className="font-display text-3xl leading-none text-brand-dark2 flex-shrink-0 w-10">{number}</div>
+                          <div className="min-w-0">
+                            <h4 className="font-display text-base text-brand-white uppercase tracking-tight">{mod.title}</h4>
+                            <p className="mt-1 text-sm text-brand-light1 leading-relaxed">{getModule(number, locale)?.summary}</p>
+                            <p className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-brand-mid">
+                              <span className="flex items-center gap-1.5"><Clock size={12} />{mod.time}</span>
+                              <span className="flex items-center gap-1.5">
+                                <BookOpen size={12} />
+                                {t('modules.contents', { lessons: lessonsCount(number), questions: getQuiz(number, locale)?.length ?? 0 })}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-12 text-center">
+            <Button href={`/${locale}/academy/login?role=student`} variant="primary">
+              {t('hero.enrollCta')}
+            </Button>
+            <p className="mt-3 text-xs text-brand-mid">{t('tracks.note')}</p>
+          </div>
+        </Container>
+      </Section>
+
+      {/* How every lesson works */}
+      <Section className="bg-brand-near-black border-t border-brand-dark2">
+        <Container>
+          <div className="text-center mb-12">
+            <Heading as="h2" size="lg">{t('how.heading')}</Heading>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {howItems.map((item, i) => {
+              const Icon = [MessageSquareText, Timer, ListChecks, BookOpen][i] ?? Check;
+              return (
+                <div key={item.title} className="bg-brand-dark1 border border-brand-dark2 p-6">
+                  <Icon size={22} className="text-brand-light2 mb-4" />
+                  <h3 className="font-display text-lg text-brand-white uppercase tracking-tight mb-2">{item.title}</h3>
+                  <p className="text-brand-light1 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </Container>
+      </Section>
+
+      {/* AI Marketing Course overview */}
       <Section className="bg-brand-black">
         <Container>
           <div className="text-center mb-16">
@@ -134,8 +220,11 @@ export default async function AcademyPage({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {overviewItems.map((item, i) => (
               <div key={i} className="bg-brand-dark1 border border-brand-dark2 p-6">
-                <div className="font-display text-4xl text-brand-dark2 mb-4">
-                  {String(i + 1).padStart(2, '0')}
+                <div className="flex items-start justify-between gap-4 mb-5">
+                  <ModuleGlyph index={i} />
+                  <div className="font-display text-4xl leading-none text-brand-dark2">
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
                 </div>
                 <h3 className="font-display text-lg text-brand-white uppercase tracking-tight mb-2">
                   {item.title}
@@ -155,7 +244,7 @@ export default async function AcademyPage({
             <p className="mt-4 text-brand-light1">{t('modules.subheading')}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {modules.map((mod, i) => (
+            {courseModules.map((mod, i) => (
               <div
                 key={i}
                 className="relative bg-brand-dark1 border border-brand-dark2 p-6 group"
@@ -175,7 +264,7 @@ export default async function AcademyPage({
                   <BookOpen size={14} className="text-brand-mid flex-shrink-0" />
                   <span className="text-xs uppercase tracking-widest text-brand-mid">
                     {t('modules.contents', {
-                      lessons: getModule(mod.number, locale)?.lessons.length ?? 0,
+                      lessons: lessonsCount(mod.number),
                       questions: getQuiz(mod.number, locale)?.length ?? 0,
                     })}
                   </span>
@@ -192,10 +281,30 @@ export default async function AcademyPage({
               </div>
             ))}
           </div>
-          <div className="mt-10 text-center">
-            <Button href={`/${locale}/academy/glossary`} variant="outline">
-              {t('glossary.openGlossary')}
-            </Button>
+        </Container>
+      </Section>
+
+      {/* Plain-English glossary */}
+      <Section className="bg-brand-black border-t border-brand-dark2">
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 items-center">
+            <div className="text-center lg:text-left">
+              <Heading as="h2" size="lg">{t('glossaryPromo.heading')}</Heading>
+              <p className="mt-4 text-brand-light1 leading-relaxed">{t('glossaryPromo.desc', { count: GLOSSARY.length })}</p>
+              <div className="mt-8">
+                <Button href={`/${locale}/academy/glossary`} variant="outline">
+                  {t('glossary.openGlossary')} <ArrowRight size={14} />
+                </Button>
+              </div>
+            </div>
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {sampleTerms.map(([term, definition]) => (
+                <div key={term} className="bg-brand-dark1 border border-brand-dark2 p-5">
+                  <dt className="font-display text-base text-brand-white uppercase tracking-tight">{term}</dt>
+                  <dd className="mt-2 text-sm text-brand-light1 leading-relaxed">{definition}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </Container>
       </Section>
@@ -205,11 +314,11 @@ export default async function AcademyPage({
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
-              <div className="mb-6 inline-flex w-14 h-14 border-2 border-brand-dark2 items-center justify-center">
-                <Award size={26} className="text-brand-light2" />
+              <div className="mb-5 inline-flex w-11 h-11 border border-brand-dark2 items-center justify-center">
+                <Award size={20} className="text-brand-light2" />
               </div>
-              <Heading as="h2" size="lg">{t('overview.certificate.heading')}</Heading>
-              <p className="mt-6 text-brand-light1 text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+              <Heading as="h2" size="md">{t('overview.certificate.heading')}</Heading>
+              <p className="mt-4 text-brand-light1 leading-relaxed max-w-xl mx-auto lg:mx-0">
                 {t('overview.certificate.description')}
               </p>
               <div className="mt-10">

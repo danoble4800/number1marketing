@@ -1,4 +1,4 @@
-// Builds the N°1 Academy certificate as a landscape Letter PDF in the browser.
+// Builds the N°1 AI Starter Guide certificate as a landscape Letter PDF in the browser.
 // jsPDF is loaded on demand so it only downloads when someone clicks the button.
 
 export type CertificateText = {

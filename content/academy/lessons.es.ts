@@ -11,6 +11,7 @@ export const course: CourseModule[] = [
         slug: 'what-ai-actually-is',
         title: 'Qué es (y qué no es) la IA',
         minutes: 35,
+        tryIt: "Abre un asistente de IA gratuito (ChatGPT, Claude o Gemini) y pregúntale: \"Dame tres datos sorprendentes sobre [tu ciudad]\". Luego pregunta: \"¿Cuál de esos podría estar mal y cómo lo compruebo?\". Fíjate en lo seguro que suena en ambos casos.",
         body: `
 La mayoría de las herramientas de IA que usan los profesionales del marketing hoy se basan en **modelos de lenguaje de gran tamaño** (LLM): sistemas entrenados con enormes cantidades de texto para predecir la siguiente palabra más probable. ChatGPT, Claude y Gemini son ejemplos. Las herramientas de imagen y video funcionan con una idea similar, entrenadas con imágenes y videos en lugar de texto.
 
@@ -45,6 +46,7 @@ Probablemente has usado IA predictiva durante años sin llamarla así: plataform
         slug: 'ai-across-the-funnel',
         title: 'Dónde encaja la IA en el embudo de marketing',
         minutes: 40,
+        tryIt: "Cuéntale a un asistente de IA qué vende tu negocio y quién lo compra, y pregunta: \"¿En qué parte del recorrido de mi cliente es más probable que esté perdiendo gente? Dame tres hipótesis y una pregunta para comprobar cada una\".",
         body: `
 La forma más rápida de perder tiempo con la IA es empezar por la herramienta ("¿qué puedo hacer con ChatGPT?"). La forma más rápida de obtener resultados es empezar por el embudo ("¿dónde estamos perdiendo tiempo o clientes?").
 
@@ -80,6 +82,7 @@ Decide de antemano qué pasos puede hacer la IA sola y cuáles necesitan aprobac
         slug: 'using-ai-responsibly',
         title: 'Uso responsable de la IA',
         minutes: 35,
+        tryIt: "Pídele a un asistente de IA: \"Escribe una reseña de 5 estrellas para mi panadería\". Luego pregúntale por qué publicarla sería un problema. Compara su respuesta con lo que aprendiste en esta lección.",
         body: `
 La IA facilita avanzar rápido, incluso en la dirección equivocada. Unas pocas reglas básicas protegen a tus clientes, tu marca y tu negocio.
 
@@ -138,6 +141,7 @@ Marca las dos tareas que más tiempo ahorran con el menor riesgo. Esos son tus p
         slug: 'choosing-your-toolkit',
         title: 'Cómo elegir tus herramientas de IA',
         minutes: 55,
+        tryIt: "Haz una lista de las herramientas que ya pagas (plataforma de email, app de diseño, CRM, teléfono). Pregúntale a un asistente de IA: \"¿Cuáles de estas ya tienen funciones de IA que quizá no estoy usando y qué hacen?\".",
         body: `
 Cada semana salen nuevas herramientas de IA. No necesitas la mayoría. Elige herramientas según la **tarea que hay que resolver**, no por la moda.
 
@@ -170,6 +174,7 @@ Cada herramienta agrega un inicio de sesión, una factura y un lugar donde la in
         slug: 'automation-basics',
         title: 'Fundamentos de automatización: disparadores, acciones y flujos',
         minutes: 60,
+        tryIt: "Elige una tarea que repites cada semana y escríbela en una frase: \"Cuando ___, haz ___, pero solo si ___\". Pídele a un asistente de IA que señale el disparador, las acciones y los filtros de tu frase.",
         body: `
 La automatización es donde la IA deja de ser una ventana de chat y empieza a trabajar mientras duermes. Toda automatización, por compleja que sea, se construye con las mismas piezas.
 
@@ -208,6 +213,7 @@ Por eso incorporarás controles, que es el tema de la siguiente lección.
         slug: 'building-your-first-workflow',
         title: 'Cómo construir tu primer flujo de forma segura',
         minutes: 65,
+        tryIt: "Pídele a un asistente de IA: \"Clasifica cada mensaje como ventas, soporte o spam. Responde con una sola palabra por mensaje\". Pega tres mensajes reales de esta semana (sin nombres) y comprueba si respeta el formato.",
         body: `
 El objetivo de tu primera automatización no es impresionar a nadie. Es ahorrar tiempo real, de forma confiable, sin crear nuevos problemas.
 
@@ -277,6 +283,7 @@ Si tienes acceso a Zapier, Make o n8n, constrúyelo y ejecútalo con datos de pr
         slug: 'anatomy-of-a-prompt',
         title: 'La anatomía de un buen prompt',
         minutes: 45,
+        tryIt: "Pídele a un asistente de IA \"un texto de Instagram para mi negocio\". Luego vuelve a pedirlo con un rol, tu público, el objetivo, el tono y un límite de palabras. Compara las dos respuestas.",
         body: `
 La calidad de lo que produce la IA depende sobre todo de la calidad de las instrucciones. "Escribe una publicación sobre nuestro nuevo servicio" te da algo genérico. Un prompt estructurado te da algo que puedes usar.
 
@@ -304,6 +311,7 @@ El segundo prompt toma un minuto más de escribir y ahorra diez minutos de edici
         slug: 'prompting-techniques',
         title: 'Técnicas que mejoran cualquier resultado',
         minutes: 50,
+        tryIt: "Pega dos textos o correos de los que estés orgulloso y di: \"Escribe un tercero con este mismo estilo sobre [tema nuevo]\". Fíjate cuánto se acerca a tu voz con ejemplos.",
         body: `
 Cuando tus prompts ya tienen las seis partes, estas técnicas llevan el resultado de bueno a excelente.
 
@@ -345,6 +353,7 @@ Solicita de tres a cinco variaciones con enfoques distintos; por ejemplo, una em
         slug: 'prompt-library-and-brand-voice',
         title: 'Tu biblioteca de prompts y guía de voz de marca',
         minutes: 55,
+        tryIt: "Pídele a un asistente de IA: \"Hazme una entrevista de cinco preguntas para descubrir la voz de mi marca\". Respóndelas y pídele que convierta tus respuestas en una guía de voz de un párrafo. Guárdala.",
         body: `
 La diferencia entre una persona que "usa IA" y un equipo que obtiene resultados consistentes es la documentación. Dos documentos hacen la mayor parte del trabajo.
 
@@ -407,6 +416,7 @@ Un documento o una hoja de cálculo compartida con prompts probados que todo tu 
         slug: 'strategy-before-content',
         title: 'Primero la estrategia, después el contenido',
         minutes: 55,
+        tryIt: "Pregúntale a un asistente de IA: \"Enumera las diez preguntas que los clientes hacen con más frecuencia a un [tu tipo de negocio] antes de comprar\". Marca las tres que más escuchas: esos son tus próximos contenidos.",
         body: `
 La IA puede producir cien publicaciones en una tarde. Ese es el problema: sin estrategia, solo publicas más ruido, más rápido. La estrategia decide **qué** vale la pena producir; la IA ayuda con **cuánto** y **qué tan rápido**.
 
@@ -440,6 +450,7 @@ Pega reseñas anónimas, correos frecuentes de clientes o notas de llamadas de v
         slug: 'content-at-scale',
         title: 'Producir a escala sin perder tu voz',
         minutes: 65,
+        tryIt: "Pega un artículo, correo o texto largo que hayas escrito y pide: \"Conviértelo en tres publicaciones cortas para redes y un asunto de correo, con la misma voz\". Edita la mejor y guárdala.",
         body: `
 Los mejores flujos de contenido con IA no empiezan con un prompt en blanco. Empiezan con algo original —tu experiencia, tus historias, tus resultados reales— y usan la IA para multiplicarlo.
 
@@ -474,6 +485,7 @@ Crea contenido en bloques concentrados —por ejemplo, una tarde para las public
         slug: 'search-in-the-ai-era',
         title: 'SEO y búsqueda en la era de la IA',
         minutes: 60,
+        tryIt: "Pregúntale a un asistente de IA con búsqueda web: \"¿Cuáles son los mejores negocios de [tu servicio] en [tu ciudad]?\". Comprueba si apareces y anota qué sitios usa como fuentes.",
         body: `
 La búsqueda está cambiando. Google ahora muestra resúmenes generados por IA en la parte superior de muchos resultados, y cada vez más personas les preguntan directamente a los asistentes de IA. Los fundamentos para que te encuentren siguen vigentes; simplemente importan más.
 
@@ -533,6 +545,7 @@ Los asistentes de IA y los resúmenes de IA toman información de fuentes que co
         slug: 'metrics-that-matter',
         title: 'Las métricas que realmente importan',
         minutes: 40,
+        tryIt: "Pregúntale a un asistente de IA: \"Tengo un [tipo de negocio]. ¿Qué tres números debería revisar cada semana y por qué?\". Compara su lista con lo que miras hoy.",
         body: `
 Los paneles de marketing están llenos de números. La mayoría no cambia ninguna decisión. Empieza con los pocos que se conectan directamente con los ingresos.
 
@@ -565,6 +578,7 @@ Elige la métrica que mejor represente el éxito para tu objetivo actual; en un 
         slug: 'analyzing-data-with-ai',
         title: 'Cómo analizar datos con IA',
         minutes: 45,
+        tryIt: "Exporta los números del mes pasado de cualquier herramienta (o escribe diez filas a mano), quita nombres y datos de contacto, pégalos y pregunta: \"¿Qué patrón podría estar pasando por alto?\". Luego compruébalo tú con los datos.",
         body: `
 Los asistentes de IA pueden leer una hoja de cálculo exportada y responder preguntas sobre ella en lenguaje sencillo. Eso convierte horas de trabajo en minutos, si la usas con cuidado.
 
@@ -599,6 +613,7 @@ Si las ventas subieron la semana en que publicaste más videos, los videos *podr
         slug: 'reporting-and-testing',
         title: 'Informes y el ciclo de prueba y aprendizaje',
         minutes: 35,
+        tryIt: "Pídele a un asistente de IA: \"Ayúdame a planear una prueba para este mes: qué cambiaré, qué mediré y cómo sabré si funcionó\". Pon la prueba en tu calendario.",
         body: `
 Un informe solo es útil si lleva a una decisión. Los mejores equipos de marketing aplican un ciclo sencillo cada semana.
 
@@ -657,6 +672,7 @@ Lleva un registro sencillo de pruebas: fecha, hipótesis, qué cambió, resultad
         slug: 'capstone-brief',
         title: 'El brief del proyecto final',
         minutes: 120,
+        tryIt: "Pega el brief del proyecto final en un asistente de IA y pídele que lo convierta en una lista de tareas con fechas repartidas en las próximas dos semanas. Ponla donde la veas cada día.",
         body: `
 Tu proyecto final es un **Sistema de Marketing con IA** completo y práctico para un negocio: el tuyo, el de un cliente o un negocio de ejemplo que elijas. Reúne el trabajo que hiciste en cada módulo.
 
@@ -689,6 +705,7 @@ Guárdalo como Google Doc, presentación de Google Slides o PDF, configura el ac
         slug: 'capstone-review',
         title: 'Revisión de tu sistema',
         minutes: 60,
+        tryIt: "Pega una parte de tu proyecto final en un asistente de IA y pide: \"Revísalo como un dueño de negocio escéptico. ¿Qué no queda claro y qué haría que confiara más?\".",
         body: `
 Antes de presentar la evaluación final, revisa tu proyecto con esta lista. Un sistema que cumple cada punto es uno que un negocio real podría poner a trabajar.
 
@@ -734,6 +751,7 @@ La evaluación final tiene 10 preguntas que cubren los seis módulos. Necesitas 
         slug: 'next-steps',
         title: 'Cómo mantener tus habilidades al día',
         minutes: 20,
+        tryIt: "Pregúntale a un asistente de IA con búsqueda web: \"¿Qué cambió en las herramientas de IA para pequeños negocios en los últimos tres meses?\". Abre dos de sus fuentes y guarda una idea que valga la pena probar.",
         body: `
 Las herramientas de IA cambian cada pocos meses. Las habilidades de este curso —pensar en embudos y flujos, escribir instrucciones claras, proteger tu marca y medir resultados— no.
 
@@ -773,6 +791,7 @@ Completa las siete partes del proyecto final descritas en la Lección 1, revísa
         slug: 'how-local-search-works',
         title: 'Cómo funciona la búsqueda local',
         minutes: 30,
+        tryIt: "Busca en Google \"[tu servicio] cerca de mí\" desde tu teléfono. Anota los tres negocios que salen en el mapa y pregúntale a un asistente de IA qué parecen hacer diferente a ti.",
         body: `
 Cuando alguien busca "café cerca de mí" o "barbería en South Boston", Google muestra un mapa con tres negocios debajo. Ese recuadro se llama [[local pack|local-pack]] (el paquete local), y para la mayoría de los negocios pequeños importa más que cualquier anuncio. Quien busca así normalmente quiere comprar hoy.
 
@@ -811,6 +830,7 @@ No puedes acercar una tienda a sus clientes, así que todo el trabajo está en l
         slug: 'optimizing-the-profile',
         title: 'Cómo configurar y optimizar un Perfil de Empresa de Google',
         minutes: 50,
+        tryIt: "Pega la descripción de tu Perfil de Empresa de Google en un asistente de IA y pide: \"Reescríbela en menos de 750 caracteres con mi servicio principal y mi ciudad en la primera frase. Sin palabras exageradas\".",
         body: `
 Primero busca el nombre del negocio en Google Maps. Muchos negocios ya tienen un perfil que Google creó automáticamente. Si existe, elige **Reclamar esta empresa** en lugar de crear uno nuevo. Los perfiles duplicados confunden a Google y a los clientes.
 
@@ -860,6 +880,7 @@ Revisa cada dato, precio y fecha antes de publicar. Google puede quitar publicac
         slug: 'local-seo-beyond-google',
         title: 'SEO local más allá del perfil',
         minutes: 40,
+        tryIt: "Pregúntale a un asistente de IA: \"Enumera los principales directorios en línea para un [tu tipo de negocio] en [tu país]\". Revisa en dos de ellos que tu nombre, dirección y teléfono sean correctos.",
         body: `
 El Perfil de Empresa de Google es la pieza más grande, pero Google también mira lo que dice el resto de internet sobre el negocio. Aquí el [[SEO local|local-seo]] va más allá del perfil.
 
@@ -937,6 +958,7 @@ Es la misma auditoría que Number 1 Digital Marketing hace para sus clientes. Bi
         slug: 'why-reviews-matter',
         title: 'Por qué las reseñas generan ventas locales',
         minutes: 30,
+        tryIt: "Copia cinco reseñas recientes (tuyas o de un competidor) en un asistente de IA y pregunta: \"¿Qué mencionan más los clientes contentos? ¿Y los descontentos?\".",
         body: `
 Las reseñas hacen dos trabajos a la vez. Ayudan al negocio a posicionarse en el [[local pack|local-pack]], porque forman parte de cómo Google mide la prominencia. Y convencen a quien las lee de llamar, reservar o entrar.
 
@@ -963,6 +985,7 @@ Las reseñas hacen dos trabajos a la vez. Ayudan al negocio a posicionarse en el
         slug: 'getting-more-reviews',
         title: 'Cómo conseguir más reseñas',
         minutes: 40,
+        tryIt: "Pídele a un asistente de IA: \"Escribe un mensaje amable de dos frases pidiendo a un cliente una reseña en Google. Sin incentivos ni presión\". Edítalo y guárdalo en tu teléfono.",
         body: `
 La mayoría de los clientes contentos nunca deja una reseña porque nadie se lo pidió, o porque dejarla costaba demasiado esfuerzo. La solución es pedírsela a cada cliente, en el momento justo, con un enlace de un solo toque.
 
@@ -1003,6 +1026,7 @@ Que sea corto, personal y firmado por una persona real.
         slug: 'responding-with-ai',
         title: 'Cómo responder reseñas con IA',
         minutes: 45,
+        tryIt: "Pega una reseña real en un asistente de IA y pide: \"Redacta una respuesta corta y cálida del dueño. No prometas nada que yo no haya dicho\". Edítala antes de publicarla.",
         body: `
 Cada reseña merece una respuesta: muestra a los futuros clientes que a alguien le importa, y Google mismo recomienda responder. Intenta responder en uno o dos días.
 

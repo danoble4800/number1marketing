@@ -11,7 +11,7 @@
     "clientOnboarding": "Onboarding de clientes",
     "bookCall": "Agendar Llamada",
     "shop": "Tienda",
-    "academy": "Certifícate en IA",
+    "academy": "Guía de IA",
     "creators": "Creadores",
     "signIn": "Iniciar sesión",
     "myTapCard": "Mi tarjeta",
@@ -115,7 +115,28 @@
           "before": "No saber qué anuncios funcionan",
           "after": "Saber exactamente de dónde vino cada cliente"
         }
-      ]
+      ],
+      "scenes": {
+        "missedCall": "Llamada perdida",
+        "voicemail": "Fue al buzón de voz",
+        "textIn": "¿Están abiertos hoy?",
+        "textOut": "¡Sí! ¿Te agendo para las 3pm?",
+        "replied": "Respondido en 14s",
+        "perMonth": "al mes",
+        "lastPost": "Última publicación: hace 23 días",
+        "newVideo": "Nuevo video publicado",
+        "visitors": "visitas hoy",
+        "page3": "Página 3",
+        "you": "Tu negocio",
+        "competitor": "Competidor",
+        "topNearYou": "#1 cerca de ti",
+        "whereFrom": "¿De dónde vinieron tus clientes?",
+        "sources": [
+          "Google",
+          "Instagram",
+          "Referidos"
+        ]
+      }
     },
     "caseStudy": {
       "heading": "RESULTADOS QUE HABLAN",
@@ -307,7 +328,28 @@
   "about": {
     "hero": {
       "headline": "SOMOS EL EQUIPO QUE HACE SONAR TU TELÉFONO",
-      "subheading": "Demasiados buenos negocios pierden clientes frente a competidores que simplemente responden más rápido y aparecen más en internet. Nosotros arreglamos eso — rápido."
+      "subheading": "Demasiados buenos negocios pierden clientes frente a competidores que simplemente responden más rápido y aparecen más en internet. Nosotros arreglamos eso — rápido.",
+      "art": {
+        "now": "Martes, hoy",
+        "items": [
+          {
+            "title": "Nueva llamada",
+            "detail": "Cita el jueves 10:30"
+          },
+          {
+            "title": "Nuevo mensaje",
+            "detail": "Respondido en 14 segundos"
+          },
+          {
+            "title": "Nueva reseña",
+            "detail": "★★★★★ \"¡Súper rápido!\""
+          },
+          {
+            "title": "Nuevo cliente",
+            "detail": "Te encontró en Google"
+          }
+        ]
+      }
     },
     "beliefs": {
       "heading": "LO QUE CREEMOS",
@@ -469,17 +511,19 @@
   },
   "academy": {
     "hero": {
-      "headline": "CERTIFÍCATE EN IA",
-      "subheadline": "Domina el marketing y la automatización con IA. Obtén un certificado que te diferencia en un mundo donde la IA es la nueva ventaja competitiva.",
-      "enrollCta": "Inscribirme como Estudiante",
-      "adminCta": "Acceso Admin"
+      "headline": "LA IA PUEDE HACER MÁS DE LO QUE CREES",
+      "subheadline": "Lecciones gratis y en lenguaje sencillo sobre lo que la IA puede hacer por ti y por tu negocio, para quien no sabe por dónde empezar. Sin conocimientos técnicos.",
+      "enrollCta": "Empieza gratis",
+      "adminCta": "Acceso Admin",
+      "badge": "Guía N°1 para Empezar con IA",
+      "tagline": "Entiéndela hoy. Úsala mañana."
     },
     "overview": {
-      "heading": "QUÉ APRENDERÁS",
-      "subheading": "Una certificación de 6 módulos creada por practicantes de marketing con IA, no teóricos, más un track práctico para el trabajo por el que los negocios pequeños realmente pagan.",
+      "heading": "VE MÁS ALLÁ: EL CURSO DE MARKETING CON IA",
+      "subheading": "¿Listo para usar la IA en el marketing de tu negocio? Seis módulos creados por profesionales del marketing con IA, más una ruta práctica para el trabajo por el que de verdad pagan los pequeños negocios.",
       "certificate": {
-        "heading": "OBTÉN TU CERTIFICADO",
-        "description": "Aprueba los 6 módulos de certificación y la evaluación final, y luego envía tu proyecto final para revisión. Cuando lo aprobemos, obtienes tu Certificado de Marketing con IA y puedes seguir con el Track Práctico."
+        "heading": "CERTIFICADO DE FINALIZACIÓN",
+        "description": "Termina el Curso de Marketing con IA (los seis módulos, el quiz final y un proyecto final revisado) y recibirás un certificado de finalización con su propio ID que cualquiera puede comprobar."
       },
       "items": [
         {
@@ -503,14 +547,14 @@
           "desc": "Mide lo que importa, interpreta datos impulsados por IA y optimiza con confianza."
         },
         {
-          "title": "Proyecto de Certificación",
-          "desc": "Aplica todo lo aprendido en un proyecto final del mundo real y obtén tu certificado."
+          "title": "Proyecto final",
+          "desc": "Reúne todo en un proyecto real para tu propio negocio y recibe la revisión de nuestro equipo."
         }
       ]
     },
     "modules": {
-      "heading": "MÓDULOS DEL CURSO",
-      "subheading": "Seis módulos de certificación y luego un track práctico. Completamente a tu ritmo.",
+      "heading": "MÓDULOS DEL CURSO DE MARKETING CON IA",
+      "subheading": "Seis módulos en orden y luego una ruta práctica. A tu ritmo.",
       "comingSoon": "Próximamente",
       "locked": "Bloqueado",
       "estTime": "Tiempo est.",
@@ -542,7 +586,7 @@
         },
         {
           "number": "06",
-          "title": "Proyecto Final y Certificación",
+          "title": "Proyecto final",
           "time": "~4 hrs"
         },
         {
@@ -554,6 +598,36 @@
           "number": "08",
           "title": "Reseñas y Reputación",
           "time": "~2 hrs"
+        },
+        {
+          "number": "09",
+          "title": "Escribe correos y mensajes",
+          "time": "~35 min"
+        },
+        {
+          "number": "10",
+          "title": "Crea imágenes y videos",
+          "time": "~35 min"
+        },
+        {
+          "number": "11",
+          "title": "Planifica tu semana y tu día a día",
+          "time": "~35 min"
+        },
+        {
+          "number": "12",
+          "title": "Atiende a tus clientes 24/7",
+          "time": "~40 min"
+        },
+        {
+          "number": "13",
+          "title": "Ahorra horas de papeleo",
+          "time": "~40 min"
+        },
+        {
+          "number": "14",
+          "title": "Haz crecer tu negocio con IA",
+          "time": "~40 min"
         }
       ],
       "available": "Disponible",
@@ -594,11 +668,11 @@
     },
     "dashboard": {
       "heading": "BIENVENIDO DE NUEVO",
-      "progressLabel": "Progreso de la certificación",
+      "progressLabel": "Tu progreso",
       "progressValue": "{percent}% Completado",
-      "modulesHeading": "TUS MÓDULOS",
-      "certificateHeading": "TU CERTIFICADO",
-      "certificateLocked": "Aprueba los 6 módulos y consigue que aprueben tu proyecto final para obtener tu Certificado de Marketing con IA.",
+      "modulesHeading": "Curso de Marketing con IA",
+      "certificateHeading": "Tu certificado de finalización",
+      "certificateLocked": "Termina los módulos 01–06 del Curso de Marketing con IA y consigue la aprobación de tu proyecto final para recibir tu certificado de finalización.",
       "certificateLockedBadge": "Bloqueado",
       "comingSoon": "Próximamente",
       "locked": "Bloqueado",
@@ -607,13 +681,13 @@
       "start": "Comenzar",
       "completed": "Completado",
       "certificateEarnedBadge": "Obtenido",
-      "certificateEarned": "¡Felicidades! Aprobaste todos los módulos y tu proyecto final fue aprobado. Descarga tu certificado y compártelo.",
+      "certificateEarned": "¡Felicidades, completaste el Curso de Marketing con IA! Descarga tu certificado de finalización y compártelo.",
       "handsOnHeading": "Track Práctico",
       "handsOnIntro": "Habilidades prácticas por las que pagan los negocios pequeños: aparecer en Google y construir una buena reputación. Se desbloquea al aprobar la evaluación final.",
       "handsOnProgress": "{done} de {total} completados",
       "toolsHeading": "Herramientas de estudio",
       "glossaryTitle": "Glosario y tarjetas",
-      "glossaryDesc": "Cada término de marketing e IA en lenguaje sencillo, con tarjetas de estudio y un quiz rápido.",
+      "glossaryDesc": "Cada término de IA y marketing en lenguaje sencillo, con tarjetas de estudio y un quiz rápido.",
       "toolkitTitle": "Plantillas y herramientas",
       "toolkitDesc": "Prompts para copiar y pegar, pedidos de reseñas, respuestas a reseñas y hojas de cálculo listas.",
       "open": "Abrir",
@@ -622,15 +696,15 @@
       "badges": {
         "firstStep": {
           "title": "Primer paso",
-          "desc": "Aprobaste el Módulo 01"
+          "desc": "Aprobaste tu primer módulo"
         },
         "halfway": {
           "title": "A mitad de camino",
           "desc": "Aprobaste 3 módulos"
         },
         "certified": {
-          "title": "Certificado",
-          "desc": "Obtuviste el Certificado de Marketing con IA"
+          "title": "Curso completado",
+          "desc": "Completaste el Curso de Marketing con IA"
         },
         "localPro": {
           "title": "Experto en SEO local",
@@ -647,6 +721,10 @@
         "handsOn": {
           "title": "Manos a la obra",
           "desc": "Completaste todos los pasos de la lista en 3 módulos"
+        },
+        "starter": {
+          "title": "Guía completada",
+          "desc": "Aprobaste los seis módulos de IA para ti e IA para tu negocio"
         }
       },
       "requirementModules": "Aprobar los módulos 01–06 ({done} de 6)",
@@ -674,11 +752,12 @@
         }
       },
       "coachingTitle": "Coaching en vivo",
-      "coachingDesc": "Llamadas grupales mensuales y sesiones 1 a 1 por Zoom con nuestro equipo cuando quieras ayuda práctica."
+      "coachingDesc": "Llamadas grupales mensuales y sesiones 1 a 1 por Zoom con nuestro equipo cuando quieras ayuda práctica.",
+      "certificateTitle": "Curso de Marketing con IA: certificado de finalización"
     },
     "admin": {
       "heading": "ADMIN DE LA ACADEMIA",
-      "subheading": "Gestiona estudiantes, módulos y certificaciones.",
+      "subheading": "Gestiona estudiantes, módulos y certificados.",
       "stats": {
         "totalStudents": "Total Estudiantes",
         "activeThisWeek": "Activos Esta Semana",
@@ -751,22 +830,25 @@
       "resultPassed": "Aprobado — {score}/{total}",
       "resultFailed": "{score}/{total} — necesitas {pass}% para aprobar",
       "nextUnlocked": "El siguiente módulo ya está desbloqueado.",
-      "courseComplete": "¡Completaste el curso de N°1 Academy!",
-      "reviewHint": "Para que el certificado tenga valor, no mostramos qué respuestas fallaste. Repasa las lecciones e inténtalo de nuevo.",
+      "courseComplete": "¡Completaste el Curso de Marketing con IA!",
+      "reviewHint": "Para que los quizzes tengan sentido, no mostramos qué respuestas estaban mal. Repasa las lecciones e inténtalo de nuevo.",
       "retry": "Intentar de nuevo",
       "submit": "Enviar respuestas",
       "submitting": "Calificando...",
       "checklistHeading": "Hazlo en tu propio negocio",
       "checklistIntro": "Haz estos pasos con un negocio real. Marca cada uno al terminarlo. Tus marcas se guardan en este dispositivo.",
       "checklistProgress": "{done} de {total} completados",
-      "certUnlocked": "Tu certificado está listo en tu panel, y el Track Práctico ya está desbloqueado.",
+      "certUnlocked": "Tu certificado de finalización está listo en tu panel, y la ruta práctica ya está desbloqueada.",
       "trackComplete": "¡Terminaste el Track Práctico!",
       "toolkitLink": "Las plantillas de este módulo están en Plantillas y herramientas",
       "cooldown": "Podrás volver a intentar este cuestionario a las {time}. Aprovecha para repasar las lecciones.",
       "finalPassed": "¡Aprobaste la evaluación final!",
-      "capstoneNext": "Último paso: envía tu proyecto final desde tu panel. Tu certificado se emite en cuanto lo aprobemos. El Track Práctico ya está desbloqueado.",
+      "capstoneNext": "Último paso: envía tu proyecto final desde tu panel. Tu certificado de finalización se emite en cuanto se apruebe. La ruta práctica ya está desbloqueada.",
       "toCapstone": "Enviar tu proyecto final",
-      "videoHeading": "Mira: resumen del módulo"
+      "videoHeading": "Mira: resumen del módulo",
+      "tryIt": "Pruébalo en 5 minutos",
+      "starterNext": "¡Buen trabajo! Elige tu próximo módulo en el panel. Todos están abiertos.",
+      "starterTrackComplete": "¡Terminaste esta ruta! Prueba la otra o ve más allá con el Curso de Marketing con IA."
     },
     "certificate": {
       "download": "Descargar PDF",
@@ -774,11 +856,11 @@
       "copyLink": "Copiar enlace de verificación",
       "copied": "Enlace copiado",
       "pdf": {
-        "academy": "N°1 Academy",
+        "academy": "Guía N°1 para Empezar con IA",
         "title": "Certificado de finalización",
         "certifies": "Se certifica que",
-        "completed": "completó los seis módulos y aprobó la evaluación final y el proyecto final de la",
-        "courseName": "Certificación en Marketing con IA",
+        "completed": "completó los seis módulos, aprobó el quiz final y obtuvo la aprobación de un proyecto final del",
+        "courseName": "Curso de Marketing con IA",
         "issuer": "Number 1 Digital Marketing",
         "dateLabel": "Fecha de emisión",
         "idLabel": "ID del certificado",
@@ -786,19 +868,19 @@
       },
       "verify": {
         "valid": "Certificado verificado",
-        "earned": "Completó los seis módulos de la Certificación en Marketing con IA de N°1 Academy, aprobó la evaluación final y su proyecto final fue aprobado.",
+        "earned": "Completó los seis módulos del Curso de Marketing con IA de la Guía N°1 para Empezar con IA, aprobó el quiz final y obtuvo la aprobación de un proyecto final.",
         "issued": "Emitido",
         "id": "ID del certificado",
         "notFoundHeading": "Certificado no encontrado",
         "notFound": "No encontramos un certificado con el ID {code}. Revisa el ID e inténtalo de nuevo.",
         "lookupHeading": "Verificar un certificado",
-        "lookupIntro": "Ingresa el ID impreso en un certificado de N°1 Academy para confirmar que es auténtico.",
+        "lookupIntro": "Escribe el ID impreso en un certificado de finalización N°1 para confirmar que es auténtico.",
         "lookupButton": "Verificar"
       }
     },
     "glossary": {
-      "title": "Glosario de Marketing e IA",
-      "intro": "Las palabras que usamos todos los días en marketing digital e IA, en lenguaje sencillo y con un ejemplo de un negocio pequeño.",
+      "title": "Glosario de IA y marketing",
+      "intro": "Las palabras de IA y marketing que oirás cada día, en lenguaje sencillo y con un ejemplo real.",
       "search": "Buscar términos",
       "all": "Todos",
       "list": "Glosario",
@@ -841,20 +923,20 @@
     },
     "coaching": {
       "heading": "LLEGA MÁS LEJOS CON COACHING EN VIVO",
-      "subheading": "El curso y el certificado son gratis. Cuando quieras a alguien de tu lado, agrega ayuda en vivo de nuestro equipo.",
+      "subheading": "Todas las lecciones y el certificado de finalización son gratis. Cuando quieras a una persona de tu lado, añade ayuda en vivo de nuestro equipo.",
       "free": "Gratis",
       "perMonth": "/mes",
       "perSession": "/sesión",
       "note": "Precios en USD.",
       "tiers": {
         "free": {
-          "name": "Curso y certificado",
+          "name": "Curso gratis",
           "features": [
-            "Los 8 módulos, cuestionarios, glosario y kit de herramientas",
-            "Revisión de tu proyecto final por nuestro equipo",
-            "Certificado de Marketing con IA verificable"
+            "Los 14 módulos, quizzes, glosario y herramientas",
+            "Revisión del proyecto final por nuestro equipo",
+            "Certificado de finalización verificable en línea"
           ],
-          "cta": "Inscríbete gratis"
+          "cta": "Empieza gratis"
         },
         "group": {
           "name": "Llamada grupal en vivo",
@@ -908,6 +990,47 @@
         "desc": "Inscribe a tu personal en conjunto y agrega sesiones de capacitación en vivo solo para tu equipo. Cuéntanos sobre tu equipo y te enviaremos una cotización a la medida.",
         "cta": "Pedir cotización para equipos"
       }
+    },
+    "tracks": {
+      "heading": "¿POR DÓNDE QUIERES EMPEZAR?",
+      "subheading": "Elige en qué quieres que te ayude la IA. Cada módulo es corto y puedes hacerlos en el orden que quieras.",
+      "note": "Cuenta gratuita. Toma menos de un minuto.",
+      "forYou": {
+        "title": "IA para ti",
+        "desc": "Ayuda diaria para escribir, crear, planificar y aprender."
+      },
+      "forBusiness": {
+        "title": "IA para tu negocio",
+        "desc": "Atiende a tus clientes, reduce el papeleo y encuentra nuevas formas de crecer."
+      },
+      "marketing": {
+        "desc": "¿Listo para ir más allá? Este curso paso a paso enseña marketing con IA en orden y termina con un proyecto final y un certificado de finalización."
+      }
+    },
+    "how": {
+      "heading": "ASÍ FUNCIONA CADA LECCIÓN",
+      "items": [
+        {
+          "title": "Lenguaje sencillo",
+          "desc": "Sin tecnicismos. Cuando aparece una palabra nueva, tócala para ver qué significa."
+        },
+        {
+          "title": "Pruébalo en 5 minutos",
+          "desc": "Cada lección termina con algo pequeño para probar en una herramienta de IA gratuita, para que aprendas haciendo."
+        },
+        {
+          "title": "Quiz rápido",
+          "desc": "Cinco preguntas al final de cada módulo para comprobar lo que aprendiste."
+        },
+        {
+          "title": "Glosario de IA",
+          "desc": "Cada palabra de IA y marketing explicada, con tarjetas de estudio y ejemplos reales."
+        }
+      ]
+    },
+    "glossaryPromo": {
+      "heading": "¿NUEVO CON LAS PALABRAS DE IA?",
+      "desc": "Nuestro glosario gratuito explica {count} términos de IA y marketing en lenguaje sencillo, cada uno con un ejemplo real. Estúdialos con tarjetas o con un quiz rápido."
     }
   },
   "creators": {
@@ -1012,6 +1135,11 @@
             "title": "Crea y cobra",
             "desc": "Aplica a las campañas que te gusten o acepta invitaciones de marcas. Acuerda los detalles, crea el contenido y cobra."
           }
+        ],
+        "art": [
+          "Solicitud enviada",
+          "¡Estás aprobado!",
+          "Pagado por PayPal"
         ]
       },
       "brands": {
@@ -1029,6 +1157,11 @@
             "title": "Elige creadores, recibe contenido",
             "desc": "Revisa quién aplicó, aprueba a los que te gusten, envía tu producto y descarga los videos terminados."
           }
+        ],
+        "art": [
+          "Plan activo",
+          "Brief listo",
+          "Videos entregados"
         ]
       }
     },
@@ -1221,7 +1354,7 @@
         },
         {
           "q": "¿Los creadores pueden aprender a usar IA para su contenido?",
-          "a": "Sí. Toma el curso gratis de N°1 Academy y obtén tu Certificado de Marketing con IA."
+          "a": "Sí. La Guía N°1 para Empezar con IA, gratuita, te muestra lo que la IA puede hacer por tu contenido, desde escribir textos hasta crear imágenes y videos."
         }
       ]
     },
@@ -1266,7 +1399,22 @@
     "formSubheading": "Completa este formulario y te contactaremos en un día hábil para confirmar tu horario.",
     "proofLabel": "Leads calificados en 90 días",
     "proofText": "Lo que pasó cuando una empresa de software nos dejó manejar sus clientes nuevos.",
-    "proofCta": "Ver el Caso de Estudio"
+    "proofCta": "Ver el Caso de Estudio",
+    "art": {
+      "title": "Tu auditoría gratis",
+      "scanning": "Analizando…",
+      "leaks": [
+        "3 llamadas perdidas esta semana",
+        "Las respuestas tardan 3+ horas",
+        "No apareces en el top 3 de Google cerca"
+      ],
+      "planTitle": "Tu plan de 90 días",
+      "plan": [
+        "Semana 1: contestar cada llamada",
+        "Mes 1: arreglar tu perfil de Google",
+        "Mes 2–3: videos cada semana"
+      ]
+    }
   },
   "auditPopup": {
     "eyebrow": "Gratis · 30 minutos",
@@ -1482,7 +1630,12 @@
       "instagram": "Instagram",
       "menu": "Menú",
       "wifi": "Wi-Fi"
-    }
+    },
+    "stepsArt": [
+      "Pedido hecho",
+      "Probado en iPhone y Android",
+      "+1 reseña en Google"
+    ]
   },
   "activity": {
     "close": "Cerrar",

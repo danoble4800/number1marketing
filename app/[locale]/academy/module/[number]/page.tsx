@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import AcademyModuleClient from '@/components/academy/AcademyModuleClient';
-import { course, getModule } from '@/content/academy/lessons';
+import { course, getModule, nextInTrack } from '@/content/academy/lessons';
 import { getQuiz } from '@/content/academy/quizzes';
 
 type ModuleItem = { number: string; title: string; time: string };
@@ -32,8 +32,7 @@ export default async function AcademyModulePage({
   const t = await getTranslations({ locale, namespace: 'academy' });
   const items = t.raw('modules.items') as ModuleItem[];
   const item = items.find((m) => m.number === number);
-  const index = course.findIndex((m) => m.number === number);
-  const nextNumber = course[index + 1]?.number ?? null;
+  const nextNumber = nextInTrack(number);
 
   return (
     <AcademyModuleClient

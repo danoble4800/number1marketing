@@ -63,7 +63,7 @@ export default function GlossaryClient({ locale }: { locale: string }) {
             <ArrowLeft size={13} />
             {signedIn ? t('backToDashboard') : t('backToAcademy')}
           </Link>
-          <span className="block text-xs uppercase tracking-widest text-brand-mid mb-1">N°1 Academy</span>
+          <span className="block text-xs uppercase tracking-widest text-brand-mid mb-1">N°1 AI Starter Guide</span>
           <h1 className="font-display text-2xl sm:text-3xl text-brand-white uppercase tracking-tight">{t('title')}</h1>
           <p className="text-brand-light1 text-sm mt-2 max-w-3xl">{t('intro')}</p>
         </div>

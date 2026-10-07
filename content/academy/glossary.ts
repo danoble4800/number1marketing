@@ -1,4 +1,4 @@
-// N°1 Academy glossary: the words used day to day in digital marketing, in plain language,
+// N°1 Academy glossary: the words used day to day in AI and digital marketing, in plain language,
 // each with a small-business example. Lessons link to a term with [[shown text|id]].
 // Each entry is [term, definition, example] for en, es and pt.
 
@@ -492,6 +492,77 @@ export const GLOSSARY: GlossaryTerm[] = [
     pt: ['Humano no processo', 'Uma pessoa confere e aprova o trabalho da IA antes de chegar aos clientes.', 'A IA escreve respostas às avaliações toda manhã; o dono lê e aprova antes de publicar.'],
   },
 
+  // ---- AI basics for beginners (N°1 AI Starter Guide)
+  {
+    id: 'ai-assistant',
+    category: 'ai',
+    en: ['AI assistant', 'An app or website you talk to in plain language, such as ChatGPT, Claude or Gemini. You ask for something and it writes, explains, plans or creates it.', 'A plumber asks an AI assistant to turn three bullet points into a polite quote email.'],
+    es: ['Asistente de IA', 'Una app o página web con la que hablas en lenguaje normal, como ChatGPT, Claude o Gemini. Le pides algo y lo escribe, lo explica, lo planifica o lo crea.', 'Un fontanero le pide a un asistente de IA que convierta tres ideas en un correo de presupuesto educado.'],
+    pt: ['Assistente de IA', 'Um app ou site com quem você conversa em linguagem normal, como o ChatGPT, o Claude ou o Gemini. Você pede algo e ele escreve, explica, planeja ou cria.', 'Um encanador pede a um assistente de IA para transformar três tópicos em um e-mail de orçamento educado.'],
+  },
+  {
+    id: 'ai-model',
+    category: 'ai',
+    en: ['AI model', 'The trained "brain" inside an AI tool. One company can offer several models: faster ones for quick tasks and more capable ones for harder work.', 'A salon owner switches to a more capable model in their AI assistant to analyze a year of booking data.'],
+    es: ['Modelo de IA', 'El "cerebro" entrenado que hay dentro de una herramienta de IA. Una misma empresa puede ofrecer varios modelos: unos más rápidos para tareas sencillas y otros más capaces para trabajos difíciles.', 'La dueña de un salón cambia a un modelo más capaz en su asistente de IA para analizar un año de reservas.'],
+    pt: ['Modelo de IA', 'O "cérebro" treinado dentro de uma ferramenta de IA. Uma mesma empresa pode oferecer vários modelos: uns mais rápidos para tarefas simples e outros mais capazes para trabalhos difíceis.', 'A dona de um salão troca para um modelo mais capaz no assistente de IA para analisar um ano de agendamentos.'],
+  },
+  {
+    id: 'training-data',
+    category: 'ai',
+    en: ['Training data', 'The text, images or other examples an AI learned from. It shapes what the AI knows, and why it may not know recent events or your business.', 'An AI assistant without web search doesn’t know about the bakery that opened last month, because it wasn’t in its training data.'],
+    es: ['Datos de entrenamiento', 'Los textos, imágenes u otros ejemplos con los que aprendió una IA. Determinan lo que sabe y explican por qué puede no conocer hechos recientes ni tu negocio.', 'Un asistente de IA sin búsqueda web no conoce la panadería que abrió el mes pasado porque no estaba en sus datos de entrenamiento.'],
+    pt: ['Dados de treinamento', 'Os textos, imagens ou outros exemplos com que uma IA aprendeu. Eles definem o que ela sabe e explicam por que pode não conhecer fatos recentes nem o seu negócio.', 'Um assistente de IA sem busca na web não conhece a padaria que abriu mês passado porque ela não estava nos dados de treinamento.'],
+  },
+  {
+    id: 'multimodal',
+    category: 'ai',
+    en: ['Multimodal AI', 'AI that works with more than text: it can look at photos, listen to audio, read documents and sometimes create images or speech.', 'A landscaper snaps a photo of a yellowing lawn and asks the AI assistant what might be wrong.'],
+    es: ['IA multimodal', 'IA que trabaja con algo más que texto: puede mirar fotos, escuchar audio, leer documentos y a veces crear imágenes o voz.', 'Un jardinero hace una foto de un césped amarillento y le pregunta al asistente de IA qué puede estar pasando.'],
+    pt: ['IA multimodal', 'IA que trabalha com mais do que texto: consegue ver fotos, ouvir áudio, ler documentos e às vezes criar imagens ou voz.', 'Um jardineiro fotografa um gramado amarelado e pergunta ao assistente de IA o que pode estar errado.'],
+  },
+  {
+    id: 'image-generator',
+    category: 'ai',
+    en: ['AI image generator', 'A tool that creates a new picture from a written description, or edits a photo you upload.', 'A café asks an image generator for a watercolor of a rainy morning to use as the background of its new menu.'],
+    es: ['Generador de imágenes con IA', 'Una herramienta que crea una imagen nueva a partir de una descripción escrita, o que edita una foto que subes.', 'Una cafetería le pide a un generador de imágenes una acuarela de una mañana de lluvia para el fondo de su nuevo menú.'],
+    pt: ['Gerador de imagens com IA', 'Uma ferramenta que cria uma imagem nova a partir de uma descrição escrita, ou edita uma foto que você envia.', 'Uma cafeteria pede a um gerador de imagens uma aquarela de uma manhã chuvosa para o fundo do novo cardápio.'],
+  },
+  {
+    id: 'deepfake',
+    category: 'ai',
+    en: ['Deepfake', 'AI-made video, audio or images showing a real person doing or saying something they never did. Making one without permission can be harmful and illegal.', 'A scammer clones a business owner’s voice to call their bookkeeper and ask for an urgent transfer.'],
+    es: ['Deepfake', 'Video, audio o imágenes hechos con IA que muestran a una persona real haciendo o diciendo algo que nunca hizo. Crearlos sin permiso puede ser dañino e ilegal.', 'Un estafador clona la voz del dueño de un negocio para llamar a su contable y pedir una transferencia urgente.'],
+    pt: ['Deepfake', 'Vídeo, áudio ou imagens feitos com IA mostrando uma pessoa real fazendo ou dizendo algo que nunca fez. Criar um sem permissão pode ser prejudicial e ilegal.', 'Um golpista clona a voz do dono de um negócio para ligar para o contador e pedir uma transferência urgente.'],
+  },
+  {
+    id: 'voice-ai',
+    category: 'ai',
+    en: ['Voice AI', 'AI that listens and speaks in a natural voice. It can answer phone calls, book appointments, take messages or read a script aloud.', 'A dental office’s voice AI answers after-hours calls, books cleanings and texts the front desk a summary of each call.'],
+    es: ['IA de voz', 'IA que escucha y habla con una voz natural. Puede contestar llamadas, agendar citas, tomar recados o leer un guion en voz alta.', 'La IA de voz de una clínica dental contesta las llamadas fuera de horario, agenda limpiezas y envía a recepción un resumen de cada llamada.'],
+    pt: ['IA de voz', 'IA que ouve e fala com voz natural. Pode atender ligações, marcar horários, anotar recados ou ler um roteiro em voz alta.', 'A IA de voz de um consultório odontológico atende as ligações fora do horário, marca limpezas e manda para a recepção um resumo de cada ligação.'],
+  },
+  {
+    id: 'knowledge-base',
+    category: 'ai',
+    en: ['Knowledge base', 'The written facts an AI assistant is allowed to answer from: hours, prices, policies and common questions. Better answers start with a clear knowledge base.', 'A moving company adds “We don’t move pianos” to its knowledge base, and its chatbot stops promising piano moves.'],
+    es: ['Base de conocimiento', 'Los datos escritos con los que un asistente de IA puede responder: horario, precios, políticas y preguntas frecuentes. Las buenas respuestas empiezan con una base de conocimiento clara.', 'Una empresa de mudanzas añade "No trasladamos pianos" a su base de conocimiento y su chatbot deja de prometerlo.'],
+    pt: ['Base de conhecimento', 'Os fatos escritos com que um assistente de IA pode responder: horário, preços, políticas e perguntas frequentes. Boas respostas começam com uma base de conhecimento clara.', 'Uma transportadora de mudanças acrescenta "Não transportamos pianos" à base de conhecimento, e o chatbot para de prometer isso.'],
+  },
+  {
+    id: 'transcription',
+    category: 'ai',
+    en: ['Transcription', 'Turning speech into written text. AI does it in seconds, so meetings, calls and voice memos can be searched, summarized and turned into to-do lists.', 'A contractor records a site walk-through on their phone and gets a written punch list from the transcript.'],
+    es: ['Transcripción', 'Convertir la voz en texto escrito. La IA lo hace en segundos, así que reuniones, llamadas y notas de voz se pueden buscar, resumir y convertir en listas de tareas.', 'Un contratista graba en el teléfono el recorrido de una obra y obtiene una lista de pendientes escrita a partir de la transcripción.'],
+    pt: ['Transcrição', 'Transformar fala em texto escrito. A IA faz isso em segundos, então reuniões, ligações e áudios podem ser pesquisados, resumidos e virar listas de tarefas.', 'Um empreiteiro grava no celular a vistoria de uma obra e recebe uma lista de pendências escrita a partir da transcrição.'],
+  },
+  {
+    id: 'ai-agent',
+    category: 'ai',
+    en: ['AI agent', 'AI that doesn’t just answer but takes steps for you, such as searching, filling in forms, booking or working across apps, usually with your approval at key points.', 'An AI agent finds three available caterers for a Saturday event, compares their quotes and drafts an email to the best one for the owner to send.'],
+    es: ['Agente de IA', 'IA que no solo responde, sino que da pasos por ti, como buscar, rellenar formularios, reservar o trabajar entre apps, normalmente con tu aprobación en los momentos clave.', 'Un agente de IA encuentra tres empresas de catering disponibles para un evento del sábado, compara sus presupuestos y redacta un correo a la mejor para que el dueño lo envíe.'],
+    pt: ['Agente de IA', 'IA que não só responde, mas executa etapas por você, como pesquisar, preencher formulários, agendar ou trabalhar entre apps, normalmente com sua aprovação nos momentos importantes.', 'Um agente de IA encontra três bufês disponíveis para um evento de sábado, compara os orçamentos e escreve um e-mail para o melhor, que o dono envia.'],
+  },
   // ---- Automation
   {
     id: 'workflow',

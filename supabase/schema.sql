@@ -238,8 +238,9 @@ begin
     raise exception 'not signed in';
   end if;
 
-  -- Modules unlock in order (admins can take any quiz to review it).
-  if p_module <> '01' and not public.is_admin() then
+  -- AI Marketing Course modules (01–08) unlock in order; the Starter Guide tracks (09 and up)
+  -- are open in any order. Admins can take any quiz to review it.
+  if p_module <> '01' and p_module::int < 9 and not public.is_admin() then
     v_prev := lpad(((p_module)::int - 1)::text, 2, '0');
     if not exists (
       select 1 from module_progress where user_id = v_user and module_number = v_prev

@@ -10,7 +10,7 @@
     "clientOnboarding": "Client Onboarding",
     "bookCall": "Book a Call",
     "shop": "Shop",
-    "academy": "Get AI Certified",
+    "academy": "AI Starter Guide",
     "creators": "Creators",
     "signIn": "Sign in",
     "myTapCard": "My tap card",
@@ -114,7 +114,28 @@
           "before": "No idea which ads are working",
           "after": "Knowing exactly where every customer came from"
         }
-      ]
+      ],
+      "scenes": {
+        "missedCall": "Missed call",
+        "voicemail": "Went to voicemail",
+        "textIn": "Are you open today?",
+        "textOut": "Yes! Want me to book you for 3pm?",
+        "replied": "Replied in 14s",
+        "perMonth": "per month",
+        "lastPost": "Last post: 23 days ago",
+        "newVideo": "New video posted",
+        "visitors": "visitors today",
+        "page3": "Page 3",
+        "you": "Your business",
+        "competitor": "Competitor",
+        "topNearYou": "#1 near you",
+        "whereFrom": "Where did your customers come from?",
+        "sources": [
+          "Google",
+          "Instagram",
+          "Referrals"
+        ]
+      }
     },
     "caseStudy": {
       "heading": "RESULTS THAT SPEAK",
@@ -306,7 +327,28 @@
   "about": {
     "hero": {
       "headline": "WE'RE THE TEAM THAT GETS YOUR PHONE RINGING",
-      "subheading": "Too many good businesses lose customers to competitors who simply answer faster and show up more online. We fix that — quickly."
+      "subheading": "Too many good businesses lose customers to competitors who simply answer faster and show up more online. We fix that — quickly.",
+      "art": {
+        "now": "Tuesday, today",
+        "items": [
+          {
+            "title": "New call",
+            "detail": "Booked for Thu 10:30"
+          },
+          {
+            "title": "New text",
+            "detail": "Replied in 14 seconds"
+          },
+          {
+            "title": "New review",
+            "detail": "★★★★★ \"So fast!\""
+          },
+          {
+            "title": "New lead",
+            "detail": "Found you on Google"
+          }
+        ]
+      }
     },
     "beliefs": {
       "heading": "WHAT WE BELIEVE",
@@ -468,17 +510,19 @@
   },
   "academy": {
     "hero": {
-      "headline": "GET AI CERTIFIED",
-      "subheadline": "Master AI marketing and automation. Earn a certificate that sets you apart in a world where AI is the new competitive edge.",
-      "enrollCta": "Enroll as Student",
-      "adminCta": "Admin Login"
+      "headline": "AI CAN DO MORE THAN YOU THINK",
+      "subheadline": "Free, plain-English lessons on what AI can do for you and your business, for people who have no idea where to start. No tech background needed.",
+      "enrollCta": "Start Learning Free",
+      "adminCta": "Admin Login",
+      "badge": "N°1 AI Starter Guide",
+      "tagline": "Understand it today. Use it tomorrow."
     },
     "overview": {
-      "heading": "WHAT YOU'LL LEARN",
-      "subheading": "A 6-module certification built by AI marketing practitioners, not theorists, plus a hands-on track for the work small businesses actually pay for.",
+      "heading": "GO DEEPER: THE AI MARKETING COURSE",
+      "subheading": "Ready to use AI to market your business? Six modules built by AI marketing practitioners, plus a hands-on track for the work small businesses actually pay for.",
       "certificate": {
-        "heading": "EARN YOUR CERTIFICATE",
-        "description": "Pass the 6 certification modules and the final assessment, then submit your capstone project for review. Once it’s approved, you earn your AI Marketing Certificate and can keep going with the Hands-On Track."
+        "heading": "CERTIFICATE OF COMPLETION",
+        "description": "Finish the AI Marketing Course (all six modules, the final quiz and a reviewed capstone project) and you’ll get a certificate of completion with its own ID that anyone can check."
       },
       "items": [
         {
@@ -502,14 +546,14 @@
           "desc": "Measure what matters, interpret AI-driven data, and optimize with confidence."
         },
         {
-          "title": "Certification Project",
-          "desc": "Apply everything you've learned in a real-world capstone and earn your certificate."
+          "title": "Capstone Project",
+          "desc": "Put everything together in a real-world project for your own business and get it reviewed by our team."
         }
       ]
     },
     "modules": {
-      "heading": "COURSE MODULES",
-      "subheading": "Six certification modules, then a hands-on track. Fully self-paced.",
+      "heading": "AI MARKETING COURSE MODULES",
+      "subheading": "Six modules in order, then a hands-on track. Fully self-paced.",
       "comingSoon": "Coming Soon",
       "locked": "Locked",
       "estTime": "Est. time",
@@ -541,7 +585,7 @@
         },
         {
           "number": "06",
-          "title": "Capstone & Certification",
+          "title": "Capstone Project",
           "time": "~4 hrs"
         },
         {
@@ -553,6 +597,36 @@
           "number": "08",
           "title": "Reviews & Reputation",
           "time": "~2 hrs"
+        },
+        {
+          "number": "09",
+          "title": "Write Emails & Messages",
+          "time": "~35 min"
+        },
+        {
+          "number": "10",
+          "title": "Make Images & Videos",
+          "time": "~35 min"
+        },
+        {
+          "number": "11",
+          "title": "Plan Your Week & Everyday Life",
+          "time": "~35 min"
+        },
+        {
+          "number": "12",
+          "title": "Answer Customers 24/7",
+          "time": "~40 min"
+        },
+        {
+          "number": "13",
+          "title": "Save Hours on Admin",
+          "time": "~40 min"
+        },
+        {
+          "number": "14",
+          "title": "Grow Your Business With AI",
+          "time": "~40 min"
         }
       ],
       "available": "Available",
@@ -593,11 +667,11 @@
     },
     "dashboard": {
       "heading": "WELCOME BACK",
-      "progressLabel": "Certification Progress",
+      "progressLabel": "Your Progress",
       "progressValue": "{percent}% Complete",
-      "modulesHeading": "YOUR MODULES",
-      "certificateHeading": "YOUR CERTIFICATE",
-      "certificateLocked": "Pass all 6 modules and get your capstone project approved to earn your AI Marketing Certificate.",
+      "modulesHeading": "AI Marketing Course",
+      "certificateHeading": "Your Certificate of Completion",
+      "certificateLocked": "Finish modules 01–06 of the AI Marketing Course and get your capstone project approved to receive your certificate of completion.",
       "certificateLockedBadge": "Locked",
       "comingSoon": "Coming Soon",
       "locked": "Locked",
@@ -606,13 +680,13 @@
       "start": "Start",
       "completed": "Completed",
       "certificateEarnedBadge": "Earned",
-      "certificateEarned": "Congratulations — you’ve passed every module and your capstone was approved. Download your certificate below and share it.",
+      "certificateEarned": "Congratulations, you’ve completed the AI Marketing Course! Download your certificate of completion below and share it.",
       "handsOnHeading": "Hands-On Track",
       "handsOnIntro": "Practical skills small businesses pay for: getting found on Google and building a strong reputation. Unlocks after you pass the final assessment.",
       "handsOnProgress": "{done} of {total} done",
       "toolsHeading": "Study Tools",
       "glossaryTitle": "Glossary & Flashcards",
-      "glossaryDesc": "Every marketing and AI term in plain language, with flashcards and a quick quiz.",
+      "glossaryDesc": "Every AI and marketing term in plain language, with flashcards and a quick quiz.",
       "toolkitTitle": "Templates & Toolkit",
       "toolkitDesc": "Copy-and-paste prompts, review requests, review replies and ready-made spreadsheets.",
       "open": "Open",
@@ -621,15 +695,15 @@
       "badges": {
         "firstStep": {
           "title": "First Step",
-          "desc": "Passed Module 01"
+          "desc": "Passed your first module"
         },
         "halfway": {
           "title": "Halfway There",
           "desc": "Passed 3 modules"
         },
         "certified": {
-          "title": "Certified",
-          "desc": "Earned the AI Marketing Certificate"
+          "title": "Course Complete",
+          "desc": "Completed the AI Marketing Course"
         },
         "localPro": {
           "title": "Local SEO Pro",
@@ -646,6 +720,10 @@
         "handsOn": {
           "title": "Did the Work",
           "desc": "Finished every checklist step in 3 modules"
+        },
+        "starter": {
+          "title": "Starter Guide Done",
+          "desc": "Passed all six AI for You and AI for Your Business modules"
         }
       },
       "requirementModules": "Pass modules 01–06 ({done} of 6)",
@@ -673,11 +751,12 @@
         }
       },
       "coachingTitle": "Live Coaching",
-      "coachingDesc": "Monthly group calls and 1-on-1 Zoom sessions with our team when you want hands-on help."
+      "coachingDesc": "Monthly group calls and 1-on-1 Zoom sessions with our team when you want hands-on help.",
+      "certificateTitle": "AI Marketing Course: Certificate of Completion"
     },
     "admin": {
       "heading": "ACADEMY ADMIN",
-      "subheading": "Manage students, modules, and certifications.",
+      "subheading": "Manage students, modules and certificates.",
       "stats": {
         "totalStudents": "Total Students",
         "activeThisWeek": "Active This Week",
@@ -750,22 +829,25 @@
       "resultPassed": "Passed — {score}/{total}",
       "resultFailed": "{score}/{total} — you need {pass}% to pass",
       "nextUnlocked": "The next module is now unlocked.",
-      "courseComplete": "You’ve completed the N°1 Academy course!",
-      "reviewHint": "To keep the certificate meaningful, we don’t show which answers were wrong. Review the lessons and try again.",
+      "courseComplete": "You’ve completed the AI Marketing Course!",
+      "reviewHint": "To keep the quizzes meaningful, we don’t show which answers were wrong. Review the lessons and try again.",
       "retry": "Try Again",
       "submit": "Submit Answers",
       "submitting": "Grading...",
       "checklistHeading": "Do It On Your Own Business",
       "checklistIntro": "Work through these on a real business. Tick each step when it’s done. Your ticks are saved on this device.",
       "checklistProgress": "{done} of {total} done",
-      "certUnlocked": "Your certificate is ready on your dashboard, and the Hands-On Track is now unlocked.",
+      "certUnlocked": "Your certificate of completion is ready on your dashboard, and the Hands-On Track is now unlocked.",
       "trackComplete": "You’ve finished the Hands-On Track!",
       "toolkitLink": "Templates for this module are in the Toolkit",
       "cooldown": "You can try this quiz again at {time}. Use the time to review the lessons.",
       "finalPassed": "You passed the final assessment!",
-      "capstoneNext": "Last step: submit your capstone project from your dashboard. Your certificate is issued as soon as it’s approved. The Hands-On Track is now unlocked.",
+      "capstoneNext": "Last step: submit your capstone project from your dashboard. Your certificate of completion is issued as soon as it’s approved. The Hands-On Track is now unlocked.",
       "toCapstone": "Submit Your Capstone",
-      "videoHeading": "Watch: Module Overview"
+      "videoHeading": "Watch: Module Overview",
+      "tryIt": "Try it in 5 minutes",
+      "starterNext": "Nice work! Pick your next module from the dashboard. They’re all open.",
+      "starterTrackComplete": "You’ve finished this track! Try the other one, or go deeper with the AI Marketing Course."
     },
     "certificate": {
       "download": "Download PDF",
@@ -773,11 +855,11 @@
       "copyLink": "Copy Verification Link",
       "copied": "Link Copied",
       "pdf": {
-        "academy": "N°1 Academy",
+        "academy": "N°1 AI Starter Guide",
         "title": "Certificate of Completion",
-        "certifies": "This certifies that",
-        "completed": "has completed all six modules, passed the final assessment and had a capstone project approved for the",
-        "courseName": "AI Marketing Certification",
+        "certifies": "This is to certify that",
+        "completed": "has completed all six modules, passed the final quiz and had a capstone project approved for the",
+        "courseName": "AI Marketing Course",
         "issuer": "Number 1 Digital Marketing",
         "dateLabel": "Date issued",
         "idLabel": "Certificate ID",
@@ -785,19 +867,19 @@
       },
       "verify": {
         "valid": "Verified certificate",
-        "earned": "Completed all six modules of the N°1 Academy AI Marketing Certification, passed the final assessment and had a capstone project approved.",
+        "earned": "Completed all six modules of the N°1 AI Starter Guide’s AI Marketing Course, passed the final quiz and had a capstone project approved.",
         "issued": "Issued",
         "id": "Certificate ID",
         "notFoundHeading": "Certificate not found",
         "notFound": "We couldn’t find a certificate with the ID {code}. Check the ID and try again.",
         "lookupHeading": "Verify a Certificate",
-        "lookupIntro": "Enter the certificate ID printed on an N°1 Academy certificate to confirm it’s genuine.",
+        "lookupIntro": "Enter the certificate ID printed on an N°1 certificate of completion to confirm it’s genuine.",
         "lookupButton": "Verify"
       }
     },
     "glossary": {
-      "title": "Marketing & AI Glossary",
-      "intro": "The words we use every day in digital marketing and AI, in plain language, each with a small-business example.",
+      "title": "AI & Marketing Glossary",
+      "intro": "The AI and marketing words you’ll hear every day, in plain language, each with a real example.",
       "search": "Search terms",
       "all": "All",
       "list": "Glossary",
@@ -840,20 +922,20 @@
     },
     "coaching": {
       "heading": "GO FURTHER WITH LIVE COACHING",
-      "subheading": "The course and certificate are free. When you want a person in your corner, add live help from our team.",
+      "subheading": "All lessons and the certificate of completion are free. When you want a person in your corner, add live help from our team.",
       "free": "Free",
       "perMonth": "/month",
       "perSession": "/session",
       "note": "Prices in USD.",
       "tiers": {
         "free": {
-          "name": "Course & Certificate",
+          "name": "Free Course",
           "features": [
-            "All 8 modules, quizzes, glossary and toolkit",
+            "All 14 modules, quizzes, glossary and toolkit",
             "Capstone review by our team",
-            "Verifiable AI Marketing Certificate"
+            "Certificate of completion you can verify online"
           ],
-          "cta": "Enroll Free"
+          "cta": "Start Free"
         },
         "group": {
           "name": "Live Group Call",
@@ -907,6 +989,47 @@
         "desc": "Enroll your staff together and add live training sessions just for your team. Tell us about your team and we’ll send a custom quote.",
         "cta": "Get a Team Quote"
       }
+    },
+    "tracks": {
+      "heading": "WHERE DO YOU WANT TO START?",
+      "subheading": "Pick what you want AI to help with. Every module is short, and you can take them in any order.",
+      "note": "Free account. Takes under a minute.",
+      "forYou": {
+        "title": "AI for You",
+        "desc": "Everyday help with writing, creating, planning and learning."
+      },
+      "forBusiness": {
+        "title": "AI for Your Business",
+        "desc": "Answer customers, cut the paperwork and find new ways to grow."
+      },
+      "marketing": {
+        "desc": "Ready to go deeper? This step-by-step course teaches AI marketing in order and ends with a capstone project and a certificate of completion."
+      }
+    },
+    "how": {
+      "heading": "HOW EVERY LESSON WORKS",
+      "items": [
+        {
+          "title": "Plain English",
+          "desc": "No jargon. When a new word comes up, tap it to see what it means."
+        },
+        {
+          "title": "Try it in 5 minutes",
+          "desc": "Every lesson ends with one small thing to try in a free AI tool, so you learn by doing."
+        },
+        {
+          "title": "Quick quiz",
+          "desc": "Five questions at the end of each module to check what stuck."
+        },
+        {
+          "title": "AI glossary",
+          "desc": "Every AI and marketing word explained, with flashcards and real examples."
+        }
+      ]
+    },
+    "glossaryPromo": {
+      "heading": "NEW TO AI WORDS?",
+      "desc": "Our free glossary explains {count} AI and marketing terms in plain English, each with a real example. Study them with flashcards or a quick quiz."
     }
   },
   "creators": {
@@ -1011,6 +1134,11 @@
             "title": "Create and get paid",
             "desc": "Apply to campaigns you like or accept invites from brands. Agree on the details, make the content and get paid."
           }
+        ],
+        "art": [
+          "Application sent",
+          "You're approved",
+          "Paid by PayPal"
         ]
       },
       "brands": {
@@ -1028,6 +1156,11 @@
             "title": "Choose creators, get content",
             "desc": "Review who applied, approve the ones you like, ship your product and download the finished videos."
           }
+        ],
+        "art": [
+          "Plan active",
+          "Brief ready",
+          "Videos delivered"
         ]
       }
     },
@@ -1220,7 +1353,7 @@
         },
         {
           "q": "Can creators learn to use AI for their content?",
-          "a": "Yes. Take the free N°1 Academy course and earn your AI Marketing Certificate."
+          "a": "Yes. The free N°1 AI Starter Guide shows you what AI can do for your content, from writing captions to making images and videos."
         }
       ]
     },
@@ -1265,7 +1398,22 @@
     "formSubheading": "Fill this out and we'll reach out within one business day to lock in your time.",
     "proofLabel": "Qualified leads in 90 days",
     "proofText": "What happened when a software company let us handle their new leads.",
-    "proofCta": "Read the Case Study"
+    "proofCta": "Read the Case Study",
+    "art": {
+      "title": "Your free audit",
+      "scanning": "Scanning…",
+      "leaks": [
+        "3 missed calls this week",
+        "Replies take 3+ hours",
+        "Not in Google's top 3 nearby"
+      ],
+      "planTitle": "Your 90-day plan",
+      "plan": [
+        "Week 1: answer every call",
+        "Month 1: fix your Google profile",
+        "Month 2–3: weekly videos"
+      ]
+    }
   },
   "auditPopup": {
     "eyebrow": "Free · 30 minutes",
@@ -1481,7 +1629,12 @@
       "instagram": "Instagram",
       "menu": "Menu",
       "wifi": "Wi-Fi"
-    }
+    },
+    "stepsArt": [
+      "Order placed",
+      "Tested on iPhone and Android",
+      "+1 Google review"
+    ]
   },
   "activity": {
     "close": "Dismiss",

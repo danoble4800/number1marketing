@@ -116,7 +116,7 @@ function LoginInner({ locale }: { locale: string }) {
         <div className="inline-flex items-center gap-2 mb-2">
           <GraduationCap size={20} className="text-brand-light2" />
           <span className="font-display text-lg text-brand-white uppercase tracking-wider">
-            N°1 Academy
+            N°1 AI Starter Guide
           </span>
         </div>
         <h1 className="font-display text-3xl sm:text-4xl text-brand-white uppercase tracking-tight">

@@ -1,6 +1,7 @@
-// N°1 Academy course content (English; Spanish and Portuguese in lessons.es.ts / lessons.pt.ts,
-// which must keep the same modules, lessons and order). Module titles and time estimates live in
-// messages/*.json under academy.modules.items; this file holds the lessons.
+// N°1 AI Starter Guide course content. This file holds the AI Marketing Course (01–08) in English;
+// Spanish and Portuguese are in lessons.es.ts / lessons.pt.ts, which must keep the same modules,
+// lessons and order. The beginner tracks (09–14) live in starter.ts. Module titles and time
+// estimates live in messages/*.json under academy.modules.items.
 // Quiz questions live in quizzes.ts. Correct answers are never stored in this repo —
 // they live only in the Supabase table quiz_answer_key (see supabase/schema.sql).
 //
@@ -10,12 +11,17 @@
 
 import { course as courseEs } from './lessons.es';
 import { course as coursePt } from './lessons.pt';
+import { starter } from './starter';
+import { starter as starterEs } from './starter.es';
+import { starter as starterPt } from './starter.pt';
 
 export type Lesson = {
   slug: string;
   title: string;
   minutes: number;
   body: string;
+  // "Try it in 5 minutes": one small hands-on task shown at the end of the lesson.
+  tryIt: string;
 };
 
 export type CourseModule = {
@@ -27,12 +33,36 @@ export type CourseModule = {
   checklist: string[];
 };
 
-// Passing this module's final assessment (plus an approved capstone) issues the certificate.
-// Modules after it form the Hands-On Track: optional, unlocked in order after the final.
+// Passing this module's final assessment (plus an approved capstone) issues the certificate of
+// completion for the AI Marketing Course.
 export const CERT_MODULE = '06';
-export const isHandsOn = (number: string) => Number(number) > Number(CERT_MODULE);
 
-export const course: CourseModule[] = [
+// The Starter Guide tracks are open in any order. The AI Marketing Course unlocks in order, and
+// the Hands-On Track continues after the final assessment.
+export type TrackId = 'forYou' | 'forBusiness' | 'marketing' | 'handsOn';
+export const TRACKS: Record<TrackId, string[]> = {
+  forYou: ['09', '10', '11'],
+  forBusiness: ['12', '13', '14'],
+  marketing: ['01', '02', '03', '04', '05', '06'],
+  handsOn: ['07', '08'],
+};
+export const trackOf = (number: string) =>
+  (Object.keys(TRACKS) as TrackId[]).find((id) => TRACKS[id].includes(number)) ?? 'marketing';
+export const isStarter = (number: string) => ['forYou', 'forBusiness'].includes(trackOf(number));
+export const isHandsOn = (number: string) => trackOf(number) === 'handsOn';
+
+// The module that must be passed before this one opens. Mirrors submit_quiz() in supabase/schema.sql.
+export function prerequisite(number: string): string | null {
+  if (isStarter(number) || number === '01') return null;
+  return String(Number(number) - 1).padStart(2, '0');
+}
+
+export function nextInTrack(number: string): string | null {
+  const list = TRACKS[trackOf(number)];
+  return list[list.indexOf(number) + 1] ?? null;
+}
+
+const marketingCourse: CourseModule[] = [
   {
     number: '01',
     summary:
@@ -42,6 +72,7 @@ export const course: CourseModule[] = [
         slug: 'what-ai-actually-is',
         title: 'What AI Actually Is (and Isn’t)',
         minutes: 35,
+        tryIt: "Open a free AI assistant (ChatGPT, Claude or Gemini) and ask: \"Give me three surprising facts about [your town].\" Then ask: \"Which of those could be wrong, and how would I check?\" Notice how confident it sounds either way.",
         body: `
 Most of the AI tools marketers use today are built on **large language models** (LLMs) — systems trained on huge amounts of text to predict the most likely next word. ChatGPT, Claude and Gemini are all examples. Image and video tools work on a similar idea, trained on pictures and footage instead of text.
 
@@ -76,6 +107,7 @@ You have probably used predictive AI for years without calling it that — ad pl
         slug: 'ai-across-the-funnel',
         title: 'Where AI Fits in the Marketing Funnel',
         minutes: 40,
+        tryIt: "Tell an AI assistant what your business sells and who buys it, then ask: \"Where in my customer's journey am I most likely losing people? Give me three guesses and one question to check each.\"",
         body: `
 The fastest way to waste time with AI is to start with the tool ("what can I do with ChatGPT?"). The fastest way to get results is to start with the funnel ("where are we losing time or customers?").
 
@@ -111,6 +143,7 @@ Decide in advance which steps AI can do alone and which need approval. A good st
         slug: 'using-ai-responsibly',
         title: 'Using AI Responsibly',
         minutes: 35,
+        tryIt: "Ask an AI assistant: \"Write a 5-star review for my bakery.\" Then ask why posting it would be a problem. Compare its answer with what you learned in this lesson.",
         body: `
 AI makes it easy to move fast — including in the wrong direction. A few ground rules protect your customers, your brand and your business.
 
@@ -169,6 +202,7 @@ Circle the two tasks with the most time saved and the lowest risk. Those are you
         slug: 'choosing-your-toolkit',
         title: 'Choosing Your AI Toolkit',
         minutes: 55,
+        tryIt: "List every tool you already pay for (email platform, design app, CRM, phone). Ask an AI assistant: \"Which of these already has AI features I might not be using, and what do they do?\"",
         body: `
 New AI tools launch every week. You don't need most of them. Pick tools by the **job to be done**, not by hype.
 
@@ -201,6 +235,7 @@ Every tool adds a login, a bill and a place for information to get lost. A small
         slug: 'automation-basics',
         title: 'Automation Basics: Triggers, Actions and Workflows',
         minutes: 60,
+        tryIt: "Pick one task you repeat every week and write it as one sentence: \"When ___, do ___, but only if ___.\" Ask an AI assistant to point out the trigger, the actions and any filters in your sentence.",
         body: `
 Automation is where AI stops being a chat window and starts doing work while you sleep. Every automation, however complex, is built from the same parts.
 
@@ -239,6 +274,7 @@ That's why you'll build in checks, which is the next lesson.
         slug: 'building-your-first-workflow',
         title: 'Building Your First Workflow Safely',
         minutes: 65,
+        tryIt: "Ask an AI assistant: \"Classify each message as sales, support or spam. Reply with one word per message.\" Paste three real messages from this week (names removed) and check whether it sticks to the format.",
         body: `
 The goal of your first automation is not to impress anyone. It's to save real time, reliably, without creating new problems.
 
@@ -308,6 +344,7 @@ If you have access to Zapier, Make or n8n, build it and run it on test data.
         slug: 'anatomy-of-a-prompt',
         title: 'The Anatomy of a Strong Prompt',
         minutes: 45,
+        tryIt: "Ask an AI assistant for \"an Instagram caption for my business.\" Then ask again with a role, your audience, the goal, the tone and a word limit. Put the two answers side by side.",
         body: `
 The quality of AI output depends mostly on the quality of the instructions. "Write a post about our new service" gets you something generic. A structured prompt gets you something you can use.
 
@@ -335,6 +372,7 @@ The second prompt takes one extra minute to write and saves ten minutes of editi
         slug: 'prompting-techniques',
         title: 'Techniques That Improve Every Output',
         minutes: 50,
+        tryIt: "Paste two captions or emails you're proud of and say: \"Write a third one in this same style about [new topic].\" See how much closer it gets to your voice with examples.",
         body: `
 Once your prompts have the six parts, these techniques take the output from good to excellent.
 
@@ -376,6 +414,7 @@ Request three to five variations with different approaches — for example one e
         slug: 'prompt-library-and-brand-voice',
         title: 'Your Prompt Library and Brand Voice Guide',
         minutes: 55,
+        tryIt: "Ask an AI assistant: \"Interview me with five questions to figure out my brand voice.\" Answer them, then ask it to turn your answers into a one-paragraph voice guide. Save it.",
         body: `
 The difference between a person who "uses AI" and a team that gets consistent results is documentation. Two documents do most of the work.
 
@@ -438,6 +477,7 @@ A shared document or spreadsheet of tested prompts your whole team can reuse. Fo
         slug: 'strategy-before-content',
         title: 'Strategy Before Content',
         minutes: 55,
+        tryIt: "Ask an AI assistant: \"List the ten questions customers most often ask a [your type of business] before they buy.\" Circle the three you hear most. Those are your next pieces of content.",
         body: `
 AI can produce a hundred posts in an afternoon. That's the problem: without a strategy, you just publish more noise, faster. Strategy decides **what** is worth producing; AI helps with **how much** and **how fast**.
 
@@ -471,6 +511,7 @@ Paste in anonymized reviews, common customer emails or sales call notes and ask:
         slug: 'content-at-scale',
         title: 'Producing at Scale Without Losing Your Voice',
         minutes: 65,
+        tryIt: "Paste one blog post, email or long caption you wrote and ask: \"Turn this into three short social posts and one email subject line, in the same voice.\" Edit the best one and save it.",
         body: `
 The best AI content workflows don't start from a blank prompt. They start from something original — your expertise, your stories, your real results — and use AI to multiply it.
 
@@ -505,6 +546,7 @@ Create content in focused batches — for example one afternoon for a week's wor
         slug: 'search-in-the-ai-era',
         title: 'SEO and Search in the AI Era',
         minutes: 60,
+        tryIt: "Ask an AI assistant with web search: \"What are the best [your service] businesses in [your city]?\" Check whether you appear, and note which websites it uses as sources.",
         body: `
 Search is changing. Google now shows AI-generated summaries at the top of many results, and more people ask AI assistants directly. The fundamentals of being found still hold — they just matter more.
 
@@ -564,6 +606,7 @@ AI assistants and AI summaries pull from sources they consider trustworthy. To i
         slug: 'metrics-that-matter',
         title: 'Metrics That Actually Matter',
         minutes: 40,
+        tryIt: "Ask an AI assistant: \"I run a [type of business]. What three numbers should I check every week, and why?\" Compare its list with what you actually look at today.",
         body: `
 Marketing dashboards are full of numbers. Most of them don't change any decision. Start with the handful that connect directly to revenue.
 
@@ -596,6 +639,7 @@ Choose one metric that best represents success for your current goal — for a s
         slug: 'analyzing-data-with-ai',
         title: 'Analyzing Data With AI',
         minutes: 45,
+        tryIt: "Export last month's numbers from any tool (or type ten rows by hand), remove names and contact details, paste them in and ask: \"What's one pattern here I might be missing?\" Then check it against the data yourself.",
         body: `
 AI assistants can read a spreadsheet export and answer questions about it in plain English. That turns hours of spreadsheet work into minutes — if you use it carefully.
 
@@ -630,6 +674,7 @@ If sales went up the week you posted more videos, the videos *might* be the reas
         slug: 'reporting-and-testing',
         title: 'Reporting and the Test-and-Learn Loop',
         minutes: 35,
+        tryIt: "Ask an AI assistant: \"Help me plan one test for this month: what I'll change, what I'll measure and how I'll know it worked.\" Put the test on your calendar.",
         body: `
 A report is only useful if it leads to a decision. The best marketing teams run a simple loop every week.
 
@@ -688,6 +733,7 @@ Keep a simple test log — date, hypothesis, what changed, result, decision. Ove
         slug: 'capstone-brief',
         title: 'The Capstone Project Brief',
         minutes: 120,
+        tryIt: "Paste the capstone brief into an AI assistant and ask it to turn it into a checklist with dates spread over the next two weeks. Put the list where you'll see it every day.",
         body: `
 Your capstone is a complete, practical **AI Marketing System** for one business — your own, a client's, or a sample business you choose. It pulls together the work you've done in every module.
 
@@ -720,6 +766,7 @@ Save it as a Google Doc, Google Slides deck or PDF, set sharing so anyone with t
         slug: 'capstone-review',
         title: 'Reviewing Your System',
         minutes: 60,
+        tryIt: "Paste one part of your capstone into an AI assistant and ask: \"Review this like a skeptical small-business owner. What's unclear, and what would make me trust it more?\"",
         body: `
 Before you take the final assessment, review your capstone against this checklist. A system that passes every point is one a real business could put to work.
 
@@ -765,6 +812,7 @@ The final assessment has 10 questions covering all six modules. You need **80% (
         slug: 'next-steps',
         title: 'Keeping Your Skills Current',
         minutes: 20,
+        tryIt: "Ask an AI assistant with web search: \"What changed in AI tools for small businesses in the last three months?\" Open two of its sources and save one thing worth trying.",
         body: `
 AI tools change every few months. The skills in this course — thinking in funnels and workflows, writing clear instructions, protecting your brand, and measuring results — don't.
 
@@ -804,6 +852,7 @@ Complete all seven parts of the capstone described in Lesson 1, review it agains
         slug: 'how-local-search-works',
         title: 'How Local Search Works',
         minutes: 30,
+        tryIt: "Search Google for \"[your service] near me\" on your phone. Write down the three businesses in the map results, then ask an AI assistant what they seem to do differently from you.",
         body: `
 When someone searches "coffee near me" or "barber South Boston", Google shows a map with three businesses under it. That box is called the [[local pack|local-pack]], and for most small businesses it matters more than any ad. People who search this way usually want to buy today.
 
@@ -842,6 +891,7 @@ You can't move a shop closer to its customers, so the work is all in relevance a
         slug: 'optimizing-the-profile',
         title: 'Setting Up and Optimizing a Google Business Profile',
         minutes: 50,
+        tryIt: "Paste your Google Business Profile description into an AI assistant and ask: \"Rewrite this in under 750 characters with my main service and city in the first sentence. No hype words.\"",
         body: `
 Search the business's name on Google Maps first. Many businesses already have a profile that Google created automatically. If it exists, choose **Claim this business** instead of making a new one. Duplicate profiles confuse Google and customers.
 
@@ -891,6 +941,7 @@ Check every fact, price and date before posting. Google can remove posts with wr
         slug: 'local-seo-beyond-google',
         title: 'Local SEO Beyond the Profile',
         minutes: 40,
+        tryIt: "Ask an AI assistant: \"List the top online directories for a [your type of business] in [your country].\" Check two of them for your correct name, address and phone number.",
         body: `
 The Google Business Profile is the biggest piece, but Google also looks at what the rest of the internet says about the business. This is where [[local SEO|local-seo]] goes beyond the profile.
 
@@ -968,6 +1019,7 @@ This is the same audit Number 1 Digital Marketing does for its clients. Done wel
         slug: 'why-reviews-matter',
         title: 'Why Reviews Drive Local Sales',
         minutes: 30,
+        tryIt: "Copy five recent reviews (yours or a competitor's) into an AI assistant and ask: \"What do happy customers mention most? What do unhappy ones mention?\"",
         body: `
 Reviews do two jobs at once. They help a business rank in the [[local pack|local-pack]], because they're part of how Google judges prominence. And they convince the person reading them to call, book or walk in.
 
@@ -994,6 +1046,7 @@ Reviews do two jobs at once. They help a business rank in the [[local pack|local
         slug: 'getting-more-reviews',
         title: 'Getting More Reviews',
         minutes: 40,
+        tryIt: "Ask an AI assistant: \"Write a friendly two-sentence text asking a customer for a Google review. No incentives, no pressure.\" Edit it and save it on your phone.",
         body: `
 Most happy customers never leave a review because nobody asked, or asking made it too much effort. The fix is to ask every customer, at the right moment, with a link that takes one tap.
 
@@ -1034,6 +1087,7 @@ Keep it short, personal, and signed by a real person.
         slug: 'responding-with-ai',
         title: 'Responding to Reviews With AI',
         minutes: 45,
+        tryIt: "Paste one real review into an AI assistant and ask: \"Draft a short, warm reply from the owner. Don't promise anything I haven't said.\" Edit it before you post.",
         body: `
 Every review deserves a reply: it shows future customers that someone cares, and Google itself recommends replying. Try to reply within a day or two.
 
@@ -1103,7 +1157,13 @@ Check your system against the rules in Lesson 1 before anything goes live.
   },
 ];
 
-const courses: Record<string, CourseModule[]> = { en: course, es: courseEs, pt: coursePt };
+export const course: CourseModule[] = [...marketingCourse, ...starter];
+
+const courses: Record<string, CourseModule[]> = {
+  en: course,
+  es: [...courseEs, ...starterEs],
+  pt: [...coursePt, ...starterPt],
+};
 
 export function getModule(number: string, locale = 'en'): CourseModule | undefined {
   return (courses[locale] ?? course).find((m) => m.number === number);

@@ -98,7 +98,7 @@ export default function AcademyAdminClient({ locale }: { locale: string }) {
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs uppercase tracking-widest text-brand-mid">N°1 Academy</span>
+                <span className="text-xs uppercase tracking-widest text-brand-mid">N°1 AI Starter Guide</span>
                 <span className="w-px h-3 bg-brand-dark2" />
                 <span className="text-xs uppercase tracking-widest text-brand-mid">Admin</span>
               </div>

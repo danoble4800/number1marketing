@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { ArrowLeft, ArrowRight, CheckCircle2, Circle, ClipboardList, Lock, Wrench, XCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, Circle, ClipboardList, Lock, Timer, Wrench, XCircle } from 'lucide-react';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import LessonBody from '@/components/academy/LessonBody';
 import VideoEmbed from '@/components/academy/VideoEmbed';
 import { getModuleVideo } from '@/content/academy/videos';
-import { CERT_MODULE, type CourseModule } from '@/content/academy/lessons';
+import { CERT_MODULE, isStarter, prerequisite, type CourseModule } from '@/content/academy/lessons';
 import { loadAcademyState, saveChecklist } from '@/lib/academyState';
 import { PASS_PERCENT, type QuizQuestion } from '@/content/academy/quizzes';
 
@@ -49,10 +49,12 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
 
   const lessons = courseModule.lessons;
   const quizStep = lessons.length;
-  const prevNumber = String(Number(courseModule.number) - 1).padStart(2, '0');
+  const prevNumber = prerequisite(courseModule.number);
   // The certificate's final assessment; the Hands-On Track modules after it are regular quizzes.
   const isFinal = courseModule.number === CERT_MODULE;
   const isLast = nextNumber === null;
+  // Starter Guide modules are open in any order, so passing one doesn't "unlock" anything.
+  const starter = isStarter(courseModule.number);
   const video = getModuleVideo(courseModule.number, locale);
 
   const [ticked, setTicked] = useState<number[]>([]);
@@ -94,8 +96,7 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
       if (cancelled) return;
       const done = new Set((data ?? []).map((row) => row.module_number as string));
       setCompleted(done.has(courseModule.number));
-      const unlocked =
-        courseModule.number === '01' || done.has(prevNumber) || profile.role === 'admin';
+      const unlocked = !prevNumber || done.has(prevNumber) || profile.role === 'admin';
       setStatus(unlocked ? 'open' : 'locked');
       if (!unlocked) return;
       const { data: until } = await getSupabase().rpc('quiz_retry_at', { p_module: courseModule.number });
@@ -122,7 +123,7 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
     });
     setSubmitting(false);
     if (rpcError) {
-      setError(rpcError.message.includes('locked') ? t('lockedMessage', { prev: prevNumber }) : t('submitError'));
+      setError(rpcError.message.includes('locked') ? t('lockedMessage', { prev: prevNumber ?? '' }) : t('submitError'));
       return;
     }
     const graded = data as QuizResult;
@@ -183,12 +184,12 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
         {header}
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 text-center">
           <Lock size={32} className="text-brand-mid mx-auto mb-4" />
-          <p className="text-brand-light1">{t('lockedMessage', { prev: prevNumber })}</p>
+          <p className="text-brand-light1">{t('lockedMessage', { prev: prevNumber ?? '' })}</p>
           <Link
             href={`/${locale}/academy/module/${prevNumber}`}
             className="inline-block mt-6 bg-brand-white text-brand-black text-xs font-semibold uppercase tracking-widest px-6 py-3 hover:bg-brand-offwhite transition-colors"
           >
-            {t('goToModule', { number: prevNumber })}
+            {t('goToModule', { number: prevNumber ?? '' })}
           </Link>
         </div>
       </div>
@@ -244,6 +245,13 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
                 </div>
               )}
               <LessonBody body={lessons[step].body} locale={locale} />
+
+              <aside className="mt-8 border border-brand-light2/40 bg-brand-dark2/60 p-5 sm:p-6">
+                <p className="flex items-center gap-2 text-xs uppercase tracking-widest text-brand-light2 mb-3">
+                  <Timer size={14} /> {t('tryIt')}
+                </p>
+                <LessonBody body={lessons[step].tryIt} locale={locale} />
+              </aside>
 
               <div className="flex items-center justify-between gap-4 mt-10 pt-6 border-t border-brand-dark2">
                 <button
@@ -378,8 +386,8 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
                           : isFinal
                           ? `${t('courseComplete')} ${t('certUnlocked')}`
                           : isLast
-                          ? t('trackComplete')
-                          : t('nextUnlocked')
+                          ? starter ? t('starterTrackComplete') : t('trackComplete')
+                          : starter ? t('starterNext') : t('nextUnlocked')
                         : t('reviewHint')}
                     </p>
                     <div className="mt-5 flex flex-wrap gap-3">

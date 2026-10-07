@@ -3,7 +3,7 @@ import { setRequestLocale } from 'next-intl/server';
 import AcademyToolkitClient from '@/components/academy/AcademyToolkitClient';
 
 export const metadata: Metadata = {
-  title: 'Templates & Toolkit | N°1 Academy',
+  title: 'Templates & Toolkit | N°1 AI Starter Guide',
   robots: { index: false, follow: false },
 };
 

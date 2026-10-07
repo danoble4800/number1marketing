@@ -7,6 +7,241 @@ export const PASS_PERCENT = 80;
 
 export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
   "en": {
+    "10": [
+      {
+        "question": "Which job is AI image tools still often bad at?",
+        "options": [
+          "Turning a description into a brand-new image",
+          "Spelling words correctly inside an image",
+          "Making a picture in a watercolor style",
+          "Removing the background from a product photo"
+        ]
+      },
+      {
+        "question": "You want a picture of your actual storefront for your website. What's the best approach?",
+        "options": [
+          "Take a real photo and use AI to improve the lighting or crop",
+          "Ask AI to create a version that looks bigger than it is",
+          "Use a stock photo of a similar shop and add your logo",
+          "Describe your shop to an image generator and use its picture"
+        ]
+      },
+      {
+        "question": "Which part is missing from this description: \"a golden retriever in a party hat, cartoon style, square\"?",
+        "options": [
+          "Setting, light and mood",
+          "Shape and size",
+          "Style",
+          "Subject"
+        ]
+      },
+      {
+        "question": "What is a deepfake?",
+        "options": [
+          "An illustration made in a realistic style instead of a cartoon one",
+          "A photo with the background removed by an AI tool",
+          "AI-made media showing a real person doing or saying something they didn't",
+          "Any image that has been edited with a filter or color correction"
+        ]
+      },
+      {
+        "question": "Which use of AI visuals is honest?",
+        "options": [
+          "AI-made customer photos used next to real reviews",
+          "A product image showing features the product doesn't have",
+          "A clearly illustrated flyer background for a bake sale",
+          "\"Before and after\" photos created to show results you haven't had"
+        ]
+      }
+    ],
+    "11": [
+      {
+        "question": "What's the first step of the brain dump planning method?",
+        "options": [
+          "Open your calendar and block time for your most important task",
+          "Write down every task and worry in any order, without organizing it",
+          "Ask the AI which tasks you should drop this week",
+          "Rank every task from most to least urgent before typing it in"
+        ]
+      },
+      {
+        "question": "Why should you tell the AI how long tasks really take you?",
+        "options": [
+          "Without times it will refuse to make a plan at all",
+          "It needs the times to connect to your calendar automatically",
+          "It doesn't know, and plans without that information are often unrealistic",
+          "It uses the times to decide which tasks to remove for you"
+        ]
+      },
+      {
+        "question": "What's a safe way to get help with your budget?",
+        "options": [
+          "Share your online banking login so it can check balances",
+          "Paste your full bank statements so it sees every detail",
+          "Describe income and spending in rough categories",
+          "Give it your card numbers to track spending by card"
+        ]
+      },
+      {
+        "question": "You're using AI to understand a health question. What's the right approach?",
+        "options": [
+          "Follow its advice instead of seeing a doctor to save time",
+          "Ask it to diagnose you, then buy the medicine it suggests",
+          "Use it to understand options and prepare questions for your doctor",
+          "Avoid AI completely, since it can't explain anything medical"
+        ]
+      },
+      {
+        "question": "Which is the best way to learn a new topic with AI?",
+        "options": [
+          "Read its first explanation and trust it without checking",
+          "Ask it to complete your homework so you can study the answers",
+          "Ask it to explain simply, then quiz you and check important facts",
+          "Ask for the longest, most detailed explanation it can write"
+        ]
+      }
+    ],
+    "12": [
+      {
+        "question": "Before adding any AI to answer customers, what should you do first?",
+        "options": [
+          "Choose the most advanced AI phone system available",
+          "Turn off your current contact options so everything goes through AI",
+          "Ask the AI to guess what your customers will probably ask",
+          "List the questions customers actually ask and write clear answers"
+        ]
+      },
+      {
+        "question": "Which customer message should always go to a person?",
+        "options": [
+          "\"Do you serve my zip code?\"",
+          "\"What are your hours on Saturday?\"",
+          "\"Can you send me the link to book?\"",
+          "A customer upset about a job and asking for a refund"
+        ]
+      },
+      {
+        "question": "What should a good AI chat assistant do when it doesn't know an answer?",
+        "options": [
+          "Answer a different question it does know about",
+          "Give its best guess so the customer isn't kept waiting",
+          "End the chat politely and ask them to try again later",
+          "Say it isn't sure and get the customer to a person"
+        ]
+      },
+      {
+        "question": "Why is it important to tell customers they're talking to AI?",
+        "options": [
+          "It lets the AI skip the handoff rules",
+          "Customers prefer AI, so it works as a selling point",
+          "It makes the AI's answers more accurate",
+          "It builds trust, and in many places it's becoming a legal requirement"
+        ]
+      },
+      {
+        "question": "What's a knowledge base?",
+        "options": [
+          "The AI company's own database of facts about the internet",
+          "A report showing how many calls the AI answered each week",
+          "The list of every customer who has chatted with your business",
+          "The written facts an AI assistant answers from, like hours, prices and policies"
+        ]
+      }
+    ],
+    "13": [
+      {
+        "question": "What should you do before recording a meeting for AI notes?",
+        "options": [
+          "Nothing, as long as the recording stays on your phone",
+          "Only ask permission if a customer is on the call",
+          "Tell everyone and get their OK",
+          "Record it secretly so people speak naturally"
+        ]
+      },
+      {
+        "question": "An AI meeting summary says the client agreed to $4,500. What should you do?",
+        "options": [
+          "Check the amount against what you remember before sending",
+          "Delete the summary and write everything from scratch",
+          "Send it right away, since transcripts are always accurate",
+          "Round it to $5,000 to be safe"
+        ]
+      },
+      {
+        "question": "What's the best way to get AI to draft a new proposal that matches your style?",
+        "options": [
+          "Paste a proposal that worked well and ask it to use it as a template",
+          "Ask for the longest proposal possible so nothing is missing",
+          "Ask for \"a professional proposal\" and fix the style afterward",
+          "Let it choose the prices so the proposal looks complete"
+        ]
+      },
+      {
+        "question": "AI drafted a contract for a new client. What's the right next step?",
+        "options": [
+          "Ask a second AI tool to confirm it is legal",
+          "Have a lawyer review it before anyone signs",
+          "Sign it right away, since AI knows the law",
+          "Send it as is but add \"made with AI\" at the bottom"
+        ]
+      },
+      {
+        "question": "A task repeats every day and follows clear rules. Where can you learn to make it run automatically?",
+        "options": [
+          "Module 02, AI Tools & Automation",
+          "Module 11, Plan Your Week & Everyday Life",
+          "Module 10, Make Images & Videos",
+          "Module 08, Reviews & Reputation"
+        ]
+      }
+    ],
+    "14": [
+      {
+        "question": "What makes AI's business advice better?",
+        "options": [
+          "Asking the same question several times and picking the boldest answer",
+          "Giving it the full picture and asking it to question you first",
+          "Asking a one-line question so it isn't influenced",
+          "Telling it to agree with your plan so you stay motivated"
+        ]
+      },
+      {
+        "question": "AI gives you a competitor's prices from a web search. What should you do?",
+        "options": [
+          "Open the sources to check they're accurate and current",
+          "Assume they're too low and add 10%",
+          "Use them right away, since web search is always up to date",
+          "Ignore them, since AI can never research competitors"
+        ]
+      },
+      {
+        "question": "AI works out that a price increase will earn you more. What's the smart next step?",
+        "options": [
+          "Check the math yourself or in a spreadsheet",
+          "Ask it to round the numbers so they look cleaner",
+          "Raise prices tomorrow, since AI is good at math",
+          "Lower prices instead to be safe"
+        ]
+      },
+      {
+        "question": "What's a good way to test a new offer before investing in it?",
+        "options": [
+          "Build the whole thing, then announce it to everyone",
+          "Offer it to a few customers first and see who says yes",
+          "Ask AI whether customers will like it and trust the answer",
+          "Copy a competitor's offer exactly, since it's already proven"
+        ]
+      },
+      {
+        "question": "Where can you find a better reason to choose a business opportunity than an AI guess?",
+        "options": [
+          "Short conversations with real customers",
+          "A longer and more detailed AI answer",
+          "The opportunity that sounds the most exciting",
+          "Whatever the most popular AI tool recommends"
+        ]
+      }
+    ],
     "01": [
       {
         "question": "What is a 'hallucination' in AI?",
@@ -427,9 +662,291 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
           "After they’ve visited at least three times and become regulars"
         ]
       }
+    ],
+    "09": [
+      {
+        "question": "What's the best way to improve an AI assistant's first answer?",
+        "options": [
+          "Start a new chat and paste the exact same request again",
+          "Switch to a different AI assistant and compare the two answers",
+          "Accept it, since the first answer is usually the most accurate",
+          "Reply in the same chat saying what to change, like \"shorter\" or \"friendlier\""
+        ]
+      },
+      {
+        "question": "Which of these should you NOT paste into an AI assistant?",
+        "options": [
+          "A message you received, with names removed",
+          "A rough list of points you want in an email",
+          "An email you wrote that shows your usual style",
+          "Your password or a customer's card number"
+        ]
+      },
+      {
+        "question": "Which request will get the most useful email draft?",
+        "options": [
+          "\"Write a professional email about the delivery delay\"",
+          "\"Write the best possible customer email\"",
+          "The topic in one word, so the AI has room to be creative",
+          "Who it's for, what happened, what you want them to do, and the tone"
+        ]
+      },
+      {
+        "question": "You need to have a tough conversation with your landlord. How can AI help most?",
+        "options": [
+          "Find the landlord's private details so you have more leverage",
+          "Write a message with stronger claims than what really happened",
+          "Call the landlord for you so you avoid the awkward moment",
+          "Play the landlord so you can practice, then suggest better wording"
+        ]
+      },
+      {
+        "question": "What does it mean when an AI \"hallucinates\"?",
+        "options": [
+          "It gives a different answer when you ask again",
+          "It refuses to help with a request it finds unsafe",
+          "It stops answering because the chat got too long",
+          "It states something false while sounding sure"
+        ]
+      }
     ]
   },
   "es": {
+    "10": [
+      {
+        "question": "¿En qué suelen fallar todavía las herramientas de imagen con IA?",
+        "options": [
+          "Convertir una descripción en una imagen nueva",
+          "Escribir bien las palabras dentro de una imagen",
+          "Hacer una imagen con estilo de acuarela",
+          "Quitar el fondo de la foto de un producto"
+        ]
+      },
+      {
+        "question": "Quieres una imagen de la fachada real de tu local para tu web. ¿Qué es lo mejor?",
+        "options": [
+          "Hacer una foto real y usar la IA para mejorar la luz o el encuadre",
+          "Pedir a la IA una versión que parezca más grande de lo que es",
+          "Usar una foto de archivo de un local parecido y añadir tu logo",
+          "Describir tu local a un generador de imágenes y usar su imagen"
+        ]
+      },
+      {
+        "question": "¿Qué parte le falta a esta descripción: \"un golden retriever con gorro de fiesta, estilo dibujo animado, cuadrado\"?",
+        "options": [
+          "Lugar, luz y ambiente",
+          "Formato y tamaño",
+          "Estilo",
+          "Tema"
+        ]
+      },
+      {
+        "question": "¿Qué es un deepfake?",
+        "options": [
+          "Una ilustración con estilo realista en lugar de dibujo animado",
+          "Una foto a la que una herramienta de IA le quitó el fondo",
+          "Contenido hecho con IA que muestra a una persona real haciendo o diciendo algo que no hizo",
+          "Cualquier imagen editada con un filtro o una corrección de color"
+        ]
+      },
+      {
+        "question": "¿Qué uso de imágenes con IA es honesto?",
+        "options": [
+          "Fotos de clientes hechas con IA junto a reseñas reales",
+          "Una imagen de producto con funciones que el producto no tiene",
+          "Un fondo claramente ilustrado para el volante de una venta de pasteles",
+          "Fotos de \"antes y después\" creadas para mostrar resultados que no has tenido"
+        ]
+      }
+    ],
+    "11": [
+      {
+        "question": "¿Cuál es el primer paso del método de vaciar la cabeza?",
+        "options": [
+          "Abrir el calendario y reservar tiempo para la tarea más importante",
+          "Escribir cada tarea y preocupación en cualquier orden, sin organizarlas",
+          "Preguntar a la IA qué tareas deberías dejar esta semana",
+          "Ordenar las tareas de más a menos urgente antes de escribirlas"
+        ]
+      },
+      {
+        "question": "¿Por qué debes decirle a la IA cuánto tardas de verdad en cada tarea?",
+        "options": [
+          "Sin tiempos se niega a hacer cualquier plan",
+          "Necesita los tiempos para conectarse sola a tu calendario",
+          "No lo sabe, y los planes sin ese dato suelen ser poco realistas",
+          "Usa los tiempos para decidir qué tareas eliminar por ti"
+        ]
+      },
+      {
+        "question": "¿Cuál es una forma segura de pedir ayuda con tu presupuesto?",
+        "options": [
+          "Darle tu acceso a la banca en línea para que revise los saldos",
+          "Pegar tus extractos bancarios completos para que vea cada detalle",
+          "Describir ingresos y gastos por categorías aproximadas",
+          "Darle los números de tus tarjetas para seguir los gastos"
+        ]
+      },
+      {
+        "question": "Usas la IA para entender una duda de salud. ¿Qué es lo correcto?",
+        "options": [
+          "Seguir su consejo en lugar de ir al médico para ahorrar tiempo",
+          "Pedirle un diagnóstico y comprar el medicamento que sugiera",
+          "Usarla para entender opciones y preparar preguntas para tu médico",
+          "Evitar la IA por completo, porque no puede explicar nada médico"
+        ]
+      },
+      {
+        "question": "¿Cuál es la mejor forma de aprender un tema nuevo con IA?",
+        "options": [
+          "Leer su primera explicación y fiarte sin comprobar",
+          "Pedirle que haga tus deberes para estudiar las respuestas",
+          "Pedir que lo explique fácil, que te ponga a prueba y comprobar los datos importantes",
+          "Pedir la explicación más larga y detallada posible"
+        ]
+      }
+    ],
+    "12": [
+      {
+        "question": "Antes de añadir IA para atender clientes, ¿qué deberías hacer primero?",
+        "options": [
+          "Elegir el sistema telefónico con IA más avanzado que exista",
+          "Quitar tus otras formas de contacto para que todo pase por la IA",
+          "Pedir a la IA que adivine qué preguntarán probablemente tus clientes",
+          "Hacer una lista de las preguntas reales de los clientes y escribir respuestas claras"
+        ]
+      },
+      {
+        "question": "¿Qué mensaje de cliente debe ir siempre a una persona?",
+        "options": [
+          "\"¿Atienden en mi código postal?\"",
+          "\"¿Qué horario tienen el sábado?\"",
+          "\"¿Me mandan el enlace para reservar?\"",
+          "Un cliente molesto por un trabajo que pide un reembolso"
+        ]
+      },
+      {
+        "question": "¿Qué debe hacer un buen asistente de chat con IA cuando no sabe una respuesta?",
+        "options": [
+          "Responder otra pregunta que sí conoce",
+          "Dar su mejor suposición para que el cliente no espere",
+          "Cerrar el chat con amabilidad y pedir que lo intenten más tarde",
+          "Decir que no está seguro y pasar al cliente con una persona"
+        ]
+      },
+      {
+        "question": "¿Por qué es importante decir a los clientes que hablan con una IA?",
+        "options": [
+          "Permite que la IA se salte las reglas para pasar a una persona",
+          "Los clientes prefieren la IA, así que sirve como argumento de venta",
+          "Hace que las respuestas de la IA sean más precisas",
+          "Genera confianza y en muchos lugares se está volviendo obligatorio"
+        ]
+      },
+      {
+        "question": "¿Qué es una base de conocimiento?",
+        "options": [
+          "La base de datos propia de la empresa de IA sobre internet",
+          "Un informe de cuántas llamadas atendió la IA cada semana",
+          "La lista de todos los clientes que han chateado con tu negocio",
+          "Los datos escritos con los que responde un asistente de IA, como horario, precios y políticas"
+        ]
+      }
+    ],
+    "13": [
+      {
+        "question": "¿Qué debes hacer antes de grabar una reunión para tomar notas con IA?",
+        "options": [
+          "Nada, mientras la grabación se quede en tu teléfono",
+          "Pedir permiso solo si hay un cliente en la llamada",
+          "Avisar a todos y conseguir su visto bueno",
+          "Grabar a escondidas para que la gente hable con naturalidad"
+        ]
+      },
+      {
+        "question": "Un resumen de reunión hecho con IA dice que el cliente aceptó 4.500. ¿Qué haces?",
+        "options": [
+          "Comprobar la cantidad con lo que recuerdas antes de enviarlo",
+          "Borrar el resumen y escribirlo todo desde cero",
+          "Enviarlo enseguida, porque las transcripciones siempre aciertan",
+          "Redondearlo a 5.000 por si acaso"
+        ]
+      },
+      {
+        "question": "¿Cuál es la mejor forma de que la IA redacte una propuesta nueva con tu estilo?",
+        "options": [
+          "Pegar una propuesta que funcionó y pedirle que la use como plantilla",
+          "Pedir la propuesta más larga posible para que no falte nada",
+          "Pedir \"una propuesta profesional\" y arreglar el estilo después",
+          "Dejar que elija los precios para que la propuesta quede completa"
+        ]
+      },
+      {
+        "question": "La IA redactó un contrato para un cliente nuevo. ¿Cuál es el siguiente paso correcto?",
+        "options": [
+          "Pedir a otra herramienta de IA que confirme que es legal",
+          "Que un abogado lo revise antes de que nadie firme",
+          "Firmarlo enseguida, porque la IA conoce la ley",
+          "Enviarlo tal cual añadiendo \"hecho con IA\" al final"
+        ]
+      },
+      {
+        "question": "Una tarea se repite cada día y sigue reglas claras. ¿Dónde aprendes a hacer que funcione sola?",
+        "options": [
+          "Módulo 02, Herramientas de IA y automatización",
+          "Módulo 11, Planifica tu semana y tu día a día",
+          "Módulo 10, Crea imágenes y videos",
+          "Módulo 08, Reseñas y reputación"
+        ]
+      }
+    ],
+    "14": [
+      {
+        "question": "¿Qué hace que los consejos de negocio de la IA sean mejores?",
+        "options": [
+          "Hacer la misma pregunta varias veces y quedarte con la respuesta más atrevida",
+          "Darle el panorama completo y pedirle que te pregunte primero",
+          "Hacer una pregunta de una línea para no influirla",
+          "Pedirle que apoye tu plan para mantener la motivación"
+        ]
+      },
+      {
+        "question": "La IA te da los precios de un competidor a partir de una búsqueda web. ¿Qué haces?",
+        "options": [
+          "Abrir las fuentes para comprobar que son correctos y actuales",
+          "Suponer que son bajos y sumarles un 10%",
+          "Usarlos enseguida, porque la búsqueda web siempre está al día",
+          "Ignorarlos, porque la IA nunca puede investigar competidores"
+        ]
+      },
+      {
+        "question": "La IA calcula que subir precios te hará ganar más. ¿Cuál es el siguiente paso inteligente?",
+        "options": [
+          "Comprobar las cuentas tú mismo o en una hoja de cálculo",
+          "Pedirle que redondee las cifras para que se vean más limpias",
+          "Subir precios mañana, porque la IA es buena con los números",
+          "Bajar los precios por si acaso"
+        ]
+      },
+      {
+        "question": "¿Cuál es una buena forma de probar una oferta nueva antes de invertir?",
+        "options": [
+          "Construirla entera y luego anunciarla a todo el mundo",
+          "Ofrecerla primero a unos pocos clientes y ver quién dice que sí",
+          "Preguntar a la IA si gustará y fiarte de la respuesta",
+          "Copiar exactamente la oferta de un competidor, porque ya está probada"
+        ]
+      },
+      {
+        "question": "¿Dónde encuentras una razón mejor que una suposición de la IA para elegir una oportunidad?",
+        "options": [
+          "En conversaciones cortas con clientes reales",
+          "En una respuesta de IA más larga y detallada",
+          "En la oportunidad que suena más emocionante",
+          "En lo que recomiende la herramienta de IA más popular"
+        ]
+      }
+    ],
     "01": [
       {
         "question": "¿Qué es una 'alucinación' en la IA?",
@@ -850,9 +1367,291 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
           "Después de que haya venido al menos tres veces y sea un cliente habitual"
         ]
       }
+    ],
+    "09": [
+      {
+        "question": "¿Cuál es la mejor forma de mejorar la primera respuesta de un asistente de IA?",
+        "options": [
+          "Abrir un chat nuevo y pegar exactamente el mismo pedido",
+          "Cambiar a otro asistente de IA y comparar las dos respuestas",
+          "Aceptarla, porque la primera respuesta suele ser la más precisa",
+          "Responder en el mismo chat diciendo qué cambiar, como \"más corto\" o \"más amable\""
+        ]
+      },
+      {
+        "question": "¿Cuál de estas cosas NO deberías pegar en un asistente de IA?",
+        "options": [
+          "Un mensaje que recibiste, sin los nombres",
+          "Una lista de ideas que quieres en un correo",
+          "Un correo tuyo que muestra tu estilo habitual",
+          "Tu contraseña o el número de tarjeta de un cliente"
+        ]
+      },
+      {
+        "question": "¿Qué pedido dará el borrador de correo más útil?",
+        "options": [
+          "\"Escribe un correo profesional sobre el retraso del envío\"",
+          "\"Escribe el mejor correo posible para un cliente\"",
+          "El tema en una palabra, para que la IA tenga espacio para crear",
+          "Para quién es, qué pasó, qué quieres que hagan y el tono"
+        ]
+      },
+      {
+        "question": "Tienes que tener una conversación difícil con tu casero. ¿Cómo te ayuda más la IA?",
+        "options": [
+          "Buscando datos privados del casero para tener más poder",
+          "Escribiendo un mensaje con quejas más fuertes de lo que pasó",
+          "Llamando al casero por ti para evitar el momento incómodo",
+          "Haciendo del casero para que practiques y sugiriendo mejores palabras"
+        ]
+      },
+      {
+        "question": "¿Qué significa que una IA \"alucine\"?",
+        "options": [
+          "Da una respuesta distinta cuando vuelves a preguntar",
+          "Se niega a ayudar con un pedido que considera inseguro",
+          "Deja de responder porque el chat es demasiado largo",
+          "Afirma algo falso sonando segura"
+        ]
+      }
     ]
   },
   "pt": {
+    "10": [
+      {
+        "question": "Em que as ferramentas de imagem com IA ainda costumam errar?",
+        "options": [
+          "Transformar uma descrição em uma imagem nova",
+          "Escrever palavras corretamente dentro de uma imagem",
+          "Fazer uma imagem em estilo aquarela",
+          "Tirar o fundo da foto de um produto"
+        ]
+      },
+      {
+        "question": "Você quer uma imagem da fachada real da sua loja para o site. Qual é a melhor opção?",
+        "options": [
+          "Tirar uma foto real e usar a IA para melhorar a luz ou o enquadramento",
+          "Pedir à IA uma versão que pareça maior do que é",
+          "Usar uma foto de banco de imagens de uma loja parecida e pôr seu logo",
+          "Descrever sua loja para um gerador de imagens e usar a imagem dele"
+        ]
+      },
+      {
+        "question": "Que parte está faltando nesta descrição: \"um golden retriever com chapéu de festa, estilo desenho animado, quadrado\"?",
+        "options": [
+          "Cenário, luz e clima",
+          "Formato e tamanho",
+          "Estilo",
+          "Assunto"
+        ]
+      },
+      {
+        "question": "O que é um deepfake?",
+        "options": [
+          "Uma ilustração em estilo realista em vez de desenho animado",
+          "Uma foto que teve o fundo removido por uma ferramenta de IA",
+          "Conteúdo feito com IA mostrando uma pessoa real fazendo ou dizendo algo que não fez",
+          "Qualquer imagem editada com filtro ou correção de cor"
+        ]
+      },
+      {
+        "question": "Qual uso de imagens com IA é honesto?",
+        "options": [
+          "Fotos de clientes feitas com IA ao lado de avaliações reais",
+          "Uma imagem de produto com recursos que o produto não tem",
+          "Um fundo claramente ilustrado para o panfleto de uma venda de bolos",
+          "Fotos de \"antes e depois\" criadas para mostrar resultados que você não teve"
+        ]
+      }
+    ],
+    "11": [
+      {
+        "question": "Qual é o primeiro passo do método de esvaziar a cabeça?",
+        "options": [
+          "Abrir a agenda e reservar tempo para a tarefa mais importante",
+          "Escrever cada tarefa e preocupação em qualquer ordem, sem organizar",
+          "Perguntar à IA quais tarefas você deve largar nesta semana",
+          "Ordenar as tarefas da mais à menos urgente antes de digitar"
+        ]
+      },
+      {
+        "question": "Por que você deve dizer à IA quanto tempo as tarefas realmente levam?",
+        "options": [
+          "Sem os tempos ela se recusa a fazer qualquer plano",
+          "Ela precisa dos tempos para se conectar sozinha à sua agenda",
+          "Ela não sabe, e planos sem essa informação costumam ser irreais",
+          "Ela usa os tempos para decidir quais tarefas eliminar por você"
+        ]
+      },
+      {
+        "question": "Qual é uma forma segura de pedir ajuda com seu orçamento?",
+        "options": [
+          "Passar seu login do banco para ela conferir os saldos",
+          "Colar seus extratos bancários completos para ela ver cada detalhe",
+          "Descrever renda e gastos em categorias aproximadas",
+          "Informar os números dos seus cartões para acompanhar os gastos"
+        ]
+      },
+      {
+        "question": "Você está usando a IA para entender uma dúvida de saúde. Qual é a abordagem certa?",
+        "options": [
+          "Seguir o conselho dela em vez de ir ao médico para ganhar tempo",
+          "Pedir um diagnóstico e comprar o remédio que ela sugerir",
+          "Usar para entender as opções e preparar perguntas para o médico",
+          "Evitar a IA totalmente, porque ela não explica nada de saúde"
+        ]
+      },
+      {
+        "question": "Qual é a melhor forma de aprender um assunto novo com IA?",
+        "options": [
+          "Ler a primeira explicação e confiar sem conferir",
+          "Pedir que ela faça sua lição de casa para você estudar as respostas",
+          "Pedir que explique de forma simples, que teste você e conferir os fatos importantes",
+          "Pedir a explicação mais longa e detalhada possível"
+        ]
+      }
+    ],
+    "12": [
+      {
+        "question": "Antes de colocar IA para atender clientes, o que fazer primeiro?",
+        "options": [
+          "Escolher o sistema telefônico com IA mais avançado que existir",
+          "Desligar seus outros canais para que tudo passe pela IA",
+          "Pedir para a IA adivinhar o que seus clientes provavelmente vão perguntar",
+          "Listar as perguntas que os clientes realmente fazem e escrever respostas claras"
+        ]
+      },
+      {
+        "question": "Qual mensagem de cliente deve sempre ir para uma pessoa?",
+        "options": [
+          "\"Vocês atendem no meu CEP?\"",
+          "\"Qual o horário de vocês no sábado?\"",
+          "\"Pode me mandar o link para agendar?\"",
+          "Um cliente irritado com um serviço pedindo reembolso"
+        ]
+      },
+      {
+        "question": "O que um bom assistente de chat com IA deve fazer quando não sabe uma resposta?",
+        "options": [
+          "Responder outra pergunta que ele sabe",
+          "Dar o melhor palpite para o cliente não ficar esperando",
+          "Encerrar a conversa com educação e pedir para tentarem mais tarde",
+          "Dizer que não tem certeza e passar o cliente para uma pessoa"
+        ]
+      },
+      {
+        "question": "Por que é importante avisar os clientes que estão falando com uma IA?",
+        "options": [
+          "Permite que a IA pule as regras de passagem para uma pessoa",
+          "Os clientes preferem IA, então funciona como argumento de venda",
+          "Deixa as respostas da IA mais precisas",
+          "Gera confiança e, em muitos lugares, está virando exigência legal"
+        ]
+      },
+      {
+        "question": "O que é uma base de conhecimento?",
+        "options": [
+          "O banco de dados próprio da empresa de IA sobre a internet",
+          "Um relatório de quantas ligações a IA atendeu por semana",
+          "A lista de todos os clientes que já conversaram com seu negócio",
+          "Os fatos escritos com que um assistente de IA responde, como horário, preços e políticas"
+        ]
+      }
+    ],
+    "13": [
+      {
+        "question": "O que você deve fazer antes de gravar uma reunião para anotações com IA?",
+        "options": [
+          "Nada, desde que a gravação fique no seu celular",
+          "Pedir permissão só se houver um cliente na ligação",
+          "Avisar todo mundo e pedir autorização",
+          "Gravar escondido para as pessoas falarem naturalmente"
+        ]
+      },
+      {
+        "question": "Um resumo de reunião feito com IA diz que o cliente aceitou 4.500. O que fazer?",
+        "options": [
+          "Conferir o valor com o que você lembra antes de enviar",
+          "Apagar o resumo e escrever tudo do zero",
+          "Enviar na hora, porque transcrições sempre acertam",
+          "Arredondar para 5.000 por segurança"
+        ]
+      },
+      {
+        "question": "Qual é a melhor forma de a IA rascunhar uma proposta nova no seu estilo?",
+        "options": [
+          "Colar uma proposta que funcionou e pedir para usar como modelo",
+          "Pedir a proposta mais longa possível para não faltar nada",
+          "Pedir \"uma proposta profissional\" e ajustar o estilo depois",
+          "Deixar ela escolher os preços para a proposta ficar completa"
+        ]
+      },
+      {
+        "question": "A IA rascunhou um contrato para um cliente novo. Qual é o próximo passo certo?",
+        "options": [
+          "Pedir a outra ferramenta de IA para confirmar que é legal",
+          "Um advogado revisar antes de alguém assinar",
+          "Assinar na hora, porque a IA conhece a lei",
+          "Enviar como está, colocando \"feito com IA\" no final"
+        ]
+      },
+      {
+        "question": "Uma tarefa se repete todo dia e segue regras claras. Onde você aprende a fazê-la rodar sozinha?",
+        "options": [
+          "Módulo 02, Ferramentas de IA e Automação",
+          "Módulo 11, Planeje a semana e o dia a dia",
+          "Módulo 10, Crie imagens e vídeos",
+          "Módulo 08, Avaliações e Reputação"
+        ]
+      }
+    ],
+    "14": [
+      {
+        "question": "O que torna melhores os conselhos de negócio da IA?",
+        "options": [
+          "Fazer a mesma pergunta várias vezes e ficar com a resposta mais ousada",
+          "Dar o quadro completo e pedir que ela pergunte primeiro",
+          "Fazer uma pergunta de uma linha para não influenciá-la",
+          "Pedir que ela apoie seu plano para você manter a motivação"
+        ]
+      },
+      {
+        "question": "A IA traz os preços de um concorrente a partir de uma busca na web. O que fazer?",
+        "options": [
+          "Abrir as fontes para conferir se estão corretos e atuais",
+          "Supor que estão baixos e somar 10%",
+          "Usar na hora, porque a busca na web está sempre atualizada",
+          "Ignorar, porque a IA nunca consegue pesquisar concorrentes"
+        ]
+      },
+      {
+        "question": "A IA calcula que aumentar os preços vai render mais. Qual é o próximo passo inteligente?",
+        "options": [
+          "Conferir a conta você mesmo ou em uma planilha",
+          "Pedir para ela arredondar os valores para ficarem mais bonitos",
+          "Aumentar os preços amanhã, porque a IA é boa com números",
+          "Baixar os preços por segurança"
+        ]
+      },
+      {
+        "question": "Qual é uma boa forma de testar uma oferta nova antes de investir?",
+        "options": [
+          "Construir tudo e depois anunciar para todo mundo",
+          "Oferecer primeiro para alguns clientes e ver quem diz sim",
+          "Perguntar à IA se os clientes vão gostar e confiar na resposta",
+          "Copiar exatamente a oferta de um concorrente, porque já está provada"
+        ]
+      },
+      {
+        "question": "Onde você encontra um motivo melhor que um palpite da IA para escolher uma oportunidade?",
+        "options": [
+          "Em conversas curtas com clientes reais",
+          "Em uma resposta de IA mais longa e detalhada",
+          "Na oportunidade que parece mais empolgante",
+          "No que a ferramenta de IA mais popular recomendar"
+        ]
+      }
+    ],
     "01": [
       {
         "question": "O que é uma 'alucinação' na IA?",
@@ -1271,6 +2070,53 @@ export const quizzes: Record<string, Record<string, QuizQuestion[]>> = {
           "Um mês depois, quando ele já teve tempo de avaliar o resultado",
           "Logo depois que o cliente recebeu o resultado que veio buscar",
           "Depois que ele vier pelo menos três vezes e virar cliente fiel"
+        ]
+      }
+    ],
+    "09": [
+      {
+        "question": "Qual é a melhor forma de melhorar a primeira resposta de um assistente de IA?",
+        "options": [
+          "Abrir uma conversa nova e colar exatamente o mesmo pedido",
+          "Trocar de assistente de IA e comparar as duas respostas",
+          "Aceitar, porque a primeira resposta costuma ser a mais precisa",
+          "Responder na mesma conversa dizendo o que mudar, como \"mais curto\" ou \"mais simpático\""
+        ]
+      },
+      {
+        "question": "Qual destas coisas você NÃO deve colar em um assistente de IA?",
+        "options": [
+          "Uma mensagem que você recebeu, sem os nomes",
+          "Uma lista de tópicos que você quer em um e-mail",
+          "Um e-mail seu que mostra seu estilo de sempre",
+          "Sua senha ou o número do cartão de um cliente"
+        ]
+      },
+      {
+        "question": "Qual pedido vai gerar o rascunho de e-mail mais útil?",
+        "options": [
+          "\"Escreva um e-mail profissional sobre o atraso na entrega\"",
+          "\"Escreva o melhor e-mail possível para um cliente\"",
+          "O assunto em uma palavra, para a IA ter espaço para criar",
+          "Para quem é, o que aconteceu, o que você quer que a pessoa faça e o tom"
+        ]
+      },
+      {
+        "question": "Você precisa ter uma conversa difícil com seu locador. Como a IA ajuda mais?",
+        "options": [
+          "Procurando dados privados do locador para você ter mais poder",
+          "Escrevendo uma mensagem com reclamações maiores do que o que aconteceu",
+          "Ligando para o locador por você para evitar o momento chato",
+          "Fazendo o papel do locador para você treinar e sugerindo palavras melhores"
+        ]
+      },
+      {
+        "question": "O que significa uma IA \"alucinar\"?",
+        "options": [
+          "Dar uma resposta diferente quando você pergunta de novo",
+          "Recusar ajuda em um pedido que considera inseguro",
+          "Parar de responder porque a conversa ficou longa demais",
+          "Afirmar algo falso parecendo ter certeza"
         ]
       }
     ]
