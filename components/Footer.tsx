@@ -45,6 +45,9 @@ export default function Footer({ locale }: FooterProps) {
             <p className="mt-2 text-brand-light1 text-sm">
               {t('location')}
             </p>
+            <p className="mt-1 text-brand-light1 text-sm">
+              {t('hours')}
+            </p>
             <a
               href="https://instagram.com/number1marketing"
               target="_blank"
