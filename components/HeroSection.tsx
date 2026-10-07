@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Button from './Button';
 import HeroWords from './HeroWords';
-import HeroCards, { HeroTicker, type HeroCardsCopy } from './HeroCards';
+import HeroCards, { HeroMiniCards, HeroTicker, type HeroCardsCopy } from './HeroCards';
 import HeroBackdrop from './HeroBackdrop';
 
 interface HeroSectionProps {
@@ -64,6 +64,7 @@ export default function HeroSection({
             {ctaSecondary}
           </Button>
         </motion.div>
+        <HeroMiniCards copy={cards} locale={locale} />
       </div>
 
       <motion.div

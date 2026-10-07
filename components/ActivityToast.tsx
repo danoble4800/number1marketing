@@ -49,6 +49,13 @@ export default function ActivityToast() {
     let next = 0;
     let timer: ReturnType<typeof setTimeout>;
     const show = () => {
+      // On phones and tablets the home hero has its own floating cards, so wait
+      // until the visitor has scrolled past it.
+      const onHomeHero = /^\/[a-z]{2}\/?$/.test(window.location.pathname) && window.innerWidth < 1280 && window.scrollY < window.innerHeight * 0.6;
+      if (onHomeHero) {
+        timer = setTimeout(show, 3000);
+        return;
+      }
       setIndex(next);
       next = (next + 1) % events.length;
       timer = setTimeout(hide, SHOW_FOR);

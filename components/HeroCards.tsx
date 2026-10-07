@@ -39,7 +39,7 @@ function FloatingCard({ children, className, delay, floatDuration, opacity }: Fl
 
   // Position and scale live on a plain div: Framer Motion's inline transform would override them.
   return (
-    <div className={`absolute ${className}`}>
+    <div className={className}>
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.96 }}
         animate={{ opacity, y: 0, scale: 1 }}
@@ -48,7 +48,7 @@ function FloatingCard({ children, className, delay, floatDuration, opacity }: Fl
         <motion.div
           animate={reduceMotion ? undefined : { y: [0, -10, 0] }}
           transition={{ duration: floatDuration, repeat: Infinity, ease: 'easeInOut', delay: delay + 0.7 }}
-          className="rounded-2xl border border-brand-dark2 bg-brand-dark1/70 backdrop-blur-md shadow-[0_20px_60px_-20px_rgba(0,0,0,0.45)] px-4 py-3 text-left"
+          className="hero-card rounded-2xl border border-brand-dark2 bg-brand-dark1/70 backdrop-blur-md shadow-[0_20px_60px_-20px_rgba(0,0,0,0.45)] px-4 py-3 text-left"
         >
           {children}
         </motion.div>
@@ -59,7 +59,7 @@ function FloatingCard({ children, className, delay, floatDuration, opacity }: Fl
 
 function IconBadge({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-dark2 text-brand-white">
+    <div className="hero-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-dark2 text-brand-white">
       {children}
     </div>
   );
@@ -182,7 +182,7 @@ function VideoSlide({ copy, locale }: { copy: HeroCardsCopy; locale: string }) {
 
   return (
     <div className="flex gap-3">
-      <div className="relative flex h-16 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-brand-dark2 text-brand-white">
+      <div className="hero-icon relative flex h-16 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-brand-dark2 text-brand-white">
         <Play size={16} fill="currentColor" strokeWidth={0} />
         {posted && <RisingHearts className="bottom-0 right-0" />}
       </div>
@@ -265,7 +265,7 @@ function ChartSlide({ title, meta, line }: { title: string; meta: string; line: 
         <span className="font-semibold text-brand-white">{title}</span>
         <span className="flex items-center gap-1 text-brand-light1">
           <TrendingUp size={12} />
-          {meta}
+          <span className="hero-meta">{meta}</span>
         </span>
       </div>
       <svg viewBox="0 0 200 60" className="mt-2 h-14 w-full text-brand-white">
@@ -292,6 +292,54 @@ function ChartSlide({ title, meta, line }: { title: string; meta: string; line: 
   );
 }
 
+function LeadSlide({ copy }: { copy: HeroCardsCopy }) {
+  return (
+    <div className="flex items-center gap-3">
+      <IconBadge>
+        <UserPlus size={16} />
+      </IconBadge>
+      <div className="min-w-0">
+        <div className="flex items-center gap-2 text-xs font-semibold text-brand-white">
+          <LiveDot />
+          {copy.leadTitle}
+        </div>
+        <div className="truncate text-sm text-brand-light2">{copy.leadBody}</div>
+        <div className="text-[11px] text-brand-light1">{copy.leadMeta}</div>
+      </div>
+    </div>
+  );
+}
+
+function ReviewSlide({ copy }: { copy: HeroCardsCopy }) {
+  return (
+    <div>
+      <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
+        <span className="text-xs font-semibold text-brand-white">{copy.reviewTitle}</span>
+        <span className="flex gap-0.5 text-brand-white">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star key={i} size={12} fill="currentColor" strokeWidth={0} />
+          ))}
+        </span>
+      </div>
+      <p className="hero-clamp mt-1.5 text-sm italic leading-snug text-brand-light2">{copy.reviewBody}</p>
+    </div>
+  );
+}
+
+function BookedSlide({ copy }: { copy: HeroCardsCopy }) {
+  return (
+    <div className="flex items-center gap-3">
+      <IconBadge>
+        <CalendarCheck size={16} />
+      </IconBadge>
+      <div>
+        <div className="text-xs font-semibold text-brand-white">{copy.bookedTitle}</div>
+        <div className="text-sm text-brand-light2">{copy.bookedBody}</div>
+      </div>
+    </div>
+  );
+}
+
 // Each corner alternates between a business win (leads, reviews, calls) and a
 // social win (followers, videos, likes, subscribers), on staggered timers.
 export default function HeroCards({ copy, locale }: { copy: HeroCardsCopy; locale: string }) {
@@ -303,53 +351,25 @@ export default function HeroCards({ copy, locale }: { copy: HeroCardsCopy; local
   return (
     <div aria-hidden="true" className="absolute inset-0 hidden xl:block pointer-events-none select-none">
       {/* New lead / new followers, top left */}
-      <FloatingCard className="top-[15%] left-[4%]" delay={1.1} floatDuration={7} opacity={0.55}>
+      <FloatingCard className="absolute top-[15%] left-[4%]" delay={1.1} floatDuration={7} opacity={0.55}>
         <div className="w-56 min-h-[3.75rem]">
           <Slides index={topLeft}>
-            {[
-              <div key="lead" className="flex items-center gap-3">
-                <IconBadge>
-                  <UserPlus size={16} />
-                </IconBadge>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-brand-white">
-                    <LiveDot />
-                    {copy.leadTitle}
-                  </div>
-                  <div className="truncate text-sm text-brand-light2">{copy.leadBody}</div>
-                  <div className="text-[11px] text-brand-light1">{copy.leadMeta}</div>
-                </div>
-              </div>,
-              <FollowersSlide key="followers" copy={copy} locale={locale} />,
-            ]}
+            {[<LeadSlide key="lead" copy={copy} />, <FollowersSlide key="followers" copy={copy} locale={locale} />]}
           </Slides>
         </div>
       </FloatingCard>
 
       {/* Google review / video posted, top right */}
-      <FloatingCard className="top-[13%] right-[4%]" delay={1.4} floatDuration={8} opacity={0.5}>
+      <FloatingCard className="absolute top-[13%] right-[4%]" delay={1.4} floatDuration={8} opacity={0.5}>
         <div className="w-60 min-h-[4rem]">
           <Slides index={topRight}>
-            {[
-              <div key="review">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-brand-white">{copy.reviewTitle}</span>
-                  <span className="flex gap-0.5 text-brand-white">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} size={12} fill="currentColor" strokeWidth={0} />
-                    ))}
-                  </span>
-                </div>
-                <p className="mt-1.5 text-sm italic leading-snug text-brand-light2">{copy.reviewBody}</p>
-              </div>,
-              <VideoSlide key="video" copy={copy} locale={locale} />,
-            ]}
+            {[<ReviewSlide key="review" copy={copy} />, <VideoSlide key="video" copy={copy} locale={locale} />]}
           </Slides>
         </div>
       </FloatingCard>
 
       {/* Leads chart / followers chart, bottom left */}
-      <FloatingCard className="bottom-[14%] left-[5%]" delay={1.7} floatDuration={9} opacity={0.45}>
+      <FloatingCard className="absolute bottom-[14%] left-[5%]" delay={1.7} floatDuration={9} opacity={0.45}>
         <div className="w-56">
           <Slides index={bottomLeft}>
             {[
@@ -361,23 +381,59 @@ export default function HeroCards({ copy, locale }: { copy: HeroCardsCopy; local
       </FloatingCard>
 
       {/* Call booked / new subscriber / new likes, bottom right */}
-      <FloatingCard className="bottom-[16%] right-[4%]" delay={2.0} floatDuration={7.5} opacity={0.55}>
+      <FloatingCard className="absolute bottom-[16%] right-[4%]" delay={2.0} floatDuration={7.5} opacity={0.55}>
         <div className="w-56">
           <Slides index={bottomRight}>
             {[
-              <div key="booked" className="flex items-center gap-3">
-                <IconBadge>
-                  <CalendarCheck size={16} />
-                </IconBadge>
-                <div>
-                  <div className="text-xs font-semibold text-brand-white">{copy.bookedTitle}</div>
-                  <div className="text-sm text-brand-light2">{copy.bookedBody}</div>
-                </div>
-              </div>,
+              <BookedSlide key="booked" copy={copy} />,
               <SubscriberSlide key="subscriber" copy={copy} />,
               <LikesSlide key="likes" copy={copy} locale={locale} />,
             ]}
           </Slides>
+        </div>
+      </FloatingCard>
+    </div>
+  );
+}
+
+// Phones and tablets: the side columns are taken by the headline, so two of the
+// same cards float side by side under the buttons and cycle through every event.
+export function HeroMiniCards({ copy, locale }: { copy: HeroCardsCopy; locale: string }) {
+  const left = useCycle(5, 4500, 4500);
+  const right = useCycle(4, 4500, 6700);
+
+  return (
+    <div
+      aria-hidden="true"
+      className="xl:hidden mt-10 mx-auto grid max-w-md grid-cols-2 gap-3 pointer-events-none select-none [&_.hero-card]:px-3 [&_.hero-meta]:hidden [&_.hero-clamp]:line-clamp-2 max-[459px]:[&_.hero-icon]:hidden"
+    >
+      <FloatingCard className="-rotate-2" delay={1.2} floatDuration={6} opacity={0.95}>
+        <div className="flex h-[6.5rem] items-center">
+          <div className="w-full">
+            <Slides index={left}>
+              {[
+                <LeadSlide key="lead" copy={copy} />,
+                <FollowersSlide key="followers" copy={copy} locale={locale} />,
+                <BookedSlide key="booked" copy={copy} />,
+                <LikesSlide key="likes" copy={copy} locale={locale} />,
+                <SubscriberSlide key="subscriber" copy={copy} />,
+              ]}
+            </Slides>
+          </div>
+        </div>
+      </FloatingCard>
+      <FloatingCard className="mt-6 rotate-2" delay={1.5} floatDuration={7} opacity={0.95}>
+        <div className="flex h-[6.5rem] items-center">
+          <div className="w-full">
+            <Slides index={right}>
+              {[
+                <ChartSlide key="leads" title={copy.chartTitle} meta={copy.chartMeta} line={CHART_PATHS[0]} />,
+                <ReviewSlide key="review" copy={copy} />,
+                <ChartSlide key="followers" title={copy.followersChartTitle} meta={copy.chartMeta} line={CHART_PATHS[1]} />,
+                <VideoSlide key="video" copy={copy} locale={locale} />,
+              ]}
+            </Slides>
+          </div>
         </div>
       </FloatingCard>
     </div>
