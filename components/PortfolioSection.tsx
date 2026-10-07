@@ -26,10 +26,10 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
   },
   {
     name: 'Echelon Rental Group',
-    url: 'https://echelon-rental-group.vercel.app',
-    displayUrl: 'echelon-rental-group.vercel.app',
+    url: 'https://www.echelonrentalgroup.com/exotics.html',
+    displayUrl: 'echelonrentalgroup.com',
     screenshot: '/echelon-rental-group-screenshot.jpg',
-    niche: 'Equipment Rentals',
+    niche: 'Exotic Car Rentals',
     description:
       'Professional rental company website built to showcase inventory and drive inbound leads. Clean, modern design built for trust and fast conversions.',
     tags: ['Web Design', 'Lead Generation', 'Mobile-First', 'Conversion Optimized'],
