@@ -29,7 +29,7 @@ export async function generateMetadata({
       languages: {
         en: `${siteUrl}/en`,
         es: `${siteUrl}/es`,
-        fr: `${siteUrl}/fr`,
+        pt: `${siteUrl}/pt`,
         'x-default': `${siteUrl}/en`,
       },
     },

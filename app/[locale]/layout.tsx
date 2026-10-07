@@ -22,6 +22,34 @@ const anton = Anton({
 });
 
 const locales = ['en', 'es', 'pt'] as const;
+
+// Business details for Google rich results. No street address (no office yet);
+// add `telephone` once the Google Voice number is set up.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://number1digitalmarketing.com';
+const businessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Number 1 Digital Marketing',
+  url: siteUrl,
+  logo: `${siteUrl}/apple-touch-icon.png`,
+  image: `${siteUrl}/og-image.png`,
+  description:
+    'Websites, instant lead follow-up, Google reviews, SEO and automation that turn searches into booked jobs.',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Boston',
+    addressRegion: 'MA',
+    addressCountry: 'US',
+  },
+  areaServed: { '@type': 'Place', name: 'Worldwide' },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '00:00',
+    closes: '23:59',
+  },
+  sameAs: ['https://instagram.com/number1marketing'],
+};
 type Locale = (typeof locales)[number];
 
 export function generateStaticParams() {
@@ -34,7 +62,6 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://number1digitalmarketing.com';
 
   return {
     metadataBase: new URL(siteUrl),
@@ -51,13 +78,14 @@ export async function generateMetadata({
       siteName: 'Number 1 Digital Marketing',
       locale,
       type: 'website',
+      images: [{ url: '/og-image.png', width: 1200, height: 630 }],
     },
     alternates: {
       canonical: siteUrl,
       languages: {
         en: `${siteUrl}/en`,
         es: `${siteUrl}/es`,
-        fr: `${siteUrl}/fr`,
+        pt: `${siteUrl}/pt`,
         'x-default': `${siteUrl}/en`,
       },
     },
@@ -89,6 +117,10 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{
             __html: "try{if(localStorage.getItem('n1-site-theme')==='dark')document.documentElement.dataset.siteTheme='dark'}catch(e){}",
           }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }}
         />
         <NextIntlClientProvider messages={messages}>
           <SiteChrome><NavBar locale={locale} /></SiteChrome>

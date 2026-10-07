@@ -42,6 +42,9 @@ export default function Footer({ locale }: FooterProps) {
             <p className="mt-3 text-brand-light1 text-sm leading-relaxed">
               {t('tagline')}
             </p>
+            <p className="mt-2 text-brand-light1 text-sm">
+              {t('location')}
+            </p>
             <a
               href="https://instagram.com/number1marketing"
               target="_blank"
@@ -115,18 +118,9 @@ export default function Footer({ locale }: FooterProps) {
           <p className="text-brand-mid text-xs">
             {t('copyright', { year })}
           </p>
-          <div className="flex items-center gap-6">
-            <p className="text-brand-mid text-xs">
-              {t('builtWith')}
-            </p>
-            <div className="flex items-center gap-3 text-brand-mid">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-              </svg>
-              <Link href={`/${locale}/team`} className="text-xs uppercase tracking-widest hover:text-brand-light2 transition-colors">Team</Link>
-              <Link href={`/${locale}/admin`} className="text-xs uppercase tracking-widest hover:text-brand-light2 transition-colors">Admin</Link>
-            </div>
-          </div>
+          <p className="text-brand-mid text-xs">
+            {t('builtWith')}
+          </p>
         </div>
       </Container>
     </footer>
