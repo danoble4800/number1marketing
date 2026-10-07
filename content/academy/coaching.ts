@@ -11,7 +11,7 @@ export const COACHING_PRICES = {
   dwyBoth: 997, // USD, both systems
 };
 
-type Offer = 'group' | 'oneOnOne' | 'dwyOne' | 'dwyBoth' | 'team';
+export type Offer = 'group' | 'oneOnOne' | 'dwyOne' | 'dwyBoth' | 'team' | 'doneForYou';
 
 const INTEREST: Record<Offer, string> = {
   group: 'academy-group',
@@ -19,6 +19,7 @@ const INTEREST: Record<Offer, string> = {
   dwyOne: 'academy-dwy-one',
   dwyBoth: 'academy-dwy-both',
   team: 'academy-team',
+  doneForYou: 'academy-done-for-you',
 };
 
 const CHECKOUT: Partial<Record<Offer, string | undefined>> = {
@@ -29,3 +30,11 @@ const CHECKOUT: Partial<Record<Offer, string | undefined>> = {
 export function coachingHref(offer: Offer, locale: string): string {
   return CHECKOUT[offer] || `/${locale}/contact?interest=${INTEREST[offer]}`;
 }
+
+// "Do it with us" card at the end of the AI for Your Business modules (copy in
+// messages/*.json under academy.upsell.<module>). Prices come from COACHING_PRICES.
+export const MODULE_UPSELLS: Record<string, { primary: keyof typeof COACHING_PRICES; secondary: Offer }> = {
+  '12': { primary: 'dwyOne', secondary: 'doneForYou' },
+  '13': { primary: 'oneOnOne', secondary: 'doneForYou' },
+  '14': { primary: 'oneOnOne', secondary: 'group' },
+};

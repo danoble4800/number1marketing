@@ -848,7 +848,28 @@
       "videoHeading": "Assista: visão geral do módulo",
       "tryIt": "Teste em 5 minutos",
       "starterNext": "Muito bem! Escolha o próximo módulo no painel. Todos estão abertos.",
-      "starterTrackComplete": "Você concluiu esta trilha! Experimente a outra ou vá além com o Curso de Marketing com IA."
+      "starterTrackComplete": "Você concluiu esta trilha! Experimente a outra ou vá além com o Curso de Marketing com IA.",
+      "upsell": {
+        "eyebrow": "Faça com a gente",
+        "12": {
+          "heading": "Quer isso funcionando no seu negócio?",
+          "desc": "Na implantação guiada (${price}), montamos com você seu sistema de resposta a clientes com IA em duas sessões ao vivo pelo Zoom, para cada novo contato receber resposta na hora e nada se perder. É seu, e você sabe operar.",
+          "cta": "Monte com a gente",
+          "secondary": "Prefere que a gente faça tudo? Fale com nossa equipe"
+        },
+        "13": {
+          "heading": "Quer ajuda para encontrar suas cinco horas?",
+          "desc": "Traga sua papelada para uma sessão individual pelo Zoom (${price}). Em 60 minutos analisamos sua semana com você, escolhemos as tarefas que a IA pode assumir e criamos juntos seus primeiros modelos.",
+          "cta": "Agende uma sessão individual",
+          "secondary": "Prefere que a gente configure para você? Fale com nossa equipe"
+        },
+        "14": {
+          "heading": "Quer uma segunda opinião sobre seu plano de crescimento?",
+          "desc": "Em uma sessão individual pelo Zoom (${price}), revisamos com você seu plano de uma página, testamos a ideia e combinamos o primeiro teste para os próximos 30 dias.",
+          "cta": "Agende uma sessão individual",
+          "secondary": "Ou participe da chamada mensal em grupo"
+        }
+      }
     },
     "certificate": {
       "download": "Baixar PDF",

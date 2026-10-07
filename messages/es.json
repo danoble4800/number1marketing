@@ -848,7 +848,28 @@
       "videoHeading": "Mira: resumen del módulo",
       "tryIt": "Pruébalo en 5 minutos",
       "starterNext": "¡Buen trabajo! Elige tu próximo módulo en el panel. Todos están abiertos.",
-      "starterTrackComplete": "¡Terminaste esta ruta! Prueba la otra o ve más allá con el Curso de Marketing con IA."
+      "starterTrackComplete": "¡Terminaste esta ruta! Prueba la otra o ve más allá con el Curso de Marketing con IA.",
+      "upsell": {
+        "eyebrow": "Hazlo con nosotros",
+        "12": {
+          "heading": "¿Quieres esto funcionando en tu negocio?",
+          "desc": "En una configuración guiada (${price}), construimos contigo tu sistema de respuesta a clientes con IA en dos sesiones en vivo por Zoom, para que cada consulta nueva reciba respuesta al instante y no se pierda nada. Es tuyo y sabrás manejarlo.",
+          "cta": "Configúralo con nosotros",
+          "secondary": "¿Prefieres que lo hagamos todo? Habla con nuestro equipo"
+        },
+        "13": {
+          "heading": "¿Quieres ayuda para encontrar tus cinco horas?",
+          "desc": "Trae tu papeleo a una sesión 1 a 1 por Zoom (${price}). En 60 minutos revisamos tu semana contigo, elegimos las tareas que la IA puede asumir y creamos juntos tus primeras plantillas.",
+          "cta": "Reserva una sesión 1 a 1",
+          "secondary": "¿Prefieres que lo configuremos por ti? Habla con nuestro equipo"
+        },
+        "14": {
+          "heading": "¿Quieres una segunda opinión sobre tu plan de crecimiento?",
+          "desc": "En una sesión 1 a 1 por Zoom (${price}), revisamos contigo tu plan de una página, ponemos a prueba la idea y acordamos la primera prueba para los próximos 30 días.",
+          "cta": "Reserva una sesión 1 a 1",
+          "secondary": "O únete a la llamada grupal mensual"
+        }
+      }
     },
     "certificate": {
       "download": "Descargar PDF",

@@ -847,7 +847,28 @@
       "videoHeading": "Watch: Module Overview",
       "tryIt": "Try it in 5 minutes",
       "starterNext": "Nice work! Pick your next module from the dashboard. They’re all open.",
-      "starterTrackComplete": "You’ve finished this track! Try the other one, or go deeper with the AI Marketing Course."
+      "starterTrackComplete": "You’ve finished this track! Try the other one, or go deeper with the AI Marketing Course.",
+      "upsell": {
+        "eyebrow": "Do it with us",
+        "12": {
+          "heading": "Want this set up in your business?",
+          "desc": "In a Done-With-You setup (${price}), we build your AI lead-response system with you over two live Zoom sessions, so every new inquiry gets an instant answer and nothing slips through. You keep it and know how to run it.",
+          "cta": "Set It Up With Us",
+          "secondary": "Rather we handle everything? Talk to our team"
+        },
+        "13": {
+          "heading": "Want help finding your five hours?",
+          "desc": "Bring your admin to a 1-on-1 Zoom session (${price}). In 60 minutes we go through your week with you, pick the tasks AI can take over and set up your first templates together.",
+          "cta": "Book a 1-on-1",
+          "secondary": "Rather we set it up for you? Talk to our team"
+        },
+        "14": {
+          "heading": "Want a second opinion on your growth plan?",
+          "desc": "In a 1-on-1 Zoom session (${price}), we review your one-page plan with you, pressure-test the idea and agree on the first test to run in the next 30 days.",
+          "cta": "Book a 1-on-1",
+          "secondary": "Or join the monthly group call"
+        }
+      }
     },
     "certificate": {
       "download": "Download PDF",

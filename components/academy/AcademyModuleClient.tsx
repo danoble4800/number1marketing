@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { ArrowLeft, ArrowRight, CheckCircle2, Circle, ClipboardList, Lock, Timer, Wrench, XCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, Circle, ClipboardList, Handshake, Lock, Timer, Wrench, XCircle } from 'lucide-react';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import LessonBody from '@/components/academy/LessonBody';
 import VideoEmbed from '@/components/academy/VideoEmbed';
@@ -12,6 +12,7 @@ import { getModuleVideo } from '@/content/academy/videos';
 import { CERT_MODULE, isStarter, prerequisite, type CourseModule } from '@/content/academy/lessons';
 import { loadAcademyState, saveChecklist } from '@/lib/academyState';
 import { PASS_PERCENT, type QuizQuestion } from '@/content/academy/quizzes';
+import { COACHING_PRICES, MODULE_UPSELLS, coachingHref } from '@/content/academy/coaching';
 
 // A failed attempt comes back with only the score and when the quiz reopens; which answers
 // were right is returned only on a pass. A submit during the wait returns just retry_at.
@@ -56,6 +57,7 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
   // Starter Guide modules are open in any order, so passing one doesn't "unlock" anything.
   const starter = isStarter(courseModule.number);
   const video = getModuleVideo(courseModule.number, locale);
+  const upsell = MODULE_UPSELLS[courseModule.number];
 
   const [ticked, setTicked] = useState<number[]>([]);
   useEffect(() => {
@@ -315,6 +317,35 @@ export default function AcademyModuleClient({ locale, courseModule, title, time,
                   <Wrench size={13} /> {t('toolkitLink')} <ArrowRight size={13} />
                 </Link>
               </section>
+
+              {/* Do it with us */}
+              {upsell && (
+                <section className="bg-brand-dark1 border border-brand-light2/40 p-6 sm:p-10">
+                  <p className="flex items-center gap-2 text-xs uppercase tracking-widest text-brand-light2 mb-3">
+                    <Handshake size={14} /> {t('upsell.eyebrow')}
+                  </p>
+                  <h2 className="font-display text-xl sm:text-2xl text-brand-white uppercase tracking-tight mb-3">
+                    {t(`upsell.${courseModule.number}.heading`)}
+                  </h2>
+                  <p className="text-brand-light1 text-sm leading-relaxed max-w-2xl">
+                    {t(`upsell.${courseModule.number}.desc`, { price: COACHING_PRICES[upsell.primary] })}
+                  </p>
+                  <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+                    <a
+                      href={coachingHref(upsell.primary, locale)}
+                      className="inline-flex items-center gap-2 bg-brand-white text-brand-black text-xs font-semibold uppercase tracking-widest px-5 py-3 hover:bg-brand-offwhite transition-colors"
+                    >
+                      {t(`upsell.${courseModule.number}.cta`)} <ArrowRight size={13} />
+                    </a>
+                    <a
+                      href={coachingHref(upsell.secondary, locale)}
+                      className="text-xs uppercase tracking-widest text-brand-light2 hover:text-brand-white transition-colors"
+                    >
+                      {t(`upsell.${courseModule.number}.secondary`)}
+                    </a>
+                  </div>
+                </section>
+              )}
 
               {/* Quiz */}
               <section className="bg-brand-dark1 border border-brand-dark2 p-6 sm:p-10">

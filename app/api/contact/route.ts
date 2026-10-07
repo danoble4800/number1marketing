@@ -124,6 +124,7 @@ const ACADEMY_OFFERS: Record<string, string> = {
   'academy-dwy-one': 'Done-With-You, one system ($497)',
   'academy-dwy-both': 'Done-With-You, both systems ($997)',
   'academy-team': 'Team Training (quote)',
+  'academy-done-for-you': 'Done-For-You setup by our team (from an Academy lesson)',
 };
 
 // N°1 Creators brand plan buttons (content/creators/plans.ts)
