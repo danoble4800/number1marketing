@@ -28,7 +28,7 @@ const PORTFOLIO_ITEMS: PortfolioItem[] = [
     name: 'Echelon Rental Group',
     url: 'https://www.echelonrentalgroup.com/exotics.html',
     displayUrl: 'echelonrentalgroup.com',
-    screenshot: '/echelon-rental-group-screenshot.jpg',
+    screenshot: '/echelon-exotics-screenshot.jpg',
     niche: 'Exotic Car Rentals',
     description:
       'Professional rental company website built to showcase inventory and drive inbound leads. Clean, modern design built for trust and fast conversions.',
