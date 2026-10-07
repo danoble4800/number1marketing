@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { adminIdentity } from '@/lib/adminAuth';
 import { serviceClient } from '@/lib/cards/server';
 import { CLIENT_FILES_BUCKET, ONBOARDING_SECTIONS } from '@/lib/clientHub';
+import { loadLeads, type Lead } from '@/lib/crmSheets';
 
 export const dynamic = 'force-dynamic';
 
@@ -37,7 +38,50 @@ export type HubClient = {
   agreements: HubAgreement[];
   documents: (HubFile & { id: string; uploadedBy: string; createdAt: string })[];
   sections: { title: string; fields: [string, string][] }[];
+  // Set for clients that come from the Leads tab (status "Client", or the older Client
+  // Contacts sheet) and haven't been through onboarding, so have nothing in Supabase.
+  lead?: { origin: string; location: string; notes: string; details: [string, string][]; sheetUrl: string };
 };
+
+const norm = (v: string) => v.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+// Sheet dates are serial day numbers (days since 1899-12-30).
+const serialToIso = (n: number) => (n ? new Date((n - 25569) * 86400000).toISOString() : '');
+
+// Clients from the Leads sheets that aren't already in the hub, matched on email or
+// business name. A failed sheet read just leaves them out.
+async function leadClients(hub: HubClient[]): Promise<{ clients: HubClient[]; errors: string[] }> {
+  const { leads, errors } = await loadLeads();
+  const seen = new Set(hub.flatMap((c) => [c.email && c.email.toLowerCase(), norm(c.company)]).filter(Boolean));
+  const clients: HubClient[] = [];
+  for (const l of leads.filter((l: Lead) => l.status === 'Client')) {
+    const keys = [l.email && l.email.toLowerCase(), norm(l.business)].filter(Boolean);
+    if (!keys.length || keys.some((k) => seen.has(k))) continue;
+    keys.forEach((k) => seen.add(k));
+    clients.push({
+      id: l.key,
+      company: l.business,
+      contact: l.name,
+      email: l.email,
+      phone: l.phone,
+      website: l.details.find(([k]) => k === 'Website')?.[1] ?? '',
+      industry: l.industry,
+      createdAt: serialToIso(l.submittedSort),
+      goal: '',
+      agreements: [],
+      documents: [],
+      sections: [],
+      lead: {
+        origin: l.origin,
+        location: l.location,
+        notes: l.notes,
+        details: l.details.filter(([k]) => k !== 'Website'),
+        sheetUrl: l.sheetUrl,
+      },
+    });
+  }
+  return { clients, errors };
+}
 
 // Every onboarded client, newest first, with their answers, signed agreements and
 // uploaded contracts. Any admin can view; the owner also gets countersign/upload controls.
@@ -126,10 +170,14 @@ export async function GET(req: NextRequest) {
     };
   });
 
+  const fromLeads = await leadClients(result);
+  const all = [...result, ...fromLeads.clients].sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+
   const sheetId = process.env.GOOGLE_SHEET_ID;
   return NextResponse.json({
     isOwner: who.isOwner,
-    clients: result,
+    clients: all,
+    leadErrors: fromLeads.errors,
     legacySheetUrl: sheetId ? `https://docs.google.com/spreadsheets/d/${sheetId}/edit` : null,
   });
 }

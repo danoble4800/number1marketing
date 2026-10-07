@@ -7,7 +7,7 @@ import type { HubAgreement, HubClient } from '@/app/api/admin/clients/route';
 const CLIENT_FILES_BUCKET = 'client-files';
 
 const fmtDate = (iso: string) =>
-  new Date(iso).toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'medium', timeStyle: 'short' });
+  !iso ? '' : new Date(iso).toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'medium', timeStyle: 'short' });
 
 async function authHeader(): Promise<Record<string, string> | null> {
   const { data: { session } } = await getSupabase().auth.getSession();
@@ -21,6 +21,7 @@ export default function OnboardingClients({ onSignedOut }: { onSignedOut: () => 
   const [clients, setClients] = useState<HubClient[]>([]);
   const [isOwner, setIsOwner] = useState(false);
   const [legacySheetUrl, setLegacySheetUrl] = useState<string | null>(null);
+  const [leadErrors, setLeadErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [query, setQuery] = useState('');
@@ -39,6 +40,7 @@ export default function OnboardingClients({ onSignedOut }: { onSignedOut: () => 
       setClients(json.clients as HubClient[]);
       setIsOwner(!!json.isOwner);
       setLegacySheetUrl(json.legacySheetUrl ?? null);
+      setLeadErrors(json.leadErrors ?? []);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -52,7 +54,7 @@ export default function OnboardingClients({ onSignedOut }: { onSignedOut: () => 
     const q = query.trim().toLowerCase();
     if (!q) return clients;
     return clients.filter((c) =>
-      [c.company, c.contact, c.email, c.phone, c.industry, c.website, ...c.agreements.map((a) => a.number)]
+      [c.company, c.contact, c.email, c.phone, c.industry, c.website, c.lead?.origin ?? '', ...c.agreements.map((a) => a.number)]
         .join(' ').toLowerCase().includes(q),
     );
   }, [clients, query]);
@@ -65,7 +67,7 @@ export default function OnboardingClients({ onSignedOut }: { onSignedOut: () => 
         <div>
           <h2 className="font-display text-2xl text-brand-white uppercase tracking-tight">Clients</h2>
           <p className="mt-1 text-sm text-brand-light1">
-            Onboarding answers, signed agreements and contracts for every client.
+            Everyone onboarded, plus clients marked Client in the Leads tab.
             {awaiting > 0 && <span className="text-amber-300"> {awaiting} awaiting countersignature.</span>}
           </p>
         </div>
@@ -89,6 +91,9 @@ export default function OnboardingClients({ onSignedOut }: { onSignedOut: () => 
       </div>
 
       {error && <p className="text-sm text-red-400">{error}</p>}
+      {leadErrors.length > 0 && (
+        <p className="text-xs text-amber-300">{leadErrors.join(' ')} Some clients from the Leads tab may be missing.</p>
+      )}
 
       {!loading && !error && shown.length === 0 && (
         <p className="border border-brand-dark2 px-5 py-8 text-center text-sm text-brand-mid">
@@ -114,8 +119,10 @@ export default function OnboardingClients({ onSignedOut }: { onSignedOut: () => 
                   </p>
                 </div>
                 <div className="flex items-center gap-4 text-xs text-brand-mid">
-                  {c.agreements.length > 0 && <StatusBadge pending={pending} />}
-                  <span>{fmtDate(c.createdAt)}</span>
+                  {c.lead ? (
+                    <span className="px-2 py-0.5 text-[10px] uppercase tracking-widest border border-brand-dark2 text-brand-light1">Not onboarded</span>
+                  ) : c.agreements.length > 0 && <StatusBadge pending={pending} />}
+                  {c.createdAt && <span>{fmtDate(c.createdAt)}</span>}
                   <span aria-hidden className="text-brand-light1">{open ? '−' : '+'}</span>
                 </div>
               </button>
@@ -133,7 +140,31 @@ export default function OnboardingClients({ onSignedOut }: { onSignedOut: () => 
                     )}
                   </div>
 
-                  {c.goal && (
+                  {c.lead && (
+                    <div className="flex flex-col gap-3">
+                      <SectionLabel>From the Leads tab</SectionLabel>
+                      <dl className="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-x-6 gap-y-2 text-sm">
+                        {([['Came from', c.lead.origin], ['Location', c.lead.location], ...c.lead.details, ['Notes', c.lead.notes]] as [string, string][])
+                          .filter(([, v]) => v)
+                          .map(([label, value]) => (
+                            <div key={label} className="contents">
+                              <dt className="text-brand-light1">{label}</dt>
+                              <dd className="text-brand-offwhite whitespace-pre-line break-words mb-2 sm:mb-0">{value}</dd>
+                            </div>
+                          ))}
+                      </dl>
+                      <p className="text-sm text-brand-mid">
+                        No onboarding or signed agreement yet. Send them the onboarding link at the top of the page; once they finish, this entry is replaced by their full client record.
+                      </p>
+                      {c.lead.sheetUrl && (
+                        <div>
+                          <Chip href={c.lead.sheetUrl} external>Open in Google Sheet</Chip>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {!c.lead && c.goal && (
                     <div>
                       <SectionLabel>90-Day Goal</SectionLabel>
                       <p className="text-sm text-brand-offwhite whitespace-pre-line">{c.goal}</p>
@@ -141,6 +172,7 @@ export default function OnboardingClients({ onSignedOut }: { onSignedOut: () => 
                   )}
 
                   {/* Signed agreements */}
+                  {!c.lead && <>
                   <div className="flex flex-col gap-3">
                     <SectionLabel>Service Agreement</SectionLabel>
                     {c.agreements.length === 0 && <p className="text-sm text-brand-mid">No signed agreement on file.</p>}
@@ -162,6 +194,7 @@ export default function OnboardingClients({ onSignedOut }: { onSignedOut: () => 
                     )}
                     {isOwner && <UploadContract clientId={c.id} onUploaded={load} onSignedOut={onSignedOut} />}
                   </div>
+                  </>}
 
                   {/* Full answers */}
                   {c.sections.map((s) => (
