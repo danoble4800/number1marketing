@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { setRequestLocale } from 'next-intl/server';
-import { Check, Nfc, Pencil, Star, TrendingUp } from 'lucide-react';
+import { Check, Nfc, Pencil, TrendingUp } from 'lucide-react';
 import Container from '@/components/Container';
 import Section from '@/components/Section';
 import CardView from '@/components/cards/CardView';
+import ReviewTapArt from '@/components/illustrations/ReviewTapArt';
 import { DEMO_PAGES } from '@/lib/cards/demo';
 import { PLANS, PLAN_ORDER } from '@/lib/cards/plans';
 import { Playfair_Display, Space_Grotesk } from 'next/font/google';
@@ -127,12 +128,7 @@ export default async function CardsPage({ params }: { params: Promise<{ locale: 
               </ul>
             </div>
             <div className="flex justify-center">
-              <div className="flex w-full max-w-sm flex-col items-center border border-brand-dark2 bg-brand-near-black p-10 text-center">
-                <div className="flex gap-1 text-brand-white">{[1, 2, 3, 4, 5].map((n) => <Star key={n} size={28} fill="currentColor" />)}</div>
-                <p className="mt-5 font-display text-2xl uppercase text-brand-white">Tap to review us</p>
-                <p className="mt-2 text-sm text-brand-light1">Hold your phone here</p>
-                <Nfc className="mt-6 text-brand-light2" size={40} />
-              </div>
+              <ReviewTapArt />
             </div>
           </div>
         </Container>

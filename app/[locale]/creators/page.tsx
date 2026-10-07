@@ -6,6 +6,7 @@ import Section from '@/components/Section';
 import Heading from '@/components/Heading';
 import Button from '@/components/Button';
 import CreatorApplyForm from '@/components/creators/CreatorApplyForm';
+import StepFlow from '@/components/illustrations/StepFlow';
 import { BRAND_PRICES, brandPlanHref, type BrandPlan } from '@/content/creators/plans';
 
 export async function generateMetadata({
@@ -60,23 +61,6 @@ export default async function CreatorsPage({
   const managedFeatures = t.raw('brands.managed.features') as string[];
   const more = t.raw('brands.more.items') as Item[];
   const faqs = t.raw('faq.items') as Faq[];
-
-  const steps = (title: string, list: Step[]) => (
-    <div>
-      <h3 className="font-display text-xl text-brand-white uppercase tracking-tight mb-6">{title}</h3>
-      <ol className="flex flex-col gap-6">
-        {list.map((step, i) => (
-          <li key={step.title} className="grid grid-cols-[2.5rem_1fr] gap-4">
-            <span className="font-display text-3xl leading-none text-brand-dark2">{i + 1}</span>
-            <div>
-              <p className="font-semibold text-brand-white">{step.title}</p>
-              <p className="mt-1 text-sm text-brand-light1 leading-relaxed">{step.desc}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </div>
-  );
 
   return (
     <>
@@ -172,8 +156,18 @@ export default async function CreatorsPage({
             <Heading as="h2" size="lg">{t('how.heading')}</Heading>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
-            {steps(t('how.creators.title'), creatorSteps)}
-            {steps(t('how.brands.title'), brandSteps)}
+            <StepFlow
+              title={t('how.creators.title')}
+              steps={creatorSteps}
+              icons={['application', 'approved', 'paid']}
+              toasts={t.raw('how.creators.art')}
+            />
+            <StepFlow
+              title={t('how.brands.title')}
+              steps={brandSteps}
+              icons={['plan', 'campaign', 'videos']}
+              toasts={t.raw('how.brands.art')}
+            />
           </div>
         </Container>
       </Section>

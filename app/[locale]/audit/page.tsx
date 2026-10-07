@@ -6,6 +6,8 @@ import Section from '@/components/Section';
 import Heading from '@/components/Heading';
 import Button from '@/components/Button';
 import ContactForm from '@/components/ContactForm';
+import CountUp from '@/components/CountUp';
+import AuditReportArt from '@/components/illustrations/AuditReportArt';
 
 export async function generateMetadata({
   params,
@@ -91,6 +93,7 @@ export default async function AuditPage({
               <p className="text-xs uppercase tracking-widest text-brand-mid font-semibold mb-6">
                 {t('getHeading')}
               </p>
+              <AuditReportArt copy={t.raw('art')} />
               <ul className="space-y-6">
                 {benefits.map((item) => (
                   <li key={item.title} className="flex items-start gap-4">
@@ -112,7 +115,7 @@ export default async function AuditPage({
         <Container>
           <div className="max-w-3xl mx-auto text-center">
             <div className="font-display text-7xl lg:text-8xl text-brand-white tracking-tighter">
-              {tHome('caseStudy.stat')}
+              <CountUp value={tHome('caseStudy.stat')} />
             </div>
             <div className="text-brand-light1 text-sm uppercase tracking-widest mt-2 mb-6">
               {t('proofLabel')}

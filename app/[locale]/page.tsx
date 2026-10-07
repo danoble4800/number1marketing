@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { CheckCircle, X } from 'lucide-react';
 import Container from '@/components/Container';
 import Section from '@/components/Section';
 import Heading from '@/components/Heading';
@@ -12,6 +11,8 @@ import PortfolioSection from '@/components/PortfolioSection';
 import TrustedMarquee from '@/components/TrustedMarquee';
 import AuditPopup from '@/components/AuditPopup';
 import LiveResults from '@/components/LiveResults';
+import ShiftShowcase from '@/components/ShiftShowcase';
+import CountUp from '@/components/CountUp';
 
 export async function generateMetadata({
   params,
@@ -119,48 +120,16 @@ export default async function HomePage({
       </Section>
 
       {/* THE SHIFT */}
-      <div className="lg:grid lg:grid-cols-2">
-        {/* Before */}
-        <div className="bg-brand-dark2 px-8 py-16 lg:px-16">
-          <Heading as="h2" size="md" className="text-brand-white mb-4">
-            {t('shift.heading')}
-          </Heading>
-          <p className="text-brand-light1 mb-8">{t('shift.subheading')}</p>
-          <div className="mb-4">
-            <span className="text-xs uppercase tracking-widest text-brand-mid font-semibold">
-              {t('shift.beforeLabel')}
-            </span>
-          </div>
-          <ul className="space-y-4">
-            {shiftPairs.map((pair, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <X size={16} className="mt-0.5 flex-shrink-0 text-brand-mid" />
-                <span className="text-brand-light1 text-sm">{pair.before}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {/* After */}
-        <div className="bg-brand-near-black px-8 py-16 lg:px-16">
-          <Heading as="h2" size="md" className="mb-4 invisible">
-            {t('shift.heading')}
-          </Heading>
-          <p className="text-brand-light1 mb-8 invisible">{t('shift.subheading')}</p>
-          <div className="mb-4">
-            <span className="text-xs uppercase tracking-widest text-brand-white font-semibold">
-              {t('shift.afterLabel')}
-            </span>
-          </div>
-          <ul className="space-y-4">
-            {shiftPairs.map((pair, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <CheckCircle size={16} className="mt-0.5 flex-shrink-0 text-brand-light2" />
-                <span className="text-brand-offwhite text-sm">{pair.after}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <ShiftShowcase
+        copy={{
+          heading: t('shift.heading'),
+          subheading: t('shift.subheading'),
+          beforeLabel: t('shift.beforeLabel'),
+          afterLabel: t('shift.afterLabel'),
+          pairs: shiftPairs,
+          scenes: t.raw('shift.scenes'),
+        }}
+      />
 
       {/* CASE STUDY TEASER */}
       <Section className="bg-brand-black">
@@ -170,7 +139,7 @@ export default async function HomePage({
           </Heading>
           <div className="max-w-4xl mx-auto bg-brand-dark1 border border-brand-dark2 p-8 lg:p-12">
             <div className="font-display text-7xl lg:text-9xl text-brand-white tracking-tighter">
-              {t('caseStudy.stat')}
+              <CountUp value={t('caseStudy.stat')} />
             </div>
             <div className="text-brand-light1 text-sm uppercase tracking-widest mt-2 mb-6">
               {t('caseStudy.statLabel')}

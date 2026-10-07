@@ -4,6 +4,7 @@ import Container from '@/components/Container';
 import Section from '@/components/Section';
 import Heading from '@/components/Heading';
 import Button from '@/components/Button';
+import StepFlow from '@/components/illustrations/StepFlow';
 import ShopClient from '@/components/shop/ShopClient';
 
 export async function generateMetadata({
@@ -80,15 +81,9 @@ export default async function ShopPage({
           <Heading as="h2" size="md">
             {t('stepsHeading')}
           </Heading>
-          <ol className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-            {steps.map((step, i) => (
-              <li key={step.title} className="border border-brand-dark2 p-6">
-                <div className="font-display text-5xl text-brand-dark2">0{i + 1}</div>
-                <p className="mt-4 text-brand-offwhite font-semibold">{step.title}</p>
-                <p className="mt-2 text-brand-light1 text-sm leading-relaxed">{step.desc}</p>
-              </li>
-            ))}
-          </ol>
+          <div className="mt-10">
+            <StepFlow steps={steps} icons={['order', 'test', 'review']} toasts={t.raw('stepsArt')} layout="cards" />
+          </div>
         </Container>
       </Section>
 

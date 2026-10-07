@@ -1,8 +1,9 @@
 'use client';
 
-import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { BellRing, Check, Heart, MapPin, MessageSquare, MousePointer2, Phone, Play, Star, UserPlus, Users } from 'lucide-react';
-import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
+import { useRef, type ReactNode, type RefObject } from 'react';
+import { EASE, pop, useLoop } from './illustrations/useLoop';
 
 // Small looping animations on /services that show each service doing its job.
 // Each demo is a list of steps on a timer; the timer only runs while the demo is
@@ -33,26 +34,6 @@ export interface ServiceDemoCopy {
   flowDone: string;
 }
 
-const EASE = [0.25, 0, 0, 1] as const;
-
-function useLoop(ref: RefObject<HTMLElement>, steps: number, stepMs: number) {
-  const inView = useInView(ref, { margin: '-80px' });
-  const reduceMotion = useReducedMotion();
-  const [step, setStep] = useState(0);
-
-  useEffect(() => {
-    if (reduceMotion) {
-      setStep(steps - 1);
-      return;
-    }
-    if (!inView) return;
-    const id = setInterval(() => setStep((s) => (s + 1) % steps), stepMs);
-    return () => clearInterval(id);
-  }, [inView, reduceMotion, steps, stepMs]);
-
-  return step;
-}
-
 function Frame({ label, children, innerRef }: { label: string; children: ReactNode; innerRef: RefObject<HTMLDivElement> }) {
   return (
     <div ref={innerRef} aria-hidden="true" className="select-none border border-brand-dark2 bg-brand-dark1 p-5">
@@ -67,13 +48,6 @@ function Frame({ label, children, innerRef }: { label: string; children: ReactNo
     </div>
   );
 }
-
-const pop = {
-  initial: { opacity: 0, y: 10, scale: 0.97 },
-  animate: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0 },
-  transition: { duration: 0.35, ease: EASE },
-};
 
 function TypingDots() {
   return (

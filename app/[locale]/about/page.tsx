@@ -5,6 +5,7 @@ import Container from '@/components/Container';
 import Section from '@/components/Section';
 import Heading from '@/components/Heading';
 import Button from '@/components/Button';
+import { DifferentArt, RingingPhoneArt } from '@/components/illustrations/AboutArt';
 
 export async function generateMetadata({
   params,
@@ -56,10 +57,15 @@ export default async function AboutPage({
           }}
         />
         <Container className="relative">
-          <Heading as="h1" size="xl">{t('hero.headline')}</Heading>
-          <p className="mt-6 max-w-2xl text-brand-light1 text-xl leading-relaxed">
-            {t('hero.subheading')}
-          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-12 lg:gap-16 items-center">
+            <div>
+              <Heading as="h1" size="xl">{t('hero.headline')}</Heading>
+              <p className="mt-6 max-w-2xl text-brand-light1 text-xl leading-relaxed">
+                {t('hero.subheading')}
+              </p>
+            </div>
+            <RingingPhoneArt copy={t.raw('hero.art')} />
+          </div>
         </Container>
       </Section>
 
@@ -93,6 +99,7 @@ export default async function AboutPage({
                 key={i}
                 className={`p-8 ${i === 1 ? 'bg-brand-near-black' : 'bg-brand-dark1'}`}
               >
+                <DifferentArt index={i} />
                 <h3 className="font-display text-lg text-brand-white uppercase tracking-tight mb-6">
                   {col.title}
                 </h3>
