@@ -121,26 +121,6 @@ export default async function AboutPage({
         </Container>
       </Section>
 
-      {/* Team placeholder */}
-      <Section className="bg-brand-black">
-        <Container>
-          <Heading as="h2" size="lg" className="mb-6">{t('team.heading')}</Heading>
-          <p className="text-brand-light1 text-lg max-w-2xl mb-8">{t('team.subheading')}</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((n) => (
-              <div key={n} className="bg-brand-dark1 border border-brand-dark2 p-6">
-                <div className="w-16 h-16 bg-brand-dark2 mb-4 flex items-center justify-center text-brand-mid text-xs uppercase tracking-widest">
-                  Photo
-                </div>
-                <div className="h-4 bg-brand-dark2 rounded-none mb-2 w-3/4" />
-                <div className="h-3 bg-brand-dark2 rounded-none w-1/2" />
-              </div>
-            ))}
-          </div>
-          <p className="mt-8 text-brand-mid text-sm">{t('team.placeholder')}</p>
-        </Container>
-      </Section>
-
       {/* CTA */}
       <Section className="bg-brand-near-black">
         <Container className="text-center">
