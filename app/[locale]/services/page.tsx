@@ -5,6 +5,7 @@ import Container from '@/components/Container';
 import Section from '@/components/Section';
 import Heading from '@/components/Heading';
 import Button from '@/components/Button';
+import ServiceDemo from '@/components/ServiceDemo';
 
 export async function generateMetadata({
   params,
@@ -51,6 +52,7 @@ export default async function ServicesPage({
   const t = await getTranslations({ locale, namespace: 'services' });
   const tContact = await getTranslations({ locale, namespace: 'contact' });
   const services = t.raw('items') as ServiceItem[];
+  const demoCopy = t.raw('demos');
 
   return (
     <>
@@ -96,21 +98,26 @@ export default async function ServicesPage({
                 <Heading as="h2" size="lg">{service.name}</Heading>
                 <p className="mt-3 text-brand-light2 text-lg italic">{service.tagline}</p>
 
-                <div className="mt-8 grid lg:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="text-xs uppercase tracking-widest text-brand-mid mb-3">The Problem</h3>
-                    <p className="text-brand-light1 leading-relaxed">{service.problem}</p>
+                <div className="mt-8 grid xl:grid-cols-[minmax(0,1fr)_340px] gap-8">
+                  <div className="space-y-8">
+                    <div>
+                      <h3 className="text-xs uppercase tracking-widest text-brand-mid mb-3">The Problem</h3>
+                      <p className="text-brand-light1 leading-relaxed">{service.problem}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-xs uppercase tracking-widest text-brand-mid mb-3">What&apos;s Included</h3>
+                      <ul className="space-y-2">
+                        {service.includes.map((item, j) => (
+                          <li key={j} className="flex items-start gap-2">
+                            <CheckCircle size={15} className="mt-0.5 flex-shrink-0 text-brand-light2" />
+                            <span className="text-brand-light1 text-sm">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-xs uppercase tracking-widest text-brand-mid mb-3">What&apos;s Included</h3>
-                    <ul className="space-y-2">
-                      {service.includes.map((item, j) => (
-                        <li key={j} className="flex items-start gap-2">
-                          <CheckCircle size={15} className="mt-0.5 flex-shrink-0 text-brand-light2" />
-                          <span className="text-brand-light1 text-sm">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="max-w-md xl:max-w-none">
+                    <ServiceDemo slug={service.slug} copy={demoCopy} locale={locale} />
                   </div>
                 </div>
 

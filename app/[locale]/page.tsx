@@ -11,6 +11,7 @@ import ProcessSteps from '@/components/ProcessSteps';
 import PortfolioSection from '@/components/PortfolioSection';
 import TrustedMarquee from '@/components/TrustedMarquee';
 import AuditPopup from '@/components/AuditPopup';
+import LiveResults from '@/components/LiveResults';
 
 export async function generateMetadata({
   params,
@@ -77,6 +78,9 @@ export default async function HomePage({
         cards={t.raw('hero.cards')}
         locale={locale}
       />
+
+      {/* LIVE RESULTS */}
+      <LiveResults label={t('results.label')} labels={t.raw('results.items')} locale={locale} />
 
       {/* TRUSTED BY */}
       <div className="bg-brand-dark1 border-y border-brand-dark2 py-8">

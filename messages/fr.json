@@ -148,6 +148,15 @@
       "heading": "PRÊT À DEVENIR NUMBER 1 ?",
       "subheading": "Réservez un appel gratuit de 30 minutes. Nous vous montrerons où vous perdez des clients et comment les récupérer. Sans pitch, sans pression.",
       "label": "RÉSERVEZ VOTRE AUDIT GRATUIT"
+    },
+    "results": {
+      "label": "Résultats en direct",
+      "items": {
+        "followers": "abonnés gagnés pour nos clients",
+        "views": "vues vidéo générées",
+        "leads": "prospects contactés",
+        "reply": "délai de réponse moyen"
+      }
     }
   },
   "footer": {
@@ -255,7 +264,31 @@
         ],
         "outcomes": "Un client est passé de 15 heures de tâches répétitives par semaine à 12 minutes."
       }
-    ]
+    ],
+    "demos": {
+      "label": "En action",
+      "chatIn": "Bonjour ! Vous faites des rénovations de cuisine ?",
+      "chatOut": "Oui ! Un devis gratuit ? Je vous réserve jeudi à 10h30.",
+      "chatBooked": "Appel réservé",
+      "replied": "Réponse en 14 s",
+      "webCta": "Appeler",
+      "webCalling": "Appel en cours…",
+      "searchQuery": "plombier près de moi",
+      "searchYou": "Votre entreprise",
+      "searchOther": "Concurrent",
+      "searchTop": "N°1 sur Google",
+      "socialFollowers": "abonnés",
+      "socialPosted": "Nouvelle vidéo publiée",
+      "adsSent": "Envoyés",
+      "adsOpened": "Ouverts",
+      "adsClicked": "Clics",
+      "adsBooked": "Réservés",
+      "flowLead": "Nouveau prospect",
+      "flowCrm": "Ajouté au CRM",
+      "flowText": "SMS envoyé",
+      "flowTeam": "Équipe prévenue",
+      "flowDone": "Fait en 3 secondes"
+    }
   },
   "about": {
     "hero": {
@@ -407,5 +440,40 @@
     "en": "English",
     "es": "Español",
     "fr": "Français"
+  },
+  "activity": {
+    "close": "Fermer",
+    "events": [
+      {
+        "icon": "calendar",
+        "text": "Un couvreur à Boston a réservé un audit gratuit",
+        "time": "il y a 2 min"
+      },
+      {
+        "icon": "users",
+        "text": "Un barbier à Austin a gagné 240 abonnés cette semaine",
+        "time": "il y a 8 min"
+      },
+      {
+        "icon": "lead",
+        "text": "Un cabinet dentaire à Miami a reçu 3 prospects cette nuit",
+        "time": "il y a 14 min"
+      },
+      {
+        "icon": "play",
+        "text": "Un restaurant à Chicago a atteint 50 000 vues sur un reel",
+        "time": "il y a 21 min"
+      },
+      {
+        "icon": "star",
+        "text": "Un plombier à Denver a reçu un nouvel avis 5 étoiles",
+        "time": "il y a 33 min"
+      },
+      {
+        "icon": "calendar",
+        "text": "Un med spa à Dallas a réservé 6 appels avec une seule pub",
+        "time": "il y a 47 min"
+      }
+    ]
   }
 }

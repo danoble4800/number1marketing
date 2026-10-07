@@ -159,6 +159,15 @@
       "heading": "READY TO BE NUMBER 1?",
       "subheading": "Grab a free 30-minute call. We'll show you where customers are slipping away and how to win them back. No pitch, no pressure.",
       "label": "BOOK YOUR FREE AUDIT"
+    },
+    "results": {
+      "label": "Live results",
+      "items": {
+        "followers": "followers gained for clients",
+        "views": "video views generated",
+        "leads": "leads answered",
+        "reply": "average reply time"
+      }
     }
   },
   "footer": {
@@ -268,7 +277,31 @@
         ],
         "outcomes": "One client went from 15 hours of busywork a week to 12 minutes."
       }
-    ]
+    ],
+    "demos": {
+      "label": "See it in action",
+      "chatIn": "Hi! Do you do kitchen remodels?",
+      "chatOut": "Yes! Want a free quote? I can book you for Thu at 10:30.",
+      "chatBooked": "Call booked",
+      "replied": "Replied in 14s",
+      "webCta": "Call now",
+      "webCalling": "Calling…",
+      "searchQuery": "plumber near me",
+      "searchYou": "Your business",
+      "searchOther": "Competitor",
+      "searchTop": "#1 on Google",
+      "socialFollowers": "followers",
+      "socialPosted": "New video posted",
+      "adsSent": "Sent",
+      "adsOpened": "Opened",
+      "adsClicked": "Clicked",
+      "adsBooked": "Booked",
+      "flowLead": "New lead",
+      "flowCrm": "Saved to CRM",
+      "flowText": "Text sent",
+      "flowTeam": "Team notified",
+      "flowDone": "Done in 3 seconds"
+    }
   },
   "about": {
     "hero": {
@@ -1449,5 +1482,40 @@
       "menu": "Menu",
       "wifi": "Wi-Fi"
     }
+  },
+  "activity": {
+    "close": "Dismiss",
+    "events": [
+      {
+        "icon": "calendar",
+        "text": "A roofing company in Boston booked a free audit",
+        "time": "2 min ago"
+      },
+      {
+        "icon": "users",
+        "text": "A barbershop in Austin gained 240 followers this week",
+        "time": "8 min ago"
+      },
+      {
+        "icon": "lead",
+        "text": "A dental office in Miami got 3 new leads overnight",
+        "time": "14 min ago"
+      },
+      {
+        "icon": "play",
+        "text": "A restaurant in Chicago hit 50K views on a reel",
+        "time": "21 min ago"
+      },
+      {
+        "icon": "star",
+        "text": "A plumber in Denver got a new 5-star Google review",
+        "time": "33 min ago"
+      },
+      {
+        "icon": "calendar",
+        "text": "A med spa in Dallas booked 6 calls from one ad",
+        "time": "47 min ago"
+      }
+    ]
   }
 }

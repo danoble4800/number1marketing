@@ -7,6 +7,7 @@ import '../globals.css';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import SiteChrome from '@/components/SiteChrome';
+import ActivityToast from '@/components/ActivityToast';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -126,6 +127,7 @@ export default async function LocaleLayout({
           <SiteChrome><NavBar locale={locale} /></SiteChrome>
           <main>{children}</main>
           <SiteChrome><Footer locale={locale} /></SiteChrome>
+          <SiteChrome><ActivityToast /></SiteChrome>
         </NextIntlClientProvider>
       </body>
     </html>

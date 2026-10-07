@@ -160,6 +160,15 @@
       "heading": "PRONTO PARA SER NUMBER 1?",
       "subheading": "Marque uma conversa grátis de 30 minutos. Vamos mostrar onde os clientes estão escapando e como trazê-los de volta. Sem pitch, sem pressão.",
       "label": "AGENDE SUA AUDITORIA GRÁTIS"
+    },
+    "results": {
+      "label": "Resultados ao vivo",
+      "items": {
+        "followers": "seguidores ganhos para clientes",
+        "views": "visualizações de vídeo geradas",
+        "leads": "leads respondidos",
+        "reply": "tempo médio de resposta"
+      }
     }
   },
   "footer": {
@@ -269,7 +278,31 @@
         ],
         "outcomes": "Um cliente passou de 15 horas de trabalho manual por semana para 12 minutos."
       }
-    ]
+    ],
+    "demos": {
+      "label": "Veja funcionando",
+      "chatIn": "Oi! Vocês fazem reforma de cozinha?",
+      "chatOut": "Sim! Quer um orçamento grátis? Posso agendar quinta às 10:30.",
+      "chatBooked": "Ligação agendada",
+      "replied": "Respondido em 14 s",
+      "webCta": "Ligar agora",
+      "webCalling": "Ligando…",
+      "searchQuery": "encanador perto de mim",
+      "searchYou": "Sua empresa",
+      "searchOther": "Concorrente",
+      "searchTop": "#1 no Google",
+      "socialFollowers": "seguidores",
+      "socialPosted": "Novo vídeo publicado",
+      "adsSent": "Enviados",
+      "adsOpened": "Abertos",
+      "adsClicked": "Cliques",
+      "adsBooked": "Agendados",
+      "flowLead": "Novo lead",
+      "flowCrm": "Salvo no CRM",
+      "flowText": "Mensagem enviada",
+      "flowTeam": "Equipe avisada",
+      "flowDone": "Pronto em 3 segundos"
+    }
   },
   "about": {
     "hero": {
@@ -1450,5 +1483,40 @@
       "menu": "Cardápio",
       "wifi": "Wi-Fi"
     }
+  },
+  "activity": {
+    "close": "Fechar",
+    "events": [
+      {
+        "icon": "calendar",
+        "text": "Uma empresa de telhados em Boston agendou uma auditoria grátis",
+        "time": "há 2 min"
+      },
+      {
+        "icon": "users",
+        "text": "Uma barbearia em Austin ganhou 240 seguidores esta semana",
+        "time": "há 8 min"
+      },
+      {
+        "icon": "lead",
+        "text": "Um consultório odontológico em Miami recebeu 3 leads durante a noite",
+        "time": "há 14 min"
+      },
+      {
+        "icon": "play",
+        "text": "Um restaurante em Chicago chegou a 50 mil visualizações em um reel",
+        "time": "há 21 min"
+      },
+      {
+        "icon": "star",
+        "text": "Um encanador em Denver recebeu uma nova avaliação 5 estrelas",
+        "time": "há 33 min"
+      },
+      {
+        "icon": "calendar",
+        "text": "Um med spa em Dallas agendou 6 ligações com um único anúncio",
+        "time": "há 47 min"
+      }
+    ]
   }
 }

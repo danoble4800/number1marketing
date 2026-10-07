@@ -160,6 +160,15 @@
       "heading": "¿LISTO PARA SER NUMBER 1?",
       "subheading": "Agenda una llamada gratis de 30 minutos. Te mostraremos dónde se te escapan los clientes y cómo recuperarlos. Sin pitch, sin presión.",
       "label": "AGENDA TU AUDITORÍA GRATIS"
+    },
+    "results": {
+      "label": "Resultados en vivo",
+      "items": {
+        "followers": "seguidores ganados para clientes",
+        "views": "vistas de video generadas",
+        "leads": "prospectos respondidos",
+        "reply": "tiempo promedio de respuesta"
+      }
     }
   },
   "footer": {
@@ -269,7 +278,31 @@
         ],
         "outcomes": "Un cliente pasó de 15 horas de trabajo manual por semana a 12 minutos."
       }
-    ]
+    ],
+    "demos": {
+      "label": "Míralo en acción",
+      "chatIn": "¡Hola! ¿Hacen remodelaciones de cocina?",
+      "chatOut": "¡Sí! ¿Quieres una cotización gratis? Te agendo el jueves a las 10:30.",
+      "chatBooked": "Llamada agendada",
+      "replied": "Respondido en 14 s",
+      "webCta": "Llamar ahora",
+      "webCalling": "Llamando…",
+      "searchQuery": "plomero cerca de mí",
+      "searchYou": "Tu negocio",
+      "searchOther": "Competidor",
+      "searchTop": "#1 en Google",
+      "socialFollowers": "seguidores",
+      "socialPosted": "Nuevo video publicado",
+      "adsSent": "Enviados",
+      "adsOpened": "Abiertos",
+      "adsClicked": "Clics",
+      "adsBooked": "Agendados",
+      "flowLead": "Nuevo prospecto",
+      "flowCrm": "Guardado en CRM",
+      "flowText": "Mensaje enviado",
+      "flowTeam": "Equipo avisado",
+      "flowDone": "Listo en 3 segundos"
+    }
   },
   "about": {
     "hero": {
@@ -1450,5 +1483,40 @@
       "menu": "Menú",
       "wifi": "Wi-Fi"
     }
+  },
+  "activity": {
+    "close": "Cerrar",
+    "events": [
+      {
+        "icon": "calendar",
+        "text": "Una empresa de techos en Boston agendó una auditoría gratis",
+        "time": "hace 2 min"
+      },
+      {
+        "icon": "users",
+        "text": "Una barbería en Austin ganó 240 seguidores esta semana",
+        "time": "hace 8 min"
+      },
+      {
+        "icon": "lead",
+        "text": "Un consultorio dental en Miami recibió 3 prospectos durante la noche",
+        "time": "hace 14 min"
+      },
+      {
+        "icon": "play",
+        "text": "Un restaurante en Chicago llegó a 50 mil vistas en un reel",
+        "time": "hace 21 min"
+      },
+      {
+        "icon": "star",
+        "text": "Un plomero en Denver recibió una nueva reseña de 5 estrellas",
+        "time": "hace 33 min"
+      },
+      {
+        "icon": "calendar",
+        "text": "Un med spa en Dallas agendó 6 llamadas con un solo anuncio",
+        "time": "hace 47 min"
+      }
+    ]
   }
 }
