@@ -16,7 +16,7 @@ export async function generateMetadata({
 
   return {
     title: `About | Number 1 Digital Marketing`,
-    description: 'We build digital growth systems that scale modern businesses. Real ROI, no hype.',
+    description: 'We help businesses get more calls and more customers. Real results, no hype.',
     alternates: {
       canonical: `${siteUrl}/${locale}/about`,
       languages: {

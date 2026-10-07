@@ -42,7 +42,7 @@ const initialState: FormState = {
   consent: false,
 };
 
-const SERVICE_KEYS = ['simpleAI', 'professionalAI', 'webDesign', 'consulting'] as const;
+const SERVICE_KEYS = ['simpleAI', 'professionalAI', 'webDesign', 'socialMedia', 'consulting'] as const;
 
 interface ContactFormProps {
   showHeading?: boolean;
@@ -57,7 +57,7 @@ export default function ContactForm({ showHeading = true, source = 'Contact Page
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   // Set when someone arrives from an in-person follow-up PDF's QR code (?utm_source=inperson&utm_campaign=<business>)
   const [inPersonRef, setInPersonRef] = useState('');
-  // Set when someone clicks an Academy paid offer (?interest=academy-…); the API labels the lead with it
+  // Set when someone clicks an Academy offer or Creators plan (?interest=…); the API labels the lead with it
   const [interest, setInterest] = useState('');
 
   useEffect(() => {

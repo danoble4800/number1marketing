@@ -11,18 +11,14 @@ export default function Footer({ locale }: FooterProps) {
   const nav = useTranslations('nav');
   const year = new Date().getFullYear();
 
-  const serviceLinks = [
-    { href: `/${locale}/services#ai-agents`, label: 'Growth Systems' },
-    { href: `/${locale}/services#ai-consulting`, label: 'Growth Strategy' },
-    { href: `/${locale}/services#seo`, label: 'SEO' },
-    { href: `/${locale}/services#web-design`, label: 'Web Design' },
-    { href: `/${locale}/services#workflow-automation`, label: 'Workflow Automation' },
-    { href: `/${locale}/services#growth-marketing`, label: 'Growth Marketing' },
-  ];
+  const serviceLinks = ['ai-agents', 'web-design', 'seo', 'social-media', 'growth-marketing', 'workflow-automation'].map(
+    (slug) => ({ href: `/${locale}/services#${slug}`, label: nav(`svc.${slug.replace('-', '_')}.name`) })
+  );
 
   const companyLinks = [
     { href: `/${locale}/about`, label: nav('about') },
     { href: `/${locale}/case-studies`, label: nav('caseStudies') },
+    { href: `/${locale}/creators`, label: nav('creators') },
     { href: `/${locale}/contact`, label: nav('contact') },
     { href: `/${locale}/shop`, label: nav('shop') },
     { href: `/${locale}/cards`, label: nav('tapCards') },

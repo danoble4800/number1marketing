@@ -113,6 +113,55 @@ export default function HeroBackdrop() {
         </div>
       </Ghost>
 
+      {/* Vertical video (reel / short) with a like rail and progress bar, upper left */}
+      <Ghost className="hidden lg:block top-[6%] left-[2%] -rotate-[9deg]" delay={0.9} drift={19}>
+        <div className="relative w-[190px] h-[340px] p-4 flex flex-col">
+          <div className="flex flex-1 items-center justify-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-mid/40">
+              <div className="ml-1 h-0 w-0 border-y-[11px] border-l-[18px] border-y-transparent border-l-brand-light1/50" />
+            </div>
+          </div>
+          <div className="absolute right-3 bottom-20 flex flex-col items-center gap-3">
+            <div className="h-7 w-7 rounded-full bg-rose-400/40" />
+            <div className="h-7 w-7 rounded-full bg-brand-dark2" />
+            <div className="h-7 w-7 rounded-full bg-brand-dark2" />
+          </div>
+          <div className="space-y-2 pr-12">
+            <div className="flex items-center gap-2">
+              <div className="h-6 w-6 rounded-full bg-brand-dark2" />
+              <Bar className="w-16" />
+            </div>
+            <Bar className="w-full bg-brand-dark2/70" />
+          </div>
+          <div className="mt-3 h-1 rounded-full bg-brand-dark2">
+            <div className="h-full w-3/5 rounded-full bg-brand-mid/60" />
+          </div>
+        </div>
+      </Ghost>
+
+      {/* Social profile with follower stats and a post grid, right side */}
+      <Ghost className="hidden md:block top-[44%] right-[-6%] lg:right-[1%] rotate-[7deg]" delay={1.1} drift={20}>
+        <div className="w-[260px] p-5">
+          <div className="flex items-center gap-4">
+            <div className="h-14 w-14 rounded-full border-2 border-brand-mid/50 bg-brand-dark2" />
+            <div className="flex flex-1 justify-between">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="flex flex-col items-center gap-1.5">
+                  <div className={`h-3.5 w-8 rounded ${i === 1 ? 'bg-emerald-400/40' : 'bg-brand-mid/40'}`} />
+                  <Bar className="w-10" />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-4 h-7 rounded-lg bg-brand-mid/40" />
+          <div className="mt-4 grid grid-cols-3 gap-1">
+            {Array.from({ length: 9 }).map((_, i) => (
+              <div key={i} className={`aspect-square rounded-sm ${[1, 5, 6].includes(i) ? 'bg-brand-mid/50' : 'bg-brand-dark2'}`} />
+            ))}
+          </div>
+        </div>
+      </Ghost>
+
       {/* Review card, lower right */}
       <Ghost className="bottom-[4%] right-[-10%] sm:right-[10%] lg:right-[22%] -rotate-[5deg]" delay={1.2} drift={17}>
         <div className="w-[280px] p-5">

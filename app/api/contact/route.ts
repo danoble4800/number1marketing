@@ -15,10 +15,11 @@ function safeCell(val: string): string {
 const SHEET_TAB = 'Website Leads';
 
 const SERVICE_LABELS: Record<string, string> = {
-  simpleAI: 'Starter Growth System',
-  professionalAI: 'Advanced Growth System',
+  simpleAI: 'Never Miss a Lead — Starter',
+  professionalAI: 'Never Miss a Lead — Advanced',
   webDesign: 'Website Design & Support',
-  consulting: 'Strategy Consulting',
+  socialMedia: 'Social Media & Creators',
+  consulting: 'Not Sure Yet',
 };
 
 const LEAD_SOURCES = ['Audit Page', 'Contact Page'];
@@ -125,6 +126,14 @@ const ACADEMY_OFFERS: Record<string, string> = {
   'academy-team': 'Team Training (quote)',
 };
 
+// N°1 Creators brand plan buttons (content/creators/plans.ts)
+const CREATOR_PLANS: Record<string, string> = {
+  'creators-starter': 'Starter ($79/mo)',
+  'creators-growth': 'Growth ($179/mo)',
+  'creators-pro': 'Pro ($279/mo)',
+  'creators-managed': 'Managed Campaigns ($497/mo)',
+};
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -139,12 +148,15 @@ export async function POST(req: NextRequest) {
       : '';
     // QR codes on the in-person follow-up PDFs tag the visit with the business they were made for
     const ref = typeof inPersonRef === 'string' && /^[a-z0-9-]{1,40}$/.test(inPersonRef) ? inPersonRef : '';
-    // Academy paid-offer buttons link here with ?interest=<offer> so the lead says what they want
+    // Academy offer and Creators plan buttons link here with ?interest=<offer> so the lead says what they want
     const academyOffer = typeof interest === 'string' ? ACADEMY_OFFERS[interest] : undefined;
+    const creatorPlan = typeof interest === 'string' ? CREATOR_PLANS[interest] : undefined;
     const leadSource = ref
       ? `In-Person QR (${ref})`
       : academyOffer
       ? `Academy: ${academyOffer}`
+      : creatorPlan
+      ? `Creators: ${creatorPlan}`
       : LEAD_SOURCES.includes(source)
       ? source
       : 'Website';

@@ -12,6 +12,7 @@
     "bookCall": "Agendar Llamada",
     "shop": "Tienda",
     "academy": "Certifícate en IA",
+    "creators": "Creadores",
     "signIn": "Iniciar sesión",
     "myTapCard": "Mi tarjeta",
     "customers": "Clientes",
@@ -26,28 +27,28 @@
     "language": "Idioma",
     "svc": {
       "ai_agents": {
-        "name": "Sistemas de Crecimiento",
-        "desc": "Agentes de IA que responden a tus clientes 24/7"
-      },
-      "ai_consulting": {
-        "name": "Estrategia de Crecimiento",
-        "desc": "Un plan claro de dónde invertir"
-      },
-      "seo": {
-        "name": "SEO",
-        "desc": "Aparece cuando te buscan"
+        "name": "Nunca Pierdas un Cliente",
+        "desc": "Respondemos llamadas, textos y formularios en segundos"
       },
       "web_design": {
-        "name": "Diseño Web",
-        "desc": "Sitios que convierten visitas en llamadas"
+        "name": "Sitios Web",
+        "desc": "Un sitio que hace que la gente te llame"
       },
-      "workflow_automation": {
-        "name": "Automatización",
-        "desc": "Deja de hacer la misma tarea dos veces"
+      "seo": {
+        "name": "Google",
+        "desc": "Aparece cuando la gente cerca de ti busca"
+      },
+      "social_media": {
+        "name": "Redes Sociales y Creadores",
+        "desc": "Más seguidores en Instagram, TikTok y YouTube"
       },
       "growth_marketing": {
-        "name": "Marketing de Crecimiento",
-        "desc": "Anuncios, email y seguimiento que suman"
+        "name": "Anuncios y Email",
+        "desc": "Anuncios que traen clientes, emails que los hacen volver"
+      },
+      "workflow_automation": {
+        "name": "Menos Trabajo Manual",
+        "desc": "Automatizamos lo aburrido"
       }
     }
   },
@@ -55,8 +56,8 @@
     "hero": {
       "headline": "OTRAS AGENCIAS HACEN MARKETING.",
       "headlineAccent": "NOSOTROS TE HACEMOS NÚMERO 1.",
-      "subline": "Captación de prospectos, seguimiento inmediato, contenido y conversión — conectados en un solo sistema que hace crecer tu negocio mientras duermes. No solo promesas en diapositivas.",
-      "ctaPrimary": "Agenda Tu Auditoría de Crecimiento Digital Gratis",
+      "subline": "Más llamadas, más clientes, más seguidores. Manejamos tu sitio web, Google, anuncios y redes sociales — y respondemos a cada cliente nuevo en segundos, de día o de noche.",
+      "ctaPrimary": "Obtén Tu Auditoría Gratis",
       "ctaSecondary": "Ver Nuestro Trabajo",
       "cards": {
         "leadTitle": "Nuevo prospecto",
@@ -67,92 +68,102 @@
         "bookedTitle": "Llamada agendada",
         "bookedBody": "Jue · 10:30 AM",
         "chartTitle": "Prospectos este mes",
-        "chartMeta": "En aumento"
+        "chartMeta": "En aumento",
+        "followersTitle": "Nuevos seguidores",
+        "followersMeta": "esta semana",
+        "videoUploading": "Subiendo video…",
+        "videoPosted": "Video publicado",
+        "videoBody": "Cocina: antes y después",
+        "likesTitle": "Nuevos me gusta",
+        "likesMeta": "en la publicación de hoy",
+        "subscriberTitle": "Nuevo suscriptor",
+        "subscriberBody": "YouTube · ahora mismo",
+        "followersChartTitle": "Seguidores este mes"
       }
     },
     "trusted": {
-      "label": "Confiado por equipos enfocados en el crecimiento"
+      "label": "Negocios como el tuyo confían en nosotros"
     },
     "services": {
-      "heading": "LO QUE CONSTRUIMOS",
-      "subheading": "Seis disciplinas. Una obsesión — crecimiento medible.",
+      "heading": "LO QUE HACEMOS",
+      "subheading": "Elige uno, o déjanos encargarnos de todo.",
       "cta": "Ver Todos los Servicios"
     },
     "shift": {
-      "heading": "LA BRECHA DE CRECIMIENTO ES REAL",
-      "subheading": "Existen dos versiones de tu negocio. ¿Cuál estás construyendo?",
-      "beforeLabel": "SIN UN SISTEMA",
-      "afterLabel": "CON UN SISTEMA DE CRECIMIENTO",
+      "heading": "¿CUÁL ERES TÚ?",
+      "subheading": "El mismo negocio. Resultados muy distintos.",
+      "beforeLabel": "POR TU CUENTA",
+      "afterLabel": "CON NUMBER 1",
       "pairs": [
         {
-          "before": "Equipo de marketing de 3–5 personas a $15K/mes",
-          "after": "Un sistema de crecimiento conectado haciendo más por $3K/mes"
+          "before": "Las llamadas perdidas van al buzón y nunca vuelven a llamar",
+          "after": "Cada llamada y texto respondido en segundos"
         },
         {
-          "before": "Los prospectos esperan días en tu CRM",
-          "after": "Prospectos calificados y contactados en 90 segundos"
+          "before": "Pagar $15K al mes por un equipo de marketing",
+          "after": "Lograr más por $3K al mes"
         },
         {
-          "before": "Los reportes te toman media tarde del viernes",
-          "after": "Dashboards en tiempo real — sin intervención manual"
+          "before": "Publicar en redes cuando te acuerdas",
+          "after": "Videos nuevos cada semana hechos por creadores reales"
         },
         {
-          "before": "El calendario de contenido lleva 3 semanas de retraso",
-          "after": "30 piezas de contenido por semana, automatizadas"
+          "before": "Un sitio web que nadie encuentra",
+          "after": "Aparecer cuando la gente cerca de ti busca en Google"
         },
         {
-          "before": "Adivinar qué quieren tus clientes",
-          "after": "Datos que te dicen qué comprarán después"
+          "before": "No saber qué anuncios funcionan",
+          "after": "Saber exactamente de dónde vino cada cliente"
         }
       ]
     },
     "caseStudy": {
       "heading": "RESULTADOS QUE HABLAN",
       "stat": "+312%",
-      "statLabel": "Prospectos Calificados en 90 Días",
-      "description": "Una empresa B2B SaaS llegó a nosotros desperdiciando presupuesto en un equipo de ventas inflado. Construimos un sistema de calificación de leads — ahora filtra, puntúa y enruta prospectos en menos de dos minutos. Resultado: tres veces más pipeline a un tercio del costo.",
+      "statLabel": "Más Clientes Reales en 90 Días",
+      "description": "Una empresa de software gastaba demasiado en un equipo de ventas grande. Creamos una forma de responder a cada cliente nuevo, identificar a los compradores serios y enviarlos a la persona correcta en menos de dos minutos. Consiguieron el triple de clientes por un tercio del costo.",
       "cta": "Leer el Caso Completo"
     },
     "process": {
-      "heading": "CÓMO TRABAJAMOS",
-      "subheading": "Cuatro pasos. Sin relleno. Resultados medibles en cada etapa.",
+      "heading": "CÓMO FUNCIONA",
+      "subheading": "Cuatro pasos simples.",
       "steps": [
         {
           "number": "01",
-          "title": "AUDITORÍA",
-          "description": "Analizamos tu stack actual, flujos de trabajo y fugas de crecimiento. Sin suposiciones — solo datos."
+          "title": "MIRAMOS",
+          "description": "Vemos de dónde vienen tus clientes hoy — y dónde los estás perdiendo."
         },
         {
           "number": "02",
-          "title": "DISEÑO",
-          "description": "Mapeamos el sistema de crecimiento exacto — embudos, seguimiento y automatizaciones — que moverá tu indicador específico."
+          "title": "PLANEAMOS",
+          "description": "Te decimos qué arreglar primero, en palabras simples."
         },
         {
           "number": "03",
-          "title": "CONSTRUCCIÓN",
-          "description": "Construimos rápido. Sistemas, automatizaciones y campañas en vivo en semanas — no trimestres."
+          "title": "CONSTRUIMOS",
+          "description": "Lo dejamos todo listo en semanas, no meses."
         },
         {
           "number": "04",
-          "title": "ESCALA",
-          "description": "Optimizamos, iteramos y escalamos lo que funciona. Tú creces. Nosotros seguimos construyendo."
+          "title": "CRECEMOS",
+          "description": "Mantenemos lo que funciona, arreglamos lo que no, y te informamos cada mes."
         }
       ]
     },
     "portfolio": {
       "heading": "DISEÑOS WEB QUE HEMOS CREADO",
-      "subheading": "Cada nicho. Cada tamaño de negocio. Construimos sitios web orientados a la conversión que posicionan y generan leads reales.",
+      "subheading": "Todo tipo de negocio, de cualquier tamaño. Sitios web que se ven bien y hacen que la gente llame.",
       "nicheLabel": "TRABAJO DE CLIENTES",
       "viewSite": "Ver Sitio en Vivo"
     },
     "cta": {
-      "heading": "¿LISTO PARA SUPERAR A TU COMPETENCIA?",
-      "subheading": "Elige un horario. Te mostraremos exactamente dónde un sistema de crecimiento puede marcar la diferencia en tu negocio — sin pitch, sin presión.",
-      "label": "AGENDA TU AUDITORÍA DE CRECIMIENTO DIGITAL GRATIS"
+      "heading": "¿LISTO PARA SER NUMBER 1?",
+      "subheading": "Agenda una llamada gratis de 30 minutos. Te mostraremos dónde se te escapan los clientes y cómo recuperarlos. Sin pitch, sin presión.",
+      "label": "AGENDA TU AUDITORÍA GRATIS"
     }
   },
   "footer": {
-    "tagline": "El Socio #1 en Sistemas de Crecimiento Digital",
+    "tagline": "Marketing que trae clientes.",
     "location": "Boston, Massachusetts · Clientes en todo el mundo",
     "hours": "Abierto 24/7",
     "services": "Servicios",
@@ -166,177 +177,171 @@
   },
   "services": {
     "heading": "NUESTROS SERVICIOS",
-    "subheading": "No ofrecemos paquetes. Construimos sistemas. Así es como luce.",
+    "subheading": "Todo lo que necesitas para que te encuentren, te llamen y te sigan — hecho por nosotros.",
     "items": [
       {
         "slug": "ai-agents",
-        "name": "Sistemas de Crecimiento y Automatización a Medida",
-        "icon": "Rocket",
-        "tagline": "Tu fuerza laboral 24/7 — nunca enferma, nunca lenta.",
-        "problem": "Tu equipo quema tiempo en tareas que un sistema bien construido puede manejar en segundos — seguimiento de leads, soporte al cliente, reportes, procesamiento de datos. Cada hora en estas tareas es una hora sin crecimiento.",
+        "name": "Nunca Pierdas un Cliente",
+        "icon": "Bot",
+        "tagline": "Cada llamada, texto y formulario respondido en segundos — 24/7.",
+        "problem": "Cuando alguien te contacta y nadie responde, llama al siguiente negocio en Google. La mayoría de los dueños están demasiado ocupados trabajando para contestar cada llamada.",
         "includes": [
-          "Respuesta a prospectos y soporte al cliente asistidos por IA",
-          "Integración CRM y automatización de enrutamiento de leads",
-          "Secuencias de contacto multicanal (email, SMS, DM)",
-          "Pipelines inteligentes de procesamiento de documentos",
-          "Dashboards automatizados de reportes y analítica",
-          "Flujos de trabajo con escalación humana"
+          "Respuestas al instante a llamadas, textos y formularios",
+          "Citas agendadas directo en tu calendario",
+          "Seguimiento a quienes no agendaron",
+          "Pedimos reseñas a tus clientes contentos",
+          "Te pasamos la conversación cuando hace falta una persona"
         ],
-        "outcomes": "Nuestros clientes típicamente ven una reducción del 60–80% en tiempo en tareas rutinarias dentro de los primeros 30 días."
-      },
-      {
-        "slug": "ai-consulting",
-        "name": "Consultoría de Estrategia de Crecimiento",
-        "icon": "Compass",
-        "tagline": "Estrategia antes que software — siempre.",
-        "problem": "La mayoría de los negocios compran software y herramientas sin estrategia. Terminan con un montón de suscripciones sin ROI. Necesitas alguien que te diga exactamente qué construir, qué comprar y qué ignorar.",
-        "includes": [
-          "Auditoría completa de sistemas de crecimiento",
-          "Hoja de ruta de crecimiento personalizada (90 días y 12 meses)",
-          "Evaluación de proveedores y herramientas",
-          "Capacitación de equipos y gestión del cambio",
-          "Modelado de ROI para cada iniciativa de crecimiento",
-          "Opciones de retainer de asesoría continua"
-        ],
-        "outcomes": "Los clientes que completan nuestro engagement de consultoría ahorran un promedio de $8K/mes en gasto mal asignado en software y herramientas."
-      },
-      {
-        "slug": "seo",
-        "name": "SEO",
-        "icon": "Search",
-        "tagline": "Posiciona #1. Mantente ahí.",
-        "problem": "El SEO hoy requiere contenido a escala, precisión técnica y comprensión profunda de cómo los buscadores posicionan el contenido. El SEO de la vieja escuela está muerto.",
-        "includes": [
-          "Investigación de palabras clave y estrategia de contenido asistida por IA",
-          "Auditorías e implementación de SEO técnico",
-          "SEO programático para contenido a gran escala",
-          "Arquitectura de contenido basada en entidades",
-          "Campañas de adquisición de enlaces",
-          "Reportes de rendimiento mensuales"
-        ],
-        "outcomes": "Aumento promedio del 140% en tráfico orgánico en 6 meses en nuestros clientes activos de SEO."
+        "outcomes": "La mayoría de los clientes dedica 60–80% menos tiempo al seguimiento en el primer mes."
       },
       {
         "slug": "web-design",
-        "name": "Diseño Web",
+        "name": "Sitios Web",
         "icon": "Monitor",
-        "tagline": "Conversión primero. Siempre.",
-        "problem": "Tu sitio web o convierte visitantes en leads, o no lo hace. La mayoría no convierte — porque fue construido para estética, no para rendimiento. Nosotros construimos para ambos.",
+        "tagline": "Un sitio web que hace que la gente te llame.",
+        "problem": "Muchos sitios de pequeños negocios se ven bien pero no traen trabajo. Los visitantes no entienden qué haces ni cómo contactarte, y se van.",
         "includes": [
-          "Estrategia de diseño orientada a CRO",
-          "Desarrollo Next.js / React",
-          "Optimización de rendimiento (Core Web Vitals)",
-          "Configuración de framework de pruebas A/B",
-          "Integración de CMS (Sanity, Contentful, Notion)",
-          "Mantenimiento e iteración continua"
+          "Diseño a la medida de tu marca",
+          "Botones grandes y claros de 'Llamar' y 'Agendar'",
+          "Rápido y fácil de usar en el celular",
+          "Fácil de actualizar para ti",
+          "Lo mantenemos funcionando y arreglamos lo que falle"
         ],
-        "outcomes": "Nuestros rediseños promedian una mejora de 2.4x en tasa de conversión de visitante a lead en 60 días."
+        "outcomes": "En promedio, nuestros sitios nuevos convierten 2.4 veces más visitantes en llamadas y citas en 60 días."
       },
       {
-        "slug": "workflow-automation",
-        "name": "Automatización de Flujos de Trabajo",
-        "icon": "Workflow",
-        "tagline": "Si lo haces manualmente, podemos automatizarlo.",
-        "problem": "Tu equipo pasa horas en trabajo de copiar y pegar — moviendo datos entre herramientas, generando reportes, enviando seguimientos. Cada toque manual es una responsabilidad. Los eliminamos.",
+        "slug": "seo",
+        "name": "Google",
+        "icon": "Search",
+        "tagline": "Aparece cuando la gente cerca de ti busca.",
+        "problem": "Si no estás en la primera página de Google, la mayoría nunca te encontrará. Encontrará a tu competencia.",
         "includes": [
-          "Mapeo de procesos e identificación de cuellos de botella",
-          "Automatizaciones con Zapier, Make y APIs personalizadas",
-          "Sincronización de datos en todo tu stack de herramientas",
-          "Flujos de trabajo automatizados de onboarding de clientes",
-          "Automatización de operaciones internas",
-          "Sistemas de manejo de errores y monitoreo"
+          "Te ponemos en Google Maps",
+          "Tu Perfil de Negocio de Google configurado y al día",
+          "Una página por cada servicio y zona que cubres",
+          "Arreglamos lo que hace lento tu sitio",
+          "Un reporte mensual simple: llamadas, visitas y posiciones"
         ],
-        "outcomes": "Un cliente pasó de 15 horas de tareas manuales semanales a 12 minutos — en 6 semanas."
+        "outcomes": "Nuestros clientes reciben en promedio 140% más visitas desde Google en 6 meses."
+      },
+      {
+        "slug": "social-media",
+        "name": "Redes Sociales y Creadores",
+        "icon": "Video",
+        "tagline": "Más seguidores en Instagram, TikTok y YouTube.",
+        "problem": "Las redes sociales toman tiempo que la mayoría de los dueños no tiene. Publicar de vez en cuando no hace crecer nada, y los anuncios demasiado producidos se sienten falsos.",
+        "includes": [
+          "Videos cortos hechos por creadores reales de nuestro programa Number 1 Creators",
+          "Publicaciones para Instagram, TikTok, Facebook y YouTube",
+          "Publicamos con constancia, para que tú no tengas que hacerlo",
+          "Respondemos comentarios y mensajes",
+          "Un reporte mensual: seguidores, vistas y quién te contactó"
+        ],
+        "outcomes": "Más seguidores, más vistas — y más clientes diciendo \"te vi en TikTok.\""
       },
       {
         "slug": "growth-marketing",
-        "name": "Marketing de Crecimiento",
+        "name": "Anuncios y Email",
         "icon": "TrendingUp",
-        "tagline": "Sistemas de crecimiento. No suposiciones.",
-        "problem": "Hacer marketing sin un sistema es como manejar sin GPS. Podrías llegar — eventualmente. Construimos bucles de crecimiento que se componen con el tiempo.",
+        "tagline": "Anuncios que traen clientes. Emails que los hacen volver.",
+        "problem": "La mayoría de los negocios gasta en anuncios que no funcionan y se olvida de clientes anteriores que con gusto volverían a comprar.",
         "includes": [
-          "Producción de contenido a escala (asistida por IA)",
-          "Secuencias automatizadas de nutrición por email y SMS",
-          "Estrategia de medios pagados y optimización de pujas",
-          "Automatización y programación de redes sociales",
-          "Modelado de analítica y atribución",
-          "Experimentos de crecimiento mensuales y reportes"
+          "Anuncios en Google, Facebook e Instagram",
+          "Solo mantenemos los anuncios que traen clientes",
+          "Emails y textos a clientes anteriores",
+          "Ofertas especiales y promociones de temporada",
+          "Un reporte mensual claro: cuánto gastaste y qué obtuviste"
         ],
-        "outcomes": "Nuestros clientes de crecimiento ven un retorno promedio de 3.1x en gasto de marketing en los primeros 90 días."
+        "outcomes": "En promedio, nuestros clientes recuperan $3.10 por cada $1 invertido en 90 días."
+      },
+      {
+        "slug": "workflow-automation",
+        "name": "Menos Trabajo Manual",
+        "icon": "Workflow",
+        "tagline": "Automatizamos lo aburrido.",
+        "problem": "Tú y tu equipo pierden horas cada semana en las mismas tareas — copiar datos, enviar recordatorios, perseguir papeles.",
+        "includes": [
+          "Recordatorios de citas automáticos",
+          "Facturas y seguimientos enviados por ti",
+          "Tus apps conectadas, para no escribir nada dos veces",
+          "Registro de clientes nuevos automático",
+          "Lo vigilamos y arreglamos lo que falle"
+        ],
+        "outcomes": "Un cliente pasó de 15 horas de trabajo manual por semana a 12 minutos."
       }
     ]
   },
   "about": {
     "hero": {
-      "headline": "SOMOS EL EQUIPO QUE CONSTRUYE TU SISTEMA DE CRECIMIENTO DIGITAL",
-      "subheading": "Number 1 Digital Marketing existe porque demasiados negocios están perdiendo terreno frente a competidores con mejores sistemas — seguimiento más rápido, marketing más inteligente, operaciones más ágiles. Estamos aquí para cerrar esa brecha — rápido."
+      "headline": "SOMOS EL EQUIPO QUE HACE SONAR TU TELÉFONO",
+      "subheading": "Demasiados buenos negocios pierden clientes frente a competidores que simplemente responden más rápido y aparecen más en internet. Nosotros arreglamos eso — rápido."
     },
     "beliefs": {
       "heading": "LO QUE CREEMOS",
       "items": [
         {
-          "title": "Los Sistemas Son el Gran Ecualizador",
-          "description": "Un pequeño negocio con el sistema de crecimiento correcto puede superar a un equipo de marketing de Fortune 500. Lo hemos visto. Lo hemos construido."
+          "title": "Lo Pequeño Puede Ganarle a lo Grande",
+          "description": "Un pequeño negocio que responde rápido y aparece en internet puede ganarle a empresas 100 veces más grandes. Lo hemos visto."
         },
         {
-          "title": "Velocidad Sobre Perfección",
-          "description": "Un sistema funcionando en 30 días supera a un sistema perfecto en 6 meses. Lanzamos rápido, iteramos más rápido."
+          "title": "Rápido Le Gana a Perfecto",
+          "description": "Preferimos darte algo que funcione en 30 días que algo perfecto en 6 meses."
         },
         {
-          "title": "Datos Antes Que Opiniones",
-          "description": "Cada recomendación que hacemos está respaldada por datos. Si no podemos medirlo, no lo construimos."
+          "title": "Números, No Opiniones",
+          "description": "Medimos qué trae clientes y hacemos más de eso. Si no lo podemos medir, no lo vendemos."
         },
         {
-          "title": "Socio, No Proveedor",
-          "description": "No te vendemos un entregable y desaparecemos. Estamos obsesionados con tus resultados — y nos quedamos hasta que los números se muevan."
+          "title": "Nos Quedamos Contigo",
+          "description": "No te entregamos algo y desaparecemos. Nos quedamos hasta que veas resultados."
         }
       ]
     },
     "different": {
       "heading": "POR QUÉ SOMOS DIFERENTES",
-      "subheading": "Las agencias tradicionales están construidas para la agencia — no para ti.",
+      "subheading": "La mayoría de las agencias están hechas para que sigas pagando. Nosotros, para darte resultados.",
       "columns": [
         {
           "title": "Agencia Tradicional",
           "points": [
-            "Contratos de 6–12 meses",
-            "Personal junior haciendo trabajo senior",
-            "Métricas de vanidad en reportes mensuales",
-            "Tácticas desconectadas, sin un sistema real",
-            "Paquetes de talla única"
+            "Contratos largos de los que no puedes salir",
+            "Personal junior haciendo el trabajo",
+            "Reportes llenos de números que no importan",
+            "Muchas piezas que no funcionan juntas",
+            "El mismo paquete para todos"
           ]
         },
         {
           "title": "Number 1 Digital Marketing",
           "points": [
-            "Compromisos basados en resultados",
-            "Especialistas senior en crecimiento en cada cuenta",
-            "Solo métricas de ingresos — o no lo reportamos",
-            "Primero los sistemas — la IA y la automatización son herramientas, no el discurso",
-            "Sistemas personalizados para tu cuello de botella específico"
+            "Enfocados en resultados, no en promesas",
+            "Gente con experiencia en tu cuenta",
+            "Reportamos llamadas, clientes y ventas",
+            "Todo conectado y funcionando junto",
+            "Hecho a la medida de tu negocio"
           ]
         },
         {
           "title": "Herramientas y Apps DIY",
           "points": [
-            "Proliferación de herramientas sin estrategia",
-            "Sin integración entre sistemas",
-            "Consume tiempo de mantenimiento",
-            "Sin soporte cuando algo falla",
-            "Tienes que resolverlo solo"
+            "Demasiadas apps, ningún plan",
+            "Nada se conecta entre sí",
+            "Te come las noches y los fines de semana",
+            "Nadie a quien llamar cuando falla",
+            "Lo resuelves todo solo"
           ]
         }
       ]
     },
     "team": {
       "heading": "EL EQUIPO",
-      "subheading": "Somos un equipo distribuido de constructores de sistemas, especialistas en crecimiento y expertos en conversión — unidos por un objetivo.",
-      "placeholder": "Perfiles del equipo próximamente. Somos selectivos sobre a quién incorporamos — porque mereces lo mejor."
+      "subheading": "Diseñadores web, especialistas en marketing y creadores de video con un solo objetivo: conseguirte más clientes.",
+      "placeholder": "Perfiles del equipo muy pronto. Somos exigentes con a quién contratamos — porque mereces lo mejor."
     },
     "cta": {
-      "heading": "¿LISTO PARA TRABAJAR CON LOS MEJORES?",
-      "subheading": "Agenda una llamada estratégica gratuita. En 30 minutos, identificaremos tu mayor oportunidad de crecimiento y te mostraremos exactamente cómo aprovecharla.",
-      "button": "Agenda Tu Llamada Estratégica Gratis"
+      "heading": "¿LISTO PARA TRABAJAR CON NOSOTROS?",
+      "subheading": "Agenda una llamada gratis de 30 minutos. Encontraremos lo que más frena a tu negocio y te mostraremos cómo arreglarlo.",
+      "button": "Agenda Tu Llamada Gratis"
     }
   },
   "caseStudies": {
@@ -365,7 +370,7 @@
         "slug": "ai-agent-team",
         "stat": "$10K → $5K",
         "statLabel": "Gasto Mensual en Marketing",
-        "title": "Equipo de $10K/mes Reemplazado por un Sistema de Crecimiento de $5K",
+        "title": "Equipo de Marketing de $10K/mes Reemplazado por $5K/mes",
         "client": "Marca DTC — $2M ARR",
         "industry": "E-commerce / Bienes de Consumo",
         "timeframe": "45 Días"
@@ -375,8 +380,8 @@
   "contact": {
     "heading": "HABLEMOS",
     "subheading": "Elige un horario o envía un mensaje. De cualquier manera, respondemos dentro de un día hábil.",
-    "bookHeading": "AGENDA UNA LLAMADA ESTRATÉGICA",
-    "bookSubheading": "30 minutos. Gratis. Sal con un mapa de crecimiento claro — trabajemos juntos o no.",
+    "bookHeading": "AGENDA UNA LLAMADA GRATIS",
+    "bookSubheading": "30 minutos. Gratis. Saldrás con un plan claro — trabajemos juntos o no.",
     "hours": "Lunes – Viernes, 9am – 6pm EST",
     "instagram": "@number1marketing",
     "email": "hello@number1digitalmarketing.com"
@@ -399,10 +404,11 @@
     "locationPlaceholder": "Ciudad, Estado o dirección completa",
     "services": "Servicios de tu interés",
     "servicesOptions": {
-      "simpleAI": "Sistema de Crecimiento Inicial",
-      "professionalAI": "Sistema de Crecimiento Avanzado",
-      "webDesign": "Diseño Web y Soporte",
-      "consulting": "Consultoría Estratégica"
+      "simpleAI": "Nunca Pierdas un Cliente — Básico",
+      "professionalAI": "Nunca Pierdas un Cliente — Avanzado",
+      "webDesign": "Sitio Web",
+      "consulting": "Aún no sé — ayúdame a decidir",
+      "socialMedia": "Redes Sociales y Creadores"
     },
     "consent": "Acepto recibir notificaciones por SMS y correo electrónico, alertas y comunicaciones de marketing ocasionales",
     "submit": "Enviar Mensaje",
@@ -871,12 +877,334 @@
       }
     }
   },
+  "creators": {
+    "meta": {
+      "title": "N°1 Creators | Gana dinero creando UGC",
+      "description": "Únete gratis a la red N°1 Creators y trabaja con marcas en campañas con regalo, pagadas y de afiliados. Marcas: encuentren creadores UGC verificados desde $79 al mes."
+    },
+    "hero": {
+      "eyebrow": "N°1 Creators",
+      "headline": "Crea contenido. Cobra. Crece con marcas.",
+      "subheadline": "Una red selecta de creadores UGC y las marcas que los necesitan. Los creadores se unen gratis y se quedan con el 100% de lo que ganan. Las marcas publican campañas, eligen creadores y reciben contenido que pueden usar.",
+      "creatorCta": "Aplicar como Creador",
+      "brandCta": "Soy una Marca",
+      "facts": [
+        "Gratis para creadores",
+        "Campañas con regalo, pagadas y de afiliados",
+        "Instagram y TikTok",
+        "Inglés, español y portugués"
+      ]
+    },
+    "brief": {
+      "label": "Campaña de ejemplo",
+      "type": "Pagada",
+      "title": "Tostador de café local",
+      "rows": [
+        {
+          "label": "Entrega",
+          "value": "2 videos cortos para TikTok y Reels"
+        },
+        {
+          "label": "Producto",
+          "value": "Te lo enviamos y te lo quedas"
+        },
+        {
+          "label": "Uso",
+          "value": "Página y anuncios de la marca por 90 días"
+        },
+        {
+          "label": "Pago",
+          "value": "Tu tarifa, acordada antes de grabar"
+        }
+      ],
+      "hookLabel": "Gancho del redactor de briefs con IA:",
+      "hook": "Probé todos los cafés de la ciudad para que tú no tengas que hacerlo. Este ganó.",
+      "note": "Ejemplo para mostrar cómo se ve una campaña."
+    },
+    "ways": {
+      "eyebrow": "Tres formas de trabajar con marcas",
+      "heading": "Empieza con regalos. Cobra. Gana una y otra vez.",
+      "subheading": "Todo creador empieza en algún lugar. Haz un gran trabajo y las marcas vuelven con campañas más grandes.",
+      "items": [
+        {
+          "tag": "Con regalo",
+          "title": "Productos gratis, reseñas reales",
+          "desc": "Las marcas te envían su producto. Tú compartes una reseña honesta y contenido real con tus seguidores.",
+          "points": [
+            "Te quedas con el producto",
+            "Construyes tu portafolio",
+            "Demuestras que entregas a tiempo"
+          ],
+          "best": "Ideal para: creadores nuevos que construyen su historial"
+        },
+        {
+          "tag": "Pagada",
+          "title": "Tu tarifa, pagada por PayPal",
+          "desc": "Pon tus propias tarifas y acuerda los detalles con la marca antes de grabar. Cobras por PayPal cuando aprueban tu contenido.",
+          "points": [
+            "Tú pones la tarifa",
+            "No cobramos comisión",
+            "Brief claro, fecha clara"
+          ],
+          "best": "Ideal para: creadores con buen trabajo en campañas con regalo"
+        },
+        {
+          "tag": "Afiliados",
+          "title": "Comisión por cada venta",
+          "desc": "Recibe tu propio código o enlace. Cada cliente que le llevas a la marca te deja una comisión, mes tras mes.",
+          "points": [
+            "Tu propio código o enlace",
+            "Ganas en cada venta",
+            "Ingresos que crecen con el tiempo"
+          ],
+          "best": "Ideal para: creadores cuya audiencia compra"
+        }
+      ]
+    },
+    "how": {
+      "eyebrow": "Cómo funciona",
+      "heading": "Simple para ambos lados",
+      "creators": {
+        "title": "Para creadores",
+        "steps": [
+          {
+            "title": "Aplica en 5 minutos",
+            "desc": "Comparte tus perfiles, seguidores, nicho y tarifas, más enlaces a 2–3 videos de los que estés orgulloso."
+          },
+          {
+            "title": "Recibe tu aprobación",
+            "desc": "Nuestro equipo revisa cada solicitud a mano y responde en pocos días."
+          },
+          {
+            "title": "Crea y cobra",
+            "desc": "Aplica a las campañas que te gusten o acepta invitaciones de marcas. Acuerda los detalles, crea el contenido y cobra."
+          }
+        ]
+      },
+      "brands": {
+        "title": "Para marcas",
+        "steps": [
+          {
+            "title": "Elige un plan",
+            "desc": "Mes a mes. Cancela cuando quieras."
+          },
+          {
+            "title": "Publica una campaña",
+            "desc": "Cuéntanos qué vendes. El redactor de briefs con IA lo convierte en un brief claro con ideas de ganchos y guiones."
+          },
+          {
+            "title": "Elige creadores, recibe contenido",
+            "desc": "Revisa quién aplicó, aprueba a los que te gusten, envía tu producto y descarga los videos terminados."
+          }
+        ]
+      }
+    },
+    "requirements": {
+      "eyebrow": "A quién aceptamos",
+      "heading": "Red pequeña. Estándares altos.",
+      "subheading": "Mantenemos la red pequeña para que las marcas reciban gran contenido y los creadores consigan campañas reales.",
+      "items": [
+        "Perfil público de Instagram o TikTok",
+        "3,000+ seguidores en tu plataforma principal",
+        "Muestras tu cara y hablas a cámara",
+        "Feed cuidado, bio clara, buena luz y buen sonido",
+        "Publicas con regularidad y tu audiencia interactúa"
+      ],
+      "no": "Nada de seguidores falsos, bots ni follow-for-follow"
+    },
+    "brands": {
+      "eyebrow": "Para marcas",
+      "heading": "Encuentra creadores. Lanza campañas. Consigue UGC que vende.",
+      "subheading": "Publica campañas con regalo, pagadas o de afiliados y elige entre creadores verificados. Las manejas tú, o nuestro equipo las maneja por ti.",
+      "earlyAccess": "Acceso anticipado",
+      "earlyAccessNote": "El panel para marcas abre pronto. Elige un plan para reservar tu lugar y te lo activamos apenas esté listo.",
+      "perMonth": "/mes",
+      "popular": "Más popular",
+      "plans": {
+        "starter": {
+          "name": "Starter",
+          "desc": "Para negocios pequeños que prueban UGC por primera vez.",
+          "features": [
+            "5 colaboraciones con creadores al mes",
+            "1 campaña activa",
+            "Campañas con regalo y pagadas",
+            "Creadores de Instagram y TikTok",
+            "Mensajes directos con creadores"
+          ],
+          "cta": "Reservar Starter"
+        },
+        "growth": {
+          "name": "Growth",
+          "desc": "Para marcas que quieren contenido nuevo cada mes.",
+          "features": [
+            "15 colaboraciones con creadores al mes",
+            "3 campañas activas",
+            "Todo lo de Starter",
+            "Campañas de afiliados con códigos y enlaces",
+            "Redactor de briefs y guiones con IA",
+            "Descarga el contenido para usarlo en anuncios"
+          ],
+          "cta": "Reservar Growth"
+        },
+        "pro": {
+          "name": "Pro",
+          "desc": "Para marcas que crecen con creadores a gran escala.",
+          "features": [
+            "30 colaboraciones con creadores al mes",
+            "Campañas ilimitadas",
+            "Todo lo de Growth",
+            "Reportes de ventas de afiliados",
+            "Emparejamiento prioritario con creadores",
+            "Soporte prioritario"
+          ],
+          "cta": "Reservar Pro"
+        }
+      },
+      "managed": {
+        "title": "Campañas Gestionadas",
+        "price": "+${price}/mes sobre cualquier plan",
+        "desc": "¿Poco tiempo? Nuestro equipo maneja tus campañas por ti.",
+        "features": [
+          "Escribimos los briefs y guiones",
+          "Elegimos y contactamos a los creadores",
+          "Revisamos cada video antes de que lo veas",
+          "Reporte mensual de resultados"
+        ],
+        "cta": "Hablemos"
+      },
+      "clients": {
+        "title": "¿Ya eres cliente de Number 1?",
+        "desc": "El plan Growth viene incluido con cualquier plan de servicio mensual, y podemos manejar tus campañas por ti."
+      },
+      "more": {
+        "heading": "Saca más de tu UGC",
+        "items": [
+          {
+            "title": "Úsalo en anuncios",
+            "desc": "Lanzamos y probamos tus mejores videos"
+          },
+          {
+            "title": "Landing pages",
+            "desc": "Páginas hechas para convertir clics en clientes"
+          },
+          {
+            "title": "Respuesta inmediata",
+            "desc": "Cada nuevo prospecto respondido en segundos"
+          },
+          {
+            "title": "SEO y sitio web",
+            "desc": "Aparece cuando la gente busca"
+          }
+        ],
+        "cta": "Ver Todos los Servicios"
+      },
+      "note": "Precios en USD. Mes a mes, cancela cuando quieras. Las marcas cubren el producto y el envío en campañas con regalo y pagan directamente a los creadores en campañas pagadas y de afiliados. Una colaboración es un creador en una campaña; las colaboraciones no usadas no se acumulan."
+    },
+    "apply": {
+      "eyebrow": "Aplica",
+      "heading": "Únete a N°1 Creators",
+      "subheading": "Toma unos 5 minutos. Revisamos cada solicitud a mano y respondemos por email en pocos días.",
+      "fullName": "Nombre completo",
+      "email": "Email",
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "handlePlaceholder": "@tunombre",
+      "handleHint": "Agrega al menos uno.",
+      "followers": "Seguidores en tu plataforma principal",
+      "niche": "Nicho",
+      "choose": "Elige uno",
+      "campaignTypes": "Campañas que te interesan",
+      "rate": "Tu tarifa por video (USD)",
+      "ratePlaceholder": "ej. 150",
+      "location": "Ciudad y país",
+      "links": "Enlaces a 2–3 videos que hayas hecho",
+      "linksPlaceholder": "Un enlace por línea",
+      "about": "¿Algo más que las marcas deban saber? (opcional)",
+      "consent": "Marcaré las publicaciones con regalo y pagadas como anuncios (#ad, #gifted o la etiqueta de colaboración pagada de la plataforma).",
+      "submit": "Enviar Solicitud",
+      "submitting": "Enviando…",
+      "successTitle": "Solicitud enviada",
+      "successDesc": "Gracias, {name}. Revisaremos tu perfil y te escribiremos en pocos días.",
+      "duplicateDesc": "Ya tenemos tu solicitud y la estamos revisando. Te escribiremos pronto.",
+      "followerRanges": {
+        "under3k": "Menos de 3,000",
+        "3k-10k": "3,000–10,000",
+        "10k-50k": "10,000–50,000",
+        "50k-250k": "50,000–250,000",
+        "250k+": "250,000+"
+      },
+      "niches": {
+        "beauty": "Belleza y cuidado de la piel",
+        "food": "Comida y bebida",
+        "fitness": "Fitness y bienestar",
+        "home": "Hogar y estilo de vida",
+        "fashion": "Moda",
+        "tech": "Tecnología y gadgets",
+        "family": "Familia y crianza",
+        "pets": "Mascotas",
+        "local": "Negocio local",
+        "other": "Otro"
+      },
+      "types": {
+        "gifted": "Con regalo",
+        "paid": "Pagada",
+        "affiliate": "Afiliados"
+      },
+      "errors": {
+        "missingContact": "Agrega tu nombre y un email válido.",
+        "missingHandle": "Agrega tu Instagram o TikTok.",
+        "missingDetails": "Completa tus seguidores, nicho, campañas y enlaces a videos.",
+        "missingConsent": "Acepta marcar las publicaciones con regalo y pagadas.",
+        "failed": "No pudimos enviar tu solicitud. Inténtalo de nuevo en un minuto."
+      }
+    },
+    "faq": {
+      "eyebrow": "Preguntas",
+      "heading": "Preguntas frecuentes",
+      "items": [
+        {
+          "q": "¿Cuesta algo unirse como creador?",
+          "a": "No. Unirse a N°1 Creators es gratis, y nunca nos quedamos con parte de lo que ganas."
+        },
+        {
+          "q": "¿Cómo cobran los creadores?",
+          "a": "En campañas pagadas, la marca te paga tu tarifa acordada por PayPal cuando aprueba tu contenido. En campañas de afiliados, ganas una comisión por cada venta con tu código o enlace."
+        },
+        {
+          "q": "¿Y si todavía no tengo 3,000 seguidores?",
+          "a": "Aplica igual y muéstranos tus mejores videos. Algunas marcas publican el UGC en sus propias páginas, así que un gran contenido puede importar más que los seguidores."
+        },
+        {
+          "q": "¿De quién es el contenido?",
+          "a": "Tuyo. Cada campaña dice cómo puede usarlo la marca (por ejemplo, en su página y en anuncios por 90 días) antes de que aceptes."
+        },
+        {
+          "q": "¿Qué cuenta como una colaboración para las marcas?",
+          "a": "Un creador en una campaña. Si cinco creadores hacen contenido para tu lanzamiento, son cinco colaboraciones."
+        },
+        {
+          "q": "¿Pueden manejar nuestras campañas por nosotros?",
+          "a": "Sí. Agrega Campañas Gestionadas a cualquier plan y nuestro equipo escribe los briefs, elige a los creadores y revisa cada video por ti."
+        },
+        {
+          "q": "¿Los creadores pueden aprender a usar IA para su contenido?",
+          "a": "Sí. Toma el curso gratis de N°1 Academy y obtén tu Certificado de Marketing con IA."
+        }
+      ]
+    },
+    "closing": {
+      "heading": "¿Listo para crear con N°1?",
+      "subheading": "Creadores: apliquen en 5 minutos. Marcas: reserven su plan y publiquen su primera campaña cuando abra el panel.",
+      "creatorCta": "Aplicar como Creador",
+      "brandCta": "Ver Planes para Marcas"
+    }
+  },
   "audit": {
-    "metaTitle": "Auditoría Gratuita de Crecimiento Digital",
-    "eyebrow": "Auditoría Gratuita de Crecimiento Digital",
+    "metaTitle": "Auditoría Gratis",
+    "eyebrow": "Auditoría Gratis",
     "headline": "DESCUBRE DÓNDE TU NEGOCIO ESTÁ",
     "headlineAccent": "PERDIENDO CLIENTES",
-    "subheading": "Agenda una auditoría gratuita de 30 minutos. Revisaremos cómo consigues prospectos, les das seguimiento y los conviertes — y te mostraremos el sistema de crecimiento exacto que cerraría esas brechas.",
+    "subheading": "Una llamada gratis de 30 minutos. Veremos cómo te encuentran, qué tan rápido respondes y cuántos se vuelven clientes — y te diremos exactamente qué arreglar.",
     "chips": [
       "30 minutos",
       "100% gratis",
@@ -885,16 +1213,16 @@
     "getHeading": "Lo que te llevarás",
     "get": [
       {
-        "title": "Tus mayores fugas de crecimiento",
-        "desc": "Dónde se te escapan los prospectos — seguimiento lento, una oferta débil, un sitio web que no convierte."
+        "title": "Dónde estás perdiendo clientes",
+        "desc": "Llamadas perdidas, respuestas lentas, un sitio web que no funciona o una página social que nadie ve."
       },
       {
-        "title": "Un plano claro del sistema",
-        "desc": "Los embudos, el seguimiento y las automatizaciones que taparían esas fugas, adaptados a tu negocio."
+        "title": "Un plan simple",
+        "desc": "Qué arreglar, en palabras simples, hecho para tu negocio."
       },
       {
-        "title": "Una hoja de ruta de 90 días",
-        "desc": "Qué arreglar primero, qué construir después y qué ignorar."
+        "title": "Una lista de tareas para 90 días",
+        "desc": "Qué hacer primero, qué hacer después y qué ignorar."
       },
       {
         "title": "Es tuyo",
@@ -904,17 +1232,17 @@
     "formHeading": "Agenda tu auditoría gratis",
     "formSubheading": "Completa este formulario y te contactaremos en un día hábil para confirmar tu horario.",
     "proofLabel": "Leads calificados en 90 días",
-    "proofText": "Lo que pasó cuando un cliente B2B SaaS reemplazó un proceso de ventas manual con un sistema de calificación de leads que construimos.",
+    "proofText": "Lo que pasó cuando una empresa de software nos dejó manejar sus clientes nuevos.",
     "proofCta": "Ver el Caso de Estudio"
   },
   "auditPopup": {
     "eyebrow": "Gratis · 30 minutos",
-    "headline": "Obtén tu auditoría gratuita de crecimiento digital",
-    "body": "Descubre exactamente dónde tu negocio está perdiendo clientes — y el sistema de crecimiento que lo solucionaría.",
+    "headline": "Obtén tu auditoría gratis",
+    "body": "Descubre dónde tu negocio está perdiendo clientes — y cómo arreglarlo.",
     "points": [
-      "Tus mayores fugas de crecimiento",
-      "Un plano claro del sistema",
-      "Una hoja de ruta de 90 días — es tuya"
+      "Dónde estás perdiendo clientes",
+      "Un plan simple para arreglarlo",
+      "Una lista de tareas para 90 días — es tuya"
     ],
     "cta": "Quiero Mi Auditoría Gratis",
     "dismiss": "No, gracias",

@@ -52,15 +52,6 @@ export default async function ServicesPage({
   const tContact = await getTranslations({ locale, namespace: 'contact' });
   const services = t.raw('items') as ServiceItem[];
 
-  const sideNavLabels: Record<string, string> = {
-    'ai-agents': 'Growth Systems',
-    'ai-consulting': 'Strategy',
-    'seo': 'SEO',
-    'web-design': 'Web Design',
-    'workflow-automation': 'Workflow',
-    'growth-marketing': 'Growth',
-  };
-
   return (
     <>
       {/* Header */}
@@ -86,7 +77,7 @@ export default async function ServicesPage({
                       href={`#${service.slug}`}
                       className="block text-xs uppercase tracking-widest text-brand-light1 hover:text-brand-white transition-colors py-1.5 border-l-2 border-transparent hover:border-brand-mid pl-3"
                     >
-                      {sideNavLabels[service.slug] || service.name}
+                      {service.name}
                     </a>
                   </li>
                 ))}

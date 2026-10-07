@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import {
-  ArrowRight, Bot, ChevronDown, Compass, CreditCard, GraduationCap, LayoutTemplate, Menu, Search, ShieldCheck,
-  TrendingUp, UserRound, Users, Workflow, X,
+  ArrowRight, Bot, ChevronDown, CreditCard, GraduationCap, LayoutTemplate, Menu, Search, ShieldCheck,
+  TrendingUp, UserRound, Users, Video, Workflow, X,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LocaleSwitcher from './LocaleSwitcher';
@@ -67,11 +67,11 @@ export default function NavBar({ locale }: NavBarProps) {
 
   const services = [
     { slug: 'ai-agents', icon: Bot },
-    { slug: 'ai-consulting', icon: Compass },
-    { slug: 'seo', icon: Search },
     { slug: 'web-design', icon: LayoutTemplate },
-    { slug: 'workflow-automation', icon: Workflow },
+    { slug: 'seo', icon: Search },
+    { slug: 'social-media', icon: Video },
     { slug: 'growth-marketing', icon: TrendingUp },
+    { slug: 'workflow-automation', icon: Workflow },
   ].map((s) => ({
     ...s,
     href: `/${locale}/services#${s.slug}`,
@@ -81,6 +81,7 @@ export default function NavBar({ locale }: NavBarProps) {
 
   // Home lives on the logo, Contact on "Book a call", Case Studies in the Services menu.
   const navLinks = [
+    { href: `/${locale}/creators`, label: t('creators') },
     { href: `/${locale}/cards`, label: t('tapCards') },
     { href: `/${locale}/shop`, label: t('shop') },
     { href: `/${locale}/about`, label: t('about') },

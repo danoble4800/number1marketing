@@ -21,28 +21,28 @@
     "language": "Langue",
     "svc": {
       "ai_agents": {
-        "name": "Systèmes de croissance",
-        "desc": "Des agents IA qui répondent 24h/24"
-      },
-      "ai_consulting": {
-        "name": "Stratégie de croissance",
-        "desc": "Un plan clair pour investir"
-      },
-      "seo": {
-        "name": "SEO",
-        "desc": "Soyez trouvé quand on vous cherche"
+        "name": "Ne Ratez Aucun Client",
+        "desc": "Nous répondons aux appels, SMS et formulaires en quelques secondes"
       },
       "web_design": {
-        "name": "Web design",
-        "desc": "Des sites qui génèrent des appels"
+        "name": "Sites Web",
+        "desc": "Un site qui donne envie de vous appeler"
       },
-      "workflow_automation": {
-        "name": "Automatisation",
-        "desc": "Ne faites plus deux fois la même tâche"
+      "seo": {
+        "name": "Google",
+        "desc": "Apparaissez quand les gens près de chez vous cherchent"
+      },
+      "social_media": {
+        "name": "Réseaux Sociaux et Créateurs",
+        "desc": "Plus d'abonnés sur Instagram, TikTok et YouTube"
       },
       "growth_marketing": {
-        "name": "Marketing de croissance",
-        "desc": "Pubs, emails et relances qui s’additionnent"
+        "name": "Publicité et Email",
+        "desc": "Des pubs qui amènent des clients, des emails qui les font revenir"
+      },
+      "workflow_automation": {
+        "name": "Moins de Tâches Répétitives",
+        "desc": "Nous automatisons ce qui est ennuyeux"
       }
     }
   },
@@ -50,8 +50,8 @@
     "hero": {
       "headline": "LES AUTRES AGENCES FONT DU MARKETING.",
       "headlineAccent": "NOUS, ON VOUS REND NUMÉRO 1.",
-      "subline": "Agents IA sur-mesure. Workflows automatisés. Des systèmes de croissance qui travaillent pendant que vous dormez — pas de promesses en PowerPoint.",
-      "ctaPrimary": "Réserver Votre Appel Stratégique Gratuit",
+      "subline": "Plus d'appels, plus de clients, plus d'abonnés. Nous gérons votre site, Google, vos pubs et vos réseaux sociaux — et répondons à chaque nouveau contact en quelques secondes, jour et nuit.",
+      "ctaPrimary": "Obtenez Votre Audit Gratuit",
       "ctaSecondary": "Voir Nos Réalisations",
       "cards": {
         "leadTitle": "Nouveau prospect",
@@ -62,86 +62,96 @@
         "bookedTitle": "Appel réservé",
         "bookedBody": "Jeu · 10h30",
         "chartTitle": "Prospects ce mois-ci",
-        "chartMeta": "En hausse"
+        "chartMeta": "En hausse",
+        "followersTitle": "Nouveaux abonnés",
+        "followersMeta": "cette semaine",
+        "videoUploading": "Mise en ligne…",
+        "videoPosted": "Vidéo publiée",
+        "videoBody": "Cuisine : avant / après",
+        "likesTitle": "Nouveaux j’aime",
+        "likesMeta": "sur la publication du jour",
+        "subscriberTitle": "Nouvel abonné",
+        "subscriberBody": "YouTube · à l’instant",
+        "followersChartTitle": "Abonnés ce mois-ci"
       }
     },
     "trusted": {
-      "label": "Approuvé par les équipes axées sur la croissance"
+      "label": "Des entreprises comme la vôtre nous font confiance"
     },
     "services": {
-      "heading": "CE QUE NOUS CONSTRUISONS",
-      "subheading": "Six disciplines. Une obsession — la croissance mesurable.",
+      "heading": "CE QUE NOUS FAISONS",
+      "subheading": "Choisissez-en un, ou laissez-nous tout gérer.",
       "cta": "Voir Tous les Services"
     },
     "shift": {
-      "heading": "LE VIRAGE IA EST LÀ",
-      "subheading": "Deux versions de votre entreprise existent. Laquelle construisez-vous ?",
-      "beforeLabel": "AVANT L'IA",
-      "afterLabel": "APRÈS L'IA",
+      "heading": "LEQUEL ÊTES-VOUS ?",
+      "subheading": "La même entreprise. Des résultats très différents.",
+      "beforeLabel": "SEUL",
+      "afterLabel": "AVEC NUMBER 1",
       "pairs": [
         {
-          "before": "Équipe marketing de 3–5 personnes à 15K€/mois",
-          "after": "Stack d'agents IA qui en fait plus pour 3K€/mois"
+          "before": "Les appels manqués finissent sur la messagerie et ne rappellent jamais",
+          "after": "Chaque appel et SMS répondu en quelques secondes"
         },
         {
-          "before": "Les leads stagnent dans votre CRM pendant des jours",
-          "after": "Leads qualifiés et recontactés en 90 secondes"
+          "before": "Payer 15 000 $ par mois une équipe marketing",
+          "after": "En faire plus pour 3 000 $ par mois"
         },
         {
-          "before": "Les rapports vous prennent la moitié du vendredi",
-          "after": "Tableaux de bord en temps réel — zéro intervention manuelle"
+          "before": "Publier sur les réseaux quand vous y pensez",
+          "after": "Des vidéos chaque semaine par de vrais créateurs"
         },
         {
-          "before": "Le calendrier de contenu a 3 semaines de retard",
-          "after": "30 contenus par semaine, à votre image, automatisés"
+          "before": "Un site que personne ne trouve",
+          "after": "Apparaître quand les gens près de chez vous cherchent sur Google"
         },
         {
-          "before": "Deviner ce que veulent vos clients",
-          "after": "L'IA prédictive vous dit ce qu'ils achèteront ensuite"
+          "before": "Ne pas savoir quelles pubs marchent",
+          "after": "Savoir exactement d'où vient chaque client"
         }
       ]
     },
     "caseStudy": {
       "heading": "DES RÉSULTATS QUI PARLENT",
       "stat": "+312%",
-      "statLabel": "Leads Qualifiés en 90 Jours",
-      "description": "Une entreprise B2B SaaS nous a contactés en brûlant son budget sur une équipe de vente surdimensionnée. Nous avons construit un agent IA de qualification de leads — il filtre, note et route les leads en moins de deux minutes. Résultat : trois fois plus de pipeline pour un tiers du coût.",
+      "statLabel": "Plus de Vrais Prospects en 90 Jours",
+      "description": "Une entreprise de logiciels dépensait trop pour une grosse équipe commerciale. Nous avons mis en place un moyen de répondre à chaque nouveau prospect, de repérer les acheteurs sérieux et de les envoyer à la bonne personne en moins de deux minutes. Résultat : trois fois plus de prospects pour un tiers du coût.",
       "cta": "Lire l'Étude de Cas Complète"
     },
     "process": {
-      "heading": "NOTRE MÉTHODE",
-      "subheading": "Quatre étapes. Sans jargon. Des livrables mesurables à chaque phase.",
+      "heading": "COMMENT ÇA MARCHE",
+      "subheading": "Quatre étapes simples.",
       "steps": [
         {
           "number": "01",
-          "title": "AUDIT",
-          "description": "Nous analysons votre stack actuel, vos workflows et vos fuites de croissance. Pas d'hypothèses — que des données."
+          "title": "ON REGARDE",
+          "description": "Nous voyons d'où viennent vos clients aujourd'hui — et où vous les perdez."
         },
         {
           "number": "02",
-          "title": "CONCEPTION",
-          "description": "Nous cartographions les systèmes IA et automatisations exacts qui feront bouger vos indicateurs."
+          "title": "ON PLANIFIE",
+          "description": "Nous vous disons quoi corriger en premier, en termes simples."
         },
         {
           "number": "03",
-          "title": "CONSTRUCTION",
-          "description": "Nous construisons vite. Agents, automatisations et campagnes en ligne en semaines — pas en trimestres."
+          "title": "ON CONSTRUIT",
+          "description": "Tout est en place en quelques semaines, pas en quelques mois."
         },
         {
           "number": "04",
-          "title": "SCALABILITÉ",
-          "description": "Nous optimisons, itérons et scalons ce qui fonctionne. Vous grandissez. Nous continuons à construire."
+          "title": "ON GRANDIT",
+          "description": "Nous gardons ce qui marche, corrigeons ce qui ne marche pas, et faisons le point chaque mois."
         }
       ]
     },
     "cta": {
-      "heading": "PRÊT À DOMINER ?",
-      "subheading": "Choisissez un créneau. Nous vous montrons exactement où l'IA peut faire la différence dans votre business — sans pitch, sans pression.",
-      "label": "RÉSERVER VOTRE APPEL STRATÉGIQUE GRATUIT"
+      "heading": "PRÊT À DEVENIR NUMBER 1 ?",
+      "subheading": "Réservez un appel gratuit de 30 minutes. Nous vous montrerons où vous perdez des clients et comment les récupérer. Sans pitch, sans pression.",
+      "label": "RÉSERVEZ VOTRE AUDIT GRATUIT"
     }
   },
   "footer": {
-    "tagline": "Le Partenaire #1 Croissance & Marketing IA",
+    "tagline": "Du marketing qui amène des clients.",
     "services": "Services",
     "company": "Entreprise",
     "legal": "Mentions Légales",
@@ -153,177 +163,171 @@
   },
   "services": {
     "heading": "NOS SERVICES",
-    "subheading": "Nous ne vendons pas de forfaits. Nous construisons des systèmes. Voici ce que ça signifie concrètement.",
+    "subheading": "Tout ce qu'il faut pour être trouvé, recevoir des appels et gagner des abonnés — fait pour vous.",
     "items": [
       {
         "slug": "ai-agents",
-        "name": "Agents IA & Systèmes d'Automatisation Sur-Mesure",
+        "name": "Ne Ratez Aucun Client",
         "icon": "Bot",
-        "tagline": "Votre équipe 24h/24 — jamais malade, jamais lente.",
-        "problem": "Votre équipe brûle du temps sur des tâches qu'un agent IA bien configuré traite en secondes — suivi des leads, support client, rapports, traitement de données. Chaque heure dépensée ici est une heure de moins pour la croissance.",
+        "tagline": "Chaque appel, SMS et formulaire répondu en quelques secondes — 24h/24.",
+        "problem": "Quand quelqu'un vous contacte et que personne ne répond, il appelle l'entreprise suivante sur Google. La plupart des patrons sont trop occupés pour répondre à chaque appel.",
         "includes": [
-          "Architecture d'agents GPT-4 / Claude sur-mesure",
-          "Intégration CRM et automatisation du routage des leads",
-          "Séquences de contact multicanal (email, SMS, DM)",
-          "Pipelines intelligents de traitement documentaire",
-          "Tableaux de bord automatisés de reporting et analytique",
-          "Workflows d'escalade avec supervision humaine"
+          "Réponses immédiates aux appels, SMS et formulaires",
+          "Rendez-vous ajoutés directement à votre agenda",
+          "Relances pour ceux qui n'ont pas réservé",
+          "Demandes d’avis envoyées aux clients satisfaits",
+          "On vous passe la main quand une vraie personne est nécessaire"
         ],
-        "outcomes": "Nos clients constatent en général une réduction de 60–80% du temps consacré aux tâches routinières dans les 30 premiers jours."
-      },
-      {
-        "slug": "ai-consulting",
-        "name": "Conseil IA pour Entreprises Modernes",
-        "icon": "Brain",
-        "tagline": "La stratégie avant le logiciel — toujours.",
-        "problem": "La plupart des entreprises achètent des outils IA sans stratégie. Elles se retrouvent avec une pile d'abonnements sans ROI. Vous avez besoin de quelqu'un qui vous dit exactement quoi construire, quoi acheter et quoi ignorer.",
-        "includes": [
-          "Audit complet de maturité IA",
-          "Feuille de route IA personnalisée (90 jours et 12 mois)",
-          "Évaluation des fournisseurs et outils",
-          "Formation des équipes et gestion du changement",
-          "Modélisation du ROI pour les initiatives IA",
-          "Options de retainer conseil continu"
-        ],
-        "outcomes": "Les clients qui complètent notre engagement de conseil économisent en moyenne 8K€/mois en dépenses mal allouées en outils IA."
-      },
-      {
-        "slug": "seo",
-        "name": "SEO",
-        "icon": "Search",
-        "tagline": "Classez #1. Restez-y.",
-        "problem": "Le SEO en 2025 exige du contenu assisté par IA à l'échelle, une précision technique et une compréhension profonde. Le SEO à l'ancienne est mort.",
-        "includes": [
-          "Recherche de mots-clés et stratégie de contenu assistées par IA",
-          "Audits SEO technique et implémentation",
-          "SEO programmatique pour le contenu à grande échelle",
-          "Architecture de contenu basée sur les entités",
-          "Campagnes d'acquisition de liens",
-          "Rapports de performance mensuels"
-        ],
-        "outcomes": "Augmentation moyenne de 140% du trafic organique en 6 mois pour nos clients SEO actifs."
+        "outcomes": "La plupart des clients passent 60 à 80 % de temps en moins sur les relances dès le premier mois."
       },
       {
         "slug": "web-design",
-        "name": "Conception Web",
+        "name": "Sites Web",
         "icon": "Monitor",
-        "tagline": "La conversion d'abord. Toujours.",
-        "problem": "Votre site web convertit les visiteurs en leads — ou pas. La plupart ne convertissent pas — parce qu'ils ont été construits pour l'esthétique, pas la performance. Nous construisons pour les deux.",
+        "tagline": "Un site qui donne envie de vous appeler.",
+        "problem": "Beaucoup de sites de petites entreprises sont jolis mais n'apportent pas de travail. Les visiteurs ne comprennent pas ce que vous faites ni comment vous joindre, alors ils partent.",
         "includes": [
-          "Stratégie de design axée CRO",
-          "Développement Next.js / React",
-          "Optimisation des performances (Core Web Vitals)",
-          "Mise en place du framework de tests A/B",
-          "Intégration CMS (Sanity, Contentful, Notion)",
-          "Maintenance et itération continues"
+          "Design sur mesure pour votre marque",
+          "De grands boutons clairs « Appeler » et « Réserver »",
+          "Rapide et simple sur téléphone",
+          "Facile à mettre à jour",
+          "Nous l'entretenons et réparons ce qui casse"
         ],
-        "outcomes": "Nos refonte web affichent en moyenne une amélioration de 2,4x du taux de conversion visiteur-lead en 60 jours."
+        "outcomes": "En moyenne, nos nouveaux sites transforment 2,4 fois plus de visiteurs en appels et rendez-vous en 60 jours."
       },
       {
-        "slug": "workflow-automation",
-        "name": "Automatisation des Workflows",
-        "icon": "Workflow",
-        "tagline": "Si vous le faites manuellement, nous pouvons l'automatiser.",
-        "problem": "Votre équipe passe des heures à copier-coller — déplacer des données entre outils, générer des rapports, envoyer des relances. Chaque action manuelle est un risque. Nous les éliminons.",
+        "slug": "seo",
+        "name": "Google",
+        "icon": "Search",
+        "tagline": "Apparaissez quand les gens près de chez vous cherchent.",
+        "problem": "Si vous n'êtes pas sur la première page de Google, la plupart des gens ne vous trouveront jamais. Ils trouveront votre concurrent.",
         "includes": [
-          "Cartographie des processus et identification des goulots d'étranglement",
-          "Automatisations Zapier, Make et API personnalisées",
-          "Synchronisation des données sur tout votre stack",
-          "Workflows automatisés d'onboarding client",
-          "Automatisation des opérations internes",
-          "Systèmes de gestion des erreurs et monitoring"
+          "Votre présence sur Google Maps",
+          "Votre fiche Google Business créée et tenue à jour",
+          "Une page pour chaque service et zone desservie",
+          "Nous corrigeons ce qui ralentit votre site",
+          "Un rapport mensuel simple : appels, visites et classement"
         ],
-        "outcomes": "Un client est passé de 15h de tâches manuelles hebdomadaires à 12 minutes — en 6 semaines."
+        "outcomes": "Nos clients reçoivent en moyenne 140 % de visites en plus depuis Google en 6 mois."
+      },
+      {
+        "slug": "social-media",
+        "name": "Réseaux Sociaux et Créateurs",
+        "icon": "Video",
+        "tagline": "Plus d'abonnés sur Instagram, TikTok et YouTube.",
+        "problem": "Les réseaux sociaux prennent un temps que la plupart des patrons n'ont pas. Publier de temps en temps ne fait rien grandir, et les pubs trop léchées sonnent faux.",
+        "includes": [
+          "Des vidéos courtes par de vrais créateurs de notre programme Number 1 Creators",
+          "Des publications pour Instagram, TikTok, Facebook et YouTube",
+          "Publiées régulièrement, pour que vous n'ayez pas à le faire",
+          "Réponses aux commentaires et messages",
+          "Un rapport mensuel : abonnés, vues et qui vous a contacté"
+        ],
+        "outcomes": "Plus d'abonnés, plus de vues — et plus de clients qui disent « je vous ai vu sur TikTok »."
       },
       {
         "slug": "growth-marketing",
-        "name": "Croissance & Marketing IA",
+        "name": "Publicité et Email",
         "icon": "TrendingUp",
-        "tagline": "Des systèmes de croissance. Pas des approximations.",
-        "problem": "Faire du marketing sans IA en 2025, c'est comme conduire sans GPS. Vous arriverez peut-être — un jour. Nous construisons des boucles de croissance alimentées par l'IA qui s'accumulent dans le temps.",
+        "tagline": "Des pubs qui amènent des clients. Des emails qui les font revenir.",
+        "problem": "La plupart des entreprises gaspillent de l'argent en pubs qui ne marchent pas et oublient leurs anciens clients, qui rachèteraient volontiers.",
         "includes": [
-          "Production de contenu à grande échelle assistée par IA",
-          "Séquences de nurturing automatisées par email et SMS",
-          "Stratégie médias payants et optimisation des enchères par IA",
-          "Automatisation et programmation des réseaux sociaux",
-          "Modélisation analytique et attribution",
-          "Expériences de croissance mensuelles et rapports"
+          "Publicités Google, Facebook et Instagram",
+          "Nous ne gardons que les pubs qui amènent des clients",
+          "Emails et SMS aux anciens clients",
+          "Offres spéciales et promotions saisonnières",
+          "Un rapport mensuel clair : ce que vous avez dépensé et ce que ça a rapporté"
         ],
-        "outcomes": "Nos clients croissance voient en moyenne un retour de 3,1x sur les dépenses marketing dans les 90 premiers jours."
+        "outcomes": "En moyenne, nos clients récupèrent 3,10 $ pour chaque 1 $ dépensé en 90 jours."
+      },
+      {
+        "slug": "workflow-automation",
+        "name": "Moins de Tâches Répétitives",
+        "icon": "Workflow",
+        "tagline": "Nous automatisons ce qui est ennuyeux.",
+        "problem": "Vous et votre équipe perdez des heures chaque semaine sur les mêmes tâches — recopier des infos, envoyer des rappels, courir après les papiers.",
+        "includes": [
+          "Rappels de rendez-vous automatiques",
+          "Factures et relances envoyées pour vous",
+          "Vos applis connectées, pour ne rien taper deux fois",
+          "Inscription des nouveaux clients automatique",
+          "Nous surveillons et réparons ce qui casse"
+        ],
+        "outcomes": "Un client est passé de 15 heures de tâches répétitives par semaine à 12 minutes."
       }
     ]
   },
   "about": {
     "hero": {
-      "headline": "NOUS SOMMES L'ÉQUIPE QUI UTILISE L'IA POUR CONSTRUIRE VOTRE AVANTAGE COMPÉTITIF",
-      "subheading": "Number 1 Digital Marketing existe parce que trop d'entreprises perdent du terrain face à des concurrents qui ont compris l'IA en premier. Nous sommes là pour combler cet écart — rapidement."
+      "headline": "NOUS SOMMES L'ÉQUIPE QUI FAIT SONNER VOTRE TÉLÉPHONE",
+      "subheading": "Trop de bonnes entreprises perdent des clients face à des concurrents qui répondent simplement plus vite et sont plus visibles en ligne. Nous réglons ça — rapidement."
     },
     "beliefs": {
       "heading": "CE QUE NOUS CROYONS",
       "items": [
         {
-          "title": "L'IA est le Grand Égalisateur",
-          "description": "Une startup avec le bon stack IA peut surpasser une équipe marketing Fortune 500. Nous l'avons vu. Nous l'avons construit."
+          "title": "Petit Peut Battre Grand",
+          "description": "Une petite entreprise qui répond vite et est visible en ligne peut battre des sociétés 100 fois plus grandes. Nous l’avons vu."
         },
         {
-          "title": "La Vitesse Avant la Perfection",
-          "description": "Un système fonctionnel en 30 jours vaut mieux qu'un système parfait en 6 mois. Nous lançons vite, nous itérons encore plus vite."
+          "title": "Rapide Bat Parfait",
+          "description": "Nous préférons vous livrer quelque chose qui marche en 30 jours que quelque chose de parfait en 6 mois."
         },
         {
-          "title": "Les Données Avant les Opinions",
-          "description": "Chaque recommandation que nous faisons est fondée sur des données. Si nous ne pouvons pas le mesurer, nous ne le construisons pas."
+          "title": "Des Chiffres, Pas des Opinions",
+          "description": "Nous mesurons ce qui amène des clients et en faisons plus. Si on ne peut pas le mesurer, on ne le vend pas."
         },
         {
-          "title": "Partenaire, Pas Prestataire",
-          "description": "Nous ne vous vendons pas un livrable et disparaissons. Nous sommes obsédés par vos résultats — et nous restons jusqu'à ce que les chiffres bougent."
+          "title": "Nous Restons",
+          "description": "Nous ne livrons pas puis disparaissons. Nous restons jusqu'à ce que vous voyiez des résultats."
         }
       ]
     },
     "different": {
       "heading": "POURQUOI NOUS SOMMES DIFFÉRENTS",
-      "subheading": "Les agences traditionnelles sont construites pour l'agence — pas pour vous.",
+      "subheading": "La plupart des agences sont faites pour que vous continuiez à payer. Nous, pour vous apporter des résultats.",
       "columns": [
         {
           "title": "Agence Traditionnelle",
           "points": [
-            "Contrats de 6–12 mois",
-            "Juniors qui font du travail de senior",
-            "Métriques de vanité dans les rapports mensuels",
-            "L'IA comme option secondaire",
-            "Forfaits uniformisés"
+            "Longs contrats impossibles à quitter",
+            "Des juniors qui font le travail",
+            "Des rapports pleins de chiffres inutiles",
+            "Plein de morceaux qui ne fonctionnent pas ensemble",
+            "Le même forfait pour tout le monde"
           ]
         },
         {
           "title": "Number 1 Digital Marketing",
           "points": [
-            "Engagements basés sur les résultats",
-            "Spécialistes IA seniors sur chaque compte",
-            "Uniquement des métriques de revenus — ou nous ne les reportons pas",
-            "L'IA est la fondation, pas une fonctionnalité",
-            "Systèmes sur-mesure pour votre goulot d'étranglement spécifique"
+            "Axés sur les résultats, pas les promesses",
+            "Des gens expérimentés sur votre compte",
+            "Nous suivons appels, clients et ventes",
+            "Tout connecté et qui fonctionne ensemble",
+            "Pensé pour votre entreprise"
           ]
         },
         {
-          "title": "Outils IA DIY",
+          "title": "Outils et Applis DIY",
           "points": [
-            "Prolifération d'outils sans stratégie",
-            "Aucune intégration entre les systèmes",
-            "Chronophage à maintenir",
-            "Pas de support en cas de panne",
-            "Vous devez tout résoudre seul"
+            "Trop d'applis, aucun plan",
+            "Rien ne communique",
+            "Ça mange vos soirées et week-ends",
+            "Personne à appeler en cas de panne",
+            "Vous vous débrouillez seul"
           ]
         }
       ]
     },
     "team": {
       "heading": "L'ÉQUIPE",
-      "subheading": "Nous sommes une équipe distribuée d'ingénieurs IA, spécialistes de la croissance et experts en conversion — unis par un seul objectif.",
-      "placeholder": "Profils de l'équipe à venir. Nous sommes sélectifs sur les profils que nous intégrons — parce que vous méritez le meilleur."
+      "subheading": "Des designers web, des marketeurs et des créateurs vidéo avec un seul but : vous apporter plus de clients.",
+      "placeholder": "Profils de l'équipe bientôt. Nous sommes exigeants dans nos recrutements — parce que vous méritez le meilleur."
     },
     "cta": {
-      "heading": "PRÊT À TRAVAILLER AVEC LES MEILLEURS ?",
-      "subheading": "Réservez un appel stratégique gratuit. En 30 minutes, nous identifions votre principale opportunité IA et vous montrons exactement comment la saisir.",
-      "button": "Réserver Votre Appel Stratégique Gratuit"
+      "heading": "PRÊT À TRAVAILLER AVEC NOUS ?",
+      "subheading": "Réservez un appel gratuit de 30 minutes. Nous trouverons ce qui freine le plus votre entreprise et vous montrerons comment y remédier.",
+      "button": "Réservez Votre Appel Gratuit"
     }
   },
   "caseStudies": {
@@ -362,8 +366,8 @@
   "contact": {
     "heading": "PARLONS-EN",
     "subheading": "Choisissez un créneau ou envoyez un message. Dans tous les cas, nous répondons dans un jour ouvré.",
-    "bookHeading": "RÉSERVER UN APPEL STRATÉGIQUE",
-    "bookSubheading": "30 minutes. Gratuit. Repartez avec une feuille de route IA claire — que nous travaillions ensemble ou non.",
+    "bookHeading": "RÉSERVEZ UN APPEL GRATUIT",
+    "bookSubheading": "30 minutes. Gratuit. Vous repartez avec un plan clair — qu'on travaille ensemble ou non.",
     "hours": "Lundi – Vendredi, 9h – 18h EST",
     "instagram": "@number1marketing",
     "email": "hello@number1digitalmarketing.com"

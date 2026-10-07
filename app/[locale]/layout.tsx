@@ -73,7 +73,7 @@ export async function generateMetadata({
       apple: '/apple-touch-icon.png',
     },
     description:
-      'The #1 Digital Growth Systems Partner. Custom growth systems, automation, SEO, and web design for modern businesses.',
+      'More calls, customers and followers for your business. Websites, Google, ads, social media and instant replies to every new lead.',
     openGraph: {
       siteName: 'Number 1 Digital Marketing',
       locale,

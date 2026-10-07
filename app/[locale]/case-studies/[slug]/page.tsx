@@ -103,7 +103,7 @@ const caseStudyData: Record<string, CaseStudyData> = {
     statSuffix: 'K/mo',
     statPrefix: '$',
     statLabel: 'Monthly Marketing Spend',
-    title: '$10K/mo Marketing Team Replaced by a $5K Growth System',
+    title: '$10K/mo Marketing Team Replaced for $5K/mo',
     client: 'Confidential — DTC Brand, $2M ARR',
     industry: 'E-commerce / Consumer Goods',
     timeframe: '45 Days',

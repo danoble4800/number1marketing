@@ -38,10 +38,10 @@ export default function HeroSection({
       {/* Radial gradient */}
       <div className="absolute inset-0 bg-gradient-radial from-brand-dark2/30 via-transparent to-transparent pointer-events-none" />
       <HeroBackdrop />
-      <HeroCards copy={cards} />
+      <HeroCards copy={cards} locale={locale} />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 text-center pt-24 pb-16">
-        <HeroTicker copy={cards} />
+        <HeroTicker copy={cards} locale={locale} />
         <HeroWords headline={headline} headlineAccent={headlineAccent} />
         <motion.p
           initial={{ opacity: 0, y: 16 }}

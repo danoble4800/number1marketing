@@ -11,6 +11,7 @@
     "bookCall": "Book a Call",
     "shop": "Shop",
     "academy": "Get AI Certified",
+    "creators": "Creators",
     "signIn": "Sign in",
     "myTapCard": "My tap card",
     "customers": "Customers",
@@ -25,28 +26,28 @@
     "language": "Language",
     "svc": {
       "ai_agents": {
-        "name": "Growth Systems",
-        "desc": "AI agents that answer leads 24/7"
-      },
-      "ai_consulting": {
-        "name": "Growth Strategy",
-        "desc": "A plan for where to spend next"
-      },
-      "seo": {
-        "name": "SEO",
-        "desc": "Show up when people search"
+        "name": "Never Miss a Lead",
+        "desc": "We answer calls, texts and forms in seconds"
       },
       "web_design": {
-        "name": "Web Design",
-        "desc": "Sites built to turn visits into calls"
+        "name": "Websites",
+        "desc": "A site that gets people to call you"
       },
-      "workflow_automation": {
-        "name": "Workflow Automation",
-        "desc": "Stop doing the same task twice"
+      "seo": {
+        "name": "Google Search",
+        "desc": "Show up when people near you search"
+      },
+      "social_media": {
+        "name": "Social Media & Creators",
+        "desc": "More followers on Instagram, TikTok and YouTube"
       },
       "growth_marketing": {
-        "name": "Growth Marketing",
-        "desc": "Ads, email and follow-up that compound"
+        "name": "Ads & Email",
+        "desc": "Ads that bring customers, emails that bring them back"
+      },
+      "workflow_automation": {
+        "name": "Less Busywork",
+        "desc": "We automate the boring stuff"
       }
     }
   },
@@ -54,8 +55,8 @@
     "hero": {
       "headline": "OTHER AGENCIES DO MARKETING.",
       "headlineAccent": "WE MAKE YOU NUMBER 1.",
-      "subline": "Lead capture, instant follow-up, content, and conversion — connected into one system that grows your business while you sleep. Not just promises on a slide deck.",
-      "ctaPrimary": "Book Your Free Digital Growth Audit",
+      "subline": "More calls, more customers, more followers. We run your website, Google, ads and social media — and reply to every new lead in seconds, day or night.",
+      "ctaPrimary": "Get Your Free Audit",
       "ctaSecondary": "See Our Work",
       "cards": {
         "leadTitle": "New lead",
@@ -66,92 +67,102 @@
         "bookedTitle": "Call booked",
         "bookedBody": "Thu · 10:30 AM",
         "chartTitle": "Leads this month",
-        "chartMeta": "Trending up"
+        "chartMeta": "Trending up",
+        "followersTitle": "New followers",
+        "followersMeta": "this week",
+        "videoUploading": "Uploading video…",
+        "videoPosted": "Video posted",
+        "videoBody": "Kitchen before & after",
+        "likesTitle": "New likes",
+        "likesMeta": "on today’s post",
+        "subscriberTitle": "New subscriber",
+        "subscriberBody": "YouTube · just now",
+        "followersChartTitle": "Followers this month"
       }
     },
     "trusted": {
-      "label": "Trusted by growth-focused teams"
+      "label": "Trusted by businesses like yours"
     },
     "services": {
-      "heading": "WHAT WE BUILD",
-      "subheading": "Six disciplines. One obsession — measurable growth.",
+      "heading": "WHAT WE DO",
+      "subheading": "Pick one, or let us handle all of it.",
       "cta": "See All Services"
     },
     "shift": {
-      "heading": "THE GROWTH GAP IS REAL",
-      "subheading": "Two versions of your business exist. Which one are you building?",
-      "beforeLabel": "WITHOUT A SYSTEM",
-      "afterLabel": "WITH A GROWTH SYSTEM",
+      "heading": "WHICH ONE ARE YOU?",
+      "subheading": "Same business. Very different results.",
+      "beforeLabel": "ON YOUR OWN",
+      "afterLabel": "WITH NUMBER 1",
       "pairs": [
         {
-          "before": "3–5 person marketing team at $15K/month",
-          "after": "A connected growth system doing more at $3K/month"
+          "before": "Missed calls go to voicemail and never call back",
+          "after": "Every call and text answered in seconds"
         },
         {
-          "before": "Leads sit in your CRM for days",
-          "after": "Leads qualified and followed up in 90 seconds"
+          "before": "Paying a marketing team $15K a month",
+          "after": "Getting more done for $3K a month"
         },
         {
-          "before": "Reporting takes half your Friday",
-          "after": "Real-time dashboards — no manual touch"
+          "before": "Posting on social media when you remember",
+          "after": "Fresh videos every week from real creators"
         },
         {
-          "before": "Content calendar behind by 3 weeks",
-          "after": "30 pieces of brand-perfect content per week, automated"
+          "before": "A website nobody finds",
+          "after": "Showing up when people near you search Google"
         },
         {
-          "before": "Guessing what your customers want",
-          "after": "Data telling you what they'll buy next"
+          "before": "No idea which ads are working",
+          "after": "Knowing exactly where every customer came from"
         }
       ]
     },
     "caseStudy": {
       "heading": "RESULTS THAT SPEAK",
       "stat": "+312%",
-      "statLabel": "Qualified Leads in 90 Days",
-      "description": "A B2B SaaS company came to us bleeding budget on a bloated sales team. We built a lead qualification system — it now screens, scores, and routes leads in under two minutes. The result: three times the pipeline at a third of the cost.",
+      "statLabel": "More Real Leads in 90 Days",
+      "description": "A software company was spending too much on a big sales team. We set up a way to answer every new lead, pick out the serious buyers, and send them to the right person in under two minutes. They got three times the leads for a third of the cost.",
       "cta": "Read the Full Case Study"
     },
     "process": {
-      "heading": "HOW WE WORK",
-      "subheading": "Four steps. No fluff. Measurable output at every stage.",
+      "heading": "HOW IT WORKS",
+      "subheading": "Four simple steps.",
       "steps": [
         {
           "number": "01",
-          "title": "AUDIT",
-          "description": "We dissect your current stack, workflows, and growth leaks. No assumptions — just data."
+          "title": "LOOK",
+          "description": "We see where your customers come from today — and where you're losing them."
         },
         {
           "number": "02",
-          "title": "DESIGN",
-          "description": "We map the exact growth system — funnels, follow-up, and automations — that will move your specific needle."
+          "title": "PLAN",
+          "description": "We tell you what to fix first, in plain English."
         },
         {
           "number": "03",
           "title": "BUILD",
-          "description": "We build fast. Systems, automations, and campaigns go live in weeks — not quarters."
+          "description": "We set it all up in weeks, not months."
         },
         {
           "number": "04",
-          "title": "SCALE",
-          "description": "We optimize, iterate, and scale what's working. You grow. We keep building."
+          "title": "GROW",
+          "description": "We keep what works, fix what doesn't, and report back every month."
         }
       ]
     },
     "portfolio": {
       "heading": "WEB DESIGNS WE'VE BUILT",
-      "subheading": "Every niche. Every business size. We build conversion-first websites that rank and actually bring in leads.",
+      "subheading": "Every kind of business, every size. Websites that look great and get people to call.",
       "nicheLabel": "CLIENT WORK",
       "viewSite": "View Live Site"
     },
     "cta": {
-      "heading": "READY TO OUTPERFORM?",
-      "subheading": "Pick a time. We'll show you exactly where a growth system can move the needle in your business — no pitch, no pressure.",
-      "label": "BOOK YOUR FREE DIGITAL GROWTH AUDIT"
+      "heading": "READY TO BE NUMBER 1?",
+      "subheading": "Grab a free 30-minute call. We'll show you where customers are slipping away and how to win them back. No pitch, no pressure.",
+      "label": "BOOK YOUR FREE AUDIT"
     }
   },
   "footer": {
-    "tagline": "The #1 Digital Growth Systems Partner",
+    "tagline": "Marketing that brings in customers.",
     "location": "Boston, Massachusetts · Serving clients worldwide",
     "hours": "Open 24/7",
     "services": "Services",
@@ -165,177 +176,171 @@
   },
   "services": {
     "heading": "OUR SERVICES",
-    "subheading": "We don't offer packages. We build systems. Here's what that looks like.",
+    "subheading": "Everything you need to get found, get calls and get followers — done for you.",
     "items": [
       {
         "slug": "ai-agents",
-        "name": "Custom Growth Systems & Automation",
-        "icon": "Rocket",
-        "tagline": "Your 24/7 workforce — never sick, never slow.",
-        "problem": "Your team is burning time on tasks that a well-built system can handle in seconds — lead follow-up, customer support, reporting, data processing. Every hour spent on these is an hour not spent on growth.",
+        "name": "Never Miss a Lead",
+        "icon": "Bot",
+        "tagline": "Every call, text and form answered in seconds — 24/7.",
+        "problem": "When someone reaches out and nobody answers, they call the next business on Google. Most owners are too busy doing the work to catch every call.",
         "includes": [
-          "AI-assisted lead response and customer support",
-          "CRM integration and lead routing automation",
-          "Multi-channel outreach sequences (email, SMS, DM)",
-          "Intelligent document processing pipelines",
-          "Automated reporting and analytics dashboards",
-          "Human-in-the-loop escalation workflows"
+          "Instant replies to calls, texts and website forms",
+          "Appointments booked straight onto your calendar",
+          "Follow-ups for people who didn't book",
+          "Review requests sent to happy customers",
+          "Handed to you when a real person is needed"
         ],
-        "outcomes": "Our clients typically see a 60–80% reduction in time spent on routine tasks within the first 30 days of deployment."
-      },
-      {
-        "slug": "ai-consulting",
-        "name": "Growth Strategy Consulting",
-        "icon": "Compass",
-        "tagline": "Strategy before software — always.",
-        "problem": "Most businesses buy software and tools without a strategy. They end up with a pile of subscriptions and no ROI. You need someone to tell you exactly what to build, what to buy, and what to ignore.",
-        "includes": [
-          "Full growth systems audit",
-          "Custom growth roadmap (90-day and 12-month)",
-          "Vendor and tool evaluation",
-          "Team training and change management",
-          "ROI modeling for every growth initiative",
-          "Ongoing advisory retainer options"
-        ],
-        "outcomes": "Clients who complete our consulting engagement save an average of $8K/month in misallocated software and tool spend."
-      },
-      {
-        "slug": "seo",
-        "name": "SEO",
-        "icon": "Search",
-        "tagline": "Rank #1. Stay there.",
-        "problem": "SEO today requires content at scale, technical precision, and a deep understanding of how search engines rank and surface content. Old-school SEO is dead.",
-        "includes": [
-          "AI-assisted keyword research and content strategy",
-          "Technical SEO audits and implementation",
-          "Programmatic SEO for large-scale content",
-          "Entity-based content architecture",
-          "Link acquisition campaigns",
-          "Monthly performance reporting"
-        ],
-        "outcomes": "Average 140% increase in organic traffic within 6 months across our active SEO clients."
+        "outcomes": "Most clients spend 60–80% less time on follow-up within the first month."
       },
       {
         "slug": "web-design",
-        "name": "Web Design",
+        "name": "Websites",
         "icon": "Monitor",
-        "tagline": "Conversion-first. Always.",
-        "problem": "Your website is either converting visitors into leads or it's not. Most websites don't — because they were built for aesthetics, not performance. We build for both.",
+        "tagline": "A website that gets people to call you.",
+        "problem": "Most small business websites look fine but don't bring in work. Visitors can't tell what you do or how to reach you, so they leave.",
         "includes": [
-          "CRO-first design strategy",
-          "Next.js / React development",
-          "Performance optimization (Core Web Vitals)",
-          "A/B testing framework setup",
-          "CMS integration (Sanity, Contentful, Notion)",
-          "Ongoing maintenance and iteration"
+          "Custom design that fits your brand",
+          "Big, clear 'Call' and 'Book' buttons",
+          "Fast and easy to use on phones",
+          "Easy for you to update",
+          "We keep it running and fix anything that breaks"
         ],
-        "outcomes": "Our redesigns average a 2.4x improvement in lead-to-visitor conversion rate within 60 days."
+        "outcomes": "On average, our new websites turn 2.4x more visitors into calls and bookings within 60 days."
       },
       {
-        "slug": "workflow-automation",
-        "name": "Workflow Automation",
-        "icon": "Workflow",
-        "tagline": "If you're doing it manually, we can automate it.",
-        "problem": "Your team spends hours on copy-paste work — moving data between tools, generating reports, sending follow-ups. Every manual touch is a liability. We eliminate them.",
+        "slug": "seo",
+        "name": "Google Search",
+        "icon": "Search",
+        "tagline": "Show up when people near you search.",
+        "problem": "If you're not on the first page of Google, most people will never find you. They'll find your competitor instead.",
         "includes": [
-          "Process mapping and bottleneck identification",
-          "Zapier, Make, and custom API automations",
-          "Data sync across your entire tool stack",
-          "Automated client onboarding workflows",
-          "Internal operations automation",
-          "Error handling and monitoring systems"
+          "Getting you on Google Maps",
+          "Your Google Business Profile set up and kept fresh",
+          "A page for every service and area you cover",
+          "Fixing whatever slows your site down",
+          "A simple monthly report: calls, visits and rankings"
         ],
-        "outcomes": "One client went from 15 hours of manual weekly tasks to 12 minutes — in 6 weeks."
+        "outcomes": "Our clients get about 140% more visitors from Google within 6 months, on average."
+      },
+      {
+        "slug": "social-media",
+        "name": "Social Media & Creators",
+        "icon": "Video",
+        "tagline": "More followers on Instagram, TikTok and YouTube.",
+        "problem": "Social media takes time most owners don't have. Posting once in a while doesn't grow anything, and polished ads feel fake to viewers.",
+        "includes": [
+          "Short videos made by real creators from our Number 1 Creators program",
+          "Posts for Instagram, TikTok, Facebook and YouTube",
+          "Posted on a steady schedule, so you never have to",
+          "Replies to comments and messages",
+          "A monthly report: followers, views and who reached out"
+        ],
+        "outcomes": "More followers, more views — and more customers saying \"I saw you on TikTok.\""
       },
       {
         "slug": "growth-marketing",
-        "name": "Growth Marketing",
+        "name": "Ads & Email",
         "icon": "TrendingUp",
-        "tagline": "Growth systems. Not guesswork.",
-        "problem": "Marketing without a system is like driving without GPS. You might get there — eventually. We build growth loops that compound over time.",
+        "tagline": "Ads that bring customers. Emails that bring them back.",
+        "problem": "Most businesses waste money on ads that don't work, and forget about past customers who would happily buy again.",
         "includes": [
-          "Content production at scale (AI-assisted)",
-          "Automated email and SMS nurture sequences",
-          "Paid media strategy and bid optimization",
-          "Social media automation and scheduling",
-          "Analytics and attribution modeling",
-          "Monthly growth experiments and reporting"
+          "Google, Facebook and Instagram ads",
+          "We keep only the ads that bring in customers",
+          "Emails and texts to past customers",
+          "Special offers and seasonal promotions",
+          "A clear monthly report: what you spent and what you got"
         ],
-        "outcomes": "Our growth clients see an average of 3.1x return on marketing spend within the first 90 days."
+        "outcomes": "On average, our clients make back $3.10 for every $1 spent within 90 days."
+      },
+      {
+        "slug": "workflow-automation",
+        "name": "Less Busywork",
+        "icon": "Workflow",
+        "tagline": "We automate the boring stuff.",
+        "problem": "You and your team lose hours every week to the same tasks — copying info, sending reminders, chasing paperwork.",
+        "includes": [
+          "Automatic appointment reminders",
+          "Invoices and follow-ups sent for you",
+          "Your apps connected, so nothing gets typed twice",
+          "New client sign-ups handled automatically",
+          "We watch it and fix anything that breaks"
+        ],
+        "outcomes": "One client went from 15 hours of busywork a week to 12 minutes."
       }
     ]
   },
   "about": {
     "hero": {
-      "headline": "WE ARE THE TEAM THAT BUILDS YOUR DIGITAL GROWTH SYSTEM",
-      "subheading": "Number 1 Digital Marketing exists because too many businesses are losing ground to competitors with better systems — faster follow-up, smarter marketing, tighter operations. We're here to close that gap — fast."
+      "headline": "WE'RE THE TEAM THAT GETS YOUR PHONE RINGING",
+      "subheading": "Too many good businesses lose customers to competitors who simply answer faster and show up more online. We fix that — quickly."
     },
     "beliefs": {
       "heading": "WHAT WE BELIEVE",
       "items": [
         {
-          "title": "Systems Are the Great Equalizer",
-          "description": "A small business with the right growth system can outperform a Fortune 500 marketing team. We've seen it. We've built it."
+          "title": "Small Can Beat Big",
+          "description": "A small business that answers fast and shows up online can beat companies 100 times its size. We've seen it happen."
         },
         {
-          "title": "Speed Over Perfection",
-          "description": "A working system live in 30 days beats a perfect system live in 6 months. We ship fast, iterate faster."
+          "title": "Fast Beats Perfect",
+          "description": "We'd rather get you something that works in 30 days than something perfect in 6 months."
         },
         {
-          "title": "Data Before Opinion",
-          "description": "Every recommendation we make is backed by data. If we can't measure it, we don't build it."
+          "title": "Numbers, Not Opinions",
+          "description": "We track what brings in customers and do more of it. If we can't measure it, we don't sell it."
         },
         {
-          "title": "Partnership, Not Vendor",
-          "description": "We don't sell you a deliverable and disappear. We're obsessed with your outcomes — and we stay until the numbers move."
+          "title": "We Stick Around",
+          "description": "We don't hand you something and disappear. We stay until you see results."
         }
       ]
     },
     "different": {
       "heading": "WHY WE'RE DIFFERENT",
-      "subheading": "Traditional agencies are built for the agency — not for you.",
+      "subheading": "Most agencies are built to keep you paying. We're built to get you results.",
       "columns": [
         {
           "title": "Traditional Agency",
           "points": [
-            "6–12 month retainer lock-ins",
-            "Junior staff doing senior work",
-            "Vanity metrics in monthly reports",
-            "Disconnected tactics, no real system",
-            "One-size-fits-all packages"
+            "Long contracts you can't get out of",
+            "Junior staff doing the work",
+            "Reports full of numbers that don't matter",
+            "Lots of pieces that don't work together",
+            "The same package for everyone"
           ]
         },
         {
           "title": "Number 1 Digital Marketing",
           "points": [
-            "Outcome-based engagements",
-            "Senior growth specialists on every account",
-            "Revenue metrics only — or we don't report it",
-            "Systems first — AI and automation are tools, not the pitch",
-            "Custom-built systems for your specific bottleneck"
+            "Focused on results, not promises",
+            "Experienced people on your account",
+            "We report calls, customers and sales",
+            "Everything connected and working together",
+            "Built around your business"
           ]
         },
         {
           "title": "DIY Tools & Apps",
           "points": [
-            "Tool sprawl with no strategy",
-            "No integration between systems",
-            "Time-consuming to maintain",
-            "No support when things break",
-            "You're on your own to figure it out"
+            "Too many apps, no plan",
+            "Nothing talks to each other",
+            "Eats your nights and weekends",
+            "No one to call when it breaks",
+            "You're figuring it out alone"
           ]
         }
       ]
     },
     "team": {
       "heading": "THE TEAM",
-      "subheading": "We're a distributed team of systems builders, growth marketers, and conversion specialists — united by one goal.",
-      "placeholder": "Team profiles coming soon. We're selective about who we bring on — because you deserve the best."
+      "subheading": "Web designers, marketers and video creators who care about one thing: getting you more customers.",
+      "placeholder": "Team profiles coming soon. We're picky about who we hire — because you deserve the best."
     },
     "cta": {
-      "heading": "READY TO WORK WITH THE BEST?",
-      "subheading": "Book a free strategy call. In 30 minutes, we'll identify your biggest growth opportunity and show you exactly what it would look like to fix it.",
-      "button": "Book Your Free Growth Strategy Call"
+      "heading": "READY TO WORK WITH US?",
+      "subheading": "Book a free 30-minute call. We'll find the biggest thing holding your business back and show you how to fix it.",
+      "button": "Book Your Free Call"
     }
   },
   "caseStudies": {
@@ -364,7 +369,7 @@
         "slug": "ai-agent-team",
         "stat": "$10K → $5K",
         "statLabel": "Monthly Marketing Spend",
-        "title": "$10K/mo Marketing Team Replaced by a $5K Growth System",
+        "title": "$10K/mo Marketing Team Replaced for $5K/mo",
         "client": "DTC Brand — $2M ARR",
         "industry": "E-commerce / Consumer Goods",
         "timeframe": "45 Days"
@@ -374,8 +379,8 @@
   "contact": {
     "heading": "LET'S TALK",
     "subheading": "Pick a time or send a message. Either way, we respond within one business day.",
-    "bookHeading": "BOOK A STRATEGY CALL",
-    "bookSubheading": "30 minutes. Free. Walk away with a clear growth roadmap — whether we work together or not.",
+    "bookHeading": "BOOK A FREE CALL",
+    "bookSubheading": "30 minutes. Free. You'll leave with a clear plan — whether we work together or not.",
     "hours": "Monday – Friday, 9am – 6pm EST",
     "instagram": "@number1marketing",
     "email": "hello@number1digitalmarketing.com"
@@ -398,10 +403,11 @@
     "locationPlaceholder": "City, State or full address",
     "services": "Services You're Interested In",
     "servicesOptions": {
-      "simpleAI": "Starter Growth System",
-      "professionalAI": "Advanced Growth System",
-      "webDesign": "Website Design & Support",
-      "consulting": "Strategy Consulting"
+      "simpleAI": "Never Miss a Lead — Starter",
+      "professionalAI": "Never Miss a Lead — Advanced",
+      "webDesign": "Website",
+      "consulting": "Not sure yet — help me decide",
+      "socialMedia": "Social Media & Creators"
     },
     "consent": "I Consent to Receive SMS and Email Notifications, Alerts & Occasional Marketing Communication",
     "submit": "Send Message",
@@ -870,12 +876,334 @@
       }
     }
   },
+  "creators": {
+    "meta": {
+      "title": "N°1 Creators | Get Paid to Make UGC",
+      "description": "Join the N°1 Creators network free and work with brands on gifted, paid and affiliate campaigns. Brands: find vetted UGC creators from $79 a month."
+    },
+    "hero": {
+      "eyebrow": "N°1 Creators",
+      "headline": "Make content. Get paid. Grow with brands.",
+      "subheadline": "A hand-picked network of UGC creators and the brands that need them. Creators join free and keep 100% of what they earn. Brands post campaigns, pick creators and get content they can use.",
+      "creatorCta": "Apply as a Creator",
+      "brandCta": "I'm a Brand",
+      "facts": [
+        "Free for creators",
+        "Gifted, paid and affiliate campaigns",
+        "Instagram and TikTok",
+        "English, Spanish and Portuguese"
+      ]
+    },
+    "brief": {
+      "label": "Example campaign",
+      "type": "Paid",
+      "title": "Local coffee roaster",
+      "rows": [
+        {
+          "label": "Deliverable",
+          "value": "2 short videos for TikTok and Reels"
+        },
+        {
+          "label": "Product",
+          "value": "Shipped to you, yours to keep"
+        },
+        {
+          "label": "Usage",
+          "value": "Brand's page and ads for 90 days"
+        },
+        {
+          "label": "Pay",
+          "value": "Your rate, agreed before you film"
+        }
+      ],
+      "hookLabel": "Hook from the AI brief writer:",
+      "hook": "I tried every coffee in town so you don't have to. This one won.",
+      "note": "Sample to show what a campaign looks like."
+    },
+    "ways": {
+      "eyebrow": "Three ways to work with brands",
+      "heading": "Start gifted. Get paid. Earn on repeat.",
+      "subheading": "Every creator starts somewhere. Do great work and brands come back with bigger campaigns.",
+      "items": [
+        {
+          "tag": "Gifted",
+          "title": "Free products, real reviews",
+          "desc": "Brands send you their product. You share an honest review and real content with your followers.",
+          "points": [
+            "Keep the product",
+            "Build your portfolio",
+            "Show brands you deliver on time"
+          ],
+          "best": "Best for: new creators building a track record"
+        },
+        {
+          "tag": "Paid",
+          "title": "Your rate, paid by PayPal",
+          "desc": "Set your own rates and agree on the details with the brand before you film. Get paid by PayPal once they approve your content.",
+          "points": [
+            "You set the rate",
+            "We take no cut",
+            "Clear brief, clear deadline"
+          ],
+          "best": "Best for: creators with strong gifted work"
+        },
+        {
+          "tag": "Affiliate",
+          "title": "Commission on every sale",
+          "desc": "Get your own code or link. Every customer you bring to the brand earns you a commission, month after month.",
+          "points": [
+            "Your own code or tracking link",
+            "Earn on every sale",
+            "Income that builds over time"
+          ],
+          "best": "Best for: creators whose audience buys"
+        }
+      ]
+    },
+    "how": {
+      "eyebrow": "How it works",
+      "heading": "Simple on both sides",
+      "creators": {
+        "title": "For creators",
+        "steps": [
+          {
+            "title": "Apply in 5 minutes",
+            "desc": "Share your handles, follower count, niche and rates, plus links to 2–3 videos you're proud of."
+          },
+          {
+            "title": "Get approved",
+            "desc": "Our team reviews every application by hand and replies within a few days."
+          },
+          {
+            "title": "Create and get paid",
+            "desc": "Apply to campaigns you like or accept invites from brands. Agree on the details, make the content and get paid."
+          }
+        ]
+      },
+      "brands": {
+        "title": "For brands",
+        "steps": [
+          {
+            "title": "Pick a plan",
+            "desc": "Month to month. Cancel anytime."
+          },
+          {
+            "title": "Post a campaign",
+            "desc": "Tell us what you sell. The AI brief writer turns it into a clear brief with hook and script ideas."
+          },
+          {
+            "title": "Choose creators, get content",
+            "desc": "Review who applied, approve the ones you like, ship your product and download the finished videos."
+          }
+        ]
+      }
+    },
+    "requirements": {
+      "eyebrow": "Who we accept",
+      "heading": "Small network. High standards.",
+      "subheading": "We keep the network small so brands get great content and creators get real campaigns.",
+      "items": [
+        "Public Instagram or TikTok profile",
+        "3,000+ followers on your main platform",
+        "You show your face and talk on camera",
+        "Clean feed, clear bio, good lighting and sound",
+        "You post regularly and your audience engages"
+      ],
+      "no": "No fake followers, bots or follow-for-follow"
+    },
+    "brands": {
+      "eyebrow": "For brands",
+      "heading": "Find creators. Run campaigns. Get UGC that sells.",
+      "subheading": "Post gifted, paid or affiliate campaigns and choose from creators we've vetted. You run it yourself, or our team runs it for you.",
+      "earlyAccess": "Early access",
+      "earlyAccessNote": "The brand dashboard opens soon. Pick a plan to reserve your spot and we'll set you up as soon as it's live.",
+      "perMonth": "/month",
+      "popular": "Most popular",
+      "plans": {
+        "starter": {
+          "name": "Starter",
+          "desc": "For small businesses trying UGC for the first time.",
+          "features": [
+            "5 creator collaborations a month",
+            "1 active campaign",
+            "Gifted and paid campaigns",
+            "Instagram and TikTok creators",
+            "Message creators directly"
+          ],
+          "cta": "Reserve Starter"
+        },
+        "growth": {
+          "name": "Growth",
+          "desc": "For brands that want fresh content every month.",
+          "features": [
+            "15 creator collaborations a month",
+            "3 active campaigns",
+            "Everything in Starter",
+            "Affiliate campaigns with codes and links",
+            "AI brief and script writer",
+            "Download content to use in ads"
+          ],
+          "cta": "Reserve Growth"
+        },
+        "pro": {
+          "name": "Pro",
+          "desc": "For brands growing with creators at scale.",
+          "features": [
+            "30 creator collaborations a month",
+            "Unlimited campaigns",
+            "Everything in Growth",
+            "Affiliate sales reports",
+            "Priority creator matching",
+            "Priority support"
+          ],
+          "cta": "Reserve Pro"
+        }
+      },
+      "managed": {
+        "title": "Managed Campaigns",
+        "price": "+${price}/month on top of any plan",
+        "desc": "Short on time? Our team runs your campaigns for you.",
+        "features": [
+          "We write the briefs and scripts",
+          "We pick and message the creators",
+          "We review every video before you see it",
+          "Monthly results report"
+        ],
+        "cta": "Talk to Us"
+      },
+      "clients": {
+        "title": "Already a Number 1 client?",
+        "desc": "The Growth plan is included with any monthly service plan, and we can run your campaigns for you."
+      },
+      "more": {
+        "heading": "Do more with your UGC",
+        "items": [
+          {
+            "title": "Run it as ads",
+            "desc": "We launch and test your best videos"
+          },
+          {
+            "title": "Landing pages",
+            "desc": "Pages built to turn clicks into customers"
+          },
+          {
+            "title": "Instant follow-up",
+            "desc": "Every new lead answered in seconds"
+          },
+          {
+            "title": "SEO and website",
+            "desc": "Get found when people search"
+          }
+        ],
+        "cta": "See All Services"
+      },
+      "note": "Prices in USD. Month to month, cancel anytime. Brands cover product and shipping on gifted campaigns and pay creators directly on paid and affiliate campaigns. A collaboration is one creator on one campaign; unused collaborations don't roll over."
+    },
+    "apply": {
+      "eyebrow": "Apply",
+      "heading": "Join N°1 Creators",
+      "subheading": "It takes about 5 minutes. We review every application by hand and reply by email within a few days.",
+      "fullName": "Full name",
+      "email": "Email",
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "handlePlaceholder": "@yourname",
+      "handleHint": "Add at least one.",
+      "followers": "Followers on your main platform",
+      "niche": "Niche",
+      "choose": "Choose one",
+      "campaignTypes": "Campaigns you want",
+      "rate": "Your rate per video (USD)",
+      "ratePlaceholder": "e.g. 150",
+      "location": "City and country",
+      "links": "Links to 2–3 videos you made",
+      "linksPlaceholder": "One link per line",
+      "about": "Anything else brands should know? (optional)",
+      "consent": "I'll label gifted and paid posts as ads (#ad, #gifted or the platform's paid-partnership label).",
+      "submit": "Submit Application",
+      "submitting": "Sending…",
+      "successTitle": "Application sent",
+      "successDesc": "Thanks, {name}. We'll review your profile and email you within a few days.",
+      "duplicateDesc": "We already have your application and we're reviewing it. We'll email you soon.",
+      "followerRanges": {
+        "under3k": "Under 3,000",
+        "3k-10k": "3,000–10,000",
+        "10k-50k": "10,000–50,000",
+        "50k-250k": "50,000–250,000",
+        "250k+": "250,000+"
+      },
+      "niches": {
+        "beauty": "Beauty & skincare",
+        "food": "Food & drink",
+        "fitness": "Fitness & wellness",
+        "home": "Home & lifestyle",
+        "fashion": "Fashion",
+        "tech": "Tech & gadgets",
+        "family": "Parenting & family",
+        "pets": "Pets",
+        "local": "Local business",
+        "other": "Other"
+      },
+      "types": {
+        "gifted": "Gifted",
+        "paid": "Paid",
+        "affiliate": "Affiliate"
+      },
+      "errors": {
+        "missingContact": "Add your name and a valid email.",
+        "missingHandle": "Add your Instagram or TikTok.",
+        "missingDetails": "Fill in your followers, niche, campaigns and video links.",
+        "missingConsent": "Please agree to label gifted and paid posts.",
+        "failed": "We couldn't send your application. Please try again in a minute."
+      }
+    },
+    "faq": {
+      "eyebrow": "Questions",
+      "heading": "FAQ",
+      "items": [
+        {
+          "q": "Does it cost anything to join as a creator?",
+          "a": "No. Joining N°1 Creators is free, and we never take a cut of what you earn."
+        },
+        {
+          "q": "How do creators get paid?",
+          "a": "On paid campaigns, the brand pays your agreed rate by PayPal once they approve your content. On affiliate campaigns, you earn a commission on every sale from your code or link."
+        },
+        {
+          "q": "What if I don't have 3,000 followers yet?",
+          "a": "Apply anyway and show us your best videos. Some brands post UGC on their own pages, so great content can matter more than follower count."
+        },
+        {
+          "q": "Who owns the content?",
+          "a": "You do. Each campaign says how the brand can use it (for example, on their page and in ads for 90 days) before you accept."
+        },
+        {
+          "q": "What counts as a collaboration for brands?",
+          "a": "One creator on one campaign. If five creators make content for your launch, that's five collaborations."
+        },
+        {
+          "q": "Can you run our campaigns for us?",
+          "a": "Yes. Add Managed Campaigns to any plan and our team writes the briefs, picks the creators and reviews every video for you."
+        },
+        {
+          "q": "Can creators learn to use AI for their content?",
+          "a": "Yes. Take the free N°1 Academy course and earn your AI Marketing Certificate."
+        }
+      ]
+    },
+    "closing": {
+      "heading": "Ready to create with N°1?",
+      "subheading": "Creators: apply in 5 minutes. Brands: reserve your plan and post your first campaign when the dashboard opens.",
+      "creatorCta": "Apply as a Creator",
+      "brandCta": "See Brand Plans"
+    }
+  },
   "audit": {
-    "metaTitle": "Free Digital Growth Audit",
-    "eyebrow": "Free Digital Growth Audit",
+    "metaTitle": "Free Audit",
+    "eyebrow": "Free Audit",
     "headline": "FIND OUT WHERE YOUR BUSINESS IS",
     "headlineAccent": "LOSING LEADS",
-    "subheading": "Book a free 30-minute audit. We'll review how you get leads, follow up, and convert — then show you the exact growth system that would close the gaps.",
+    "subheading": "A free 30-minute call. We'll look at how people find you, how fast you get back to them and how many become customers — then tell you exactly what to fix.",
     "chips": [
       "30 minutes",
       "100% free",
@@ -884,16 +1212,16 @@
     "getHeading": "What you'll walk away with",
     "get": [
       {
-        "title": "Your biggest growth leaks",
-        "desc": "Where leads are slipping through the cracks — slow follow-up, a weak offer, a website that doesn't convert."
+        "title": "Where you're losing customers",
+        "desc": "Missed calls, slow replies, a website that doesn't work, or a social page nobody sees."
       },
       {
-        "title": "A clear system blueprint",
-        "desc": "The funnels, follow-up, and automations that would plug those leaks, mapped to your business."
+        "title": "A simple plan",
+        "desc": "What to fix, in plain English, made for your business."
       },
       {
-        "title": "A 90-day roadmap",
-        "desc": "What to fix first, what to build next, and what to ignore."
+        "title": "A 90-day to-do list",
+        "desc": "What to do first, what to do next, and what to skip."
       },
       {
         "title": "Yours to keep",
@@ -903,17 +1231,17 @@
     "formHeading": "Book your free audit",
     "formSubheading": "Fill this out and we'll reach out within one business day to lock in your time.",
     "proofLabel": "Qualified leads in 90 days",
-    "proofText": "What happened when a B2B SaaS client replaced a manual sales process with a lead qualification system we built.",
+    "proofText": "What happened when a software company let us handle their new leads.",
     "proofCta": "Read the Case Study"
   },
   "auditPopup": {
     "eyebrow": "Free · 30 minutes",
-    "headline": "Get your free digital growth audit",
-    "body": "Find out exactly where your business is losing leads — and the growth system that would fix it.",
+    "headline": "Get your free audit",
+    "body": "Find out where your business is losing customers — and how to fix it.",
     "points": [
-      "Your biggest growth leaks",
-      "A clear system blueprint",
-      "A 90-day roadmap — yours to keep"
+      "Where you're losing customers",
+      "A simple plan to fix it",
+      "A 90-day to-do list — yours to keep"
     ],
     "cta": "Claim My Free Audit",
     "dismiss": "No thanks",

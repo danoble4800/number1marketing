@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Bot, Brain, Rocket, Compass, Search, Monitor, Workflow, TrendingUp, ArrowRight, LucideIcon } from 'lucide-react';
+import { Bot, Brain, Rocket, Compass, Search, Monitor, Workflow, TrendingUp, Video, ArrowRight, LucideIcon } from 'lucide-react';
 
 const iconMap: Record<string, LucideIcon> = {
   Bot,
@@ -13,6 +13,7 @@ const iconMap: Record<string, LucideIcon> = {
   Monitor,
   Workflow,
   TrendingUp,
+  Video,
 };
 
 interface ServiceCardProps {

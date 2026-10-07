@@ -6,6 +6,7 @@ import Container from '@/components/Container';
 import LeadsCRM from './LeadsCRM';
 import OnboardingClients from './OnboardingClients';
 import TeamMembers from './TeamMembers';
+import CreatorApplications from './CreatorApplications';
 import TapCardsAdmin from '@/components/cards/TapCardsAdmin';
 
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gr4UrY65r2g-dy0IUJFCFIQBUgoX0sQ9_GdmZHccpko/edit';
@@ -237,8 +238,8 @@ function NfcFormLink() {
 }
 
 type Gate = 'checking' | 'signedOut' | 'admin';
-type Tab = 'leads' | 'clients' | 'team' | 'cards' | 'resources';
-const TABS: [Tab, string][] = [['leads', 'Leads'], ['clients', 'Clients'], ['team', 'Team'], ['cards', 'Tap Cards'], ['resources', 'Links']];
+type Tab = 'leads' | 'clients' | 'creators' | 'team' | 'cards' | 'resources';
+const TABS: [Tab, string][] = [['leads', 'Leads'], ['clients', 'Clients'], ['creators', 'Creators'], ['team', 'Team'], ['cards', 'Tap Cards'], ['resources', 'Links']];
 
 export default function AdminDashboard({ locale }: { locale: string }) {
   const [gate, setGate] = useState<Gate>('checking');
@@ -429,6 +430,7 @@ export default function AdminDashboard({ locale }: { locale: string }) {
             <NfcFormLink />
             {tab === 'leads' && <LeadsCRM onSignedOut={() => setGate('signedOut')} />}
             {tab === 'clients' && <OnboardingClients onSignedOut={() => setGate('signedOut')} />}
+            {tab === 'creators' && <CreatorApplications onSignedOut={() => setGate('signedOut')} />}
             {tab === 'team' && <TeamMembers onSignedOut={() => setGate('signedOut')} />}
             {tab === 'cards' && <TapCardsAdmin />}
             {tab === 'resources' && <div className="py-4"><Resources /></div>}
