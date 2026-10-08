@@ -24,6 +24,7 @@ export type CardLink = {
   label: string;
   url: string;
   enabled: boolean;
+  display?: 'icon' | 'button'; // social links only; icon unless the owner picks button
 };
 
 export type CardContact = {

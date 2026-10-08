@@ -18,6 +18,11 @@ export const LINK_TYPES: Record<LinkType, { name: string; placeholder: string; s
   x: { name: 'X', placeholder: '@yourhandle', social: true },
 };
 
+// Social links show as small round icons unless the owner switched them to a full button.
+export function isIconLink(link: Pick<CardLink, 'type' | 'display'>): boolean {
+  return !!LINK_TYPES[link.type]?.social && link.display !== 'button';
+}
+
 const digits = (s: string) => s.replace(/[^\d+]/g, '');
 const handle = (s: string) => s.trim().replace(/^@/, '').replace(/^https?:\/\/[^/]+\//, '').replace(/\/$/, '');
 

@@ -12,7 +12,7 @@ import { SortableContext, arrayMove, sortableKeyboardCoordinates, useSortable, v
 import { restrictToVerticalAxis, restrictToParentElement } from '@dnd-kit/modifiers';
 import { CSS } from '@dnd-kit/utilities';
 import type { CardLink, CardPage, LinkType } from '@/lib/cards/types';
-import { LINK_TYPES, linkDomain, linkProblem, newLinkId, reviewUrlProblem } from '@/lib/cards/links';
+import { LINK_TYPES, isIconLink, linkDomain, linkProblem, newLinkId, reviewUrlProblem } from '@/lib/cards/links';
 import { can, FEATURE_PLAN } from '@/lib/cards/plans';
 import { slugTyping } from '@/lib/cards/client';
 import LinkIcon from '../LinkIcon';
@@ -400,7 +400,7 @@ function LinksEditor({
           </div>
         </SortableContext>
       </DndContext>
-      <p className="px-1 text-[13px] text-ed-muted">Instagram, TikTok and other social links show as small icons under your buttons.</p>
+      <p className="px-1 text-[13px] text-ed-muted">Instagram, TikTok and other social links show as small icons under your buttons. Pick “Button” on one to make it a full button instead.</p>
     </section>
   );
 }
@@ -450,10 +450,29 @@ function LinkRow({
       <div className="min-w-0 flex-1 py-3 pr-1">
         <div className={link.enabled ? '' : 'opacity-50'}>
           <span className="flex min-w-0 items-center gap-1.5 text-xs font-medium text-ed-muted">
-            <LinkIcon type={link.type} size={13} /> <span className="truncate">{info?.name}{info?.social ? ' · icon' : ''}</span>
+            <LinkIcon type={link.type} size={13} /> <span className="truncate">{info?.name}</span>
             {!link.enabled && <span className="text-ed-faint">· Hidden</span>}
+            {info?.social && (
+              <span role="radiogroup" aria-label="Show as" className="ml-1 flex shrink-0 rounded-full bg-ed-field p-0.5">
+                {(['icon', 'button'] as const).map((d) => {
+                  const on = (link.display ?? 'icon') === d;
+                  return (
+                    <button
+                      key={d}
+                      type="button"
+                      role="radio"
+                      aria-checked={on}
+                      onClick={() => onPatch({ display: d })}
+                      className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${on ? 'bg-ed-surface text-ed-ink shadow-sm' : 'text-ed-faint hover:text-ed-ink'}`}
+                    >
+                      {d === 'icon' ? 'Icon' : 'Button'}
+                    </button>
+                  );
+                })}
+              </span>
+            )}
           </span>
-          {!info?.social && (
+          {!isIconLink(link) && (
             <input
               className={`${inlineCls} mt-0.5 text-[15px] font-semibold`}
               autoFocus={autoFocus}
@@ -466,7 +485,7 @@ function LinkRow({
           )}
           <input
             className={`${inlineCls} text-sm text-ed-soft`}
-            autoFocus={autoFocus && info?.social}
+            autoFocus={autoFocus && isIconLink(link)}
             aria-label="Link"
             placeholder={info?.placeholder}
             value={link.url}

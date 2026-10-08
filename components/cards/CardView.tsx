@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Download, Phone, MessageSquare, Mail, Share2, Star, Tag, UserPlus, Check, X } from 'lucide-react';
 import type { PublicPage } from '@/lib/cards/types';
 import { resolveTheme } from '@/lib/cards/themes';
-import { LINK_TYPES, linkHref } from '@/lib/cards/links';
+import { LINK_TYPES, isIconLink, linkHref } from '@/lib/cards/links';
 import { cardStrings } from '@/lib/cards/strings';
 import { can } from '@/lib/cards/plans';
 import LinkIcon from './LinkIcon';
@@ -36,8 +36,8 @@ export default function CardView({ page, preview, focusId }: Props) {
   const focusing = !!preview && !!focusId;
   // A link being edited shows in the preview even before it has a URL.
   const links = (page.links ?? []).filter((l) => (l.enabled && l.url.trim()) || (focusing && l.id === focusId));
-  const buttons = links.filter((l) => !LINK_TYPES[l.type]?.social);
-  const socials = links.filter((l) => LINK_TYPES[l.type]?.social);
+  const buttons = links.filter((l) => !isIconLink(l));
+  const socials = links.filter(isIconLink);
   const c = page.contact ?? {};
   const showReview = can(page.plan, 'reviewButton') && !!page.review?.url;
   const showFunnel = showReview && can(page.plan, 'reviewFunnel') && !!page.review?.funnel;
