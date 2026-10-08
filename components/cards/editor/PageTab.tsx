@@ -14,9 +14,9 @@ import { CSS } from '@dnd-kit/utilities';
 import type { CardLink, CardPage, LinkType } from '@/lib/cards/types';
 import { LINK_TYPES, linkDomain, linkProblem, newLinkId, reviewUrlProblem } from '@/lib/cards/links';
 import { can, FEATURE_PLAN } from '@/lib/cards/plans';
-import { getSupabase } from '@/lib/supabase';
 import { slugTyping } from '@/lib/cards/client';
 import LinkIcon from '../LinkIcon';
+import { useCropUpload, type CropSpec } from './ImageCropper';
 import { usePageStats } from './StatsTab';
 import { Field, Section, Toggle, inputCls, type Undoable } from './ui';
 
@@ -577,6 +577,12 @@ function RowMenu({ items }: { items: (MenuItem | false)[] }) {
   );
 }
 
+// Photo shows as a circle (and full-width in Hero); the cover as a 440×160 banner.
+const CROP: Record<'avatar' | 'cover', CropSpec> = {
+  avatar: { shapes: [{ label: 'Square', aspect: 1 }], out: 800, round: true },
+  cover: { shapes: [{ label: 'Banner', aspect: 440 / 160 }], out: 1320 },
+};
+
 function ImageInput({
   label, value, onChange, round, demo, userId, pageId,
 }: {
@@ -589,22 +595,8 @@ function ImageInput({
   pageId: string;
 }) {
   const ref = useRef<HTMLInputElement>(null);
-  const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState('');
-
-  async function pick(file: File) {
-    setErr('');
-    if (file.size > 5 * 1024 * 1024) { setErr('Max 5 MB'); return; }
-    if (demo || !userId) { onChange(URL.createObjectURL(file)); return; }
-    setBusy(true);
-    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
-    const path = `${userId}/${pageId}/${round ? 'avatar' : 'cover'}-${Date.now()}.${ext}`;
-    const supabase = getSupabase();
-    const { error } = await supabase.storage.from('card-media').upload(path, file, { contentType: file.type, upsert: true });
-    setBusy(false);
-    if (error) { setErr('Upload failed'); return; }
-    onChange(supabase.storage.from('card-media').getPublicUrl(path).data.publicUrl);
-  }
+  const kind = round ? 'avatar' : 'cover';
+  const { pick, adjust, busy, err, modal } = useCropUpload({ name: kind, spec: CROP[kind], maxMB: 5, value, onChange, demo, userId, pageId });
 
   return (
     <div>
@@ -613,7 +605,7 @@ function ImageInput({
         <button
           type="button"
           onClick={() => ref.current?.click()}
-          className={`relative flex items-center justify-center overflow-hidden border border-dashed border-ed-faint/60 bg-ed-field text-ed-muted hover:border-ed-ink hover:text-ed-ink ${round ? 'h-20 w-20 rounded-full' : 'h-20 w-40 rounded-xl'}`}
+          className={`relative flex items-center justify-center overflow-hidden border border-dashed border-ed-faint/60 bg-ed-field text-ed-muted hover:border-ed-ink hover:text-ed-ink ${round ? 'h-20 w-20 rounded-full' : 'h-20 w-[220px] rounded-xl'}`}
         >
           {value ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -624,11 +616,16 @@ function ImageInput({
           {busy && <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs">…</span>}
         </button>
         {value && (
-          <button type="button" onClick={() => onChange(null)} className="text-xs text-ed-muted underline hover:text-ed-ink">Remove</button>
+          <div className="space-y-1 text-xs">
+            <button type="button" onClick={adjust} className="block text-ed-ink underline">Adjust</button>
+            <button type="button" onClick={() => ref.current?.click()} className="block text-ed-muted underline hover:text-ed-ink">Replace</button>
+            <button type="button" onClick={() => onChange(null)} className="block text-ed-muted underline hover:text-ed-ink">Remove</button>
+          </div>
         )}
       </div>
       {err && <p className="mt-1 text-xs text-ed-err">{err}</p>}
-      <input ref={ref} type="file" accept="image/*" className="hidden" onChange={(e) => e.target.files?.[0] && pick(e.target.files[0])} />
+      <input ref={ref} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) pick(f); }} />
+      {modal}
     </div>
   );
 }

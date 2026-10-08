@@ -5,6 +5,7 @@ import { Check, ImagePlus, Lock, Shuffle, Video } from 'lucide-react';
 import type { BtnStyle, CardPage, CardTheme, FontId, Radius, Shadow, Wallpaper } from '@/lib/cards/types';
 import { BUTTON_STYLES, FONTS, RADII, SHADOWS, THEMES, WALLPAPERS, getPreset, resolveTheme, type ThemePreset } from '@/lib/cards/themes';
 import { can, type Feature } from '@/lib/cards/plans';
+import { useCropUpload, type CropSpec } from './ImageCropper';
 import { getSupabase } from '@/lib/supabase';
 import { PlanBadge, Toggle } from './ui';
 
@@ -510,6 +511,17 @@ const MEDIA = {
   video: { accept: 'video/mp4,video/quicktime,video/webm', max: 50, name: 'wallpaper-video' },
 } as const;
 
+// The logo keeps its own proportions on the page (up to 260 wide), so let people pick the shape.
+// Wallpaper fills a phone screen.
+const CROP: Record<'logo' | 'image', CropSpec> = {
+  logo: {
+    shapes: [{ label: 'Original', aspect: 'original' }, { label: 'Square', aspect: 1 }, { label: 'Wide', aspect: 3 }],
+    out: 1200,
+    range: [0.5, 4.6],
+  },
+  image: { shapes: [{ label: 'Phone', aspect: 9 / 16 }], out: 1920 },
+};
+
 function MediaInput({
   kind, value, onChange, demo, userId, pageId, hint,
 }: {
@@ -525,8 +537,11 @@ function MediaInput({
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const m = MEDIA[kind];
+  // Images go through the cropper; video uploads as-is.
+  const cropped = useCropUpload({ name: m.name, spec: CROP[kind === 'video' ? 'image' : kind], maxMB: m.max, value, onChange, demo, userId, pageId });
 
   async function pick(file: File) {
+    if (kind !== 'video') { cropped.pick(file); return; }
     setErr('');
     if (file.size > m.max * 1024 * 1024) { setErr(`Max ${m.max} MB`); return; }
     if (demo || !userId) { onChange(URL.createObjectURL(file)); return; }
@@ -546,7 +561,7 @@ function MediaInput({
         <button
           type="button"
           onClick={() => ref.current?.click()}
-          className={`relative flex items-center justify-center overflow-hidden rounded-xl border border-dashed border-ed-faint bg-ed-field text-ed-muted hover:border-ed-muted ${kind === 'logo' ? 'h-16 w-40' : 'h-28 w-20'}`}
+          className={`relative flex items-center justify-center overflow-hidden rounded-xl border border-dashed border-ed-faint bg-ed-field text-ed-muted hover:border-ed-muted ${kind === 'logo' ? 'h-16 w-40' : 'h-28 w-[63px]'}`}
         >
           {value ? (
             kind === 'video' ? (
@@ -556,16 +571,18 @@ function MediaInput({
               <img src={value} alt="" className={`h-full w-full ${kind === 'logo' ? 'object-contain p-2' : 'object-cover'}`} />
             )
           ) : kind === 'video' ? <Video size={20} /> : <ImagePlus size={20} />}
-          {busy && <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs">Uploading…</span>}
+          {(busy || cropped.busy) && <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs">Uploading…</span>}
         </button>
         <div className="space-y-1 text-xs">
-          <button type="button" onClick={() => ref.current?.click()} className="block text-ed-ink underline">{value ? 'Replace' : 'Upload'}</button>
+          {value && kind !== 'video' && <button type="button" onClick={cropped.adjust} className="block text-ed-ink underline">Adjust</button>}
+          <button type="button" onClick={() => ref.current?.click()} className={`block underline ${value && kind !== 'video' ? 'text-ed-muted hover:text-ed-ink' : 'text-ed-ink'}`}>{value ? 'Replace' : 'Upload'}</button>
           {value && <button type="button" onClick={() => onChange(undefined)} className="block text-ed-muted underline hover:text-ed-ink">Remove</button>}
         </div>
       </div>
       <p className="mt-1.5 text-xs text-ed-faint">{hint}</p>
-      {err && <p className="mt-1 text-xs text-ed-err">{err}</p>}
+      {(err || cropped.err) && <p className="mt-1 text-xs text-ed-err">{err || cropped.err}</p>}
       <input ref={ref} type="file" accept={m.accept} className="hidden" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) pick(f); }} />
+      {cropped.modal}
     </div>
   );
 }
