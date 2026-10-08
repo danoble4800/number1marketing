@@ -5,9 +5,12 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { GraduationCap, Shield, Eye, EyeOff } from 'lucide-react';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
+import EmailCodeForm from '@/components/auth/EmailCodeForm';
 
 type Tab = 'student' | 'admin';
-type Mode = 'login' | 'register' | 'forgot';
+type Mode = 'login' | 'register' | 'forgot' | 'code';
+// Which emailed code we're waiting on: signing in, confirming a new account, or resetting a password.
+type Pending = 'signin' | 'confirm' | 'recovery';
 
 function LoginInner({ locale }: { locale: string }) {
   const searchParams = useSearchParams();
@@ -25,6 +28,7 @@ function LoginInner({ locale }: { locale: string }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
+  const [pending, setPending] = useState<Pending | null>(null);
 
   // Clear error on field change
   useEffect(() => { setError(''); }, [email, password, name, tab, mode]);
@@ -32,6 +36,7 @@ function LoginInner({ locale }: { locale: string }) {
   function handleTabChange(newTab: Tab) {
     setTab(newTab);
     setMode('login');
+    setPending(null);
     setError('');
     setSuccessMsg('');
   }
@@ -41,6 +46,48 @@ function LoginInner({ locale }: { locale: string }) {
     setLoading(false);
   }
 
+  const cleanEmail = email.trim().toLowerCase();
+
+  async function sendCode(kind: Pending) {
+    const auth = getSupabase().auth;
+    const { error: err } =
+      kind === 'recovery'
+        ? await auth.resetPasswordForEmail(cleanEmail)
+        : kind === 'confirm'
+        ? await auth.resend({ type: 'signup', email: cleanEmail })
+        : await auth.signInWithOtp({ email: cleanEmail, options: { shouldCreateUser: false } });
+    if (err) throw err;
+  }
+
+  async function waitForCode(kind: Pending) {
+    try {
+      await sendCode(kind);
+    } catch {
+      return fail(kind === 'signin' ? t('noAccountForCode') : t('genericError'));
+    }
+    setPending(kind);
+    setLoading(false);
+  }
+
+  async function afterSignIn() {
+    const supabase = getSupabase();
+    const profile = await getCurrentProfile();
+    if (tab === 'admin') {
+      if (profile?.role !== 'admin') {
+        await supabase.auth.signOut();
+        setPending(null);
+        return fail(t('notAdmin'));
+      }
+      router.push(`/${locale}/academy/admin`);
+      return;
+    }
+    if (profile?.role === 'rep') {
+      router.push(`/${locale}/team`);
+      return;
+    }
+    router.push(`/${locale}/academy/dashboard`);
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
@@ -48,32 +95,21 @@ function LoginInner({ locale }: { locale: string }) {
     setLoading(true);
 
     const supabase = getSupabase();
-    const origin = window.location.origin;
 
-    if (mode === 'forgot') {
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-        redirectTo: `${origin}/${locale}/academy/reset-password`,
-      });
-      if (resetError) return fail(t('genericError'));
-      setSuccessMsg(t('resetSent'));
-      setLoading(false);
-      return;
-    }
+    if (mode === 'forgot') return waitForCode('recovery');
+    if (mode === 'code') return waitForCode('signin');
 
     if (mode === 'register') {
       const { data, error: signUpError } = await supabase.auth.signUp({
         email: email.trim().toLowerCase(),
         password,
-        options: {
-          data: { full_name: name.trim() },
-          emailRedirectTo: `${origin}/${locale}/academy/dashboard`,
-        },
+        options: { data: { full_name: name.trim() } },
       });
       if (signUpError) return fail(signUpError.message);
       // Supabase hides whether an email is taken: an existing address comes back with no identities.
       if (data.user && data.user.identities?.length === 0) return fail(t('emailExists'));
       if (!data.session) {
-        setSuccessMsg(t('checkEmail'));
+        setPending('confirm');
         setLoading(false);
         return;
       }
@@ -87,26 +123,11 @@ function LoginInner({ locale }: { locale: string }) {
       password,
     });
     if (signInError) {
-      if (signInError.message.toLowerCase().includes('not confirmed')) {
-        return fail(t('emailNotConfirmed'));
-      }
+      if (signInError.message.toLowerCase().includes('not confirmed')) return waitForCode('confirm');
       return fail(tab === 'admin' ? t('adminError') : t('studentLoginError'));
     }
 
-    const profile = await getCurrentProfile();
-    if (tab === 'admin') {
-      if (profile?.role !== 'admin') {
-        await supabase.auth.signOut();
-        return fail(t('notAdmin'));
-      }
-      router.push(`/${locale}/academy/admin`);
-      return;
-    }
-    if (profile?.role === 'rep') {
-      router.push(`/${locale}/team`);
-      return;
-    }
-    router.push(`/${locale}/academy/dashboard`);
+    await afterSignIn();
   }
 
   return (
@@ -144,7 +165,31 @@ function LoginInner({ locale }: { locale: string }) {
           ))}
         </div>
 
-        {/* Form */}
+        {pending ? (
+          <div className="p-8">
+            <EmailCodeForm
+              email={cleanEmail}
+              type={pending === 'recovery' ? 'recovery' : 'email'}
+              onResend={() => sendCode(pending)}
+              onVerified={() =>
+                pending === 'recovery' ? router.push(`/${locale}/academy/reset-password`) : afterSignIn()
+              }
+              onBack={() => { setPending(null); setMode('login'); }}
+              labels={{
+                intro: t('codeIntro', { email: '{email}' }),
+                spamHint: t('spamHint'),
+                codeLabel: t('codeLabel'),
+                submit: t('codeSubmit'),
+                checking: t('codeChecking'),
+                wrongCode: t('wrongCode'),
+                resend: t('resendCode'),
+                resent: t('codeResent'),
+                back: t('codeBack'),
+              }}
+            />
+          </div>
+        ) : (
+        /* Form */
         <form onSubmit={handleSubmit} className="p-8 space-y-5">
           {/* Name field (register mode only) */}
           {tab === 'student' && mode === 'register' && (
@@ -179,7 +224,7 @@ function LoginInner({ locale }: { locale: string }) {
           </div>
 
           {/* Password */}
-          {mode !== 'forgot' && (
+          {mode !== 'forgot' && mode !== 'code' && (
           <div>
             <label className="block text-xs uppercase tracking-widest text-brand-mid mb-2">
               {t('passwordLabel')}
@@ -203,13 +248,22 @@ function LoginInner({ locale }: { locale: string }) {
               </button>
             </div>
             {mode === 'login' && (
-              <button
-                type="button"
-                onClick={() => { setMode('forgot'); setSuccessMsg(''); }}
-                className="mt-2 text-xs text-brand-mid hover:text-brand-light2 underline transition-colors"
-              >
-                {t('forgotPassword')}
-              </button>
+              <div className="mt-2 flex justify-between gap-4">
+                <button
+                  type="button"
+                  onClick={() => { setMode('forgot'); setSuccessMsg(''); }}
+                  className="text-xs text-brand-mid hover:text-brand-light2 underline transition-colors"
+                >
+                  {t('forgotPassword')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setMode('code'); setSuccessMsg(''); }}
+                  className="text-xs text-brand-mid hover:text-brand-light2 underline transition-colors"
+                >
+                  {t('codeInstead')}
+                </button>
+              </div>
             )}
           </div>
           )}
@@ -234,14 +288,14 @@ function LoginInner({ locale }: { locale: string }) {
             disabled={loading}
             className="w-full bg-brand-white text-brand-black text-xs font-semibold uppercase tracking-widest px-6 py-3 hover:bg-brand-offwhite transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {mode === 'forgot'
-              ? loading ? t('sending') : t('sendReset')
+            {mode === 'forgot' || mode === 'code'
+              ? loading ? t('sending') : mode === 'code' ? t('sendCode') : t('sendReset')
               : mode === 'register'
               ? loading ? t('registering') : t('registerButton')
               : loading ? t('loggingIn') : t('loginButton')}
           </button>
 
-          {mode === 'forgot' ? (
+          {mode === 'forgot' || mode === 'code' ? (
             <p className="text-center text-xs text-brand-mid">
               <button
                 type="button"
@@ -265,6 +319,7 @@ function LoginInner({ locale }: { locale: string }) {
             </p>
           )}
         </form>
+        )}
       </div>
     </div>
   );

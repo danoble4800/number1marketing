@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import EmailCodeForm from '@/components/auth/EmailCodeForm';
 import { getSupabase, getCurrentProfile } from '@/lib/supabase';
 import Container from '@/components/Container';
 import LeadsCRM from '@/components/admin/LeadsCRM';
@@ -25,6 +26,8 @@ export default function TeamDashboard({ locale }: { locale: string }) {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
+  // Which emailed code we're waiting on: signing in, confirming a new account, or resetting a password.
+  const [pending, setPending] = useState<'signin' | 'confirm' | 'recovery' | null>(null);
   const [reps, setReps] = useState<{ id: string; name: string }[]>([]);
   const [viewAs, setViewAs] = useState(''); // rep id, when an admin is looking
   const [tab, setTabState] = useState<Tab>('leads');
@@ -66,18 +69,53 @@ export default function TeamDashboard({ locale }: { locale: string }) {
   }, [gate]);
   const viewing = reps.find((r) => r.id === viewAs);
 
+  const cleanEmail = email.trim().toLowerCase();
+
+  const sendCode = async (kind: 'signin' | 'confirm' | 'recovery') => {
+    const auth = getSupabase().auth;
+    const { error: err } =
+      kind === 'recovery'
+        ? await auth.resetPasswordForEmail(cleanEmail)
+        : kind === 'confirm'
+        ? await auth.resend({ type: 'signup', email: cleanEmail })
+        : await auth.signInWithOtp({ email: cleanEmail, options: { shouldCreateUser: false } });
+    if (err) throw err;
+  };
+
+  const waitForCode = async (kind: 'signin' | 'confirm' | 'recovery') => {
+    try {
+      await sendCode(kind);
+      setPending(kind);
+    } catch {
+      setError(kind === 'signin' ? 'No team account with that email yet. Create one below.' : 'Couldn’t send a code. Try again.');
+    }
+  };
+
+  // Only rep and admin accounts get in.
+  const afterSignIn = async () => {
+    const profile = await getCurrentProfile();
+    if (profile?.role !== 'rep' && profile?.role !== 'admin') {
+      await getSupabase().auth.signOut();
+      setPending(null);
+      setError('That account isn’t set up for the team yet. Ask Dan to add you.');
+      return;
+    }
+    setPassword('');
+    setPending(null);
+    enter(profile.role);
+  };
+
   // Team sign-up is separate from the Academy's: only emails Dan has added to
   // team_invites can create an account, and those accounts are reps from the start.
   const signUp = async () => {
     const supabase = getSupabase();
-    const cleanEmail = email.trim().toLowerCase();
     const { data: invited, error: inviteError } = await supabase.rpc('team_invite_open', { p_email: cleanEmail });
     if (inviteError) return setError('Couldn’t check the team list. Try again.');
     if (!invited) return setError('That email isn’t on the team list. Ask Dan to add you.');
     const { data, error: signUpError } = await supabase.auth.signUp({
       email: cleanEmail,
       password,
-      options: { data: { full_name: name.trim() }, emailRedirectTo: `${window.location.origin}/${locale}/team` },
+      options: { data: { full_name: name.trim() } },
     });
     if (signUpError) return setError(signUpError.message);
     // Supabase hides whether an email is taken: an existing address comes back with no identities.
@@ -88,7 +126,7 @@ export default function TeamDashboard({ locale }: { locale: string }) {
     setPassword('');
     if (!data.session) {
       setMode('signin');
-      return setMessage('Check your email and tap the link to confirm, then sign in here.');
+      return setPending('confirm');
     }
     enter((await getCurrentProfile())?.role);
   };
@@ -103,40 +141,28 @@ export default function TeamDashboard({ locale }: { locale: string }) {
       setBusy(false);
       return;
     }
-    const supabase = getSupabase();
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: email.trim().toLowerCase(),
-      password,
-    });
+    const { error: signInError } = await getSupabase().auth.signInWithPassword({ email: cleanEmail, password });
     if (signInError) {
-      setError(signInError.message.toLowerCase().includes('not confirmed')
-        ? 'Confirm your email first. Check your inbox for the link.'
-        : 'Wrong email or password.');
+      if (signInError.message.toLowerCase().includes('not confirmed')) await waitForCode('confirm');
+      else setError('Wrong email or password.');
       setBusy(false);
       return;
     }
-    const profile = await getCurrentProfile();
-    if (profile?.role !== 'rep' && profile?.role !== 'admin') {
-      await supabase.auth.signOut();
-      setError('That account isn’t set up for the team yet. Ask Dan to add you.');
-      setBusy(false);
-      return;
-    }
-    setPassword('');
+    await afterSignIn();
     setBusy(false);
-    enter(profile.role);
   };
 
-  const forgot = async () => {
+  // "Forgot password" and "Email me a code" both need the email typed first.
+  const startCode = async (kind: 'signin' | 'recovery') => {
     if (!email.trim()) {
-      setError('Type your email first, then tap “Forgot password”.');
+      setError('Type your email first.');
       return;
     }
     setError('');
-    await getSupabase().auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-      redirectTo: `${window.location.origin}/${locale}/academy/reset-password`,
-    });
-    setMessage('If that email has an account, a reset link is on its way.');
+    setMessage('');
+    setBusy(true);
+    await waitForCode(kind);
+    setBusy(false);
   };
 
   const signOut = async () => {
@@ -193,7 +219,30 @@ export default function TeamDashboard({ locale }: { locale: string }) {
       <Container>
         {gate === 'checking' && <div className="min-h-[60vh]" />}
 
-        {gate === 'signedOut' && (
+        {gate === 'signedOut' && pending && (
+          <div className="min-h-[70vh] flex items-center justify-center py-12">
+            <div className="w-full max-w-sm flex flex-col gap-6">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-brand-mid mb-2">Sales Team</p>
+                <h1 className="font-display text-3xl text-brand-white uppercase tracking-tight">
+                  {pending === 'recovery' ? 'Reset password' : pending === 'confirm' ? 'Confirm email' : 'Sign in'}
+                </h1>
+              </div>
+              <EmailCodeForm
+                email={cleanEmail}
+                type={pending === 'recovery' ? 'recovery' : 'email'}
+                onResend={() => sendCode(pending)}
+                onVerified={() =>
+                  pending === 'recovery' ? window.location.assign(`/${locale}/academy/reset-password`) : afterSignIn()
+                }
+                onBack={() => { setPending(null); setError(''); }}
+              />
+              {error && <p className="text-xs text-red-400">{error}</p>}
+            </div>
+          </div>
+        )}
+
+        {gate === 'signedOut' && !pending && (
           <div className="min-h-[70vh] flex items-center justify-center py-12">
             <div className="w-full max-w-sm flex flex-col gap-6">
               <div>
@@ -267,11 +316,21 @@ export default function TeamDashboard({ locale }: { locale: string }) {
                     {mode === 'signup' ? 'Have an account? Sign in' : 'New to the team? Create account'}
                   </button>
                   {mode === 'signin' && (
-                    <button type="button" onClick={forgot} className="text-brand-light1 hover:text-brand-white underline underline-offset-4">
+                    <button type="button" onClick={() => startCode('recovery')} className="text-brand-light1 hover:text-brand-white underline underline-offset-4">
                       Forgot password?
                     </button>
                   )}
                 </div>
+                {mode === 'signin' && (
+                  <button
+                    type="button"
+                    onClick={() => startCode('signin')}
+                    disabled={busy}
+                    className="text-left text-xs text-brand-light1 hover:text-brand-white underline underline-offset-4"
+                  >
+                    Email me a code instead
+                  </button>
+                )}
               </form>
             </div>
           </div>
