@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { Download, Phone, MessageSquare, Mail, Share2, Star, Tag, UserPlus, Check, X } from 'lucide-react';
-import type { PublicPage } from '@/lib/cards/types';
+import type { CardLink, PublicPage } from '@/lib/cards/types';
 import { resolveTheme } from '@/lib/cards/themes';
-import { LINK_TYPES, isIconLink, linkHref } from '@/lib/cards/links';
+import { LINK_TYPES, groupLinks, isIconLink, linkHref } from '@/lib/cards/links';
 import { cardStrings } from '@/lib/cards/strings';
 import { can } from '@/lib/cards/plans';
 import LinkIcon from './LinkIcon';
@@ -35,9 +35,14 @@ export default function CardView({ page, preview, focusId }: Props) {
 
   const focusing = !!preview && !!focusId;
   // A link being edited shows in the preview even before it has a URL.
-  const links = (page.links ?? []).filter((l) => (l.enabled && l.url.trim()) || (focusing && l.id === focusId));
-  const buttons = links.filter((l) => !isIconLink(l));
-  const socials = links.filter(isIconLink);
+  const shown = (l: CardLink) => (l.enabled && l.url.trim()) || (focusing && l.id === focusId);
+  const { loose, groups: allGroups } = groupLinks(page.links ?? []);
+  const buttons = loose.filter(shown).filter((l) => !isIconLink(l));
+  const socials = loose.filter(shown).filter(isIconLink);
+  // A hidden section hides its links too; an empty one only shows while it's being edited.
+  const groups = allGroups
+    .map((g) => ({ section: g.section, links: g.section.enabled || (focusing && g.section.id === focusId) ? g.links.filter(shown) : [] }))
+    .filter((g) => g.links.length > 0 || (focusing && g.section.id === focusId));
   const c = page.contact ?? {};
   const showReview = can(page.plan, 'reviewButton') && !!page.review?.url;
   const showFunnel = showReview && can(page.plan, 'reviewFunnel') && !!page.review?.funnel;
@@ -240,6 +245,46 @@ export default function CardView({ page, preview, focusId }: Props) {
               ))}
             </div>
           )}
+
+          {groups.map(({ section, links: items }) => {
+            // Editing a link inside the box: keep the box lit so the link isn't dimmed with it.
+            const inside = focusing && items.some((l) => l.id === focusId);
+            return (
+              <div
+                key={section.id}
+                {...(inside ? {} : zone(section.id))}
+                className="mt-5 p-4"
+                style={{ ...boxStyle, ...(inside ? {} : zoneStyle(section.id)) }}
+              >
+                <div className="flex items-center gap-3">
+                  {section.image && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={section.image} alt="" className="h-10 w-10 shrink-0 object-cover" style={{ borderRadius: `calc(${boxRadius} * 0.5)` }} />
+                  )}
+                  <p className="min-w-0 truncate text-[15px] font-semibold">{section.label || 'Section'}</p>
+                </div>
+                {items.length > 0 && (
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    {items.map((l, i) => (
+                      <a
+                        key={l.id}
+                        href={linkHref(l)}
+                        target={['phone', 'sms', 'email'].includes(l.type) ? undefined : '_blank'}
+                        rel="noopener noreferrer"
+                        onClick={(e) => { guard(e); track(page, preview, { kind: 'click', link_id: l.id }); }}
+                        {...zone(l.id)}
+                        className={`flex min-w-0 items-center justify-center gap-2 px-3 py-3 text-sm font-medium transition-transform active:scale-[0.99] ${i === items.length - 1 && i % 2 === 0 ? 'col-span-2' : ''}`}
+                        style={{ ...btnStyle, ...zoneStyle(l.id) }}
+                      >
+                        <span className="shrink-0 opacity-80"><LinkIcon type={l.type} size={16} /></span>
+                        <span className="truncate">{l.label || LINK_TYPES[l.type]?.name}</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
 
           {socials.length > 0 && (
             <div className="mt-6 flex flex-wrap justify-center gap-3">

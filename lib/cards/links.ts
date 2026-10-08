@@ -16,7 +16,26 @@ export const LINK_TYPES: Record<LinkType, { name: string; placeholder: string; s
   linkedin: { name: 'LinkedIn', placeholder: 'linkedin.com/in/you', social: true },
   youtube: { name: 'YouTube', placeholder: 'youtube.com/@you', social: true },
   x: { name: 'X', placeholder: '@yourhandle', social: true },
+  section: { name: 'Section', placeholder: '' },
 };
+
+// A section is a heading (a brand, with an optional logo). The links under it in the list,
+// up to the next section, show together in one box on the page.
+export const isSection = (link: Pick<CardLink, 'type'>) => link.type === 'section';
+
+export type LinkGroup = { section: CardLink; links: CardLink[] };
+
+// Splits the list into the links above the first section and one group per section.
+export function groupLinks(links: CardLink[]): { loose: CardLink[]; groups: LinkGroup[] } {
+  const loose: CardLink[] = [];
+  const groups: LinkGroup[] = [];
+  for (const l of links) {
+    if (isSection(l)) groups.push({ section: l, links: [] });
+    else if (groups.length) groups[groups.length - 1].links.push(l);
+    else loose.push(l);
+  }
+  return { loose, groups };
+}
 
 // Social links show as small round icons unless the owner switched them to a full button.
 export function isIconLink(link: Pick<CardLink, 'type' | 'display'>): boolean {
@@ -71,6 +90,7 @@ export function linkDomain(link: Pick<CardLink, 'type' | 'url'>): string {
 
 // Client-side health check for a link row. Returns what to fix, or null if it looks fine.
 export function linkProblem(link: Pick<CardLink, 'type' | 'url'>): string | null {
+  if (link.type === 'section') return null;
   const v = link.url.trim();
   if (!v) return 'Empty, so it won’t show on your page.';
   const isUrl = /^https?:\/\//i.test(v) || /\.[a-z]{2,}(\/|$)/i.test(v);

@@ -16,7 +16,8 @@ export type LinkType =
   | 'maps'
   | 'booking'
   | 'menu'
-  | 'payment';
+  | 'payment'
+  | 'section';
 
 export type CardLink = {
   id: string;
@@ -25,6 +26,7 @@ export type CardLink = {
   url: string;
   enabled: boolean;
   display?: 'icon' | 'button'; // social links only; icon unless the owner picks button
+  image?: string; // sections only: the brand's logo
 };
 
 export type CardContact = {

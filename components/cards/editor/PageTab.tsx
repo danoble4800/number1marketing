@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import {
-  ArrowDown, ArrowUp, Check, CircleAlert, Copy, EllipsisVertical, GripVertical, ImagePlus, Lock, Mail, Plus, QrCode,
+  ArrowDown, ArrowUp, Check, CircleAlert, Copy, EllipsisVertical, GripVertical, ImagePlus, LayoutList, Lock, Mail, Plus, QrCode,
   Search, Settings, Star, Tag, Trash2, UserPlus, X,
 } from 'lucide-react';
 import {
@@ -12,7 +12,7 @@ import { SortableContext, arrayMove, sortableKeyboardCoordinates, useSortable, v
 import { restrictToVerticalAxis, restrictToParentElement } from '@dnd-kit/modifiers';
 import { CSS } from '@dnd-kit/utilities';
 import type { CardLink, CardPage, LinkType } from '@/lib/cards/types';
-import { LINK_TYPES, isIconLink, linkDomain, linkProblem, newLinkId, reviewUrlProblem } from '@/lib/cards/links';
+import { LINK_TYPES, isIconLink, isSection, linkDomain, linkProblem, newLinkId, reviewUrlProblem } from '@/lib/cards/links';
 import { can, FEATURE_PLAN } from '@/lib/cards/plans';
 import { slugTyping } from '@/lib/cards/client';
 import LinkIcon from '../LinkIcon';
@@ -73,6 +73,9 @@ export default function PageTab({ page, set, setLinks, demo, userId, onUpgrade, 
         showClicks={can(page.plan, 'fullStats')}
         onUpgrade={onUpgrade}
         onUndoable={onUndoable}
+        demo={demo}
+        userId={userId}
+        pageId={page.id}
       />
 
 
@@ -250,7 +253,7 @@ function PageLink({ slug, live, onShowQr }: { slug: string; live: boolean; onSho
 }
 
 function LinksEditor({
-  links, setLinks, clicks, showClicks, onUpgrade, onUndoable,
+  links, setLinks, clicks, showClicks, onUpgrade, onUndoable, demo, userId, pageId,
 }: {
   links: CardLink[];
   setLinks: (fn: (links: CardLink[]) => CardLink[]) => void;
@@ -258,8 +261,14 @@ function LinksEditor({
   showClicks: boolean;
   onUpgrade: () => void;
   onUndoable: (u: Undoable) => void;
+  demo: boolean;
+  userId: string | null;
+  pageId: string;
 }) {
   const [adding, setAdding] = useState(false);
+  // "Add a link" on a section puts the new link right under it instead of at the top.
+  const [addUnder, setAddUnder] = useState<string | null>(null);
+  const pickerRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState('');
   const [justAdded, setJustAdded] = useState<string | null>(null);
   const sensors = useSensors(
@@ -289,13 +298,32 @@ function LinksEditor({
       undo: () => setLinks((ls) => (ls.some((l) => l.id === link.id) ? ls : [...ls.slice(0, at), link, ...ls.slice(at)])),
     });
   };
-  // New links go to the top, where you're looking (Linktree does the same).
+  // New links go to the top, where you're looking (Linktree does the same). New sections go
+  // to the bottom so they don't swallow the links already there.
   const add = (type: LinkType) => {
     const id = newLinkId();
-    setLinks((ls) => [{ id, type, label: LINK_TYPES[type].social ? LINK_TYPES[type].name : '', url: '', enabled: true }, ...ls]);
+    const link: CardLink = { id, type, label: LINK_TYPES[type].social ? LINK_TYPES[type].name : '', url: '', enabled: true };
+    setLinks((ls) => {
+      if (isSection(link)) return [...ls, link];
+      const at = addUnder ? ls.findIndex((l) => l.id === addUnder) : -1;
+      if (at < 0) return [link, ...ls];
+      // After the section's last link, so links keep the order they were added in.
+      let end = at + 1;
+      while (end < ls.length && !isSection(ls[end])) end++;
+      return [...ls.slice(0, end), link, ...ls.slice(end)];
+    });
     setJustAdded(id);
+    closePicker();
+  };
+  const closePicker = () => {
     setAdding(false);
+    setAddUnder(null);
     setQuery('');
+  };
+  const addToSection = (id: string) => {
+    setAddUnder(id);
+    setAdding(true);
+    requestAnimationFrame(() => pickerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
   };
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (!over || active.id === over.id) return;
@@ -307,9 +335,14 @@ function LinksEditor({
   };
 
   const q = query.trim().toLowerCase();
-  const types = (Object.keys(LINK_TYPES) as LinkType[]).filter((t) => !q || LINK_TYPES[t].name.toLowerCase().includes(q));
-  const buttons = types.filter((t) => !LINK_TYPES[t].social);
+  const types = (Object.keys(LINK_TYPES) as LinkType[])
+    .filter((t) => !(addUnder && t === 'section'))
+    .filter((t) => !q || LINK_TYPES[t].name.toLowerCase().includes(q) || (t === 'section' && 'group brand'.includes(q)));
+  const buttons = types.filter((t) => !LINK_TYPES[t].social && t !== 'section');
   const socials = types.filter((t) => LINK_TYPES[t].social);
+  const underName = addUnder ? links.find((l) => l.id === addUnder)?.label || 'this section' : null;
+  // Links under a section are indented in the list, the way they're boxed on the page.
+  const firstSection = links.findIndex(isSection);
   const typeGrid = (list: LinkType[]) => (
     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
       {list.map((t) => (
@@ -329,7 +362,8 @@ function LinksEditor({
   return (
     <section id="links" className="scroll-mt-36 space-y-3">
       {adding ? (
-        <div className="space-y-4 rounded-2xl border border-ed-line bg-ed-surface p-4 shadow-lg">
+        <div ref={pickerRef} className="space-y-4 rounded-2xl border border-ed-line bg-ed-surface p-4 shadow-lg">
+          {underName && <p className="text-sm font-medium text-ed-ink">Add a link to “{underName}”</p>}
           <div className="flex items-center gap-2">
             <label className="flex flex-1 items-center gap-2 rounded-full border border-ed-line bg-ed-field px-4 focus-within:border-ed-ink">
               <Search size={16} className="shrink-0 text-ed-faint" />
@@ -338,14 +372,14 @@ function LinksEditor({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Escape') setAdding(false);
+                  if (e.key === 'Escape') closePicker();
                   if (e.key === 'Enter' && types[0]) add(types[0]);
                 }}
                 placeholder="Search: Instagram, booking, menu…"
                 className="w-full bg-transparent py-2.5 text-[15px] text-ed-fg placeholder:text-ed-faint focus:outline-none"
               />
             </label>
-            <button type="button" aria-label="Close" onClick={() => { setAdding(false); setQuery(''); }} className="rounded-full p-2 text-ed-muted hover:bg-ed-field hover:text-ed-ink">
+            <button type="button" aria-label="Close" onClick={closePicker} className="rounded-full p-2 text-ed-muted hover:bg-ed-field hover:text-ed-ink">
               <X size={18} />
             </button>
           </div>
@@ -359,6 +393,22 @@ function LinksEditor({
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ed-faint">Social icons</p>
               {typeGrid(socials)}
+            </div>
+          )}
+          {types.includes('section') && (
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ed-faint">Group links</p>
+              <button
+                type="button"
+                onClick={() => add('section')}
+                className="flex w-full items-center gap-2.5 rounded-xl border border-ed-line bg-ed-surface px-3 py-2.5 text-left text-sm font-medium text-ed-fg hover:border-ed-ink"
+              >
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-ed-field"><LayoutList size={16} /></span>
+                <span>
+                  Section
+                  <span className="block text-xs font-normal text-ed-muted">A box with a name and logo, e.g. one per business. Links you put under it show inside.</span>
+                </span>
+              </button>
             </div>
           )}
           {types.length === 0 && <p className="text-sm text-ed-muted">Nothing matches “{query}”. Try “Website / link” for any web address.</p>}
@@ -381,10 +431,26 @@ function LinksEditor({
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd} modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
         <SortableContext items={links.map((l) => l.id)} strategy={verticalListSortingStrategy}>
           <div className="space-y-2.5">
-            {links.map((l, i) => (
+            {links.map((l, i) => isSection(l) ? (
+              <SectionRow
+                key={l.id}
+                link={l}
+                first={i === 0}
+                last={i === links.length - 1}
+                autoFocus={l.id === justAdded}
+                onPatch={(p) => patch(l.id, p)}
+                onMove={(d) => move(l.id, d)}
+                onAdd={() => addToSection(l.id)}
+                onDelete={() => remove(l)}
+                demo={demo}
+                userId={userId}
+                pageId={pageId}
+              />
+            ) : (
               <LinkRow
                 key={l.id}
                 link={l}
+                nested={firstSection >= 0 && i > firstSection}
                 first={i === 0}
                 last={i === links.length - 1}
                 autoFocus={l.id === justAdded}
@@ -401,6 +467,7 @@ function LinksEditor({
         </SortableContext>
       </DndContext>
       <p className="px-1 text-[13px] text-ed-muted">Instagram, TikTok and other social links show as small icons under your buttons. Pick “Button” on one to make it a full button instead.</p>
+      <p className="px-1 text-[13px] text-ed-muted">Have more than one business? Add a Section for each and drag its links under it. They show together in one box. Links above your first section show on their own.</p>
     </section>
   );
 }
@@ -410,9 +477,10 @@ const inlineCls =
   'w-full min-w-0 rounded-lg border border-transparent bg-transparent px-2 py-1 -ml-2 text-ed-fg placeholder:text-ed-faint hover:bg-ed-field focus:border-ed-line focus:bg-ed-surface focus:outline-none';
 
 function LinkRow({
-  link, first, last, autoFocus, clicks, showClicks, onUpgrade, onPatch, onMove, onDuplicate, onDelete,
+  link, nested, first, last, autoFocus, clicks, showClicks, onUpgrade, onPatch, onMove, onDuplicate, onDelete,
 }: {
   link: CardLink;
+  nested: boolean;
   first: boolean;
   last: boolean;
   autoFocus: boolean;
@@ -434,7 +502,7 @@ function LinkRow({
       ref={setNodeRef}
       data-focus={link.id}
       style={{ transform: CSS.Translate.toString(transform), transition }}
-      className={`flex rounded-2xl border bg-ed-surface ${isDragging ? 'relative z-10 border-ed-ink shadow-2xl' : 'border-ed-line shadow-[0_1px_2px_rgb(0_0_0/0.04)] hover:border-ed-faint/50'}`}
+      className={`flex rounded-2xl border bg-ed-surface ${nested ? 'ml-6' : ''} ${isDragging ? 'relative z-10 border-ed-ink shadow-2xl' : 'border-ed-line shadow-[0_1px_2px_rgb(0_0_0/0.04)] hover:border-ed-faint/50'}`}
     >
       <button
         type="button"
@@ -452,7 +520,7 @@ function LinkRow({
           <span className="flex min-w-0 items-center gap-1.5 text-xs font-medium text-ed-muted">
             <LinkIcon type={link.type} size={13} /> <span className="truncate">{info?.name}</span>
             {!link.enabled && <span className="text-ed-faint">· Hidden</span>}
-            {info?.social && (
+            {info?.social && !nested && (
               <span role="radiogroup" aria-label="Show as" className="ml-1 flex shrink-0 rounded-full bg-ed-field p-0.5">
                 {(['icon', 'button'] as const).map((d) => {
                   const on = (link.display ?? 'icon') === d;
@@ -472,7 +540,7 @@ function LinkRow({
               </span>
             )}
           </span>
-          {!isIconLink(link) && (
+          {(nested || !isIconLink(link)) && (
             <input
               className={`${inlineCls} mt-0.5 text-[15px] font-semibold`}
               autoFocus={autoFocus}
@@ -485,7 +553,7 @@ function LinkRow({
           )}
           <input
             className={`${inlineCls} text-sm text-ed-soft`}
-            autoFocus={autoFocus && isIconLink(link)}
+            autoFocus={autoFocus && !nested && isIconLink(link)}
             aria-label="Link"
             placeholder={info?.placeholder}
             value={link.url}
@@ -540,6 +608,117 @@ function LinkRow({
               !last && { label: 'Move down', icon: <ArrowDown size={14} />, onClick: () => onMove(1) },
             ]}
           />
+        </span>
+      </div>
+    </div>
+  );
+}
+
+const LOGO_CROP: CropSpec = { shapes: [{ label: 'Square', aspect: 1 }], out: 400 };
+
+function SectionRow({
+  link, first, last, autoFocus, onPatch, onMove, onAdd, onDelete, demo, userId, pageId,
+}: {
+  link: CardLink;
+  first: boolean;
+  last: boolean;
+  autoFocus: boolean;
+  onPatch: (p: Partial<CardLink>) => void;
+  onMove: (d: number) => void;
+  onAdd: () => void;
+  onDelete: () => void;
+  demo: boolean;
+  userId: string | null;
+  pageId: string;
+}) {
+  const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({ id: link.id });
+  const file = useRef<HTMLInputElement>(null);
+  const { pick, busy, err, modal } = useCropUpload({
+    name: 'section', spec: LOGO_CROP, maxMB: 5, value: link.image, onChange: (v) => onPatch({ image: v }), demo, userId, pageId,
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      data-focus={link.id}
+      style={{ transform: CSS.Translate.toString(transform), transition }}
+      className={`${first ? '' : '!mt-5'} flex rounded-2xl border-2 bg-ed-field ${isDragging ? 'relative z-10 border-ed-ink shadow-2xl' : 'border-ed-line'}`}
+    >
+      <button
+        type="button"
+        ref={setActivatorNodeRef}
+        {...attributes}
+        {...listeners}
+        aria-label="Drag to reorder"
+        title="Drag to reorder"
+        className="flex w-9 shrink-0 cursor-grab touch-none items-center justify-center rounded-l-2xl text-ed-faint hover:bg-ed-surface hover:text-ed-ink active:cursor-grabbing"
+      >
+        <GripVertical size={18} />
+      </button>
+      <div className={`flex min-w-0 flex-1 items-center gap-3 py-3 pr-1 ${link.enabled ? '' : 'opacity-50'}`}>
+        <button
+          type="button"
+          onClick={() => file.current?.click()}
+          aria-label={link.image ? 'Change logo' : 'Add a logo'}
+          title={link.image ? 'Change logo' : 'Add a logo'}
+          className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-dashed border-ed-faint/60 bg-ed-surface text-ed-muted hover:border-ed-ink hover:text-ed-ink"
+        >
+          {link.image ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={link.image} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <ImagePlus size={18} />
+          )}
+          {busy && <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs text-white">…</span>}
+        </button>
+        <input ref={file} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) pick(f); }} />
+        {modal}
+        <div className="min-w-0 flex-1">
+          <span className="flex items-center gap-1.5 text-xs font-medium text-ed-muted">
+            <LayoutList size={13} /> Section
+            {!link.enabled && <span className="text-ed-faint">· Hidden with its links</span>}
+          </span>
+          <input
+            className={`${inlineCls} mt-0.5 text-[15px] font-semibold`}
+            autoFocus={autoFocus}
+            aria-label="Section name"
+            placeholder="Business or brand name"
+            value={link.label}
+            maxLength={60}
+            onChange={(e) => onPatch({ label: e.target.value })}
+            onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); }}
+          />
+          <span className="mt-0.5 flex items-center gap-3 text-xs">
+            <button type="button" onClick={onAdd} className="flex items-center gap-1 font-medium text-ed-ink hover:underline">
+              <Plus size={13} /> Add a link here
+            </button>
+            {link.image && <button type="button" onClick={() => onPatch({ image: undefined })} className="text-ed-muted underline hover:text-ed-ink">Remove logo</button>}
+          </span>
+          {err && <p className="mt-1 text-xs text-ed-err">{err}</p>}
+        </div>
+      </div>
+      <div className="flex shrink-0 flex-col items-end justify-between gap-2 py-3 pr-3">
+        <button
+          type="button"
+          role="switch"
+          aria-checked={link.enabled}
+          aria-label={link.enabled ? 'Showing on your page. Tap to hide this section and its links.' : 'Hidden. Tap to show on your page.'}
+          title={link.enabled ? 'Showing on your page' : 'Hidden from your page'}
+          onClick={() => onPatch({ enabled: !link.enabled })}
+          className={`relative h-[26px] w-11 rounded-full transition-colors ${link.enabled ? 'bg-green-600' : 'bg-ed-line'}`}
+        >
+          <span className={`absolute top-[3px] h-5 w-5 rounded-full bg-white shadow transition-all ${link.enabled ? 'left-[21px]' : 'left-[3px]'}`} />
+        </button>
+        <span className="flex items-center gap-0.5">
+          <button type="button" aria-label="Delete section" title="Delete section (its links stay)" onClick={onDelete} className="rounded-full p-1.5 text-ed-faint hover:bg-red-500/10 hover:text-ed-err">
+            <Trash2 size={16} />
+          </button>
+          {!(first && last) && <RowMenu
+            items={[
+              !first && { label: 'Move up', icon: <ArrowUp size={14} />, onClick: () => onMove(-1) },
+              !last && { label: 'Move down', icon: <ArrowDown size={14} />, onClick: () => onMove(1) },
+            ]}
+          />}
         </span>
       </div>
     </div>
