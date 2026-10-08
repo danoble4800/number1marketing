@@ -31,7 +31,7 @@ type Tab = (typeof TABS)[number]['id'];
 
 const EDITABLE: (keyof CardPage)[] = [
   'slug', 'published', 'display_name', 'headline', 'bio', 'avatar_url', 'cover_url', 'contact', 'links',
-  'theme', 'review', 'special', 'lead_capture', 'lead_notify_email', 'hide_badge', 'lang',
+  'theme', 'review', 'special', 'lead_capture', 'lead_notify_email', 'report_frequency', 'hide_badge', 'lang',
 ];
 // Everything autosaves except the address, which is checked and saved when its box loses focus.
 const AUTOSAVE = EDITABLE.filter((k) => k !== 'slug');
@@ -372,7 +372,7 @@ export default function Editor() {
             />
           )}
           {tab === 'look' && <LookTab page={draft} set={set} onUpgrade={upgrade} demo={demo} userId={session?.user.id ?? null} />}
-          {tab === 'stats' && <StatsTab page={draft} demo={demo} onUpgrade={upgrade} />}
+          {tab === 'stats' && <StatsTab page={draft} set={set} demo={demo} onUpgrade={upgrade} />}
           {tab === 'leads' && <LeadsTab page={draft} demo={demo} onUpgrade={upgrade} onUndoable={showUndo} />}
           {tab === 'cards' && <CardsTab page={saved ?? draft} demo={demo} />}
           {tab === 'plan' && <PlanTab page={draft} demo={demo} onDemoPlan={demoPlan} upgraded={search.get('upgraded') === '1'} />}

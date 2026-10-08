@@ -1,17 +1,18 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import type { CardPage, PageStats } from '@/lib/cards/types';
+import { ArrowRight, Mail, Sparkles } from 'lucide-react';
+import type { CardPage, PageStats, ReportFrequency } from '@/lib/cards/types';
 import { can } from '@/lib/cards/plans';
 import { demoStats } from '@/lib/cards/demo';
 import { linkNames } from '@/lib/cards/links';
 import { getSupabase } from '@/lib/supabase';
+import { authHeader } from '@/lib/cards/client';
 import { Section } from './ui';
 
 // admin: opened from the admin Tap Cards tab, so every stat shows whatever the plan
 // and the audit pitch meant for the customer is left out.
-type Props = { page: CardPage; demo: boolean; onUpgrade: () => void; admin?: boolean };
+type Props = { page: CardPage; set?: (patch: Partial<CardPage>) => void; demo: boolean; onUpgrade: () => void; admin?: boolean };
 
 // Loads card_page_stats once per page / period (not on every keystroke in the editor).
 export function usePageStats(page: CardPage, demo: boolean, days: number) {
@@ -38,7 +39,7 @@ export function usePageStats(page: CardPage, demo: boolean, days: number) {
   return { stats, error };
 }
 
-export default function StatsTab({ page, demo, onUpgrade, admin = false }: Props) {
+export default function StatsTab({ page, set, demo, onUpgrade, admin = false }: Props) {
   const [days, setDays] = useState(30);
   const { stats: real, error } = usePageStats(page, demo, days);
   const [sample, setSample] = useState(false);
@@ -140,6 +141,8 @@ export default function StatsTab({ page, demo, onUpgrade, admin = false }: Props
         </Section>
       )}
 
+      {!admin && set && <ReportSetting page={page} set={set} demo={demo} />}
+
       {!admin && (
         <a
           href={`/en/audit?utm_source=tapcard&utm_medium=dashboard&utm_campaign=${encodeURIComponent(page.slug)}`}
@@ -159,6 +162,77 @@ export default function StatsTab({ page, demo, onUpgrade, admin = false }: Props
         </a>
       )}
     </div>
+  );
+}
+
+const FREQUENCIES: { id: ReportFrequency; name: string }[] = [
+  { id: 'weekly', name: 'Weekly' },
+  { id: 'monthly', name: 'Monthly' },
+  { id: 'off', name: 'Off' },
+];
+
+// How often the stats email goes out (sent by /api/cards/report).
+function ReportSetting({ page, set, demo }: { page: CardPage; set: (patch: Partial<CardPage>) => void; demo: boolean }) {
+  const freq = page.report_frequency ?? 'monthly';
+  const [sending, setSending] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [sentTo, setSentTo] = useState('');
+
+  async function sendNow() {
+    if (demo) { setSending('sent'); setSentTo('your email'); return; }
+    setSending('sending');
+    try {
+      const res = await fetch('/api/cards/report/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(await authHeader()) },
+        body: JSON.stringify({ page_id: page.id }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
+      setSentTo(json.to);
+      setSending('sent');
+    } catch {
+      setSending('error');
+    }
+  }
+  const when = freq === 'weekly' ? 'every Monday morning' : freq === 'monthly' ? 'on the 1st of each month' : null;
+  return (
+    <Section
+      title="Stats email"
+      icon={<Mail size={18} />}
+      hint={when
+        ? `Your taps and clicks, emailed ${when} to ${page.lead_notify_email || 'your sign-in email'}.`
+        : 'Off. Turn it on to get your numbers by email.'}
+    >
+      <div role="radiogroup" aria-label="How often" className="inline-flex rounded-full border border-ed-line bg-ed-field p-1">
+        {FREQUENCIES.map((f) => (
+          <button
+            key={f.id}
+            type="button"
+            role="radio"
+            aria-checked={freq === f.id}
+            onClick={() => set({ report_frequency: f.id })}
+            className={`rounded-full px-4 py-1.5 text-sm font-medium ${freq === f.id ? 'bg-ed-ink text-ed-field' : 'text-ed-muted hover:text-ed-ink'}`}
+          >
+            {f.name}
+          </button>
+        ))}
+      </div>
+      <p className="mt-3 text-xs text-ed-muted">No email is sent when nobody tapped or visited your page.</p>
+      <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-ed-line pt-4">
+        <button
+          type="button"
+          onClick={sendNow}
+          disabled={sending === 'sending'}
+          className="rounded-full border border-ed-line px-3.5 py-1.5 text-sm font-medium text-ed-fg hover:border-ed-ink disabled:opacity-50"
+        >
+          {sending === 'sending' ? 'Sending…' : 'Email me my stats now'}
+        </button>
+        <span className="text-xs text-ed-muted" aria-live="polite">
+          {sending === 'sent' && `Sent this month so far to ${sentTo}.`}
+          {sending === 'error' && <span className="text-ed-err">Couldn’t send. Try again in a minute.</span>}
+        </span>
+      </div>
+    </Section>
   );
 }
 

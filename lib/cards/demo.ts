@@ -5,6 +5,7 @@ const base = {
   owner_id: 'demo',
   published: true,
   lead_notify_email: null,
+  report_frequency: 'monthly' as const,
   stripe_customer_id: null,
   stripe_subscription_id: null,
   created_at: '2026-09-01T12:00:00Z',

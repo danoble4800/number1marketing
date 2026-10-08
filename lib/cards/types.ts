@@ -1,5 +1,6 @@
 export type Plan = 'free' | 'pro' | 'business';
 export type Lang = 'en' | 'es' | 'pt';
+export type ReportFrequency = 'weekly' | 'monthly' | 'off';
 
 export type LinkType =
   | 'link'
@@ -115,6 +116,7 @@ export type CardPage = PublicPage & {
   owner_id: string;
   published: boolean;
   lead_notify_email: string | null;
+  report_frequency: ReportFrequency; // stats email
   stripe_customer_id: string | null;
   stripe_subscription_id: string | null;
   created_at: string;

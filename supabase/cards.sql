@@ -29,6 +29,15 @@ create table if not exists public.card_pages (
 );
 create index if not exists card_pages_owner_idx on public.card_pages (owner_id);
 
+-- Stats email: how often the owner gets their numbers (weekly on Mondays, monthly on the 1st).
+-- report_token signs the one-click unsubscribe link, so it works without signing in.
+alter table public.card_pages add column if not exists report_frequency text not null default 'monthly';
+alter table public.card_pages drop constraint if exists card_pages_report_frequency_check;
+alter table public.card_pages add constraint card_pages_report_frequency_check
+  check (report_frequency in ('weekly', 'monthly', 'off'));
+alter table public.card_pages add column if not exists report_token uuid not null default gen_random_uuid();
+alter table public.card_pages add column if not exists report_sent_at timestamptz;
+
 -- The physical cards. id is what's written to the chip: /t/<id>.
 create table if not exists public.cards (
   id text primary key,
@@ -419,6 +428,25 @@ begin
 end;
 $$;
 grant execute on function public.card_page_stats(uuid, int) to authenticated;
+
+-- Event counts per page for the stats email, for one period. Server only (service role).
+create or replace function public.card_report_counts(p_pages uuid[], p_since timestamptz, p_until timestamptz)
+returns table (page_id uuid, kind text, link_id text, rating int, n bigint)
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select e.page_id, e.kind,
+         case when e.kind = 'click' then e.link_id end,
+         case when e.kind = 'review' then e.rating end,
+         count(*)
+  from card_events e
+  where e.page_id = any(p_pages) and e.created_at >= p_since and e.created_at < p_until
+  group by 1, 2, 3, 4;
+$$;
+revoke execute on function public.card_report_counts(uuid[], timestamptz, timestamptz) from public, anon, authenticated;
+grant execute on function public.card_report_counts(uuid[], timestamptz, timestamptz) to service_role;
 
 -- Tap and view counts for every page and card, for the admin Tap Cards tab.
 -- Counts only: no visitor contact details.
