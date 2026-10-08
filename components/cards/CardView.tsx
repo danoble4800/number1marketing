@@ -248,7 +248,9 @@ export default function CardView({ page, preview, focusId }: Props) {
 
           {groups.map(({ section, links: items }) => {
             // Editing a link inside the box: keep the box lit so the link isn't dimmed with it.
+            // Editing the section itself: its links light up with it.
             const inside = focusing && items.some((l) => l.id === focusId);
+            const whole = focusing && section.id === focusId;
             return (
               <div
                 key={section.id}
@@ -272,9 +274,9 @@ export default function CardView({ page, preview, focusId }: Props) {
                         target={['phone', 'sms', 'email'].includes(l.type) ? undefined : '_blank'}
                         rel="noopener noreferrer"
                         onClick={(e) => { guard(e); track(page, preview, { kind: 'click', link_id: l.id }); }}
-                        {...zone(l.id)}
+                        {...(whole ? {} : zone(l.id))}
                         className={`flex min-w-0 items-center justify-center gap-2 px-3 py-3 text-sm font-medium transition-transform active:scale-[0.99] ${i === items.length - 1 && i % 2 === 0 ? 'col-span-2' : ''}`}
-                        style={{ ...btnStyle, ...zoneStyle(l.id) }}
+                        style={{ ...btnStyle, ...(whole ? {} : zoneStyle(l.id)) }}
                       >
                         <span className="shrink-0 opacity-80"><LinkIcon type={l.type} size={16} /></span>
                         <span className="truncate">{l.label || LINK_TYPES[l.type]?.name}</span>
