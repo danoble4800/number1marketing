@@ -255,10 +255,11 @@ export default function CardView({ page, preview, focusId }: Props) {
               <div
                 key={section.id}
                 {...(inside ? {} : zone(section.id))}
-                className="mt-5 p-4"
-                style={{ ...boxStyle, ...(inside ? {} : zoneStyle(section.id)) }}
+                className="mt-5 p-3"
+                // Just an outline, no fill: the buttons inside should look like every other button on the page.
+                style={{ border: `1px solid ${theme.border}`, borderRadius: boxRadius, ...(inside ? {} : zoneStyle(section.id)) }}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 px-1">
                   {section.image && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={section.image} alt="" className="h-10 w-10 shrink-0 object-cover" style={{ borderRadius: `calc(${boxRadius} * 0.5)` }} />
