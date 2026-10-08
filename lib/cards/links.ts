@@ -1,6 +1,6 @@
 import type { CardLink, LinkType } from './types';
 
-export const LINK_TYPES: Record<LinkType, { name: string; placeholder: string; social?: boolean }> = {
+export const LINK_TYPES: Record<LinkType, { name: string; placeholder: string; social?: boolean; music?: boolean }> = {
   link: { name: 'Website / link', placeholder: 'https://…' },
   booking: { name: 'Book an appointment', placeholder: 'https://calendly.com/…' },
   menu: { name: 'Menu', placeholder: 'https://…/menu' },
@@ -16,6 +16,15 @@ export const LINK_TYPES: Record<LinkType, { name: string; placeholder: string; s
   linkedin: { name: 'LinkedIn', placeholder: 'linkedin.com/in/you', social: true },
   youtube: { name: 'YouTube', placeholder: 'youtube.com/@you', social: true },
   x: { name: 'X', placeholder: '@yourhandle', social: true },
+  // Music links can show as an icon too, but start as a "Listen on …" button.
+  spotify: { name: 'Spotify', placeholder: 'open.spotify.com/artist/…', social: true, music: true },
+  applemusic: { name: 'Apple Music', placeholder: 'music.apple.com/…', social: true, music: true },
+  soundcloud: { name: 'SoundCloud', placeholder: 'soundcloud.com/you', social: true, music: true },
+  youtubemusic: { name: 'YouTube Music', placeholder: 'music.youtube.com/…', social: true, music: true },
+  audiomack: { name: 'Audiomack', placeholder: 'audiomack.com/you', social: true, music: true },
+  tidal: { name: 'Tidal', placeholder: 'tidal.com/artist/…', social: true, music: true },
+  amazonmusic: { name: 'Amazon Music', placeholder: 'music.amazon.com/artists/…', social: true, music: true },
+  bandcamp: { name: 'Bandcamp', placeholder: 'you.bandcamp.com', social: true, music: true },
   section: { name: 'Section', placeholder: '' },
 };
 
@@ -64,6 +73,8 @@ export function linkHref(link: Pick<CardLink, 'type' | 'url'>): string {
     case 'instagram': return /instagram\.com/.test(v) ? withScheme(v) : `https://instagram.com/${handle(v)}`;
     case 'tiktok': return /tiktok\.com/.test(v) ? withScheme(v) : `https://www.tiktok.com/@${handle(v)}`;
     case 'x': return /(x|twitter)\.com/.test(v) ? withScheme(v) : `https://x.com/${handle(v)}`;
+    case 'soundcloud': return /soundcloud\.com|on\.soundcloud/.test(v) ? withScheme(v) : `https://soundcloud.com/${handle(v)}`;
+    case 'audiomack': return /audiomack\.com/.test(v) ? withScheme(v) : `https://audiomack.com/${handle(v)}`;
     case 'maps':
       return /^https?:|maps\.|goo\.gl/.test(v) ? withScheme(v) : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v)}`;
     default: return withScheme(v);
@@ -104,6 +115,8 @@ export function linkProblem(link: Pick<CardLink, 'type' | 'url'>): string | null
     case 'instagram':
     case 'tiktok':
     case 'x':
+    case 'soundcloud':
+    case 'audiomack':
       return isUrl || !/\s/.test(v) ? null : 'Handles can’t have spaces.';
     case 'maps':
       return null;

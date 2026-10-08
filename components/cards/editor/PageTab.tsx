@@ -302,7 +302,10 @@ function LinksEditor({
   // to the bottom so they don't swallow the links already there.
   const add = (type: LinkType) => {
     const id = newLinkId();
-    const link: CardLink = { id, type, label: LINK_TYPES[type].social ? LINK_TYPES[type].name : '', url: '', enabled: true };
+    const info = LINK_TYPES[type];
+    const link: CardLink = info.music
+      ? { id, type, label: `Listen on ${info.name}`, url: '', enabled: true, display: 'button' }
+      : { id, type, label: info.social ? info.name : '', url: '', enabled: true };
     setLinks((ls) => {
       if (isSection(link)) return [...ls, link];
       const at = addUnder ? ls.findIndex((l) => l.id === addUnder) : -1;
@@ -337,9 +340,10 @@ function LinksEditor({
   const q = query.trim().toLowerCase();
   const types = (Object.keys(LINK_TYPES) as LinkType[])
     .filter((t) => !(addUnder && t === 'section'))
-    .filter((t) => !q || LINK_TYPES[t].name.toLowerCase().includes(q) || (t === 'section' && 'group brand'.includes(q)));
+    .filter((t) => !q || LINK_TYPES[t].name.toLowerCase().includes(q) || (t === 'section' && 'group brand'.includes(q)) || (!!LINK_TYPES[t].music && 'music song album artist listen'.includes(q)));
   const buttons = types.filter((t) => !LINK_TYPES[t].social && t !== 'section');
-  const socials = types.filter((t) => LINK_TYPES[t].social);
+  const socials = types.filter((t) => LINK_TYPES[t].social && !LINK_TYPES[t].music);
+  const music = types.filter((t) => LINK_TYPES[t].music);
   const underName = addUnder ? links.find((l) => l.id === addUnder)?.label || 'this section' : null;
   // Links under a section are indented in the list, the way they're boxed on the page.
   const firstSection = links.findIndex(isSection);
@@ -375,7 +379,7 @@ function LinksEditor({
                   if (e.key === 'Escape') closePicker();
                   if (e.key === 'Enter' && types[0]) add(types[0]);
                 }}
-                placeholder="Search: Instagram, booking, menu…"
+                placeholder="Search: Instagram, booking, Spotify…"
                 className="w-full bg-transparent py-2.5 text-[15px] text-ed-fg placeholder:text-ed-faint focus:outline-none"
               />
             </label>
@@ -393,6 +397,12 @@ function LinksEditor({
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ed-faint">Social icons</p>
               {typeGrid(socials)}
+            </div>
+          )}
+          {music.length > 0 && (
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ed-faint">Music</p>
+              {typeGrid(music)}
             </div>
           )}
           {types.includes('section') && (
@@ -466,7 +476,7 @@ function LinksEditor({
           </div>
         </SortableContext>
       </DndContext>
-      <p className="px-1 text-[13px] text-ed-muted">Instagram, TikTok and other social links show as small icons under your buttons. Pick “Button” on one to make it a full button instead.</p>
+      <p className="px-1 text-[13px] text-ed-muted">Instagram, TikTok and other social links show as small icons under your buttons. Pick “Button” on one to make it a full button instead. Music links (Spotify, Apple Music…) start as buttons; pick “Icon” to shrink one.</p>
       <p className="px-1 text-[13px] text-ed-muted">Have more than one business? Add a Section for each and drag its links under it. They show together in one box. Links above your first section show on their own.</p>
     </section>
   );
