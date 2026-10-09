@@ -70,9 +70,6 @@ export async function generateMetadata({
       template: '%s | Number 1 Digital Marketing',
       default: 'Number 1 Digital Marketing',
     },
-    icons: {
-      apple: '/apple-touch-icon.png',
-    },
     description:
       'More calls, customers and followers for your business. Websites, Google, ads, social media and instant replies to every new lead.',
     openGraph: {

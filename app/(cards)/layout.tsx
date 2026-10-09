@@ -14,7 +14,6 @@ const caveat = Caveat({ subsets: ['latin'], variable: '--font-caveat', display: 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://number1digitalmarketing.com'),
   title: { template: '%s', default: 'N°1 Tap Cards' },
-  icons: { apple: '/apple-touch-icon.png' },
 };
 
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover' };
