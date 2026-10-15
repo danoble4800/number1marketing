@@ -12,6 +12,8 @@ import TapCardsAdmin from '@/components/cards/TapCardsAdmin';
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gr4UrY65r2g-dy0IUJFCFIQBUgoX0sQ9_GdmZHccpko/edit';
 const DRIVE_URL = 'https://drive.google.com/drive/folders/1cjptMcb6Tk8z48zg_3LoCdlkdq1fMl17';
 const ONBOARDING_URL = 'https://number1digitalmarketing.com/en/onboarding';
+// No locale on purpose: visitors land on the free audit page in their own language.
+const FREE_AUDIT_URL = 'https://number1digitalmarketing.com/free-audit';
 
 function CopyButton({ value }: { value: string }) {
   const [copied, setCopied] = useState(false);
@@ -423,6 +425,25 @@ export default function AdminDashboard({ locale }: { locale: string }) {
                   className="inline-flex items-center gap-2 bg-brand-white text-brand-black px-4 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-brand-offwhite transition-colors"
                 >
                   Open Onboarding
+                  <ExternalIcon />
+                </a>
+              </div>
+            </div>
+            {/* Instagram free audit page shortcut */}
+            <div className="mb-8 -mt-5 flex flex-wrap items-center justify-between gap-3 border border-brand-dark2 px-4 py-3">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-brand-mid">Free Audit Page · Instagram</p>
+                <p className="text-sm text-brand-light1">For your bio, stories and DMs. Video + step-by-step form; leads land in Leads.</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <CopyButton value={FREE_AUDIT_URL} />
+                <a
+                  href={`/${locale}/free-audit`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-brand-white text-brand-black px-4 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-brand-offwhite transition-colors"
+                >
+                  Open Page
                   <ExternalIcon />
                 </a>
               </div>
