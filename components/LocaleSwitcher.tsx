@@ -7,6 +7,8 @@ import { Globe, ChevronDown } from 'lucide-react';
 
 interface LocaleSwitcherProps {
   locale: string;
+  // 'tabs' shows every language side by side, for pages without the nav (e.g. /free-audit).
+  variant?: 'menu' | 'tabs';
 }
 
 const locales = [
@@ -15,7 +17,7 @@ const locales = [
   { code: 'pt', label: 'Português' },
 ];
 
-export default function LocaleSwitcher({ locale }: LocaleSwitcherProps) {
+export default function LocaleSwitcher({ locale, variant = 'menu' }: LocaleSwitcherProps) {
   const t = useTranslations('localeSwitcher');
   const pathname = usePathname();
   const router = useRouter();
@@ -49,6 +51,33 @@ export default function LocaleSwitcher({ locale }: LocaleSwitcherProps) {
     router.push(newPath);
     setOpen(false);
   };
+
+  if (variant === 'tabs') {
+    return (
+      <div
+        role="group"
+        aria-label={t('label')}
+        className="inline-flex items-center gap-1 rounded-full border border-brand-dark2 bg-brand-dark1 p-1"
+      >
+        <Globe size={15} className="ml-2 mr-1 text-brand-mid" aria-hidden="true" />
+        {locales.map((loc) => (
+          <button
+            key={loc.code}
+            onClick={() => switchLocale(loc.code)}
+            aria-pressed={loc.code === locale}
+            lang={loc.code}
+            className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+              loc.code === locale
+                ? 'bg-brand-white text-brand-black'
+                : 'text-brand-light1 hover:bg-brand-near-black hover:text-brand-white'
+            }`}
+          >
+            {loc.label}
+          </button>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div ref={ref} className="relative">

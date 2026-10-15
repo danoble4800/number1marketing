@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ArrowUpRight, Check } from 'lucide-react';
 import ExplainerVideo, { type ExplainerCopy } from '@/components/free-audit/ExplainerVideo';
 import AuditApplication from '@/components/free-audit/AuditApplication';
+import LocaleSwitcher from '@/components/LocaleSwitcher';
 
 // Landing page for Instagram traffic: no nav or footer (see SiteChrome), one job —
 // watch the video, then fill in the step-by-step free audit form.
@@ -82,6 +83,11 @@ export default async function FreeAuditPage({
       />
 
       <div className="relative mx-auto w-full max-w-2xl px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
+        {/* Language tabs: this page has no nav, so the switcher lives here */}
+        <div className="mb-6 flex justify-center">
+          <LocaleSwitcher locale={locale} variant="tabs" />
+        </div>
+
         {/* Logo */}
         <div className="flex justify-center">
           <span
