@@ -1700,5 +1700,193 @@
         "time": "47 min ago"
       }
     ]
+  },
+  "freeAudit": {
+    "metaTitle": "Free Audit",
+    "metaDescription": "More calls, more customers, more followers — without learning marketing. Watch the 75-second video, then get your free audit.",
+    "eyebrow": "For business owners",
+    "headline": "Get more calls and customers",
+    "headlineAccent": "without learning marketing",
+    "subline": "You don't need to know marketing or AI — we do. AI answers your new leads in seconds, writes your posts and keeps your Google listing fresh, day or night. More calls, more customers, more followers. We set it all up — you run it, or we do.",
+    "chips": [
+      "100% free",
+      "30-minute call",
+      "No pressure"
+    ],
+    "step1": "Watch this",
+    "step1Note": "About 75 seconds",
+    "step2": "Get your free audit",
+    "step2Note": "Takes about 2 minutes",
+    "footer": "Number 1 Digital Marketing · Boston, MA",
+    "footerLink": "Visit our website",
+    "instagram": "Follow us on Instagram",
+    "video": {
+      "label": "How it works",
+      "play": "Play",
+      "pause": "Pause",
+      "replay": "Watch again",
+      "toForm": "Get your free audit",
+      "scenes": [
+        {
+          "kicker": "Sound familiar?",
+          "text": "You're great at what you do. But marketing? That's a whole other job."
+        },
+        {
+          "kicker": "The problem",
+          "text": "Calls get missed. Messages sit for hours. And those customers call someone else."
+        },
+        {
+          "kicker": "The good news",
+          "text": "You don't need to know marketing. That's our job."
+        },
+        {
+          "kicker": "We set it all up",
+          "text": "Your website, Google, ads and social media — all working together."
+        },
+        {
+          "kicker": "Day or night",
+          "text": "Every new lead gets a reply in seconds. Even at 2 AM. Even on Sundays."
+        },
+        {
+          "kicker": "What you get",
+          "text": "More calls. More customers. More followers."
+        },
+        {
+          "kicker": "Your choice",
+          "text": "Want to run it yourself? We show you how. Rather not? We run it for you."
+        },
+        {
+          "kicker": "Step one",
+          "text": "It starts with a free 30-minute audit. We look at your Google, your reviews and your website."
+        },
+        {
+          "kicker": "No strings",
+          "text": "You keep the list of fixes either way. No cost. No pressure."
+        },
+        {
+          "kicker": "Ready?",
+          "text": "Answer a few quick questions below. It takes about 2 minutes."
+        }
+      ],
+      "art": {
+        "missed": "Missed call",
+        "unread": "3 unread messages",
+        "competitor": "Booked with someone else",
+        "jargon": [
+          "SEO",
+          "CTR",
+          "Algorithms",
+          "Funnels",
+          "ROAS"
+        ],
+        "handled": "We handle it",
+        "pieces": [
+          "Website",
+          "Google",
+          "Ads",
+          "Social media"
+        ],
+        "leadIn": "New lead · 2:04 AM",
+        "leadAsk": "Hi, do you have time this week?",
+        "leadReply": "Yes! We can come Thursday at 10. Does that work?",
+        "replied": "Replied in 9 seconds",
+        "stats": [
+          "Calls",
+          "Customers",
+          "Followers"
+        ],
+        "self": "You run it",
+        "selfDesc": "We show you how",
+        "us": "We run it",
+        "usDesc": "You focus on your business",
+        "auditTitle": "Your free audit",
+        "auditItems": [
+          "Google profile",
+          "Reviews",
+          "Website",
+          "How fast you reply"
+        ],
+        "keep": "Yours to keep",
+        "free": "$0",
+        "cta": "Scroll down"
+      }
+    },
+    "form": {
+      "progress": "Question {n} of {total}",
+      "next": "Next",
+      "back": "Back",
+      "submit": "Get my free audit",
+      "sending": "Sending…",
+      "enterHint": "or press Enter",
+      "error": "Something went wrong. Please try again.",
+      "business": {
+        "q": "What kind of business do you have?",
+        "options": {
+          "home": "Home services",
+          "food": "Restaurant or food",
+          "beauty": "Beauty, barber or salon",
+          "health": "Health or fitness",
+          "auto": "Auto",
+          "retail": "Shop or retail",
+          "realestate": "Real estate",
+          "other": "Something else"
+        },
+        "otherPlaceholder": "What kind of business?"
+      },
+      "goal": {
+        "q": "What do you want most right now?",
+        "options": {
+          "calls": "More calls",
+          "customers": "More customers",
+          "followers": "More followers",
+          "all": "All of it"
+        }
+      },
+      "contact": {
+        "q": "Where should we send your free audit?",
+        "sub": "We'll text or call to set up a time. No spam, ever.",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "businessName": "Business name",
+        "phone": "Phone",
+        "email": "Email",
+        "consent": "It's OK to text and email me about my audit and occasional updates.",
+        "required": "Please fill this in",
+        "emailInvalid": "Please check your email",
+        "consentRequired": "Please check this box so we can reach you"
+      },
+      "run": {
+        "q": "Once it's all set up, who runs it?",
+        "options": {
+          "self": "I'll run it — show me how",
+          "us": "You run it for me",
+          "unsure": "Not sure yet — help me decide"
+        }
+      },
+      "budget": {
+        "q": "About how much could you put toward growing your business each month?",
+        "sub": "This just helps us suggest the right plan.",
+        "options": {
+          "under300": "Under $300",
+          "300to750": "$300 – $750",
+          "750to1500": "$750 – $1,500",
+          "over1500": "$1,500+",
+          "unsure": "Not sure yet"
+        }
+      },
+      "timing": {
+        "q": "When do you want to get started?",
+        "options": {
+          "now": "Right away",
+          "month": "In the next month",
+          "looking": "Just looking for now"
+        }
+      },
+      "done": {
+        "title": "You're in, {name}!",
+        "body": "We'll text or call you within one business day to set up your free 30-minute audit. Keep an eye on your phone.",
+        "note": "Can't wait? Text or DM us on Instagram anytime."
+      }
+    }
   }
 }

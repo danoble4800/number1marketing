@@ -31,6 +31,20 @@
   color-scheme: light;
 }
 
+/* Panels that stay dark on the light site, like the /free-audit explainer "video". */
+.brand-dark {
+  --brand-black: 0 0 0;
+  --brand-near-black: 14 14 16;
+  --brand-dark1: 26 26 30;
+  --brand-dark2: 45 45 50;
+  --brand-mid: 95 95 100;
+  --brand-light1: 140 140 145;
+  --brand-light2: 185 185 190;
+  --brand-offwhite: 245 245 246;
+  --brand-white: 255 255 255;
+  color-scheme: dark;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

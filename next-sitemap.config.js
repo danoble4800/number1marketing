@@ -9,6 +9,7 @@ const PRIVATE = [
   '/*/team',
   '/*/onboarding',
   '/*/nfc-lead',
+  '/*/free-audit',
   '/*/academy/login',
   '/*/academy/dashboard',
   '/*/academy/admin',

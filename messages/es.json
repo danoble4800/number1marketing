@@ -1701,5 +1701,193 @@
         "time": "hace 47 min"
       }
     ]
+  },
+  "freeAudit": {
+    "metaTitle": "Auditoría gratis",
+    "metaDescription": "Más llamadas, más clientes, más seguidores — sin aprender marketing. Mira el video de 75 segundos y pide tu auditoría gratis.",
+    "eyebrow": "Para dueños de negocio",
+    "headline": "Consigue más llamadas y clientes",
+    "headlineAccent": "sin aprender marketing",
+    "subline": "No necesitas saber de marketing ni de IA — nosotros sí. La IA responde a tus clientes nuevos en segundos, escribe tus publicaciones y mantiene tu perfil de Google al día, de día o de noche. Más llamadas, más clientes, más seguidores. Nosotros lo preparamos todo — tú lo manejas, o lo manejamos nosotros.",
+    "chips": [
+      "100% gratis",
+      "Llamada de 30 minutos",
+      "Sin presión"
+    ],
+    "step1": "Mira esto",
+    "step1Note": "Unos 75 segundos",
+    "step2": "Pide tu auditoría gratis",
+    "step2Note": "Toma unos 2 minutos",
+    "footer": "Number 1 Digital Marketing · Boston, MA",
+    "footerLink": "Visita nuestro sitio web",
+    "instagram": "Síguenos en Instagram",
+    "video": {
+      "label": "Cómo funciona",
+      "play": "Reproducir",
+      "pause": "Pausar",
+      "replay": "Ver de nuevo",
+      "toForm": "Pide tu auditoría gratis",
+      "scenes": [
+        {
+          "kicker": "¿Te suena?",
+          "text": "Eres muy bueno en lo que haces. ¿Pero el marketing? Eso es otro trabajo."
+        },
+        {
+          "kicker": "El problema",
+          "text": "Se pierden llamadas. Los mensajes esperan horas. Y esos clientes llaman a otro."
+        },
+        {
+          "kicker": "La buena noticia",
+          "text": "No necesitas saber de marketing. Ese es nuestro trabajo."
+        },
+        {
+          "kicker": "Lo preparamos todo",
+          "text": "Tu sitio web, Google, anuncios y redes sociales — todo trabajando junto."
+        },
+        {
+          "kicker": "De día o de noche",
+          "text": "Cada cliente nuevo recibe respuesta en segundos. Aunque sean las 2 AM. Aunque sea domingo."
+        },
+        {
+          "kicker": "Lo que obtienes",
+          "text": "Más llamadas. Más clientes. Más seguidores."
+        },
+        {
+          "kicker": "Tú decides",
+          "text": "¿Quieres manejarlo tú? Te enseñamos. ¿Prefieres que no? Lo manejamos por ti."
+        },
+        {
+          "kicker": "Primer paso",
+          "text": "Empieza con una auditoría gratis de 30 minutos. Revisamos tu Google, tus reseñas y tu sitio web."
+        },
+        {
+          "kicker": "Sin compromiso",
+          "text": "Te quedas con la lista de mejoras pase lo que pase. Sin costo. Sin presión."
+        },
+        {
+          "kicker": "¿Listo?",
+          "text": "Responde unas preguntas rápidas abajo. Toma unos 2 minutos."
+        }
+      ],
+      "art": {
+        "missed": "Llamada perdida",
+        "unread": "3 mensajes sin leer",
+        "competitor": "Reservó con otro",
+        "jargon": [
+          "SEO",
+          "CTR",
+          "Algoritmos",
+          "Embudos",
+          "ROAS"
+        ],
+        "handled": "Nosotros nos encargamos",
+        "pieces": [
+          "Sitio web",
+          "Google",
+          "Anuncios",
+          "Redes sociales"
+        ],
+        "leadIn": "Cliente nuevo · 2:04 AM",
+        "leadAsk": "Hola, ¿tienen tiempo esta semana?",
+        "leadReply": "¡Sí! Podemos ir el jueves a las 10. ¿Te sirve?",
+        "replied": "Respondido en 9 segundos",
+        "stats": [
+          "Llamadas",
+          "Clientes",
+          "Seguidores"
+        ],
+        "self": "Tú lo manejas",
+        "selfDesc": "Te enseñamos cómo",
+        "us": "Lo manejamos",
+        "usDesc": "Tú te enfocas en tu negocio",
+        "auditTitle": "Tu auditoría gratis",
+        "auditItems": [
+          "Perfil de Google",
+          "Reseñas",
+          "Sitio web",
+          "Qué tan rápido respondes"
+        ],
+        "keep": "Es tuya",
+        "free": "$0",
+        "cta": "Baja"
+      }
+    },
+    "form": {
+      "progress": "Pregunta {n} de {total}",
+      "next": "Siguiente",
+      "back": "Atrás",
+      "submit": "Quiero mi auditoría gratis",
+      "sending": "Enviando…",
+      "enterHint": "o presiona Enter",
+      "error": "Algo salió mal. Inténtalo de nuevo.",
+      "business": {
+        "q": "¿Qué tipo de negocio tienes?",
+        "options": {
+          "home": "Servicios para el hogar",
+          "food": "Restaurante o comida",
+          "beauty": "Belleza, barbería o salón",
+          "health": "Salud o fitness",
+          "auto": "Autos",
+          "retail": "Tienda",
+          "realestate": "Bienes raíces",
+          "other": "Otro"
+        },
+        "otherPlaceholder": "¿Qué tipo de negocio?"
+      },
+      "goal": {
+        "q": "¿Qué es lo que más quieres ahora?",
+        "options": {
+          "calls": "Más llamadas",
+          "customers": "Más clientes",
+          "followers": "Más seguidores",
+          "all": "Todo"
+        }
+      },
+      "contact": {
+        "q": "¿A dónde te enviamos tu auditoría gratis?",
+        "sub": "Te escribimos o llamamos para fijar una hora. Nunca spam.",
+        "firstName": "Nombre",
+        "lastName": "Apellido",
+        "businessName": "Nombre del negocio",
+        "phone": "Teléfono",
+        "email": "Correo",
+        "consent": "Está bien enviarme mensajes y correos sobre mi auditoría y novedades ocasionales.",
+        "required": "Por favor completa esto",
+        "emailInvalid": "Revisa tu correo",
+        "consentRequired": "Marca esta casilla para que podamos contactarte"
+      },
+      "run": {
+        "q": "Una vez que todo esté listo, ¿quién lo maneja?",
+        "options": {
+          "self": "Yo — enséñame cómo",
+          "us": "Ustedes, por mí",
+          "unsure": "Aún no sé — ayúdenme a decidir"
+        }
+      },
+      "budget": {
+        "q": "¿Más o menos cuánto podrías invertir al mes para hacer crecer tu negocio?",
+        "sub": "Solo nos ayuda a sugerirte el plan correcto.",
+        "options": {
+          "under300": "Menos de $300",
+          "300to750": "$300 – $750",
+          "750to1500": "$750 – $1,500",
+          "over1500": "$1,500+",
+          "unsure": "Aún no sé"
+        }
+      },
+      "timing": {
+        "q": "¿Cuándo quieres empezar?",
+        "options": {
+          "now": "Ya mismo",
+          "month": "En el próximo mes",
+          "looking": "Solo estoy mirando"
+        }
+      },
+      "done": {
+        "title": "¡Listo, {name}!",
+        "body": "Te escribimos o llamamos en un día hábil para fijar tu auditoría gratis de 30 minutos. Pendiente de tu teléfono.",
+        "note": "¿No puedes esperar? Escríbenos por Instagram cuando quieras."
+      }
+    }
   }
 }
