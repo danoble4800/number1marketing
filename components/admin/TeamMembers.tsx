@@ -146,9 +146,16 @@ export default function TeamMembers({ onSignedOut }: { onSignedOut: () => void }
                 {m.role === 'rep' && m.repName && m.repName !== m.name && (
                   <p className="text-xs text-brand-mid truncate">Tracker name: {m.repName}</p>
                 )}
+                {m.referralUrl && (
+                  <p className="text-xs text-brand-mid break-all">
+                    Referral link: {m.referralUrl}
+                    {m.referred && ` · ${m.referred.leads} ${m.referred.leads === 1 ? 'lead' : 'leads'}, ${m.referred.clients} ${m.referred.clients === 1 ? 'client' : 'clients'}`}
+                  </p>
+                )}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {m.kind === 'invite' && <CopyButton value={TEAM_SIGNUP_URL} label="Copy Invite Link" />}
+                {m.referralUrl && <CopyButton value={m.referralUrl} label="Copy Referral Link" />}
                 {isOwner && (
                   <button
                     onClick={() => setEditing(key)}
@@ -165,6 +172,7 @@ export default function TeamMembers({ onSignedOut }: { onSignedOut: () => void }
 
       <p className="text-xs text-brand-mid">
         New members are added as sales reps and show as Invited until they create their account at /team. Admins are still promoted in Supabase.
+        Website leads that come in through a rep&rsquo;s referral link (within 30 days of the tap) are marked &ldquo;Referred by&rdquo; in Leads and show on the rep&rsquo;s dashboard.
       </p>
     </div>
   );

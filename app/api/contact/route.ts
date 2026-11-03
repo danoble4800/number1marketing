@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { referredBy } from '@/lib/referrals';
 import { appendToSheet, safeCell, sendLeadAlert } from '@/lib/websiteLeads';
 
 const SERVICE_LABELS: Record<string, string> = {
@@ -56,6 +57,7 @@ export async function POST(req: NextRequest) {
       : 'Website';
     // "YYYY-MM-DD HH:MM:SS" in New York time so Sheets stores a real, sortable date
     const submittedAt = new Date().toLocaleString('sv-SE', { timeZone: 'America/New_York' });
+    const referrer = await referredBy(req);
 
     await appendToSheet([
       submittedAt,
@@ -70,7 +72,7 @@ export async function POST(req: NextRequest) {
       servicesList,
       leadSource,
       consent ? 'Yes' : 'No',
-    ]);
+    ], referrer);
 
     await sendLeadAlert({
       firstName: String(firstName),
@@ -82,6 +84,7 @@ export async function POST(req: NextRequest) {
       email: String(email),
       services: servicesList,
       source: leadSource,
+      referredBy: referrer,
     });
 
     return NextResponse.json({ success: true });

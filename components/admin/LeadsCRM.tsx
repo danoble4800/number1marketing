@@ -577,6 +577,8 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
   const [repName, setRepName] = useState('');
   const [cardsSold, setCardsSold] = useState(0);
   const [formUrl, setFormUrl] = useState('');
+  const [referralUrl, setReferralUrl] = useState('');
+  const [copied, setCopied] = useState(false);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [contactMethods, setContactMethods] = useState<string[]>([]);
   const [manualSources, setManualSources] = useState<string[]>([]);
@@ -624,6 +626,7 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
         setMe(name.split(/\s+/)[0] || 'Dan');
         setCardsSold(Number(json.cardsSold) || 0);
         setFormUrl(String(json.formUrl ?? ''));
+        setReferralUrl(String(json.referralUrl ?? ''));
       }
     } catch (err) {
       if ((err as Error).message !== 'Signed out') setLoadErrors([(err as Error).message]);
@@ -738,6 +741,28 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
           )}
         </div>
       </div>
+
+      {/* Rep's referral link: website leads from it are credited to them */}
+      {team && referralUrl && (
+        <div className="flex flex-wrap items-center justify-between gap-3 border border-brand-dark2 px-4 py-3">
+          <div className="min-w-0">
+            <p className="text-[11px] uppercase tracking-widest text-brand-mid">My referral link</p>
+            <p className="text-sm text-brand-light1 break-all">{referralUrl}</p>
+            <p className="text-xs text-brand-mid">Share it anywhere. Anyone who signs up within 30 days of tapping it shows up here as your lead.</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              navigator.clipboard?.writeText(referralUrl);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            }}
+            className={btnClass}
+          >
+            {copied ? '✓ Copied' : 'Copy link'}
+          </button>
+        </div>
+      )}
 
       {adding && (
         <AddLeadForm

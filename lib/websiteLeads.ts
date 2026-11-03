@@ -13,7 +13,8 @@ export function safeCell(val: string): string {
 
 // Tab and column order must match the "Website Leads" tab in the leads spreadsheet:
 // Submitted | Status | First | Last | Business | Industry | Location | Phone | Email | Services | Lead Source | Consent
-// (Follow-up Date and Notes after that are filled in by hand.)
+// (Follow-up Date and Notes after that are filled in by hand.) R is Referred By: the sales rep
+// whose referral link brought them in (lib/referrals.ts).
 export const SHEET_TAB = 'Website Leads';
 
 export interface Lead {
@@ -26,6 +27,7 @@ export interface Lead {
   email: string;
   services: string;
   source: string;
+  referredBy?: string;
 }
 
 function escapeHtml(val: string): string {
@@ -63,6 +65,7 @@ export async function sendLeadAlert(lead: Lead) {
     ${row('Location', e(lead.location))}
     ${row('Services', e(lead.services) || '—')}
     ${row('Source', e(lead.source))}
+    ${lead.referredBy ? row('Referred by', e(lead.referredBy)) : ''}
   </table>
   <p style="margin:20px 0 0"><a href="${sheetUrl}" style="background:#0e0e10;color:#fff;padding:10px 16px;text-decoration:none;font-weight:600">Open Leads Sheet</a></p>
 </div>`;
@@ -70,6 +73,7 @@ export async function sendLeadAlert(lead: Lead) {
   const text = [
     `New lead: ${lead.businessName} (${lead.industry}, ${lead.location}) via ${lead.source}`,
     `Name: ${name}`, `Phone: ${lead.phone}`, `Email: ${lead.email}`, `Services: ${lead.services || '—'}`,
+    ...(lead.referredBy ? [`Referred by: ${lead.referredBy}`] : []),
     `Leads sheet: ${sheetUrl}`,
   ].join('\n');
 
@@ -100,14 +104,16 @@ function sheetsClient() {
   return google.sheets({ version: 'v4', auth });
 }
 
-// Adds a row and returns its row number (null if Sheets didn't say).
-export async function appendToSheet(values: string[]): Promise<number | null> {
+// Adds a row (A:L, plus R when a rep referred them) and returns its row number
+// (null if Sheets didn't say).
+export async function appendToSheet(values: string[], referredBy = ''): Promise<number | null> {
+  const row = referredBy ? [...values, ...Array(17 - values.length).fill(''), referredBy] : values;
   const res = await sheetsClient().spreadsheets.values.append({
     spreadsheetId: process.env.GOOGLE_SHEET_ID,
-    range: `'${SHEET_TAB}'!A:L`,
+    range: `'${SHEET_TAB}'!A:R`,
     valueInputOption: 'USER_ENTERED',
     requestBody: {
-      values: [values],
+      values: [row],
     },
   });
   const match = res.data.updates?.updatedRange?.match(/![A-Z]+(\d+)/);

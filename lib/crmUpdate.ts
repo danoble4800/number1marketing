@@ -11,9 +11,12 @@ import {
 const DATE_FIELDS: Field[] = ['lastContacted', 'nextFollowUp'];
 export const isDate = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v);
 
+// The rep a row belongs to: who logged the visit, or whose referral link the lead used.
+const OWNER_COL: Partial<Record<Source, string>> = { inperson: 'B', website: 'R' };
+
 type Options = {
   sources?: Source[]; // which sheets the caller may write to (default: all)
-  ownsRow?: (columnB: string) => boolean; // extra check on the row before writing
+  ownsRow?: (rep: string) => boolean; // extra check on the row's rep (OWNER_COL) before writing
   logSuffix?: string; // appended to the history line, e.g. " · Laquan"
 };
 
@@ -58,15 +61,17 @@ export async function updateLead(body: unknown, opts: Options = {}): Promise<Nex
   const sheets = getSheets();
   const id = spreadsheetId(source);
   const histCol = HISTORY_COL[source];
+  const ownerCol = OWNER_COL[source];
   const current = await sheets.spreadsheets.values.batchGet({
-    spreadsheetId: id, ranges: [`'${tab}'!A${row}:B${row}`, `'${tab}'!${histCol}${row}`],
+    spreadsheetId: id,
+    ranges: [`'${tab}'!A${row}`, `'${tab}'!${histCol}${row}`, ...(ownerCol ? [`'${tab}'!${ownerCol}${row}`] : [])],
   });
-  const [checkRange, historyRange] = current.data.valueRanges ?? [];
-  const [a, b] = (checkRange?.values?.[0] ?? []).map((v) => String(v ?? '').trim());
-  if ((a ?? '') !== check) {
+  const [checkRange, historyRange, ownerRange] = current.data.valueRanges ?? [];
+  const valueOf = (r: sheets_v4.Schema$ValueRange | undefined) => String(r?.values?.[0]?.[0] ?? '').trim();
+  if (valueOf(checkRange) !== check) {
     return NextResponse.json({ error: 'The sheet changed since this page loaded. Refresh and try again.' }, { status: 409 });
   }
-  if (opts.ownsRow && !opts.ownsRow(b ?? '')) {
+  if (opts.ownsRow && !opts.ownsRow(valueOf(ownerRange))) {
     return NextResponse.json({ error: 'That lead isn’t yours' }, { status: 400 });
   }
 

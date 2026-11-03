@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
+import { referredBy } from '@/lib/referrals';
 import { appendToSheet, safeCell, sendLeadAlert, updateRow } from '@/lib/websiteLeads';
 
 // The step-by-step free audit application on /free-audit (linked from Instagram).
@@ -74,6 +75,7 @@ export async function POST(req: NextRequest) {
     }
 
     const submittedAt = new Date().toLocaleString('sv-SE', { timeZone: 'America/New_York' });
+    const referrer = await referredBy(req);
     const baseRow = (services: string, source: string) => [
       submittedAt,
       'New',
@@ -91,7 +93,7 @@ export async function POST(req: NextRequest) {
 
     if (body.stage === 'start') {
       // Marked unfinished until the last step comes in; the CRM shows this in "Services".
-      const row = await appendToSheet(baseRow(`${goal} · Didn't finish the form`, `${SOURCE} (started)`));
+      const row = await appendToSheet(baseRow(`${goal} · Didn't finish the form`, `${SOURCE} (started)`), referrer);
       return NextResponse.json({ success: true, token: row ? `${row}.${sign(row)}` : null });
     }
 
@@ -104,7 +106,7 @@ export async function POST(req: NextRequest) {
     const row = rowFromToken(body.token);
     // Rewrites C:L, not just J:K, in case they went back and fixed their details.
     if (row) await updateRow(row, 'C', baseRow(services, source).slice(2));
-    else await appendToSheet(baseRow(services, source));
+    else await appendToSheet(baseRow(services, source), referrer);
 
     await sendLeadAlert({
       firstName,
@@ -116,6 +118,7 @@ export async function POST(req: NextRequest) {
       email,
       services,
       source,
+      referredBy: referrer,
     });
 
     return NextResponse.json({ success: true });

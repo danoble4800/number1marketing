@@ -5,7 +5,8 @@ import { google, type sheets_v4 } from 'googleapis';
 //
 // Website Leads (GOOGLE_SHEET_ID): A:L come from /api/contact, M:P are follow-up columns.
 // Other Leads (GOOGLE_SHEET_ID): leads added by hand in the CRM, same column layout as Website Leads.
-// Q is Contact History (one dated line per contact or status change).
+// Q is Contact History (one dated line per contact or status change). Website Leads R is
+// Referred By: the sales rep whose referral link brought them in (lib/referrals.ts).
 // NFC tracker (Google Form): A:O belong to the form and are never written; P:T are tracking,
 // U is Contact History, V:X hold messages written for that lead (text, nudge, email).
 // Client Contacts (GOOGLE_SHEET_ID): written by /api/onboarding, read-only here.
@@ -62,6 +63,7 @@ export type Lead = {
   custom: { text: string; nudge: string; email: string; attach: string }; // messages written for this lead
   sheetUrl: string;
   rep?: string; // in-person leads: the sales rep who logged it (column B)
+  referredBy?: string; // website leads: the sales rep whose referral link they came from (column R)
   cardsSold?: number; // in-person leads: NFC cards bought at the visit
 };
 
@@ -133,10 +135,10 @@ export const rowUrl = (id: string, gid: number | undefined, row: number) =>
   `https://docs.google.com/spreadsheets/d/${id}/edit#gid=${gid ?? 0}&range=A${row}`;
 
 // Website Leads and Other Leads share one layout.
-async function sheetLeads(source: 'website' | 'manual'): Promise<Lead[]> {
+export async function sheetLeads(source: 'website' | 'manual'): Promise<Lead[]> {
   const id = spreadsheetId(source);
   const tab = TABS[source];
-  const [{ shown, raw }, gids] = await Promise.all([readTab(id, `'${tab}'!A2:Q`), tabIds(id)]);
+  const [{ shown, raw }, gids] = await Promise.all([readTab(id, `'${tab}'!A2:R`), tabIds(id)]);
   return shown.flatMap((r, i) => {
     const row = i + 2;
     if (!cell(r, 0) && !cell(r, 2) && !cell(r, 4)) return [];
@@ -144,7 +146,9 @@ async function sheetLeads(source: 'website' | 'manual'): Promise<Lead[]> {
     return [{
       key: `${source}:${row}`,
       source,
-      origin: source === 'website' ? 'Website' : cell(r, 10) || 'Added by hand',
+      origin: source === 'website'
+        ? cell(r, 17) ? `Website · referred by ${cell(r, 17).split(/\s+/)[0]}` : 'Website'
+        : cell(r, 10) || 'Added by hand',
       row,
       check: cell(r, 0),
       submitted: cell(r, 0),
@@ -163,12 +167,13 @@ async function sheetLeads(source: 'website' | 'manual'): Promise<Lead[]> {
       followUpText: typeof x[12] === 'number' ? '' : cell(r, 12),
       notes: cell(r, 13),
       details: (source === 'website'
-        ? [['Services', cell(r, 9)], ['Came in from', cell(r, 10)], ['Texting consent', cell(r, 11)]]
+        ? [['Services', cell(r, 9)], ['Came in from', cell(r, 10)], ['Referred by', cell(r, 17)], ['Texting consent', cell(r, 11)]]
         : [['How you met', cell(r, 9)], ['Source', cell(r, 10)]]
       ).filter(([, v]) => v) as [string, string][],
       history: splitHistory(cell(r, 16)),
       custom: NO_CUSTOM,
       sheetUrl: rowUrl(id, gids[tab], row),
+      referredBy: source === 'website' ? cell(r, 17) : '',
     }];
   });
 }

@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { CONTACT_METHODS, inPersonLeads, looksLikeTest } from '@/lib/crmSheets';
+import { CONTACT_METHODS, inPersonLeads, looksLikeTest, sheetLeads } from '@/lib/crmSheets';
 import { updateLead } from '@/lib/crmUpdate';
 import { nfcFormKey } from '@/lib/nfcLead';
+import { referralUrl } from '@/lib/referrals';
 import { isRepsLead, splitNames, teamMember } from '@/lib/teamAuth';
 
 export const dynamic = 'force-dynamic';
 
-// A sales rep's own leads: rows of the in-person tracker whose "Sales Rep Name" is them.
+// A sales rep's own leads: rows of the in-person tracker whose "Sales Rep Name" is them,
+// plus website leads that came in through their referral link.
 // An admin passes ?rep=<name> to see a rep's dashboard; without it they get the list of reps.
 export async function GET(req: NextRequest) {
   const who = await teamMember(req);
@@ -29,8 +31,12 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const leads = (await inPersonLeads())
-      .filter((l) => !looksLikeTest(`${l.name} ${l.business}`) && isRepsLead(l.rep ?? '', names))
+    const [visits, website] = await Promise.all([inPersonLeads(), sheetLeads('website')]);
+    const leads = [
+      ...visits.filter((l) => isRepsLead(l.rep ?? '', names)),
+      ...website.filter((l) => isRepsLead(l.referredBy ?? '', names)),
+    ]
+      .filter((l) => !looksLikeTest(`${l.name} ${l.business}`))
       .map((l) => ({ ...l, sheetUrl: '' }));
     const key = nfcFormKey();
     const site = process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin;
@@ -40,6 +46,7 @@ export async function GET(req: NextRequest) {
       leads,
       contactMethods: CONTACT_METHODS,
       cardsSold: leads.reduce((n, l) => n + (l.cardsSold ?? 0), 0),
+      referralUrl: referralUrl(names[0]),
       formUrl: key ? `${site}/en/nfc-lead?k=${encodeURIComponent(key)}&rep=${encodeURIComponent(names[0])}` : '',
       errors: [],
     });
@@ -49,7 +56,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// Reps can update status, follow-up and notes on their own in-person leads.
+// Reps can update status, follow-up and notes on their own in-person and referred leads.
 export async function PATCH(req: NextRequest) {
   const who = await teamMember(req);
   if (who instanceof NextResponse) return who;
@@ -59,7 +66,7 @@ export async function PATCH(req: NextRequest) {
     const names = who.role === 'rep' ? who.repNames : splitNames(String(body?.rep ?? ''));
     if (!names.length) return NextResponse.json({ error: 'Your account has no rep name yet' }, { status: 400 });
     return await updateLead(body, {
-      sources: ['inperson'],
+      sources: ['inperson', 'website'],
       ownsRow: (rep) => isRepsLead(rep, names),
       logSuffix: who.role === 'rep' ? ` · ${names[0].split(/\s+/)[0]}` : '',
     });

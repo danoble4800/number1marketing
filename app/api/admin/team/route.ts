@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminIdentity, isOwnerEmail } from '@/lib/adminAuth';
 import { serviceClient } from '@/lib/cards/server';
+import { looksLikeTest, sheetLeads } from '@/lib/crmSheets';
+import { referralUrl } from '@/lib/referrals';
+import { isRepsLead, splitNames } from '@/lib/teamAuth';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,6 +18,8 @@ export type TeamRow = {
   repName: string; // how a rep is written in the in-person tracker
   isOwner: boolean;
   createdAt: string;
+  referralUrl: string; // reps only: their referral link (lib/referrals.ts)
+  referred: { leads: number; clients: number } | null; // website leads from that link; null if the sheet didn't load
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -50,6 +55,8 @@ export async function GET(req: NextRequest) {
       repName: p.rep_name ?? '',
       isOwner: isOwnerEmail(p.email),
       createdAt: p.created_at,
+      referralUrl: '',
+      referred: null,
     })),
     ...(invites.data ?? [])
       .filter((i) => !signedUp.has(i.email))
@@ -62,8 +69,24 @@ export async function GET(req: NextRequest) {
         repName: i.rep_name,
         isOwner: false,
         createdAt: i.created_at,
+        referralUrl: '',
+        referred: null,
       })),
   ];
+
+  // Reps' referral links, and how many website leads (and clients) each one brought in.
+  const website = await sheetLeads('website').catch((err) => {
+    console.error('Admin team: could not read Website Leads for referrals:', err);
+    return null;
+  });
+  for (const m of members) {
+    const names = splitNames(m.repName || m.name);
+    if (m.role !== 'rep' || !names.length) continue;
+    m.referralUrl = referralUrl(names[0]);
+    if (!website) continue;
+    const theirs = website.filter((l) => isRepsLead(l.referredBy ?? '', names) && !looksLikeTest(`${l.name} ${l.business}`));
+    m.referred = { leads: theirs.length, clients: theirs.filter((l) => l.status === 'Client').length };
+  }
   // Owner first, then admins, then reps.
   const rank = (m: TeamRow) => (m.isOwner ? 0 : m.role === 'admin' ? 1 : 2);
   members.sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name));
