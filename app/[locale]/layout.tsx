@@ -8,6 +8,7 @@ import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import SiteChrome from '@/components/SiteChrome';
 import ActivityToast from '@/components/ActivityToast';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -126,6 +127,7 @@ export default async function LocaleLayout({
           <SiteChrome><Footer locale={locale} /></SiteChrome>
           <SiteChrome><ActivityToast /></SiteChrome>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );

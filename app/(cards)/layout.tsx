@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Anton, Playfair_Display, Space_Grotesk, Fraunces, Nunito, Space_Mono, Caveat } from 'next/font/google';
 import '../globals.css';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const anton = Anton({ weight: '400', subsets: ['latin'], variable: '--font-anton', display: 'swap' });
@@ -22,7 +23,7 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1, view
 export default function CardsLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${anton.variable} ${serif.variable} ${grotesk.variable} ${fraunces.variable} ${nunito.variable} ${mono.variable} ${caveat.variable}`}>
-      <body className="min-h-[100dvh] font-body antialiased">{children}</body>
+      <body className="min-h-[100dvh] font-body antialiased">{children}<Analytics /></body>
     </html>
   );
 }
