@@ -14,6 +14,7 @@ const DRIVE_URL = 'https://drive.google.com/drive/folders/1cjptMcb6Tk8z48zg_3LoC
 const ONBOARDING_URL = 'https://number1digitalmarketing.com/en/onboarding';
 // No locale on purpose: visitors land on the free audit page in their own language.
 const FREE_AUDIT_URL = 'https://number1digitalmarketing.com/free-audit';
+const MAC_ASSISTANT_URL = 'https://number1digitalmarketing.com/mac-assistant';
 
 function CopyButton({ value }: { value: string }) {
   const [copied, setCopied] = useState(false);
@@ -439,6 +440,25 @@ export default function AdminDashboard({ locale }: { locale: string }) {
                 <CopyButton value={FREE_AUDIT_URL} />
                 <a
                   href={`/${locale}/free-audit`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-brand-white text-brand-black px-4 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-brand-offwhite transition-colors"
+                >
+                  Open Page
+                  <ExternalIcon />
+                </a>
+              </div>
+            </div>
+            {/* Mac Assistant sales page shortcut (reps have their own ?ref= link on /team) */}
+            <div className="mb-8 -mt-5 flex flex-wrap items-center justify-between gap-3 border border-brand-dark2 px-4 py-3">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-brand-mid">Mac Assistant Page · $200 / $300 with setup</p>
+                <p className="text-sm text-brand-light1">Sells the template and setup. Sales land in the Mac Assistant Sales tab and in Leads as Clients.</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <CopyButton value={MAC_ASSISTANT_URL} />
+                <a
+                  href={`/${locale}/mac-assistant`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-brand-white text-brand-black px-4 py-2 text-xs font-semibold uppercase tracking-widest hover:bg-brand-offwhite transition-colors"

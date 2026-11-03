@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { appendOrder, appendWebsiteLead, nowNewYork, safeCell } from '@/lib/shop/sheets';
 import { verifyStripeSignature } from '@/lib/shop/stripe';
+import { PRODUCT_TAG } from '@/lib/macAssistant';
+import { handleAssistantSession } from '@/lib/macAssistantOrders';
 
 // Stripe webhook: add this endpoint in Stripe → Developers → Webhooks with the events
 // checkout.session.completed and checkout.session.expired.
@@ -123,6 +125,17 @@ export async function POST(req: NextRequest) {
   const event = JSON.parse(payload) as { type: string; data: { object: Session } };
   const s = event.data.object;
   const m = s.metadata ?? {};
+
+  // Mac Assistant sales (/api/mac-assistant/checkout) share this endpoint.
+  if (m.product === PRODUCT_TAG) {
+    try {
+      await handleAssistantSession(event.type, s);
+    } catch (err) {
+      console.error('Mac Assistant webhook error:', err);
+      return NextResponse.json({ error: 'failed' }, { status: 500 });
+    }
+    return NextResponse.json({ received: true });
+  }
   // Only sessions created by /api/shop/checkout carry these fields.
   if (!m.business) return NextResponse.json({ received: true });
 

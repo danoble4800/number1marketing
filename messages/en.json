@@ -48,6 +48,10 @@
       "workflow_automation": {
         "name": "Less Busywork",
         "desc": "We automate the boring stuff"
+      },
+      "mac_assistant": {
+        "name": "Mac Assistant",
+        "desc": "Text your Mac, it does the work"
       }
     }
   },
@@ -297,6 +301,21 @@
           "We watch it and fix anything that breaks"
         ],
         "outcomes": "One client went from 15 hours of busywork a week to 12 minutes."
+      },
+      {
+        "slug": "mac-assistant",
+        "name": "Mac Assistant",
+        "icon": "Laptop",
+        "tagline": "Text your Mac from your iPhone. It does the work and texts you back.",
+        "problem": "Your to-do list, reminders, files and website are on the computer, and you're not. Little tasks pile up until you're back at a desk.",
+        "includes": [
+          "Text your Mac like a person, from anywhere",
+          "Morning briefing and evening recap",
+          "To-dos and reminders by text",
+          "A personal dashboard you can talk to",
+          "Do it yourself ($200) or we set it up ($300)"
+        ],
+        "outcomes": "Small tasks get done the moment you think of them, not hours later at your desk."
       }
     ],
     "demos": {
@@ -322,7 +341,8 @@
       "flowText": "Text sent",
       "flowTeam": "Team notified",
       "flowDone": "Done in 3 seconds"
-    }
+    },
+    "macAssistantCta": "See the Mac Assistant"
   },
   "about": {
     "hero": {
@@ -1887,6 +1907,250 @@
         "body": "We'll text or call you within one business day to set up your free 30-minute audit. Keep an eye on your phone.",
         "note": "Can't wait? Text or DM us on Instagram anytime."
       }
+    }
+  },
+  "macAssistant": {
+    "metaTitle": "N°1 Mac Assistant: text your Mac, it does the work",
+    "metaDescription": "Your own assistant on your Mac. Text it from your iPhone and it handles your to-dos, reminders, files and website, then texts you back. One-time price.",
+    "eyebrow": "N°1 Mac Assistant",
+    "headline": "Text your Mac.",
+    "headlineAccent": "It does the work.",
+    "subline": "Your own personal assistant that lives on your Mac. Text it from your iPhone like you'd text a person. It gets the job done on the Mac and texts you back. Morning briefing, to-do list, reminders and a personal dashboard included.",
+    "chips": [
+      "Pay once",
+      "No monthly fee from us",
+      "Works from anywhere"
+    ],
+    "cta": "Get it · from {price}",
+    "ctaSecondary": "See how it works",
+    "chat": {
+      "contact": "Jarvis",
+      "status": "iMessage",
+      "lines": [
+        {
+          "from": "me",
+          "text": "what's on my list today?"
+        },
+        {
+          "from": "mac",
+          "text": "3 things:\n• Call the landlord\n• Send Sam's invoice\n• Gym at 6"
+        },
+        {
+          "from": "me",
+          "text": "remind me to call the landlord at 3"
+        },
+        {
+          "from": "mac",
+          "text": "Done ✅ I'll text you at 3:00."
+        },
+        {
+          "from": "me",
+          "text": "fix the typo on my website homepage"
+        },
+        {
+          "from": "mac",
+          "text": "Fixed “Welcom” → “Welcome”. Publish it? Reply Y or N"
+        },
+        {
+          "from": "me",
+          "text": "Y"
+        }
+      ]
+    },
+    "uses": {
+      "kicker": "What you can text it",
+      "title": "Text it like a person",
+      "items": [
+        {
+          "title": "Your to-do list",
+          "text": "“What's left on my list?” “Done with the invoice.” It keeps track so you don't have to."
+        },
+        {
+          "title": "Reminders",
+          "text": "“Remind me to call the dentist tomorrow at 3.” It texts you right on time."
+        },
+        {
+          "title": "Morning briefing",
+          "text": "Every morning: the weather, your to-dos and what's coming up. Every evening: a quick recap."
+        },
+        {
+          "title": "Screenshots and files",
+          "text": "“Send me a screenshot.” “Find the contract from last week.” From anywhere."
+        },
+        {
+          "title": "Your website",
+          "text": "“Fix the typo on my homepage.” It makes the change and asks before publishing."
+        },
+        {
+          "title": "Look things up",
+          "text": "“Compare these two quotes.” “Find flights to Miami in March.” It does the digging."
+        }
+      ]
+    },
+    "dashboard": {
+      "title": "Plus your own dashboard",
+      "text": "A private page on your Mac with your to-dos, reminders, weather and a chat you can type or talk into. Everything you text it shows up there too.",
+      "items": [
+        "To-do list",
+        "Reminders",
+        "Weather and briefing",
+        "Talk to it out loud"
+      ]
+    },
+    "how": {
+      "kicker": "How it works",
+      "title": "Set it up once. Use it every day.",
+      "steps": [
+        {
+          "title": "Get the files",
+          "text": "Download the template and the step-by-step guide (with pictures) right after checkout."
+        },
+        {
+          "title": "Follow the guide",
+          "text": "About 20–30 minutes: give the Mac its own Apple ID, install two free programs, run one setup command. Or we do it with you."
+        },
+        {
+          "title": "Start texting",
+          "text": "Save the Mac as a contact on your iPhone and text it “help”. That's it."
+        }
+      ]
+    },
+    "needs": {
+      "kicker": "What you need",
+      "items": [
+        {
+          "title": "A Mac that stays on",
+          "text": "A desktop, or a laptop left plugged in. It answers while the Mac is on."
+        },
+        {
+          "title": "Your iPhone",
+          "text": "You text the Mac from Messages, like any other contact."
+        },
+        {
+          "title": "A second Apple ID (free)",
+          "text": "A new iCloud account just for the Mac, so you have someone to text."
+        },
+        {
+          "title": "A Claude plan",
+          "text": "The assistant runs on Claude by Anthropic. You need a Claude Pro or Max plan (from about $20/month, paid to Anthropic, not us)."
+        }
+      ]
+    },
+    "safety": {
+      "kicker": "Safe by design",
+      "items": [
+        "Only answers texts from your number. Everyone else is ignored.",
+        "Asks you first before anything risky, like deleting files, publishing or sending email. Reply Y or N.",
+        "Runs on your own Mac. Your files and lists stay with you.",
+        "The dashboard only opens on your Mac, never on the internet."
+      ]
+    },
+    "pricing": {
+      "kicker": "Pricing",
+      "title": "Pay once. It's yours.",
+      "note": "No subscription from us. You just need your own Claude plan (see above)."
+    },
+    "buy": {
+      "popular": "Most popular",
+      "oneTime": "one-time",
+      "chosen": "Selected",
+      "diy": {
+        "name": "Do it yourself",
+        "blurb": "Everything you need to set it up yourself in about 30 minutes.",
+        "features": [
+          "The full Mac Assistant template",
+          "Step-by-step setup guide with pictures",
+          "Morning briefing and evening recap",
+          "Personal dashboard you can talk to",
+          "Instant download"
+        ],
+        "cta": "Get the template"
+      },
+      "setup": {
+        "name": "We set it up",
+        "blurb": "We set it up with you over a screen share, so it's working before we hang up.",
+        "features": [
+          "Everything in Do it yourself",
+          "Setup on your Mac over a screen share (about 1 hour)",
+          "Made yours: name, city, briefing times",
+          "Your first texts tested together",
+          "We text you within 1 business day to book"
+        ],
+        "cta": "Get it set up"
+      },
+      "formTitle": "{plan} · {price}",
+      "fields": {
+        "name": "Your name",
+        "email": "Email (your download goes here)",
+        "phone": "Phone (we'll text you to book setup)",
+        "phoneOptional": "Phone (optional)"
+      },
+      "errors": {
+        "name": "Add your name",
+        "email": "Check your email",
+        "phone": "Add a phone number so we can book your setup"
+      },
+      "pay": "Continue to secure checkout · {price}",
+      "secure": "Secure payment by Stripe.",
+      "error": "Something went wrong. Try again, or text us at 781-985-0916."
+    },
+    "faq": {
+      "kicker": "Questions",
+      "title": "Good to know",
+      "items": [
+        {
+          "q": "Do I need to be good with computers?",
+          "a": "No. If you can copy and paste, you can follow the guide. If you'd rather not, choose “We set it up” and we'll do it with you."
+        },
+        {
+          "q": "Does it work on Windows or Android?",
+          "a": "No. It needs a Mac and an iPhone, because it works through Apple's Messages app."
+        },
+        {
+          "q": "Is there a monthly fee?",
+          "a": "Not from us. You pay once. The assistant uses your own Claude plan, which Anthropic bills separately (from about $20/month)."
+        },
+        {
+          "q": "Does the Mac have to stay on?",
+          "a": "Yes. It answers while the Mac is on. It keeps the Mac from going to sleep while it runs."
+        },
+        {
+          "q": "Can it text my customers?",
+          "a": "No. It's your personal assistant and only talks to you. To answer your customers' calls and texts, ask us about Never Miss a Lead."
+        },
+        {
+          "q": "What if I get stuck?",
+          "a": "Reply to your receipt email and we'll help you get it running."
+        }
+      ]
+    },
+    "footerLink": "Visit our website",
+    "footer": "Number 1 Digital Marketing · Boston, MA",
+    "success": {
+      "metaTitle": "Thanks for your order",
+      "demo": "Preview: no payment was taken",
+      "headline": "You're all set",
+      "subheading": "Download your files below.",
+      "orderLine": "Order {orderId}. Download your files below.",
+      "notFoundHeadline": "We couldn't find that order",
+      "notFound": "If you just paid, check your email for your download links, or reply to it and we'll help.",
+      "zip": "Download template",
+      "guide": "Setup guide (PDF)",
+      "emailed": "We also emailed you these links.",
+      "nextHeading": "What's next",
+      "steps": {
+        "diy": [
+          "Unzip the template into your home folder (the one with your name).",
+          "Open the setup guide and follow it step by step. It takes about 20–30 minutes.",
+          "Text your Mac “help” from your iPhone."
+        ],
+        "setup": [
+          "We'll text you within 1 business day to book a screen share (about 1 hour).",
+          "For the call: have your Mac on and plugged in, and your iPhone nearby.",
+          "Look through the guide if you like, so you know what to expect."
+        ]
+      },
+      "home": "Back to the website"
     }
   }
 }

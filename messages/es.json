@@ -49,6 +49,10 @@
       "workflow_automation": {
         "name": "Menos Trabajo Manual",
         "desc": "Automatizamos lo aburrido"
+      },
+      "mac_assistant": {
+        "name": "Mac Assistant",
+        "desc": "Escríbele a tu Mac y hace el trabajo"
       }
     }
   },
@@ -298,6 +302,21 @@
           "Lo vigilamos y arreglamos lo que falle"
         ],
         "outcomes": "Un cliente pasó de 15 horas de trabajo manual por semana a 12 minutos."
+      },
+      {
+        "slug": "mac-assistant",
+        "name": "Mac Assistant",
+        "icon": "Laptop",
+        "tagline": "Escríbele a tu Mac desde tu iPhone. Hace el trabajo y te responde.",
+        "problem": "Tu lista de pendientes, recordatorios, archivos y sitio web están en la computadora, y tú no. Las tareas pequeñas se acumulan hasta que vuelves al escritorio.",
+        "includes": [
+          "Escríbele a tu Mac como a una persona, desde cualquier lugar",
+          "Resumen matutino y resumen de la noche",
+          "Pendientes y recordatorios por mensaje",
+          "Un panel personal al que le puedes hablar",
+          "Hazlo tú mismo ($200) o lo instalamos por ti ($300)"
+        ],
+        "outcomes": "Las tareas pequeñas se hacen en cuanto las piensas, no horas después en tu escritorio."
       }
     ],
     "demos": {
@@ -323,7 +342,8 @@
       "flowText": "Mensaje enviado",
       "flowTeam": "Equipo avisado",
       "flowDone": "Listo en 3 segundos"
-    }
+    },
+    "macAssistantCta": "Ver el Mac Assistant"
   },
   "about": {
     "hero": {
@@ -1888,6 +1908,250 @@
         "body": "Te escribimos o llamamos en un día hábil para fijar tu auditoría gratis de 30 minutos. Pendiente de tu teléfono.",
         "note": "¿No puedes esperar? Escríbenos por Instagram cuando quieras."
       }
+    }
+  },
+  "macAssistant": {
+    "metaTitle": "N°1 Mac Assistant: escríbele a tu Mac y hace el trabajo",
+    "metaDescription": "Tu propio asistente en tu Mac. Escríbele desde tu iPhone y se encarga de tus pendientes, recordatorios, archivos y sitio web, y te responde. Pago único.",
+    "eyebrow": "N°1 Mac Assistant",
+    "headline": "Escríbele a tu Mac.",
+    "headlineAccent": "Hace el trabajo.",
+    "subline": "Tu propio asistente personal que vive en tu Mac. Escríbele desde tu iPhone como le escribirías a una persona. Hace el trabajo en la Mac y te responde por mensaje. Incluye resumen matutino, lista de pendientes, recordatorios y un panel personal.",
+    "chips": [
+      "Pago único",
+      "Sin mensualidad de nuestra parte",
+      "Funciona desde cualquier lugar"
+    ],
+    "cta": "Lo quiero · desde {price}",
+    "ctaSecondary": "Mira cómo funciona",
+    "chat": {
+      "contact": "Jarvis",
+      "status": "iMessage",
+      "lines": [
+        {
+          "from": "me",
+          "text": "¿qué tengo pendiente hoy?"
+        },
+        {
+          "from": "mac",
+          "text": "3 cosas:\n• Llamar al casero\n• Enviar la factura a Sam\n• Gimnasio a las 6"
+        },
+        {
+          "from": "me",
+          "text": "recuérdame llamar al casero a las 3"
+        },
+        {
+          "from": "mac",
+          "text": "Listo ✅ Te escribo a las 3:00."
+        },
+        {
+          "from": "me",
+          "text": "corrige el error en la página de inicio de mi web"
+        },
+        {
+          "from": "mac",
+          "text": "Corregido “Bienvendios” → “Bienvenidos”. ¿Lo publico? Responde Y o N"
+        },
+        {
+          "from": "me",
+          "text": "Y"
+        }
+      ]
+    },
+    "uses": {
+      "kicker": "Qué le puedes pedir",
+      "title": "Escríbele como a una persona",
+      "items": [
+        {
+          "title": "Tu lista de pendientes",
+          "text": "“¿Qué me falta?” “Ya mandé la factura.” Lleva la cuenta por ti."
+        },
+        {
+          "title": "Recordatorios",
+          "text": "“Recuérdame llamar al dentista mañana a las 3.” Te escribe justo a tiempo."
+        },
+        {
+          "title": "Resumen matutino",
+          "text": "Cada mañana: el clima, tus pendientes y lo que viene. Cada noche: un resumen rápido."
+        },
+        {
+          "title": "Capturas y archivos",
+          "text": "“Mándame una captura de pantalla.” “Busca el contrato de la semana pasada.” Desde donde estés."
+        },
+        {
+          "title": "Tu sitio web",
+          "text": "“Corrige el error en mi página de inicio.” Hace el cambio y te pregunta antes de publicarlo."
+        },
+        {
+          "title": "Investigar por ti",
+          "text": "“Compara estas dos cotizaciones.” “Busca vuelos a Miami en marzo.” Él investiga."
+        }
+      ]
+    },
+    "dashboard": {
+      "title": "Además, tu propio panel",
+      "text": "Una página privada en tu Mac con tus pendientes, recordatorios, el clima y un chat donde puedes escribir o hablar. Todo lo que le mandas por mensaje también aparece ahí.",
+      "items": [
+        "Lista de pendientes",
+        "Recordatorios",
+        "Clima y resumen",
+        "Háblale en voz alta"
+      ]
+    },
+    "how": {
+      "kicker": "Cómo funciona",
+      "title": "Lo instalas una vez. Lo usas todos los días.",
+      "steps": [
+        {
+          "title": "Descarga los archivos",
+          "text": "Descarga la plantilla y la guía paso a paso (con imágenes) justo después de pagar."
+        },
+        {
+          "title": "Sigue la guía",
+          "text": "Unos 20–30 minutos: dale a la Mac su propio Apple ID, instala dos programas gratis y ejecuta un comando. O lo hacemos contigo."
+        },
+        {
+          "title": "Empieza a escribirle",
+          "text": "Guarda la Mac como contacto en tu iPhone y escríbele “help”. Eso es todo."
+        }
+      ]
+    },
+    "needs": {
+      "kicker": "Qué necesitas",
+      "items": [
+        {
+          "title": "Una Mac que quede encendida",
+          "text": "Una de escritorio, o una laptop conectada a la corriente. Responde mientras la Mac está encendida."
+        },
+        {
+          "title": "Tu iPhone",
+          "text": "Le escribes a la Mac desde Mensajes, como a cualquier contacto."
+        },
+        {
+          "title": "Un segundo Apple ID (gratis)",
+          "text": "Una cuenta de iCloud nueva solo para la Mac, para que tengas a quién escribirle."
+        },
+        {
+          "title": "Un plan de Claude",
+          "text": "El asistente funciona con Claude, de Anthropic. Necesitas un plan Claude Pro o Max (desde unos $20 al mes, que pagas a Anthropic, no a nosotros)."
+        }
+      ]
+    },
+    "safety": {
+      "kicker": "Seguro desde el inicio",
+      "items": [
+        "Solo responde a mensajes de tu número. Ignora a todos los demás.",
+        "Te pregunta antes de algo delicado, como borrar archivos, publicar o enviar correos. Respondes Y (sí) o N (no).",
+        "Funciona en tu propia Mac. Tus archivos y listas se quedan contigo.",
+        "El panel solo se abre en tu Mac, nunca en internet."
+      ]
+    },
+    "pricing": {
+      "kicker": "Precios",
+      "title": "Pagas una vez. Es tuyo.",
+      "note": "Sin suscripción de nuestra parte. Solo necesitas tu propio plan de Claude (ver arriba)."
+    },
+    "buy": {
+      "popular": "El más elegido",
+      "oneTime": "pago único",
+      "chosen": "Elegido",
+      "diy": {
+        "name": "Hazlo tú mismo",
+        "blurb": "Todo lo que necesitas para instalarlo tú mismo en unos 30 minutos.",
+        "features": [
+          "La plantilla completa del Mac Assistant",
+          "Guía paso a paso con imágenes",
+          "Resumen matutino y resumen de la noche",
+          "Panel personal al que le puedes hablar",
+          "Descarga inmediata"
+        ],
+        "cta": "Quiero la plantilla"
+      },
+      "setup": {
+        "name": "Lo instalamos por ti",
+        "blurb": "Lo instalamos contigo por videollamada, y queda funcionando antes de colgar.",
+        "features": [
+          "Todo lo de Hazlo tú mismo",
+          "Instalación en tu Mac por videollamada (aprox. 1 hora)",
+          "Hecho a tu medida: nombre, ciudad, horarios del resumen",
+          "Probamos juntos tus primeros mensajes",
+          "Te escribimos en 1 día hábil para agendar"
+        ],
+        "cta": "Quiero que lo instalen"
+      },
+      "formTitle": "{plan} · {price}",
+      "fields": {
+        "name": "Tu nombre",
+        "email": "Correo (aquí llega tu descarga)",
+        "phone": "Teléfono (te escribimos para agendar)",
+        "phoneOptional": "Teléfono (opcional)"
+      },
+      "errors": {
+        "name": "Escribe tu nombre",
+        "email": "Revisa tu correo",
+        "phone": "Agrega un teléfono para agendar tu instalación"
+      },
+      "pay": "Continuar al pago seguro · {price}",
+      "secure": "Pago seguro con Stripe.",
+      "error": "Algo salió mal. Inténtalo de nuevo o escríbenos al 781-985-0916."
+    },
+    "faq": {
+      "kicker": "Preguntas",
+      "title": "Bueno saber",
+      "items": [
+        {
+          "q": "¿Necesito saber mucho de computadoras?",
+          "a": "No. Si sabes copiar y pegar, puedes seguir la guía. Si prefieres no hacerlo, elige “Lo instalamos por ti” y lo hacemos contigo."
+        },
+        {
+          "q": "¿Funciona en Windows o Android?",
+          "a": "No. Necesita una Mac y un iPhone, porque funciona con la app Mensajes de Apple."
+        },
+        {
+          "q": "¿Hay que pagar cada mes?",
+          "a": "A nosotros no. Pagas una sola vez. El asistente usa tu propio plan de Claude, que Anthropic cobra aparte (desde unos $20 al mes)."
+        },
+        {
+          "q": "¿La Mac tiene que estar encendida?",
+          "a": "Sí. Responde mientras la Mac está encendida. Evita que la Mac se duerma mientras funciona."
+        },
+        {
+          "q": "¿Puede escribirles a mis clientes?",
+          "a": "No. Es tu asistente personal y solo habla contigo. Para responder las llamadas y mensajes de tus clientes, pregúntanos por Nunca Pierdas un Cliente."
+        },
+        {
+          "q": "¿Y si me trabo?",
+          "a": "Responde al correo de tu recibo y te ayudamos a dejarlo funcionando."
+        }
+      ]
+    },
+    "footerLink": "Visita nuestro sitio web",
+    "footer": "Number 1 Digital Marketing · Boston, MA",
+    "success": {
+      "metaTitle": "Gracias por tu compra",
+      "demo": "Vista previa: no se cobró nada",
+      "headline": "¡Todo listo!",
+      "subheading": "Descarga tus archivos aquí abajo.",
+      "orderLine": "Pedido {orderId}. Descarga tus archivos aquí abajo.",
+      "notFoundHeadline": "No encontramos ese pedido",
+      "notFound": "Si acabas de pagar, revisa tu correo para ver los enlaces de descarga, o respóndelo y te ayudamos.",
+      "zip": "Descargar plantilla",
+      "guide": "Guía de instalación (PDF)",
+      "emailed": "También te enviamos estos enlaces por correo.",
+      "nextHeading": "Qué sigue",
+      "steps": {
+        "diy": [
+          "Descomprime la plantilla en tu carpeta de inicio (la que tiene tu nombre).",
+          "Abre la guía y síguela paso a paso. Toma unos 20–30 minutos.",
+          "Escríbele “help” a tu Mac desde tu iPhone."
+        ],
+        "setup": [
+          "Te escribimos en 1 día hábil para agendar una videollamada (aprox. 1 hora).",
+          "Para la llamada: ten tu Mac encendida y conectada, y tu iPhone a la mano.",
+          "Si quieres, revisa la guía para saber qué esperar."
+        ]
+      },
+      "home": "Volver al sitio web"
     }
   }
 }

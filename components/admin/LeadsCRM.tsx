@@ -5,6 +5,7 @@ import { Mail, Phone, Plus, RefreshCw, X } from 'lucide-react';
 import { getSupabase } from '@/lib/supabase';
 import { phoneForLink, showDate, showPhone, smsHref, tidy } from '@/lib/crmFormat';
 import type { Lead } from '@/lib/crmSheets';
+import { ASSISTANT_PLANS, COMMISSION_RATE } from '@/lib/macAssistant';
 
 const PHONE = '781-985-0916';
 
@@ -571,6 +572,33 @@ function AddLeadForm({
 
 // On /team, `team` is set: the list holds only that rep's in-person leads and messages
 // are signed with their name. `team.rep` is set when an admin is looking at a rep's view.
+const usd = (cents: number) => `$${cents / 100}`;
+
+// One of a rep's referral links, with a copy button.
+function ReferralLink({ label, url, note }: { label: string; url: string; note: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-3 border border-brand-dark2 px-4 py-3">
+      <div className="min-w-0 flex-1">
+        <p className="text-[11px] uppercase tracking-widest text-brand-mid">{label}</p>
+        <p className="text-sm text-brand-light1 break-all">{url}</p>
+        <p className="text-xs text-brand-mid">{note}</p>
+      </div>
+      <button
+        type="button"
+        onClick={() => {
+          navigator.clipboard?.writeText(url);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        }}
+        className={btnClass}
+      >
+        {copied ? '✓ Copied' : 'Copy link'}
+      </button>
+    </div>
+  );
+}
+
 export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => void; team?: { rep?: string } }) {
   const desktop = useIsDesktop();
   const [me, setMe] = useState('Dan');
@@ -578,7 +606,7 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
   const [cardsSold, setCardsSold] = useState(0);
   const [formUrl, setFormUrl] = useState('');
   const [referralUrl, setReferralUrl] = useState('');
-  const [copied, setCopied] = useState(false);
+  const [assistantReferralUrl, setAssistantReferralUrl] = useState('');
   const [leads, setLeads] = useState<Lead[]>([]);
   const [contactMethods, setContactMethods] = useState<string[]>([]);
   const [manualSources, setManualSources] = useState<string[]>([]);
@@ -627,6 +655,7 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
         setCardsSold(Number(json.cardsSold) || 0);
         setFormUrl(String(json.formUrl ?? ''));
         setReferralUrl(String(json.referralUrl ?? ''));
+        setAssistantReferralUrl(String(json.assistantReferralUrl ?? ''));
       }
     } catch (err) {
       if ((err as Error).message !== 'Signed out') setLoadErrors([(err as Error).message]);
@@ -742,25 +771,21 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
         </div>
       </div>
 
-      {/* Rep's referral link: website leads from it are credited to them */}
+      {/* Rep's referral links: website leads and Mac Assistant sales from them are credited to them */}
       {team && referralUrl && (
-        <div className="flex flex-wrap items-center justify-between gap-3 border border-brand-dark2 px-4 py-3">
-          <div className="min-w-0">
-            <p className="text-[11px] uppercase tracking-widest text-brand-mid">My referral link</p>
-            <p className="text-sm text-brand-light1 break-all">{referralUrl}</p>
-            <p className="text-xs text-brand-mid">Share it anywhere. Anyone who signs up within 30 days of tapping it shows up here as your lead.</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => {
-              navigator.clipboard?.writeText(referralUrl);
-              setCopied(true);
-              setTimeout(() => setCopied(false), 2000);
-            }}
-            className={btnClass}
-          >
-            {copied ? '✓ Copied' : 'Copy link'}
-          </button>
+        <div className="grid gap-3 lg:grid-cols-2">
+          <ReferralLink
+            label="My referral link · Free audit"
+            url={referralUrl}
+            note="Share it anywhere. Anyone who signs up within 30 days of tapping it shows up here as your lead."
+          />
+          {assistantReferralUrl && (
+            <ReferralLink
+              label="My Mac Assistant link"
+              url={assistantReferralUrl}
+              note={`Sells the Mac Assistant (${usd(ASSISTANT_PLANS.diy.price)}, or ${usd(ASSISTANT_PLANS.setup.price)} with setup). You earn ${COMMISSION_RATE * 100}% of every sale from your link: ${usd(ASSISTANT_PLANS.diy.price * COMMISSION_RATE)} or ${usd(ASSISTANT_PLANS.setup.price * COMMISSION_RATE)}.`}
+            />
+          )}
         </div>
       )}
 

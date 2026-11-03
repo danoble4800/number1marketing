@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { adminIdentity, isOwnerEmail } from '@/lib/adminAuth';
 import { serviceClient } from '@/lib/cards/server';
 import { looksLikeTest, sheetLeads } from '@/lib/crmSheets';
-import { referralUrl } from '@/lib/referrals';
+import { assistantReferralUrl, referralUrl } from '@/lib/referrals';
+import { assistantSales } from '@/lib/shop/sheets';
 import { isRepsLead, splitNames } from '@/lib/teamAuth';
 
 export const dynamic = 'force-dynamic';
@@ -20,6 +21,8 @@ export type TeamRow = {
   createdAt: string;
   referralUrl: string; // reps only: their referral link (lib/referrals.ts)
   referred: { leads: number; clients: number } | null; // website leads from that link; null if the sheet didn't load
+  assistantReferralUrl: string; // reps only: their Mac Assistant link
+  assistantSales: { sales: number; commission: number } | null; // Mac Assistant sales they referred; null if the sheet didn't load
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,6 +60,8 @@ export async function GET(req: NextRequest) {
       createdAt: p.created_at,
       referralUrl: '',
       referred: null,
+      assistantReferralUrl: '',
+      assistantSales: null,
     })),
     ...(invites.data ?? [])
       .filter((i) => !signedUp.has(i.email))
@@ -71,18 +76,31 @@ export async function GET(req: NextRequest) {
         createdAt: i.created_at,
         referralUrl: '',
         referred: null,
+        assistantReferralUrl: '',
+        assistantSales: null,
       })),
   ];
 
   // Reps' referral links, and how many website leads (and clients) each one brought in.
-  const website = await sheetLeads('website').catch((err) => {
-    console.error('Admin team: could not read Website Leads for referrals:', err);
-    return null;
-  });
+  const [website, sales] = await Promise.all([
+    sheetLeads('website').catch((err) => {
+      console.error('Admin team: could not read Website Leads for referrals:', err);
+      return null;
+    }),
+    assistantSales().catch((err) => {
+      console.error('Admin team: could not read Mac Assistant Sales:', err);
+      return null;
+    }),
+  ]);
   for (const m of members) {
     const names = splitNames(m.repName || m.name);
     if (m.role !== 'rep' || !names.length) continue;
     m.referralUrl = referralUrl(names[0]);
+    m.assistantReferralUrl = assistantReferralUrl(names[0]);
+    if (sales) {
+      const theirs = sales.filter((s) => isRepsLead(s.referredBy, names));
+      m.assistantSales = { sales: theirs.length, commission: theirs.reduce((n, s) => n + s.commission, 0) };
+    }
     if (!website) continue;
     const theirs = website.filter((l) => isRepsLead(l.referredBy ?? '', names) && !looksLikeTest(`${l.name} ${l.business}`));
     m.referred = { leads: theirs.length, clients: theirs.filter((l) => l.status === 'Client').length };

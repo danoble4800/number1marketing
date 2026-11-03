@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { CONTACT_METHODS, inPersonLeads, looksLikeTest, sheetLeads } from '@/lib/crmSheets';
 import { updateLead } from '@/lib/crmUpdate';
 import { nfcFormKey } from '@/lib/nfcLead';
-import { referralUrl } from '@/lib/referrals';
+import { assistantReferralUrl, referralUrl } from '@/lib/referrals';
 import { isRepsLead, splitNames, teamMember } from '@/lib/teamAuth';
 
 export const dynamic = 'force-dynamic';
@@ -47,6 +47,7 @@ export async function GET(req: NextRequest) {
       contactMethods: CONTACT_METHODS,
       cardsSold: leads.reduce((n, l) => n + (l.cardsSold ?? 0), 0),
       referralUrl: referralUrl(names[0]),
+      assistantReferralUrl: assistantReferralUrl(names[0]),
       formUrl: key ? `${site}/en/nfc-lead?k=${encodeURIComponent(key)}&rep=${encodeURIComponent(names[0])}` : '',
       errors: [],
     });

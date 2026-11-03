@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import {
-  ArrowRight, Bot, ChevronDown, CreditCard, GraduationCap, LayoutTemplate, Menu, Search, ShieldCheck,
+  ArrowRight, Bot, ChevronDown, CreditCard, GraduationCap, Laptop, LayoutTemplate, Menu, Search, ShieldCheck,
   TrendingUp, UserRound, Users, Video, Workflow, X,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -72,9 +72,11 @@ export default function NavBar({ locale }: NavBarProps) {
     { slug: 'social-media', icon: Video },
     { slug: 'growth-marketing', icon: TrendingUp },
     { slug: 'workflow-automation', icon: Workflow },
+    { slug: 'mac-assistant', icon: Laptop },
   ].map((s) => ({
     ...s,
-    href: `/${locale}/services#${s.slug}`,
+    // The Mac Assistant has its own page; the rest jump to their section of /services.
+    href: s.slug === 'mac-assistant' ? `/${locale}/mac-assistant` : `/${locale}/services#${s.slug}`,
     name: t(`svc.${s.slug.replace('-', '_')}.name`),
     desc: t(`svc.${s.slug.replace('-', '_')}.desc`),
   }));

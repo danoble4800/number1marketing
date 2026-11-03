@@ -6,6 +6,7 @@ import Section from '@/components/Section';
 import Heading from '@/components/Heading';
 import Button from '@/components/Button';
 import ServiceDemo from '@/components/ServiceDemo';
+import PhoneChat, { type PhoneChatCopy } from '@/components/mac-assistant/PhoneChat';
 
 export async function generateMetadata({
   params,
@@ -53,6 +54,8 @@ export default async function ServicesPage({
   const tContact = await getTranslations({ locale, namespace: 'contact' });
   const services = t.raw('items') as ServiceItem[];
   const demoCopy = t.raw('demos');
+  // The Mac Assistant is sold on its own page (/mac-assistant), so it gets that page's chat and button.
+  const assistantChat = (await getTranslations({ locale, namespace: 'macAssistant' })).raw('chat') as PhoneChatCopy;
 
   return (
     <>
@@ -117,7 +120,11 @@ export default async function ServicesPage({
                     </div>
                   </div>
                   <div className="max-w-md xl:max-w-none">
-                    <ServiceDemo slug={service.slug} copy={demoCopy} locale={locale} />
+                    {service.slug === 'mac-assistant' ? (
+                      <PhoneChat copy={assistantChat} compact />
+                    ) : (
+                      <ServiceDemo slug={service.slug} copy={demoCopy} locale={locale} />
+                    )}
                   </div>
                 </div>
 
@@ -127,9 +134,15 @@ export default async function ServicesPage({
                 </div>
 
                 <div className="mt-8">
-                  <Button href={`/${locale}/contact`} variant="outline">
-                    {tContact('heading')} →
-                  </Button>
+                  {service.slug === 'mac-assistant' ? (
+                    <Button href={`/${locale}/mac-assistant`} variant="outline">
+                      {t('macAssistantCta')} →
+                    </Button>
+                  ) : (
+                    <Button href={`/${locale}/contact`} variant="outline">
+                      {tContact('heading')} →
+                    </Button>
+                  )}
                 </div>
               </section>
             ))}

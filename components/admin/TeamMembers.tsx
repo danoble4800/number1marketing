@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getSupabase } from '@/lib/supabase';
 import type { TeamRow } from '@/app/api/admin/team/route';
+import { COMMISSION_RATE } from '@/lib/macAssistant';
 
 async function authHeader(): Promise<Record<string, string> | null> {
   const { data: { session } } = await getSupabase().auth.getSession();
@@ -152,10 +153,18 @@ export default function TeamMembers({ onSignedOut }: { onSignedOut: () => void }
                     {m.referred && ` · ${m.referred.leads} ${m.referred.leads === 1 ? 'lead' : 'leads'}, ${m.referred.clients} ${m.referred.clients === 1 ? 'client' : 'clients'}`}
                   </p>
                 )}
+                {m.assistantReferralUrl && (
+                  <p className="text-xs text-brand-mid break-all">
+                    Mac Assistant link: {m.assistantReferralUrl}
+                    {m.assistantSales &&
+                      ` · ${m.assistantSales.sales} ${m.assistantSales.sales === 1 ? 'sale' : 'sales'}, $${m.assistantSales.commission.toFixed(2)} commission`}
+                  </p>
+                )}
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 {m.kind === 'invite' && <CopyButton value={TEAM_SIGNUP_URL} label="Copy Invite Link" />}
                 {m.referralUrl && <CopyButton value={m.referralUrl} label="Copy Referral Link" />}
+                {m.assistantReferralUrl && <CopyButton value={m.assistantReferralUrl} label="Copy Mac Assistant Link" />}
                 {isOwner && (
                   <button
                     onClick={() => setEditing(key)}
@@ -173,6 +182,7 @@ export default function TeamMembers({ onSignedOut }: { onSignedOut: () => void }
       <p className="text-xs text-brand-mid">
         New members are added as sales reps and show as Invited until they create their account at /team. Admins are still promoted in Supabase.
         Website leads that come in through a rep&rsquo;s referral link (within 30 days of the tap) are marked &ldquo;Referred by&rdquo; in Leads and show on the rep&rsquo;s dashboard.
+        Mac Assistant sales from a rep&rsquo;s link are logged in the &ldquo;Mac Assistant Sales&rdquo; tab of the leads sheet with the {COMMISSION_RATE * 100}% commission they&rsquo;re owed; mark &ldquo;Commission Paid&rdquo; there once you&rsquo;ve paid it.
       </p>
     </div>
   );

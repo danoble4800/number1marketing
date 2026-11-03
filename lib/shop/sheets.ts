@@ -46,28 +46,29 @@ function sheetsClient() {
   return google.sheets({ version: 'v4', auth });
 }
 
-async function ensureOrdersTab(sheets: ReturnType<typeof sheetsClient>) {
+// Adds the tab with a frozen header row the first time it's needed.
+async function ensureTab(sheets: ReturnType<typeof sheetsClient>, title: string, headers: string[]) {
   const spreadsheetId = process.env.GOOGLE_SHEET_ID;
   const meta = await sheets.spreadsheets.get({ spreadsheetId, fields: 'sheets.properties.title' });
-  if (meta.data.sheets?.some((s) => s.properties?.title === ORDERS_TAB)) return;
+  if (meta.data.sheets?.some((s) => s.properties?.title === title)) return;
 
   await sheets.spreadsheets.batchUpdate({
     spreadsheetId,
     requestBody: {
-      requests: [{ addSheet: { properties: { title: ORDERS_TAB, gridProperties: { frozenRowCount: 1 } } } }],
+      requests: [{ addSheet: { properties: { title, gridProperties: { frozenRowCount: 1 } } } }],
     },
   });
   await sheets.spreadsheets.values.update({
     spreadsheetId,
-    range: `'${ORDERS_TAB}'!A1`,
+    range: `'${title}'!A1`,
     valueInputOption: 'RAW',
-    requestBody: { values: [ORDER_HEADERS] },
+    requestBody: { values: [headers] },
   });
 }
 
 export async function appendOrder(values: string[]) {
   const sheets = sheetsClient();
-  await ensureOrdersTab(sheets);
+  await ensureTab(sheets, ORDERS_TAB, ORDER_HEADERS);
   await sheets.spreadsheets.values.append({
     spreadsheetId: process.env.GOOGLE_SHEET_ID,
     range: `'${ORDERS_TAB}'!A:Q`,
@@ -85,4 +86,54 @@ export async function appendWebsiteLead(values: string[]) {
     valueInputOption: 'USER_ENTERED',
     requestBody: { values: [values] },
   });
+}
+
+// Mac Assistant sales (lib/macAssistant.ts), one row per paid order. Commission is what
+// the referring rep is owed; "Commission Paid" and "Setup Done" are filled in by hand.
+export const ASSISTANT_SALES_TAB = 'Mac Assistant Sales';
+export const ASSISTANT_SALES_HEADERS = [
+  'Ordered',
+  'Order ID',
+  'Plan',
+  'Name',
+  'Phone',
+  'Email',
+  'Total',
+  'Referred By',
+  'Commission',
+  'Commission Paid',
+  'Setup Done',
+  'Stripe Session',
+];
+
+export async function appendAssistantSale(values: string[]) {
+  const sheets = sheetsClient();
+  await ensureTab(sheets, ASSISTANT_SALES_TAB, ASSISTANT_SALES_HEADERS);
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    range: `'${ASSISTANT_SALES_TAB}'!A:L`,
+    valueInputOption: 'USER_ENTERED',
+    requestBody: { values: [values] },
+  });
+}
+
+// Paid sales with the rep who referred them, for the admin Team tab. Empty until the
+// first sale creates the tab.
+export async function assistantSales(): Promise<{ referredBy: string; total: number; commission: number }[]> {
+  const res = await sheetsClient()
+    .spreadsheets.values.get({
+      spreadsheetId: process.env.GOOGLE_SHEET_ID,
+      range: `'${ASSISTANT_SALES_TAB}'!A2:L`,
+      valueRenderOption: 'UNFORMATTED_VALUE',
+    })
+    .catch((err) => {
+      if (/Unable to parse range/i.test(String(err?.message))) return null;
+      throw err;
+    });
+  const money = (v: unknown) => Number(String(v ?? '').replace(/[^\d.]/g, '')) || 0;
+  return (res?.data.values ?? []).map((r) => ({
+    referredBy: String(r[7] ?? '').trim(),
+    total: money(r[6]),
+    commission: money(r[8]),
+  }));
 }

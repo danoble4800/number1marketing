@@ -23,6 +23,9 @@ export const refCode = (name: string) =>
 // No locale on purpose: visitors land on the free audit page in their own language.
 export const referralUrl = (name: string) => `${SITE}/free-audit?ref=${refCode(name)}`;
 
+// Same cookie, but lands on the Mac Assistant page. Sales from it earn the rep a commission.
+export const assistantReferralUrl = (name: string) => `${SITE}/mac-assistant?ref=${refCode(name)}`;
+
 // The rep who referred this visitor, or '' if none (or the code doesn't match a rep).
 export async function referredBy(req: NextRequest): Promise<string> {
   const code = req.cookies.get(REF_COOKIE)?.value ?? '';

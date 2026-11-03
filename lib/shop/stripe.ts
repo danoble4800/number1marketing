@@ -28,6 +28,8 @@ export async function stripePost<T = Record<string, unknown>>(path: string, para
 export async function stripeGet<T = Record<string, unknown>>(path: string): Promise<T> {
   const res = await fetch(`https://api.stripe.com/v1/${path}`, {
     headers: { Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}` },
+    // Next 14 caches server fetches by default; payment status must always be fresh.
+    cache: 'no-store',
   });
   const json = await res.json();
   if (!res.ok) throw new Error(json?.error?.message ?? `Stripe ${res.status}`);

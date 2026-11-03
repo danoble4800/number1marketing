@@ -49,6 +49,10 @@
       "workflow_automation": {
         "name": "Menos Trabalho Manual",
         "desc": "Automatizamos o que é chato"
+      },
+      "mac_assistant": {
+        "name": "Mac Assistant",
+        "desc": "Mande mensagem pro Mac, ele faz o trabalho"
       }
     }
   },
@@ -298,6 +302,21 @@
           "Monitoramos e corrigimos o que quebrar"
         ],
         "outcomes": "Um cliente passou de 15 horas de trabalho manual por semana para 12 minutos."
+      },
+      {
+        "slug": "mac-assistant",
+        "name": "Mac Assistant",
+        "icon": "Laptop",
+        "tagline": "Mande mensagem pro seu Mac do iPhone. Ele faz o trabalho e responde.",
+        "problem": "Sua lista de tarefas, lembretes, arquivos e site estão no computador, e você não. As pequenas tarefas se acumulam até você voltar para a mesa.",
+        "includes": [
+          "Fale com seu Mac como com uma pessoa, de qualquer lugar",
+          "Resumo da manhã e da noite",
+          "Tarefas e lembretes por mensagem",
+          "Um painel pessoal com quem você pode falar",
+          "Faça você mesmo ($200) ou nós instalamos ($300)"
+        ],
+        "outcomes": "As pequenas tarefas são feitas na hora em que você lembra, não horas depois na sua mesa."
       }
     ],
     "demos": {
@@ -323,7 +342,8 @@
       "flowText": "Mensagem enviada",
       "flowTeam": "Equipe avisada",
       "flowDone": "Pronto em 3 segundos"
-    }
+    },
+    "macAssistantCta": "Ver o Mac Assistant"
   },
   "about": {
     "hero": {
@@ -1888,6 +1908,250 @@
         "body": "A gente manda mensagem ou liga em até um dia útil para marcar sua auditoria grátis de 30 minutos. Fique de olho no celular.",
         "note": "Não quer esperar? Chame a gente no Instagram quando quiser."
       }
+    }
+  },
+  "macAssistant": {
+    "metaTitle": "N°1 Mac Assistant: mande uma mensagem para o seu Mac e ele faz o trabalho",
+    "metaDescription": "Seu próprio assistente no seu Mac. Mande mensagem do iPhone e ele cuida das suas tarefas, lembretes, arquivos e site, e responde para você. Pagamento único.",
+    "eyebrow": "N°1 Mac Assistant",
+    "headline": "Mande mensagem pro seu Mac.",
+    "headlineAccent": "Ele faz o trabalho.",
+    "subline": "Seu próprio assistente pessoal que vive no seu Mac. Mande mensagem do iPhone como mandaria para uma pessoa. Ele faz o trabalho no Mac e responde por mensagem. Inclui resumo da manhã, lista de tarefas, lembretes e um painel pessoal.",
+    "chips": [
+      "Pagamento único",
+      "Sem mensalidade nossa",
+      "Funciona de qualquer lugar"
+    ],
+    "cta": "Quero · a partir de {price}",
+    "ctaSecondary": "Veja como funciona",
+    "chat": {
+      "contact": "Jarvis",
+      "status": "iMessage",
+      "lines": [
+        {
+          "from": "me",
+          "text": "o que tenho pra hoje?"
+        },
+        {
+          "from": "mac",
+          "text": "3 coisas:\n• Ligar pro proprietário\n• Mandar a fatura do Sam\n• Academia às 6"
+        },
+        {
+          "from": "me",
+          "text": "me lembra de ligar pro proprietário às 3"
+        },
+        {
+          "from": "mac",
+          "text": "Feito ✅ Te aviso às 3:00."
+        },
+        {
+          "from": "me",
+          "text": "corrige o erro na página inicial do meu site"
+        },
+        {
+          "from": "mac",
+          "text": "Corrigido “Bem-vidno” → “Bem-vindo”. Publico? Responda Y ou N"
+        },
+        {
+          "from": "me",
+          "text": "Y"
+        }
+      ]
+    },
+    "uses": {
+      "kicker": "O que você pode pedir",
+      "title": "Fale com ele como com uma pessoa",
+      "items": [
+        {
+          "title": "Sua lista de tarefas",
+          "text": "“O que falta?” “Já mandei a fatura.” Ele acompanha tudo por você."
+        },
+        {
+          "title": "Lembretes",
+          "text": "“Me lembra de ligar pro dentista amanhã às 3.” Ele avisa na hora certa."
+        },
+        {
+          "title": "Resumo da manhã",
+          "text": "Toda manhã: o tempo, suas tarefas e o que vem por aí. Toda noite: um resumo rápido."
+        },
+        {
+          "title": "Prints e arquivos",
+          "text": "“Me manda um print da tela.” “Acha o contrato da semana passada.” De onde você estiver."
+        },
+        {
+          "title": "Seu site",
+          "text": "“Corrige o erro na minha página inicial.” Ele faz a mudança e pergunta antes de publicar."
+        },
+        {
+          "title": "Pesquisa por você",
+          "text": "“Compara esses dois orçamentos.” “Procura voos pra Miami em março.” Ele pesquisa."
+        }
+      ]
+    },
+    "dashboard": {
+      "title": "E ainda um painel só seu",
+      "text": "Uma página privada no seu Mac com suas tarefas, lembretes, o tempo e um chat onde você pode digitar ou falar. Tudo o que você manda por mensagem aparece lá também.",
+      "items": [
+        "Lista de tarefas",
+        "Lembretes",
+        "Tempo e resumo",
+        "Fale com ele em voz alta"
+      ]
+    },
+    "how": {
+      "kicker": "Como funciona",
+      "title": "Instale uma vez. Use todo dia.",
+      "steps": [
+        {
+          "title": "Baixe os arquivos",
+          "text": "Baixe o modelo e o guia passo a passo (com imagens) logo depois do pagamento."
+        },
+        {
+          "title": "Siga o guia",
+          "text": "Uns 20–30 minutos: dê ao Mac um Apple ID próprio, instale dois programas gratuitos e rode um comando. Ou fazemos com você."
+        },
+        {
+          "title": "Comece a mandar mensagens",
+          "text": "Salve o Mac como contato no iPhone e mande “help”. Pronto."
+        }
+      ]
+    },
+    "needs": {
+      "kicker": "O que você precisa",
+      "items": [
+        {
+          "title": "Um Mac que fique ligado",
+          "text": "Um de mesa, ou um notebook ligado na tomada. Ele responde enquanto o Mac está ligado."
+        },
+        {
+          "title": "Seu iPhone",
+          "text": "Você manda mensagem pro Mac pelo app Mensagens, como pra qualquer contato."
+        },
+        {
+          "title": "Um segundo Apple ID (grátis)",
+          "text": "Uma conta iCloud nova só para o Mac, para você ter com quem falar."
+        },
+        {
+          "title": "Um plano do Claude",
+          "text": "O assistente funciona com o Claude, da Anthropic. Você precisa de um plano Claude Pro ou Max (a partir de uns US$20 por mês, pagos à Anthropic, não a nós)."
+        }
+      ]
+    },
+    "safety": {
+      "kicker": "Seguro desde o início",
+      "items": [
+        "Só responde mensagens do seu número. Todo o resto é ignorado.",
+        "Pergunta antes de qualquer coisa arriscada, como apagar arquivos, publicar ou mandar e-mail. Você responde Y (sim) ou N (não).",
+        "Roda no seu próprio Mac. Seus arquivos e listas ficam com você.",
+        "O painel só abre no seu Mac, nunca na internet."
+      ]
+    },
+    "pricing": {
+      "kicker": "Preços",
+      "title": "Pague uma vez. É seu.",
+      "note": "Sem assinatura nossa. Você só precisa do seu próprio plano do Claude (veja acima)."
+    },
+    "buy": {
+      "popular": "O mais escolhido",
+      "oneTime": "pagamento único",
+      "chosen": "Escolhido",
+      "diy": {
+        "name": "Faça você mesmo",
+        "blurb": "Tudo o que você precisa para instalar sozinho em uns 30 minutos.",
+        "features": [
+          "O modelo completo do Mac Assistant",
+          "Guia passo a passo com imagens",
+          "Resumo da manhã e da noite",
+          "Painel pessoal com quem você pode falar",
+          "Download na hora"
+        ],
+        "cta": "Quero o modelo"
+      },
+      "setup": {
+        "name": "Nós instalamos",
+        "blurb": "Instalamos com você por chamada de vídeo, e ele já sai funcionando.",
+        "features": [
+          "Tudo do Faça você mesmo",
+          "Instalação no seu Mac por chamada de vídeo (cerca de 1 hora)",
+          "Do seu jeito: nome, cidade, horário do resumo",
+          "Testamos juntos as primeiras mensagens",
+          "Mandamos mensagem em 1 dia útil para agendar"
+        ],
+        "cta": "Quero que instalem"
+      },
+      "formTitle": "{plan} · {price}",
+      "fields": {
+        "name": "Seu nome",
+        "email": "E-mail (seu download chega aqui)",
+        "phone": "Telefone (mandamos mensagem para agendar)",
+        "phoneOptional": "Telefone (opcional)"
+      },
+      "errors": {
+        "name": "Escreva seu nome",
+        "email": "Confira seu e-mail",
+        "phone": "Coloque um telefone para agendarmos a instalação"
+      },
+      "pay": "Continuar para o pagamento seguro · {price}",
+      "secure": "Pagamento seguro pela Stripe.",
+      "error": "Algo deu errado. Tente de novo ou mande mensagem para 781-985-0916."
+    },
+    "faq": {
+      "kicker": "Perguntas",
+      "title": "Bom saber",
+      "items": [
+        {
+          "q": "Preciso entender de computador?",
+          "a": "Não. Se você sabe copiar e colar, consegue seguir o guia. Se preferir não fazer, escolha “Nós instalamos” e fazemos com você."
+        },
+        {
+          "q": "Funciona no Windows ou Android?",
+          "a": "Não. Precisa de um Mac e um iPhone, porque funciona pelo app Mensagens da Apple."
+        },
+        {
+          "q": "Tem mensalidade?",
+          "a": "Nossa, não. Você paga uma vez. O assistente usa seu próprio plano do Claude, que a Anthropic cobra à parte (a partir de uns US$20 por mês)."
+        },
+        {
+          "q": "O Mac precisa ficar ligado?",
+          "a": "Sim. Ele responde enquanto o Mac está ligado e não deixa o Mac dormir enquanto roda."
+        },
+        {
+          "q": "Ele pode mandar mensagem pros meus clientes?",
+          "a": "Não. É seu assistente pessoal e só fala com você. Para responder ligações e mensagens dos seus clientes, pergunte pelo Nunca Perca um Cliente."
+        },
+        {
+          "q": "E se eu travar em algum passo?",
+          "a": "Responda o e-mail do seu recibo e ajudamos você a deixar tudo funcionando."
+        }
+      ]
+    },
+    "footerLink": "Visite nosso site",
+    "footer": "Number 1 Digital Marketing · Boston, MA",
+    "success": {
+      "metaTitle": "Obrigado pela compra",
+      "demo": "Prévia: nada foi cobrado",
+      "headline": "Tudo pronto!",
+      "subheading": "Baixe seus arquivos aqui embaixo.",
+      "orderLine": "Pedido {orderId}. Baixe seus arquivos aqui embaixo.",
+      "notFoundHeadline": "Não encontramos esse pedido",
+      "notFound": "Se você acabou de pagar, veja seu e-mail com os links de download, ou responda e ajudamos.",
+      "zip": "Baixar modelo",
+      "guide": "Guia de instalação (PDF)",
+      "emailed": "Também mandamos esses links por e-mail.",
+      "nextHeading": "Próximos passos",
+      "steps": {
+        "diy": [
+          "Descompacte o modelo na sua pasta pessoal (a que tem o seu nome).",
+          "Abra o guia e siga passo a passo. Leva uns 20–30 minutos.",
+          "Mande “help” para o seu Mac pelo iPhone."
+        ],
+        "setup": [
+          "Mandamos mensagem em 1 dia útil para agendar uma chamada de vídeo (cerca de 1 hora).",
+          "Para a chamada: deixe o Mac ligado na tomada e o iPhone por perto.",
+          "Se quiser, dê uma olhada no guia para saber o que esperar."
+        ]
+      },
+      "home": "Voltar ao site"
     }
   }
 }

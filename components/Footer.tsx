@@ -11,9 +11,13 @@ export default function Footer({ locale }: FooterProps) {
   const nav = useTranslations('nav');
   const year = new Date().getFullYear();
 
-  const serviceLinks = ['ai-agents', 'web-design', 'seo', 'social-media', 'growth-marketing', 'workflow-automation'].map(
-    (slug) => ({ href: `/${locale}/services#${slug}`, label: nav(`svc.${slug.replace('-', '_')}.name`) })
-  );
+  const serviceLinks = [
+    ...['ai-agents', 'web-design', 'seo', 'social-media', 'growth-marketing', 'workflow-automation'].map((slug) => ({
+      href: `/${locale}/services#${slug}`,
+      label: nav(`svc.${slug.replace('-', '_')}.name`),
+    })),
+    { href: `/${locale}/mac-assistant`, label: nav('svc.mac_assistant.name') },
+  ];
 
   const companyLinks = [
     { href: `/${locale}/about`, label: nav('about') },

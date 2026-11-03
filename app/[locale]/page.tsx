@@ -99,17 +99,31 @@ export default async function HomePage({
             <p className="mt-4 text-brand-light1 text-lg">{t('services.subheading')}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {servicesList.map((service, i) => (
-              <ServiceCard
-                key={service.slug}
-                icon={service.icon}
-                name={service.name}
-                tagline={service.tagline}
-                href={`/${locale}/services#${service.slug}`}
-                ctaLabel="Learn more"
-                index={i}
-              />
-            ))}
+            {servicesList.map((service, i) =>
+              // The Mac Assistant comes after the six marketing services: full width, linking to its own page.
+              service.slug === 'mac-assistant' ? (
+                <div key={service.slug} className="sm:col-span-2 lg:col-span-3">
+                  <ServiceCard
+                    icon={service.icon}
+                    name={service.name}
+                    tagline={service.tagline}
+                    href={`/${locale}/mac-assistant`}
+                    ctaLabel="Learn more"
+                    index={i}
+                  />
+                </div>
+              ) : (
+                <ServiceCard
+                  key={service.slug}
+                  icon={service.icon}
+                  name={service.name}
+                  tagline={service.tagline}
+                  href={`/${locale}/services#${service.slug}`}
+                  ctaLabel="Learn more"
+                  index={i}
+                />
+              )
+            )}
           </div>
           <div className="text-center mt-10">
             <Button href={`/${locale}/services`} variant="outline">
