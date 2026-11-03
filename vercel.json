@@ -1,6 +1,7 @@
 {
   "crons": [
     { "path": "/api/admin/digest", "schedule": "0 12 * * *" },
-    { "path": "/api/cards/report", "schedule": "0 13 * * *" }
+    { "path": "/api/cards/report", "schedule": "0 13 * * *" },
+    { "path": "/api/lead-replies", "schedule": "0 14 * * *" }
   ]
 }

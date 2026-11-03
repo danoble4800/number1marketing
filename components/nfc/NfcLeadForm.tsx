@@ -352,6 +352,12 @@ export default function NfcLeadForm() {
               <Field id="nfc-phone" label="Phone Number">
                 <input {...text('phone')} type="tel" inputMode="tel" autoComplete="off" />
               </Field>
+              <Field id="nfc-email" label="Owner's Email">
+                <input {...text('email')} type="email" inputMode="email" autoComplete="off" autoCapitalize="none" />
+                {v.result !== 'Not interested' && (
+                  <p className="mt-2 text-xs text-brand-mid">We&rsquo;ll email them a thank-you and the free audit link as soon as you save.</p>
+                )}
+              </Field>
 
               {v.result !== 'Not interested' && (
                 <div className="flex flex-wrap items-end gap-x-4 gap-y-4">
@@ -387,9 +393,6 @@ export default function NfcLeadForm() {
                   </Field>
                   <Field id="nfc-industry" label="Business Type / Industry">
                     <input {...text('industry')} autoComplete="off" />
-                  </Field>
-                  <Field id="nfc-email" label="Email">
-                    <input {...text('email')} type="email" inputMode="email" autoComplete="off" autoCapitalize="none" />
                   </Field>
                   <Choice label="Open to a free 10-minute audit?" name="audit" options={OPEN_TO_AUDIT} value={v.audit} onChange={set('audit')} />
                   {v.audit && v.audit !== 'No' && (

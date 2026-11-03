@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { IN_PERSON_TAB, getSheets, loadLeads, nowInNewYork, safeCell, spreadsheetId } from '@/lib/crmSheets';
 import { isNfcFormKey } from '@/lib/nfcLead';
+import { SENT_VISIT, logHistory, sendLeadEmail, validEmail, visitFollowUp } from '@/lib/leadReplies';
 import { FOLLOW_UP, OPEN_TO_AUDIT, PURCHASED, VISIT_RESULTS } from '@/lib/nfcLeadChoices';
 
 export const dynamic = 'force-dynamic';
@@ -73,7 +74,7 @@ export async function POST(req: NextRequest) {
   const history = `${f.date} · Visit by ${f.rep}: ${f.result.toLowerCase()}${f.purchased === 'Yes' ? ', bought NFC cards' : ''}`;
 
   try {
-    await getSheets().spreadsheets.values.append({
+    const saved = await getSheets().spreadsheets.values.append({
       spreadsheetId: spreadsheetId('inperson'),
       range: `'${IN_PERSON_TAB}'!A:U`,
       valueInputOption: 'USER_ENTERED',
@@ -88,6 +89,15 @@ export async function POST(req: NextRequest) {
         ]],
       },
     });
+
+    // The owner gets a thank-you with the free audit link, unless they said no.
+    if (!notInterested && validEmail(f.email)) {
+      const row = Number(saved.data.updates?.updatedRange?.match(/![A-Z]+(\d+)/)?.[1]) || null;
+      const email = visitFollowUp({ name: f.owner, business: f.business, rep: f.rep, talked });
+      if (await sendLeadEmail(f.email, email, 'visit', row ? `visit/${row}/${f.email}` : undefined) && row) {
+        await logHistory('inperson', row, SENT_VISIT);
+      }
+    }
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error('NFC lead form error:', err);

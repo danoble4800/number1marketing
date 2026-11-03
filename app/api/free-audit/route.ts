@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
+import { SENT_WELCOME, freeAuditWelcome, logHistory, sendLeadEmail } from '@/lib/leadReplies';
 import { referredBy } from '@/lib/referrals';
 import { appendToSheet, safeCell, sendLeadAlert, updateRow } from '@/lib/websiteLeads';
 
@@ -103,10 +104,15 @@ export async function POST(req: NextRequest) {
     const services = [tier, goal, RUN[str(body.run, 20)], BUDGET[budget], TIMING[timing]].filter(Boolean).join(' · ');
     const source = `${SOURCE} · ${tier}`;
 
-    const row = rowFromToken(body.token);
+    let row = rowFromToken(body.token);
     // Rewrites C:L, not just J:K, in case they went back and fixed their details.
     if (row) await updateRow(row, 'C', baseRow(services, source).slice(2));
-    else await appendToSheet(baseRow(services, source), referrer);
+    else row = await appendToSheet(baseRow(services, source), referrer);
+
+    const welcome = freeAuditWelcome({ name: firstName, business: businessName, tier });
+    if (await sendLeadEmail(email, welcome, 'free-audit', row ? `free-audit/${row}/${email}` : undefined) && row) {
+      await logHistory('website', row, SENT_WELCOME);
+    }
 
     await sendLeadAlert({
       firstName,

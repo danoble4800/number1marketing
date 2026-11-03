@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { SENT_WELCOME, contactWelcome, logHistory, sendLeadEmail } from '@/lib/leadReplies';
 import { referredBy } from '@/lib/referrals';
 import { appendToSheet, safeCell, sendLeadAlert } from '@/lib/websiteLeads';
 
@@ -59,7 +60,7 @@ export async function POST(req: NextRequest) {
     const submittedAt = new Date().toLocaleString('sv-SE', { timeZone: 'America/New_York' });
     const referrer = await referredBy(req);
 
-    await appendToSheet([
+    const row = await appendToSheet([
       submittedAt,
       'New',
       safeCell(firstName),
@@ -86,6 +87,11 @@ export async function POST(req: NextRequest) {
       source: leadSource,
       referredBy: referrer,
     });
+
+    const welcome = contactWelcome({ name: String(firstName), business: String(businessName ?? '') });
+    if (await sendLeadEmail(String(email), welcome, 'contact', row ? `contact/${row}/${email}` : undefined) && row) {
+      await logHistory('website', row, SENT_WELCOME);
+    }
 
     return NextResponse.json({ success: true });
   } catch (err) {
