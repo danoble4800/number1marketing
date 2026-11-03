@@ -19,6 +19,7 @@ import {
 import LocaleSwitcher from '@/components/LocaleSwitcher';
 import PhoneChat, { type PhoneChatCopy } from '@/components/mac-assistant/PhoneChat';
 import BuyForm from '@/components/mac-assistant/BuyForm';
+import DashboardDemo, { type DashboardDemoCopy } from '@/components/mac-assistant/DashboardDemo';
 import { ASSISTANT_PLANS } from '@/lib/macAssistant';
 
 // Landing page for the N°1 Mac Assistant (the MacAssistant-Template + setup guide).
@@ -140,6 +141,15 @@ export default async function MacAssistantPage({
             </div>
           </div>
           <PhoneChat copy={t.raw('chat') as PhoneChatCopy} />
+        </section>
+
+        {/* Watch it work: the phone and the Mac's dashboard side by side */}
+        <section className="mt-24">
+          <SectionTitle kicker={t('watch.kicker')} title={t('watch.title')} />
+          <p className="mx-auto mt-3 max-w-xl text-center text-sm leading-relaxed text-brand-light1 sm:text-base">{t('watch.sub')}</p>
+          <div className="mx-auto mt-10 max-w-4xl">
+            <DashboardDemo copy={t.raw('demo') as DashboardDemoCopy} />
+          </div>
         </section>
 
         {/* What you can text it */}

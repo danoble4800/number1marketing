@@ -2152,6 +2152,92 @@
         ]
       },
       "home": "Volver al sitio web"
+    },
+    "watch": {
+      "kicker": "Míralo en acción",
+      "title": "Tú escribes. Tu Mac lo hace.",
+      "sub": "Cada mensaje aparece en el panel de tu Mac, se hace, y la respuesta llega a tu teléfono."
+    },
+    "demo": {
+      "play": "Reproducir",
+      "pause": "Pausa",
+      "replay": "Ver de nuevo",
+      "captions": [
+        "Mándale un pendiente. Queda en tu lista.",
+        "Pídele un recordatorio. Aparece y te escribe a tiempo.",
+        "Hace trabajo real en tu Mac, como corregir tu sitio web.",
+        "Te pregunta antes de publicar algo. Respondes Y.",
+        "Nunca estuviste en tu escritorio. Solo escribiste."
+      ],
+      "greeting": "Buenas tardes, Alex",
+      "status": "Sistemas en línea",
+      "panels": {
+        "chat": "Chat",
+        "todo": "Pendientes",
+        "reminders": "Recordatorios",
+        "weather": "Clima",
+        "working": "Trabajando"
+      },
+      "weather": {
+        "city": "Boston",
+        "temp": "64°F",
+        "cond": "Parcialmente nublado"
+      },
+      "todos": [
+        "Enviar la factura a Sam",
+        "Gimnasio a las 6"
+      ],
+      "newTodo": "Llamar al casero",
+      "reminders": [
+        {
+          "time": "Vie · 9:00 AM",
+          "text": "Renovar el registro del auto"
+        }
+      ],
+      "newReminder": {
+        "time": "Hoy · 3:00 PM",
+        "text": "Devolverle la llamada a Sam"
+      },
+      "site": {
+        "file": "mi-sitio / index.html",
+        "before": "Bienvendios a Plomería Sam",
+        "after": "Bienvenidos a Plomería Sam",
+        "published": "Publicado en tu sitio web"
+      },
+      "lines": [
+        {
+          "from": "me",
+          "text": "agrega llamar al casero a mi lista"
+        },
+        {
+          "from": "mac",
+          "text": "Agregado ✅ Tienes 3 cosas en tu lista."
+        },
+        {
+          "from": "me",
+          "text": "recuérdame devolverle la llamada a Sam a las 3"
+        },
+        {
+          "from": "mac",
+          "text": "Listo. Te escribo a las 3:00."
+        },
+        {
+          "from": "me",
+          "text": "corrige el error en la página de inicio de mi web"
+        },
+        {
+          "from": "mac",
+          "text": "Corregido “Bienvendios” → “Bienvenidos”. ¿Lo publico? Responde Y o N"
+        },
+        {
+          "from": "me",
+          "text": "Y"
+        },
+        {
+          "from": "mac",
+          "text": "Publicado ✅ Ya está en tu sitio."
+        }
+      ]
     }
   }
 }

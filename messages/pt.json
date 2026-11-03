@@ -2152,6 +2152,92 @@
         ]
       },
       "home": "Voltar ao site"
+    },
+    "watch": {
+      "kicker": "Veja funcionando",
+      "title": "Você manda mensagem. Seu Mac faz.",
+      "sub": "Cada mensagem aparece no painel do seu Mac, é feita, e a resposta chega no seu celular."
+    },
+    "demo": {
+      "play": "Reproduzir",
+      "pause": "Pausar",
+      "replay": "Ver de novo",
+      "captions": [
+        "Mande uma tarefa. Ela entra na sua lista.",
+        "Peça um lembrete. Ele aparece e avisa na hora certa.",
+        "Ele faz trabalho de verdade no seu Mac, como corrigir seu site.",
+        "Ele pergunta antes de publicar qualquer coisa. Você responde Y.",
+        "Você nem estava na sua mesa. Só mandou mensagem."
+      ],
+      "greeting": "Boa tarde, Alex",
+      "status": "Sistemas online",
+      "panels": {
+        "chat": "Chat",
+        "todo": "Tarefas",
+        "reminders": "Lembretes",
+        "weather": "Tempo",
+        "working": "Trabalhando"
+      },
+      "weather": {
+        "city": "Boston",
+        "temp": "64°F",
+        "cond": "Parcialmente nublado"
+      },
+      "todos": [
+        "Mandar a fatura do Sam",
+        "Academia às 6"
+      ],
+      "newTodo": "Ligar pro proprietário",
+      "reminders": [
+        {
+          "time": "Sex · 9:00",
+          "text": "Renovar o licenciamento do carro"
+        }
+      ],
+      "newReminder": {
+        "time": "Hoje · 15:00",
+        "text": "Retornar a ligação do Sam"
+      },
+      "site": {
+        "file": "meu-site / index.html",
+        "before": "Bem-vidno ao Encanador Sam",
+        "after": "Bem-vindo ao Encanador Sam",
+        "published": "Publicado no seu site"
+      },
+      "lines": [
+        {
+          "from": "me",
+          "text": "coloca ligar pro proprietário na minha lista"
+        },
+        {
+          "from": "mac",
+          "text": "Adicionado ✅ São 3 coisas na sua lista."
+        },
+        {
+          "from": "me",
+          "text": "me lembra de retornar a ligação do Sam às 3"
+        },
+        {
+          "from": "mac",
+          "text": "Combinado. Te aviso às 15:00."
+        },
+        {
+          "from": "me",
+          "text": "corrige o erro na página inicial do meu site"
+        },
+        {
+          "from": "mac",
+          "text": "Corrigido “Bem-vidno” → “Bem-vindo”. Publico? Responda Y ou N"
+        },
+        {
+          "from": "me",
+          "text": "Y"
+        },
+        {
+          "from": "mac",
+          "text": "Publicado ✅ Já está no seu site."
+        }
+      ]
     }
   }
 }

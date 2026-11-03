@@ -2151,6 +2151,92 @@
         ]
       },
       "home": "Back to the website"
+    },
+    "watch": {
+      "kicker": "Watch it work",
+      "title": "You text. Your Mac does it.",
+      "sub": "Every text shows up on your Mac’s dashboard, gets done, and the answer comes back to your phone."
+    },
+    "demo": {
+      "play": "Play",
+      "pause": "Pause",
+      "replay": "Watch again",
+      "captions": [
+        "Text it a to-do. It lands on your list.",
+        "Ask for a reminder. It shows up and texts you on time.",
+        "It does real work on your Mac, like fixing your website.",
+        "It asks before anything goes public. You reply Y.",
+        "You were never at your desk. You just texted."
+      ],
+      "greeting": "Good afternoon, Alex",
+      "status": "Systems online",
+      "panels": {
+        "chat": "Chat",
+        "todo": "To-do",
+        "reminders": "Reminders",
+        "weather": "Weather",
+        "working": "Working"
+      },
+      "weather": {
+        "city": "Boston",
+        "temp": "64°",
+        "cond": "Partly cloudy"
+      },
+      "todos": [
+        "Send Sam's invoice",
+        "Gym at 6"
+      ],
+      "newTodo": "Call the landlord",
+      "reminders": [
+        {
+          "time": "Fri · 9:00 AM",
+          "text": "Renew car registration"
+        }
+      ],
+      "newReminder": {
+        "time": "Today · 3:00 PM",
+        "text": "Call Sam back"
+      },
+      "site": {
+        "file": "my-website / index.html",
+        "before": "Welcom to Sam’s Plumbing",
+        "after": "Welcome to Sam’s Plumbing",
+        "published": "Published to your website"
+      },
+      "lines": [
+        {
+          "from": "me",
+          "text": "add call the landlord to my list"
+        },
+        {
+          "from": "mac",
+          "text": "Added ✅ That’s 3 things on your list."
+        },
+        {
+          "from": "me",
+          "text": "remind me to call Sam back at 3"
+        },
+        {
+          "from": "mac",
+          "text": "Got it. I’ll text you at 3:00."
+        },
+        {
+          "from": "me",
+          "text": "fix the typo on my website homepage"
+        },
+        {
+          "from": "mac",
+          "text": "Fixed “Welcom” → “Welcome”. Publish it? Reply Y or N"
+        },
+        {
+          "from": "me",
+          "text": "Y"
+        },
+        {
+          "from": "mac",
+          "text": "Published ✅ It’s live on your site."
+        }
+      ]
     }
   }
 }
