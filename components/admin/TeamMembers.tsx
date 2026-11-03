@@ -9,6 +9,26 @@ async function authHeader(): Promise<Record<string, string> | null> {
   return session ? { Authorization: `Bearer ${session.access_token}` } : null;
 }
 
+// Where new reps create their account; the invite list makes them a rep on sign-up.
+const TEAM_SIGNUP_URL = 'https://number1digitalmarketing.com/en/team';
+
+function CopyButton({ value, label = 'Copy Link' }: { value: string; label?: string }) {
+  const [copied, setCopied] = useState(false);
+  const copy = () => {
+    navigator.clipboard.writeText(value);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <button
+      onClick={copy}
+      className="flex-shrink-0 px-4 py-2 text-xs uppercase tracking-widest border border-brand-dark2 text-brand-light1 hover:border-brand-light2 hover:text-brand-white transition-colors"
+    >
+      {copied ? '✓ Copied' : label}
+    </button>
+  );
+}
+
 const inputClass =
   'w-full bg-brand-dark2 border border-brand-dark2 text-brand-offwhite px-3 py-2 text-sm focus:outline-none focus:border-brand-light2 transition-colors';
 
@@ -73,6 +93,16 @@ export default function TeamMembers({ onSignedOut }: { onSignedOut: () => void }
         </div>
       </div>
 
+      {/* Sign-up link to send invited reps */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border border-brand-dark2 px-4 py-3">
+        <div className="min-w-0">
+          <p className="text-xs uppercase tracking-widest text-brand-mid">Team Sign-Up Link</p>
+          <p className="text-sm text-brand-light1 break-all">{TEAM_SIGNUP_URL}</p>
+          <p className="text-xs text-brand-mid">Send this to invited members. They sign up with the email you added them with.</p>
+        </div>
+        <CopyButton value={TEAM_SIGNUP_URL} />
+      </div>
+
       {error && <p className="text-sm text-red-400">{error}</p>}
 
       {adding && (
@@ -117,14 +147,17 @@ export default function TeamMembers({ onSignedOut }: { onSignedOut: () => void }
                   <p className="text-xs text-brand-mid truncate">Tracker name: {m.repName}</p>
                 )}
               </div>
-              {isOwner && (
-                <button
-                  onClick={() => setEditing(key)}
-                  className="px-4 py-2 text-xs uppercase tracking-widest border border-brand-dark2 text-brand-light1 hover:border-brand-light2 hover:text-brand-white transition-colors"
-                >
-                  Edit
-                </button>
-              )}
+              <div className="flex items-center gap-2">
+                {m.kind === 'invite' && <CopyButton value={TEAM_SIGNUP_URL} label="Copy Invite Link" />}
+                {isOwner && (
+                  <button
+                    onClick={() => setEditing(key)}
+                    className="px-4 py-2 text-xs uppercase tracking-widest border border-brand-dark2 text-brand-light1 hover:border-brand-light2 hover:text-brand-white transition-colors"
+                  >
+                    Edit
+                  </button>
+                )}
+              </div>
             </li>
           );
         })}
