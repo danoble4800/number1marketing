@@ -75,8 +75,9 @@ const added = (l: Lead) => {
 const isDue = (l: Lead) => isOpen(l) && !!l.nextFollowUp && l.nextFollowUp <= today();
 const title = (l: Lead) => tidy(l.business || l.name) || 'No name';
 
-type Group = 'overdue' | 'today' | 'week' | 'later' | 'none' | 'closed';
+type Group = 'new' | 'overdue' | 'today' | 'week' | 'later' | 'none' | 'closed';
 const GROUPS: [Group, string, string][] = [
+  ['new', 'New', 'text-emerald-400'],
   ['overdue', 'Overdue', 'text-red-400'],
   ['today', 'Today', 'text-amber-300'],
   ['week', 'This week', 'text-brand-light2'],
@@ -86,6 +87,8 @@ const GROUPS: [Group, string, string][] = [
 ];
 function groupOf(l: Lead): Group {
   if (!isOpen(l)) return 'closed';
+  // Brand-new leads (status New, not worked yet) always sit at the very top, newest first.
+  if (bucket(l.status) === 'new') return 'new';
   if (!l.nextFollowUp) return 'none';
   const t = today();
   if (l.nextFollowUp < t) return 'overdue';
@@ -150,6 +153,7 @@ function historyLine(line: string): [string, string] {
 // Short note on the right of a row. The group heading already says "Today", so today's rows skip it.
 function followUpNote(l: Lead, group: Group) {
   if (!l.nextFollowUp) return l.followUpText && isOpen(l) ? l.followUpText : '';
+  if (group === 'new') return l.nextFollowUp < today() ? `follow-up was due ${showDate(l.nextFollowUp)}` : '';
   if (group === 'overdue') return `was due ${showDate(l.nextFollowUp)}`;
   if (group === 'week' || group === 'later') return showDate(l.nextFollowUp);
   return '';
@@ -717,7 +721,10 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
       })
       .filter((l) => !q || [l.name, l.business, l.email, l.phone, l.industry, l.location, l.notes, l.origin].some((v) => v.toLowerCase().includes(q)))
       .sort((a, b) => {
-        // Soonest follow-up first (overdue at the top), then newest.
+        // New leads first (newest at the top), then soonest follow-up (overdue first), then newest.
+        const na = isOpen(a) && bucket(a.status) === 'new', nb = isOpen(b) && bucket(b.status) === 'new';
+        if (na !== nb) return na ? -1 : 1;
+        if (na) return b.submittedSort - a.submittedSort;
         const fa = isOpen(a) && a.nextFollowUp ? a.nextFollowUp : '9999';
         const fb = isOpen(b) && b.nextFollowUp ? b.nextFollowUp : '9999';
         return fa === fb ? b.submittedSort - a.submittedSort : fa < fb ? -1 : 1;
@@ -913,7 +920,7 @@ export default function LeadsCRM({ onSignedOut, team }: { onSignedOut: () => voi
                           )}
                           <StatusChip status={l.status} />
                         </div>
-                        {note && <span className={`text-xs ${g === 'overdue' ? 'text-red-400' : 'text-brand-light1'}`}>{note}</span>}
+                        {note && <span className={`text-xs ${g === 'overdue' || g === 'new' ? 'text-red-400' : 'text-brand-light1'}`}>{note}</span>}
                       </div>
                     </button>
                     {open && !desktop && (
